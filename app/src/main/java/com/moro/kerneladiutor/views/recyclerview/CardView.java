@@ -180,6 +180,11 @@ public class CardView extends RecyclerViewItem {
         refresh();
     }
 
+    public void setExpand(boolean expand) {
+        mShowLayout = expand;
+        refresh();
+    }
+
     public void addItem(final RecyclerViewItem item) {
         if (item == this) {
             throw new IllegalStateException("Cardinception!");
