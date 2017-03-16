@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.grarak.kerneladiutor">
+    package="com.moro.kerneladiutor">
 
     <uses-permission android:name="android.permission.ACCESS_SUPERUSER" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -32,7 +32,7 @@
             android:name="io.fabric.ApiKey"
             android:value="d89b7ebb31b3bb0ca514a4171c6af37c7c9579c9" />
 
-        <activity android:name=".activities.StartActivity">
+        <activity android:name="com.moro.kerneladiutor.activities.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,7 +48,7 @@
             android:banner="@drawable/ic_banner_material"
             android:enabled="false"
             android:icon="@mipmap/ic_launcher_material"
-            android:targetActivity=".activities.StartActivity">
+            android:targetActivity="com.moro.kerneladiutor.activities.StartActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -60,38 +60,38 @@
                 android:resource="@xml/shortcuts" />
         </activity-alias>
 
-        <activity android:name=".activities.MainActivity" />
-        <activity android:name=".activities.NavigationActivity" />
-        <activity android:name=".activities.TextActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.MainActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.NavigationActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.TextActivity" />
         <activity
-            android:name=".views.NavHeaderView$MainHeaderActivity"
+            android:name="com.moro.kerneladiutor.views.NavHeaderView$MainHeaderActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity android:name=".activities.tools.CustomControlsActivity" />
-        <activity android:name=".activities.EditorActivity" />
-        <activity android:name=".activities.FilePickerActivity" />
-        <activity android:name=".activities.tools.DownloadsActivity" />
-        <activity android:name=".activities.tools.profile.ProfileActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.tools.CustomControlsActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.EditorActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.FilePickerActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.tools.DownloadsActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.tools.profile.ProfileActivity" />
         <activity
-            android:name=".activities.SecurityActivity"
+            android:name="com.moro.kerneladiutor.activities.SecurityActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenSize|navigation" />
-        <activity android:name=".activities.BannerResizerActivity" />
-        <activity android:name=".activities.tools.profile.ProfileEditActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.BannerResizerActivity" />
+        <activity android:name="com.moro.kerneladiutor.activities.tools.profile.ProfileEditActivity" />
 
-        <receiver android:name=".services.boot.Receiver">
+        <receiver android:name="com.moro.kerneladiutor.services.boot.Receiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".services.boot.Service" />
+        <service android:name="com.moro.kerneladiutor.services.boot.Service" />
         <service
-            android:name=".services.monitor.Monitor"
+            android:name="com.moro.kerneladiutor.services.monitor.Monitor"
             android:process=":monitoring" />
 
-        <receiver android:name=".services.boot.Service$CancelReceiver" />
+        <receiver android:name="com.moro.kerneladiutor.services.boot.Service$CancelReceiver" />
 
         <!-- Profile Widget -->
-        <receiver android:name=".services.profile.Widget">
+        <receiver android:name="com.moro.kerneladiutor.services.profile.Widget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -102,19 +102,19 @@
         </receiver>
 
         <service
-            android:name=".services.profile.Widget$WidgetService"
+            android:name="com.moro.kerneladiutor.services.profile.Widget$WidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <!-- CM SDK -->
-        <receiver android:name=".services.profile.Tile">
+        <receiver android:name="com.moro.kerneladiutor.services.profile.Tile">
             <intent-filter>
-                <action android:name="com.grarak.kerneladiutor.action.ACTION_TOGGLE_STATE" />
+                <action android:name="com.moro.kerneladiutor.action.ACTION_TOGGLE_STATE" />
             </intent-filter>
         </receiver>
 
         <!-- DashClock -->
         <service
-            android:name=".services.DashClock"
+            android:name="com.moro.kerneladiutor.services.DashClock"
             android:icon="@drawable/ic_launcher_preview"
             android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
             <intent-filter>
@@ -127,14 +127,14 @@
         </service>
 
         <!-- Tasker -->
-        <activity android:name=".activities.tools.profile.ProfileTaskerActivity">
+        <activity android:name="com.moro.kerneladiutor.activities.tools.profile.ProfileTaskerActivity">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
             </intent-filter>
         </activity>
 
         <receiver
-            android:name=".services.profile.Tasker"
+            android:name="com.moro.kerneladiutor.services.profile.Tasker"
             android:process=":background">
 
             <intent-filter>

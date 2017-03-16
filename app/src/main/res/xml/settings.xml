@@ -34,7 +34,7 @@
             android:key="forcecards"
             android:summary="@string/force_cards_summary"
             android:title="@string/force_cards" />
-        <com.grarak.kerneladiutor.views.preference.ColorPreference
+        <com.moro.kerneladiutor.views.preference.ColorPreference
             android:key="accent_color"
             android:summary="@string/accent_color" />
         <SwitchPreferenceCompat

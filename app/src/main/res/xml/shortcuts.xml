@@ -8,11 +8,11 @@
         android:shortcutShortLabel="@string/settings">
         <intent
             android:action="android.intent.action.VIEW"
-            android:targetClass="com.grarak.kerneladiutor.activities.MainActivity"
-            android:targetPackage="com.grarak.kerneladiutor">
+            android:targetClass="com.moro.kerneladiutor.activities.MainActivity"
+            android:targetPackage="com.moro.kerneladiutor">
             <extra
                 android:name="section"
-                android:value="com.grarak.kerneladiutor.fragments.other.SettingsFragment" />
+                android:value="com.moro.kerneladiutor.fragments.other.SettingsFragment" />
         </intent>
         <categories android:name="android.shortcut.conversation" />
     </shortcut>

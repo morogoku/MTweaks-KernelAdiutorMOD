@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:35594625822:android:9768d1d851b6742d",
         "android_client_info": {
-          "package_name": "com.grarak.kerneladiutor"
+          "package_name": "com.moro.kerneladiutor"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "35594625822-9ir2cg9ruculjh9kvn6srvund5t9v37v.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.grarak.kerneladiutor",
+            "package_name": "com.moro.kerneladiutor",
             "certificate_hash": "5CA1C4FA2508E578D98527B077E690C7116C3BD8"
           }
         },
