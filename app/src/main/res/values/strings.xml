@@ -41,6 +41,7 @@
     <string name="not_in_range">Not in range</string>
     <string name="options">Options</string>
     <string name="more">More</string>
+    <string name="def">Default</string>
 
     <!-- Permissions Denied -->
     <string name="permission_denied_write_storage">Permission denied for writing to storage!</string>
@@ -540,14 +541,39 @@
     <!-- Battery -->
     <string name="level">Level</string>
     <string name="voltage">Voltage</string>
+    <string name="current_now">Current Now</string>
+    <string name="current_avg">Current Average</string>
+    <string name="char_type">Charge Type</string>
+    <string name="temp">Temp</string>
+    <string name="status">Status</string>
+    <string name="health">Health</string>
     <string name="capacity">Capacity</string>
     <string name="usb_fast_charge">USB Fast Charge</string>
+    <string name="unstable_charge_card">Unstable Charge</string>
+    <string name="enable_unstable_charge">Enable Unstable Power Detection</string>
+    <string name="enable_unstable_charge_summary">If disabled, the charger chip will ignore unstable currents. Use at risk of your charger or charging ports. Unstable power detection will reduce the input current until a stable voltage from the power source is achieved.</string>
     <string name="usb_fast_charge_summary">Device will charge faster when connected with USB. Replug your charger when changing this option.</string>
     <string name="blx">Battery Life eXtender</string>
     <string name="blx_summary">Set a limit for the capacity to which the battery will be charged by passing a value between 0 and 100.</string>
     <string name="charge_rate">Charge Rate</string>
     <string name="charging_current">Charging Current</string>
     <string name="charging_current_summary">Set charging current. Caution: Exceeding 1250mA may damage your charging driver.</string>
+    <string name="hv_prep_charge">HV Prepare Mains Charge Current</string>
+    <string name="hv_prep_input">HV Prepare Mains Input Current</string>
+    <string name="hv_charge">HV Charge Current</string>
+    <string name="hv_input">HV Input Current</string>
+    <string name="hv_power_supply">HV Power Supplies</string>
+    <string name="ac_mains">AC/Mains</string>
+    <string name="ac_input">AC/Mains Input Current</string>
+    <string name="ac_charge">AC/Mains Charge Current</string>
+    <string name="ac_input_screen">AC/Mains Input Current (screen-on)</string>
+    <string name="ac_charge_screen">AC/Mains Charge Current (screen-on)</string>
+    <string name="usb_port">Standard USB Port</string>
+    <string name="usb_input">USB Input Current</string>
+    <string name="usb_charge">USB Charge Current</string>
+    <string name="wireless_power">Wireless Power</string>
+    <string name="wc_input">Wireless Input Current</string>
+    <string name="wc_charge">Wireless Charge Current</string>
 
     <!-- LED -->
     <string name="fade">Fade</string>
