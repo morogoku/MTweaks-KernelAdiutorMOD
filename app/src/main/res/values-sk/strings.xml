@@ -159,7 +159,7 @@
   <string name="hotplug_boost_summary">Zosilnenie Hotplugom je vstupné zosilnenie pri zapnutí jadra.</string>
   <string name="touch_boost">Zrýchlenie dotykom</string>
   <string name="touch_boost_summary">Toto zvýši minimálnu frekvenciu CPU keď sa dotkne obrazovky alebo tlacidla.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Celkové zníženie voltáže</string>
   <string name="override_vmin">Prepísať minimálne napätie</string>
   <string name="override_vmin_summary">Zakázať odstránenie výrobnych limitov pri znížení napätia</string>

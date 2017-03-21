@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Il boost hotplug è simile al boost di input ma si verifica quando le CPUs si attivano.</string>
   <string name="touch_boost">Touch boost</string>
   <string name="touch_boost_summary">Questo incrementerà la velocità minima della CPU toccando lo schermo o premendo un pulsante.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Offset Generale</string>
   <string name="override_vmin">Eseguire l\'abbassamento alla minima tensione</string>
   <string name="override_vmin_summary">Disabilitare per rimuovere i limiti di undervolt stabiliti dal produttore</string>

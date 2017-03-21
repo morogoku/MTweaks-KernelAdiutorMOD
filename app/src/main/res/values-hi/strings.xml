@@ -169,7 +169,7 @@
   <string name="hotplug_boost_summary">होटपलग बूस्ट इनपुट बूस्ट के समान है, पर यह तब चलता है जब CPU काम करते है.</string>
   <string name="touch_boost">स्पर्श को बढ़ावा देने</string>
   <string name="touch_boost_summary">यदि आप टच स्क्रीन या बटन दबाएँ यह अपने न्यूनतम सीपीयू की गति को बढ़ावा देगा।</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">वैश्विक ऑफ़सेट</string>
   <string name="override_vmin">न्यूनतम वोल्टेज को ओवरराइड करें</string>
   <string name="override_vmin_summary">अंडरवोल्टिंग पर निर्माता सीमा को निकालने के लिए अक्षम करें</string>

@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Hotplug Boost схожий на звичайний boost але в той час, коли CPU працює.</string>
   <string name="touch_boost">Розгін CPU при доторканні до дисплею</string>
   <string name="touch_boost_summary">При дотику до дисплея або натисканні кнопки, мінімальна частота CPU буде збільшена.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Масове редагування</string>
   <string name="override_vmin">Перевизначити мінімальну напругу</string>
   <string name="override_vmin_summary">Вимкнути встановлене виробником обмеження на undervolting</string>

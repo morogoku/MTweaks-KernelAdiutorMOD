@@ -32,9 +32,12 @@ import com.moro.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.moro.kerneladiutor.fragments.BaseFragment;
 import com.moro.kerneladiutor.fragments.RecyclerViewFragment;
 import com.moro.kerneladiutor.utils.Utils;
-import com.moro.kerneladiutor.utils.kernel.cpuvoltage.Voltage;
+import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
+import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
+import com.moro.kerneladiutor.views.recyclerview.CardView;
 import com.moro.kerneladiutor.views.recyclerview.GenericSelectView;
 import com.moro.kerneladiutor.views.recyclerview.RecyclerViewItem;
+import com.moro.kerneladiutor.views.recyclerview.SeekBarView;
 import com.moro.kerneladiutor.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
@@ -47,10 +50,10 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
 
     private List<GenericSelectView> mVoltages = new ArrayList<>();
 
-    @Override
-    public int getSpanCount() {
-        return super.getSpanCount() + 2;
-    }
+    //@Override
+    //public int getSpanCount() {
+    //    return super.getSpanCount() + 2;
+    //}
 
     @Override
     protected void init() {
@@ -64,37 +67,126 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mVoltages.clear();
 
-        if (Voltage.hasOverrideVmin()) {
-            SwitchView overrideVmin = new SwitchView();
-            overrideVmin.setTitle(getString(R.string.override_vmin));
-            overrideVmin.setSummary(getString(R.string.override_vmin_summary));
-            overrideVmin.setChecked(Voltage.isOverrideVminEnabled());
-            overrideVmin.setFullSpan(true);
-            overrideVmin.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    Voltage.enableOverrideVmin(isChecked, getActivity());
-                }
-            });
-
-            items.add(overrideVmin);
+        if (VoltageCl1.hasOverrideVmin()) {
+            overridevminInit(items);
         }
 
-        List<String> freqs = Voltage.getFreqs();
-        List<String> voltages = Voltage.getVoltages();
+        //bigInit(items);
+        littleInit(items);
+
+    }
+
+    private void overridevminInit(List<RecyclerViewItem> items) {
+        SwitchView overrideVmin = new SwitchView();
+        overrideVmin.setTitle(getString(R.string.override_vmin));
+        overrideVmin.setSummary(getString(R.string.override_vmin_summary));
+        overrideVmin.setChecked(VoltageCl1.isOverrideVminEnabled());
+        overrideVmin.setFullSpan(true);
+        overrideVmin.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                VoltageCl1.enableOverrideVmin(isChecked, getActivity());
+            }
+        });
+
+        items.add(overrideVmin);
+    }
+
+    private void bigInit(List<RecyclerViewItem> items) {
+
+        CardView bigCard = new CardView(getActivity());
+        bigCard.setTitle(getString(R.string.cluster_big));
+
+        final List<String> freqs = VoltageCl1.getFreqs();
+        List<String> voltages = VoltageCl1.getVoltages();
         if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
             for (int i = 0; i < freqs.size(); i++) {
-                GenericSelectView view = new GenericSelectView();
-                initView(view, freqs.get(i), voltages.get(i));
-                mVoltages.add(view);
+                final int min = (Utils.strToInt(voltages.get(i)) - 300);
+                SeekBarView volt = new SeekBarView();
+                volt.setTitle(freqs.get(i) + " " + getString(R.string.mhz));
+                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.uv));
+                volt.setUnit(getString(R.string.uv));
+                volt.setMax(1300);
+                volt.setMin(min);
+                volt.setOffset(25);
+                volt.setProgress(Utils.strToInt(voltages.get(i)) / 25 - (min / 25));
+                final int I = i;
+                volt.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        int a = (position + (min / 25)) * 25;
+                        String str = Integer.toString(a);
+                        VoltageCl1.setVoltage(freqs.get(I), str, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+
+                // GenericSelectView view = new GenericSelectView();
+                //initView(view, freqs.get(i), voltages.get(i));
+                //mVoltages.add(view);
+                bigCard.addItem(volt);
             }
         }
-        items.addAll(mVoltages);
+        //items.addAll(mVoltages);
+        if (bigCard.size() > 0) {
+            items.add(bigCard);
+        }
+    }
+
+    private void littleInit(List<RecyclerViewItem> items) {
+
+        CardView littleCard = new CardView(getActivity());
+        littleCard.setTitle(getString(R.string.cluster_big));
+
+        final List<String> freqs = VoltageCl0.getFreqs();
+        List<String> voltages = VoltageCl0.getVoltages();
+        if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
+            for (int i = 0; i < freqs.size(); i++) {
+                final int min = (Utils.strToInt(voltages.get(i)) - 300);
+                SeekBarView volt = new SeekBarView();
+                volt.setTitle(freqs.get(i) + " " + getString(R.string.mhz));
+                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.uv));
+                volt.setUnit(getString(R.string.uv));
+                volt.setMax(1300);
+                volt.setMin(min);
+                volt.setOffset(25);
+                volt.setProgress(Utils.strToInt(voltages.get(i)) / 25 - (min / 25));
+                final int I = i;
+                volt.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        int a = (position + (min / 25)) * 25;
+                        String str = Integer.toString(a);
+                        VoltageCl0.setVoltage(freqs.get(I), str, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+
+                // GenericSelectView view = new GenericSelectView();
+                //initView(view, freqs.get(i), voltages.get(i));
+                //mVoltages.add(view);
+                littleCard.addItem(volt);
+            }
+        }
+        //items.addAll(mVoltages);
+        if (littleCard.size() > 0) {
+            items.add(littleCard);
+        }
     }
 
     private void reload() {
-        List<String> freqs = Voltage.getFreqs();
-        List<String> voltages = Voltage.getVoltages();
+        List<String> freqs = VoltageCl1.getFreqs();
+        List<String> voltages = VoltageCl1.getVoltages();
         if (freqs != null && voltages != null) {
             for (int i = 0; i < mVoltages.size(); i++) {
                 initView(mVoltages.get(i), freqs.get(i), voltages.get(i));
@@ -103,7 +195,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     }
 
     private void initView(GenericSelectView view, final String freq, String voltage) {
-        String freqText = Voltage.isVddVoltage() ? String.valueOf(Utils.strToInt(freq) / 1000) : freq;
+        String freqText = VoltageCl1.isVddVoltage() ? String.valueOf(Utils.strToInt(freq) / 1000) : freq;
         view.setTitle(freqText + getString(R.string.mhz));
         view.setSummary(voltage + getString(R.string.mv));
         view.setValue("");
@@ -112,7 +204,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
         view.setOnGenericValueListener(new GenericSelectView.OnGenericValueListener() {
             @Override
             public void onGenericValueSelected(GenericSelectView genericSelectView, String value) {
-                Voltage.setVoltage(freq, value, getActivity());
+                VoltageCl1.setVoltage(freq, value, getActivity());
                 getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -146,7 +238,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
                 public void onClick(View v) {
                     mGlobaloffset -= 5;
                     offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    Voltage.setGlobalOffset(-5, getActivity());
+                    VoltageCl1.setGlobalOffset(-5, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -162,7 +254,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
                 public void onClick(View v) {
                     mGlobaloffset += 5;
                     offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    Voltage.setGlobalOffset(5, getActivity());
+                    VoltageCl1.setGlobalOffset(5, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override

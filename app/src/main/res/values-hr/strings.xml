@@ -159,7 +159,7 @@
   <string name="hotplug_boost">Ubrzanje hotpluga</string>
   <string name="touch_boost">Ubrzavanje reakcije na dodir</string>
   <string name="touch_boost_summary">Ovo će ubrzati minimalnu brzinu CPU-a čim dodirnete zaslon ili pritisnete tipku.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Global Offset</string>
   <string name="override_vmin">Preinači minimalni napon</string>
   <string name="override_vmin_summary">Iskljuci za uklanjanje ograničenja proizvođača na undervolting</string>

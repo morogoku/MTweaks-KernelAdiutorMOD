@@ -173,7 +173,7 @@
   <string name="hotplug_boost_summary">Hotplug Versterking is vergelijkbaar met invoerversterking, maar treedt op wanneer CPUs online gaan.</string>
   <string name="touch_boost">Aanraakversterking</string>
   <string name="touch_boost_summary">Dit zal de minimum CPU-snelheid opvoeren wanneer je het scherm aanraakt of een knop indrukt.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Globale Afwijking</string>
   <string name="override_vmin">Minimale Spanning Overschrijven</string>
   <string name="override_vmin_summary">Uitschakelen om fabriekslimieten op ondervoltage te verwijderen</string>

@@ -129,7 +129,7 @@
   <string name="input_boost_freq_summary">CPU-frekvens att förstärka till då ett input-värde upptäcks.</string>
   <string name="touch_boost">Touch Boost</string>
   <string name="touch_boost_summary">Detta kommer att öka din lägsta processorhastighet om du rör vid skärmen eller trycker på en knapp.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Global Offset</string>
   <string name="override_vmin">Åsidosätt minsta spänning</string>
   <string name="override_vmin_summary">Inaktivera för att ta bort tillverkarens gränser för Underspänning</string>

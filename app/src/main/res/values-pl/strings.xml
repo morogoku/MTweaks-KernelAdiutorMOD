@@ -171,7 +171,7 @@
   <string name="hotplug_boost_summary">Hotplug Boost jest podobny do input boost, ale występuje, gdy rdzeń jest wybudzany.</string>
   <string name="touch_boost">Boost podczas dotyku</string>
   <string name="touch_boost_summary">Ta opcja zwiększy minimalne taktowanie CPU jeżeli dotkniesz ekranu lub naciśniesz przycisk.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Zmiany Globalne</string>
   <string name="override_vmin">Nadpisz minimalne napięcie</string>
   <string name="override_vmin_summary">Wyłącz, aby usunąć ograniczenia producenta na zmniejszanie napięcia</string>

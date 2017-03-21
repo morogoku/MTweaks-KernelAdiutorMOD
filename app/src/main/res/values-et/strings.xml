@@ -51,7 +51,7 @@
   <string name="interval">Intervall</string>
   <string name="sync_threshold">Sünkroonimise künnis</string>
   <string name="input_interval">Sisendi intervall</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <!-- CPU Hotplug -->
   <string name="eco">Öko</string>
   <string name="strict">Range</string>

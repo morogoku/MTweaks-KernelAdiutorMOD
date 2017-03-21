@@ -86,7 +86,7 @@ import com.moro.kerneladiutor.utils.Utils;
 import com.moro.kerneladiutor.utils.ViewUtils;
 import com.moro.kerneladiutor.utils.WebpageReader;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
-import com.moro.kerneladiutor.utils.kernel.cpuvoltage.Voltage;
+import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.kerneladiutor.utils.kernel.entropy.Entropy;
 import com.moro.kerneladiutor.utils.kernel.gpu.GPU;
 import com.moro.kerneladiutor.utils.kernel.io.IO;
@@ -180,7 +180,7 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.inputs, new InputsFragment(), R.drawable.ic_keyboard));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, new CPUFragment(), R.drawable.ic_cpu));
-        if (Voltage.supported()) {
+        if (VoltageCl1.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, new CPUVoltageFragment(), R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {

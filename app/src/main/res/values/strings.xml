@@ -60,6 +60,7 @@
     <string name="mb">MB</string>
     <string name="ms">ms</string>
     <string name="mv">mV</string>
+    <string name="uv">µV</string>
     <string name="min">min</string>
     <string name="mah">mAh</string>
     <string name="ma">mA</string>
@@ -197,7 +198,7 @@
     <string name="touch_boost">Touch Boost</string>
     <string name="touch_boost_summary">This will boost your minimum CPU speed if you touch the screen or press a button.</string>
 
-    <!-- CPU Voltage -->
+    <!-- CPU VoltageCl1 -->
     <string name="global_offset">Global Offset</string>
     <string name="override_vmin">Override Minimum Voltage</string>
     <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>

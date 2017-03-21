@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Hotplug gyorsítás a beviteli gyorsításra hasonlít, de ez akkor jelentkezik, ha a CPU-k online mennek.</string>
   <string name="touch_boost">Érintési Gyorsítás</string>
   <string name="touch_boost_summary">Megnöveli a minimális CPU frekvenciát, ha megérinti a képernyőt vagy megnyom egy gombot.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Globális eltolás</string>
   <string name="override_vmin">Minimum feszültség felülírása</string>
   <string name="override_vmin_summary">Tiltsa le a gyártói feszültségcsökkentési korlátok eltávolítására</string>

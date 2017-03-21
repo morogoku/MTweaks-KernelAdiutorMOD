@@ -156,7 +156,7 @@
   <string name="wakeup_boost">Pojacanje prilikom budjenja</string>
   <string name="wakeup_boost_summary">Pojacanje prilikom budjenja je isto kao i pojacanje prilikom unosa samo sto je aktivno samo kada se pali ekran.</string>
   <string name="hotplug_boost">Hotplug pojacanje</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Глобални помак</string>
   <string name="override_vmin">Премости минимални напон</string>
   <!-- CPU Hotplug -->

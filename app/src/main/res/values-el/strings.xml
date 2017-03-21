@@ -163,7 +163,7 @@
   <string name="input_boost_freq_summary">Η συχνότητα της CPU να ενισχυθούν με αυτό συχνότητα εισόδου ανίχνευση.</string>
   <string name="touch_boost">Ώθηση αφής</string>
   <string name="touch_boost_summary">Αυτό θα ενισχύσει την ελάχιστη ταχύτητα της CPU σας εάν η οθόνη αφής ή πατήστε ένα κουμπί.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Παγκόσμια Offset</string>
   <string name="override_vmin">Παράκαμψη ελάχιστης τάσης</string>
   <string name="override_vmin_summary">Απενεργοποιήσετε για να αφαιρέσετε κατασκευαστιξά όρια undervolting</string>

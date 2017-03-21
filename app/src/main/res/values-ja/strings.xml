@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Hotplug ブーストは入力ブーストに似ていますが、CPU がオンラインになるときに発生するという違いがあります。</string>
   <string name="touch_boost">タッチブースト</string>
   <string name="touch_boost_summary">画面をタッチしたりボタンを押したりしたときに、最小周波数をブーストします。</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">全体のオフセット</string>
   <string name="override_vmin">最小電圧を上書きする</string>
   <string name="override_vmin_summary">メーカーによる電圧の下限制限を無効にします。</string>

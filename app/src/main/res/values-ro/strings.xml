@@ -168,7 +168,7 @@
   <string name="hotplug_boost_summary">Hotplug Boost este similar cu impuls de intrare, dar apare atunci când procesorul merge online.</string>
   <string name="touch_boost">Touch Boost</string>
   <string name="touch_boost_summary">Această funcție accelerează viteza minim al CPU-ului dacă atingeţi ecranul sau apăsaţi un buton.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Global Offset</string>
   <string name="override_vmin">Suprascrie minimul de tensiune</string>
   <string name="override_vmin_summary">Dezactivează setările producătorului referitoare la voltaj</string>

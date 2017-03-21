@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Hotplug Arttırma, giriş arttırmaya benzer ancak işlemciler çevrimiçi olduğunda ortaya çıkar.</string>
   <string name="touch_boost">Dokunmatik Hızlandırma</string>
   <string name="touch_boost_summary">Bu ekrana dokunursanız veya bir düğmeye basarsanız, minimum CPU hızınızı artıracaktır.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Genel Denge</string>
   <string name="override_vmin">Minimum Voltajı Geçersiz Kıl</string>
   <string name="override_vmin_summary">Üreticinin belirlediği düşük voltaj limitlerini kaldırmak için devre dışı bırakın</string>

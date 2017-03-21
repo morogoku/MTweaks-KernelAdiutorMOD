@@ -167,7 +167,7 @@
   <string name="wakeup_boost">تفعيل التعزيز</string>
   <string name="touch_boost">تواصل التعزيز</string>
   <string name="touch_boost_summary">هذا سوف يقوم بتعزيز السرعة الدنيا للمعالج اذا قمت بلمس الشاشة او قمت بالضغط على الزر.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="override_vmin">تجاوز الحد الادنى للفولطية</string>
   <string name="override_vmin_summary">قم بالايقاف لازالة حدود المجهز في تقليل الفولطية</string>
   <!-- CPU Hotplug -->

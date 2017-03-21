@@ -172,7 +172,7 @@
   <string name="hotplug_boost_summary">Hotplug-Schub ähnelt dem Eingabe-Schub, tritt aber stattdessen auf, wenn sich CPUs einschalten.</string>
   <string name="touch_boost">Touch-Boost</string>
   <string name="touch_boost_summary">Dies wird Ihre minimale CPU-Geschwindigkeit erhöhen, wenn Sie auf den Bildschirm oder eine Taste drücken.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Globaler Offset</string>
   <string name="override_vmin">Mindestspannung überschreiben</string>
   <string name="override_vmin_summary">Hersteller Undervolting Begrenzung deaktivieren</string>

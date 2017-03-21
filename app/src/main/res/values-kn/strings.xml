@@ -86,7 +86,7 @@
   <string name="hotplug_boost_summary">ಹಾಟ್ಪ್ಲಗ್ ಬೂಸ್ಟ್ ಇನ್ಪುಟ್ ಬೂಸ್ಟ್ ತರಹಾನೆ ಆದರೆ ಹಾಟ್ಪ್ಲಗ್ ಸಿಪಿಯು ಆನ್ಲೈನ್ ಬಂದಾಗ ಚಾಲ್ತಿಯಲ್ಲಿ ಬರುತ್ತದೆ.</string>
   <string name="touch_boost">ಸ್ಪರ್ಶ ಬೂಸ್ಟ್</string>
   <string name="touch_boost_summary">ಸ್ಕ್ರೀನ್ ಟಚ್ ಅಥವ ಬಟನ್ ಒತ್ತುವುದರಿಂದ ಕನಿಷ್ಟ ಸಿಪಿಯು ವೇಗ ಹೆಚ್ಚುತ್ತದೆ.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">ಜಾಗತಿಕ ಆಫ್ಸೆಟ್</string>
   <string name="override_vmin">ಕನಿಷ್ಠ ವ್ವೋಲ್ಟೇಜ್ ಅತಿಕ್ರಮಿಸು</string>
   <string name="override_vmin_summary">ಅಂಡರ್‍ವೋಲ್ಟಿಂಗ್‍ನ ಮೇಲಿರುವ ತಯಾರಕರ ಮಿತಿಯನ್ನು ತೆಗೆಯಲು ನಿಷ್ಕ್ರಿಯಗೊಳಿಸಿ</string>

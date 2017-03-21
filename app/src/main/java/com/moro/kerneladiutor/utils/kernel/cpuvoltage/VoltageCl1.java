@@ -33,37 +33,46 @@ import java.util.List;
 /**
  * Created by willi on 07.05.16.
  */
-public class Voltage {
+public class VoltageCl1 {
 
     private static final String CPU_OVERRIDE_VMIN = "/sys/devices/system/cpu/cpu0/cpufreq/override_vmin";
 
+    private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
     private static final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
     private static final String CPU_VDD_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/vdd_levels";
     private static final String CPU_FAUX_VOLTAGE = "/sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels";
 
     private static final HashMap<String, Boolean> sVoltages = new HashMap<>();
     private static final HashMap<String, Integer> sOffset = new HashMap<>();
+    private static final HashMap<String, Integer> sOffsetFreq = new HashMap<>();
     private static final HashMap<String, String> sSplitNewline = new HashMap<>();
     private static final HashMap<String, String> sSplitLine = new HashMap<>();
     private static final HashMap<String, Boolean> sAppend = new HashMap<>();
 
     static {
+        sVoltages.put(CL1_VOLTAGE, false);
         sVoltages.put(CPU_VOLTAGE, false);
         sVoltages.put(CPU_VDD_VOLTAGE, true);
         sVoltages.put(CPU_FAUX_VOLTAGE, true);
 
+        sOffsetFreq.put(CL1_VOLTAGE, 1000);
+
+        sOffset.put(CL1_VOLTAGE, 1000);
         sOffset.put(CPU_VOLTAGE, 1);
         sOffset.put(CPU_VDD_VOLTAGE, 1);
         sOffset.put(CPU_FAUX_VOLTAGE, 1000);
 
+        sSplitNewline.put(CL1_VOLTAGE, "\\r?\\n");
         sSplitNewline.put(CPU_VOLTAGE, "mV");
         sSplitNewline.put(CPU_VDD_VOLTAGE, "\\r?\\n");
         sSplitNewline.put(CPU_FAUX_VOLTAGE, "\\r?\\n");
 
+        sSplitLine.put(CL1_VOLTAGE, " ");
         sSplitLine.put(CPU_VOLTAGE, "mhz:");
         sSplitLine.put(CPU_VDD_VOLTAGE, ":");
         sSplitLine.put(CPU_FAUX_VOLTAGE, ":");
 
+        sAppend.put(CL1_VOLTAGE, false);
         sAppend.put(CPU_VOLTAGE, true);
         sAppend.put(CPU_VDD_VOLTAGE, false);
         sAppend.put(CPU_FAUX_VOLTAGE, false);
@@ -105,13 +114,16 @@ public class Voltage {
             }
             run(Control.write(command, PATH), PATH, context);
         } else {
-            run(Control.write(freq + " " + Utils.strToInt(voltage) * sOffset.get(PATH), PATH), PATH + freq, context);
+            freq = String.valueOf(Utils.strToInt(freq) * sOffsetFreq.get(PATH));
+            String volt = String.valueOf(Utils.strToInt(voltage) * sOffset.get(PATH));
+            run(Control.write(freq + " " + volt, PATH), PATH + freq, context);
         }
 
     }
 
     public static List<String> getVoltages() {
-        String value = Utils.readFile(PATH).replace(" ", "");
+        //String value = Utils.readFile(PATH).replace(" ", "");
+        String value = Utils.readFile(PATH);
         if (!value.isEmpty()) {
             String[] lines = value.split(sSplitNewline.get(PATH));
             List<String> voltages = new ArrayList<>();
@@ -119,6 +131,7 @@ public class Voltage {
                 String[] voltageLine = line.split(sSplitLine.get(PATH));
                 if (voltageLine.length > 1) {
                     voltages.add(String.valueOf(Utils.strToInt(voltageLine[1].trim()) / sOffset.get(PATH)));
+
                 }
             }
             return voltages;
@@ -128,12 +141,13 @@ public class Voltage {
 
     public static List<String> getFreqs() {
         if (sFreqs == null) {
-            String value = Utils.readFile(PATH).replace(" ", "");
+            //String value = Utils.readFile(PATH).replace(" ", "");
+            String value = Utils.readFile(PATH);
             if (!value.isEmpty()) {
                 String[] lines = value.split(sSplitNewline.get(PATH));
                 sFreqs = new String[lines.length];
                 for (int i = 0; i < sFreqs.length; i++) {
-                    sFreqs[i] = lines[i].split(sSplitLine.get(PATH))[0].trim();
+                    sFreqs[i] = String.valueOf(Utils.strToInt(lines[i].split(sSplitLine.get(PATH))[0].trim()) / sOffsetFreq.get(PATH));
                 }
             }
         }

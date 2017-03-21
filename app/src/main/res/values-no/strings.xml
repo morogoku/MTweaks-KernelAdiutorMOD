@@ -63,7 +63,7 @@
   <string name="interval_summary">Minste intervall en CPU er akselerert.</string>
   <string name="sync_threshold">Synkroniseringsterskel</string>
   <string name="sync_threshold_summary">Når CPU lasten overgår det forhåndsbestemt nivået blir den gjeldende CPU hevet til denne frekvensen.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <!-- CPU Hotplug -->
   <!--Thermal-->
   <!-- GPU -->

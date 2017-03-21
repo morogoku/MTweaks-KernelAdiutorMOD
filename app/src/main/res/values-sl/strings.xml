@@ -147,7 +147,7 @@
   <string name="hotplug_boost_summary">Pospešek ob vklopu CPU jedra je podoben pospešku ob dotiku, le da je uporabljen, ko se vklopi novo jedro CPU.</string>
   <string name="touch_boost">Pospeši ob dotiku</string>
   <string name="touch_boost_summary">To bo povišalo najnižjo hitrost CPU če se dotaknete zaslona ali pritisnete gumb.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Globalni odmik</string>
   <string name="override_vmin">Povozi minimalno napetost</string>
   <string name="override_vmin_summary">Onemogoči za odstranjevanje zaščite za znižanje napetosti</string>

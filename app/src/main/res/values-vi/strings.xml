@@ -171,7 +171,7 @@
   <string name="hotplug_boost_summary">Tăng tốc độ tắt/mở (CPU) tương tự như tăng tốc tín hiệu đầu vào, nhưng nó xảy ra khi CPUs được bật.</string>
   <string name="touch_boost">Tăng độ nhạy cảm ứng</string>
   <string name="touch_boost_summary">Điều này sẽ làm tăng tốc độ CPU tối thiểu của bạn nếu bạn chạm vào màn hình hoặc nhấn một nút.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Bù toàn cầu</string>
   <string name="override_vmin">Ghi đè lên điện áp tối thiểu</string>
   <string name="override_vmin_summary">Vô hiệu hoá để loại bỏ các các giới hạn của nhà sản xuất khi hạ điện áp</string>

@@ -100,7 +100,7 @@
   <string name="hotplug_boost_summary">핫플러그 부스트는 input boost와 비슷하지만 CPU가 작동 중일 때 작동합니다.</string>
   <string name="touch_boost">터치 부스트</string>
   <string name="touch_boost_summary">화면 또는 버튼에 입력이 감지될 때 최소 CPU 클럭을 가속시킵니다.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">모두 변경</string>
   <string name="override_vmin">최소 전압 재설정</string>
   <string name="override_vmin_summary">CPU 전압을 낮추는 것에 대한 제조업체의 제한을 제거하기 위해 비활성화</string>

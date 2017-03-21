@@ -174,7 +174,7 @@
   <string name="hotplug_boost_summary">Усиление при hotplug-е похоже на усиление при вводе, но срабатывает при переходе ядра в онлайн.</string>
   <string name="touch_boost">Усиление при касании</string>
   <string name="touch_boost_summary">Повышает вашу минимальную скорость ЦП, если вы коснётесь экрана или нажмёте кнопку.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Глобальное смещение</string>
   <string name="override_vmin">Переопределить минимальное напряжение</string>
   <string name="override_vmin_summary">Отключите, чтобы снять ограничения производителя на понижение напряжения</string>

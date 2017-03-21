@@ -173,7 +173,7 @@
   <string name="hotplug_boost_summary">Hotplug zrychlení je podobné zrychlení na vstupu, ale vyskytuje se při přechodu procesoru do online režimu.</string>
   <string name="touch_boost">Zrychlení při dotyku</string>
   <string name="touch_boost_summary">Navýšení minimální rychlosti procesoru při dotyku obrazovky nebo při stisku klávesy.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Globální nastavení</string>
   <string name="override_vmin">Přepsat minimální napětí</string>
   <string name="override_vmin_summary">Vypněte tuto volbu pro odstranění undervolting omezení od výrobce zařízení</string>

@@ -158,7 +158,7 @@
   <string name="hotplug_boost_summary">El puxu de hotplug ye paecíu al puxu d\'entrada pero asocede cuando se prenden les CPUs.</string>
   <string name="touch_boost">Puxu al tocar</string>
   <string name="touch_boost_summary">Esto puxará la to velocidá mínima de CPU si toques la pantalla o primes un botón.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">Igua global</string>
   <string name="override_vmin">Anular voltaxe mínimu</string>
   <string name="override_vmin_summary">Deshabilítalu pa desaniciar les llendes d\'undervolting pol fabricante</string>

@@ -122,7 +122,7 @@
   <string name="hotplug_boost_summary">בוסט Hotplug דומה לבוסט קלט, אבל יתרחש כאשר המעבד יופעל.</string>
   <string name="touch_boost">בוסט מגע</string>
   <string name="touch_boost_summary">זה יגביר את המהירות המינימלית של המעבד אם אתה נוגע במסך או לוחץ על כפתור.</string>
-  <!-- CPU Voltage -->
+  <!-- CPU VoltageCl1 -->
   <string name="global_offset">אוף-סט גלובלי</string>
   <string name="override_vmin">עקוף מתח מינימלי</string>
   <string name="override_vmin_summary">בטל כדי להסיר מגבלות יצרן על undervolting</string>
