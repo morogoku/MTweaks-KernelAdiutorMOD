@@ -51,6 +51,7 @@ import com.moro.kerneladiutor.utils.kernel.cpu.Temperature;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.QcomBcl;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
+import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.kerneladiutor.utils.kernel.gpu.GPU;
 import com.moro.kerneladiutor.utils.kernel.io.IO;
 import com.moro.kerneladiutor.utils.kernel.ksm.KSM;
@@ -231,6 +232,7 @@ public class MainActivity extends BaseActivity {
             Tile.publishProfileTile(new Profiles(MainActivity.this).getAllProfiles(), MainActivity.this);
             Vibration.supported();
             VoltageCl1.supported();
+            VoltageCl0.supported();
             Wake.supported();
 
             if (!BuildConfig.DEBUG) {
