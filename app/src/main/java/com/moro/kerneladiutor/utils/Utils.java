@@ -72,7 +72,7 @@ import java.util.Random;
 public class Utils {
 
     private static final String TAG = Utils.class.getSimpleName();
-    public static boolean DONATED = BuildConfig.DEBUG;
+    public static boolean DONATED = true;
     public static boolean DARK_THEME;
 
     public static boolean isScreenOn(Context context) {
