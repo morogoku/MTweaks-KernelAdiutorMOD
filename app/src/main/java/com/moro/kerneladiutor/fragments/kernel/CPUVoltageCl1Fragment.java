@@ -76,9 +76,6 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             items.add(overrideVmin);
         }
 
-        CardView volt = new CardView(getActivity());
-        volt.setTitle(getString(R.string.cluster_big));
-
         List<String> freqs = VoltageCl1.getFreqs();
         List<String> voltages = VoltageCl1.getVoltages();
         List<String> voltagesStock = VoltageCl1.getStockVoltages();
@@ -86,12 +83,10 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
                 seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i));
-                //mVoltages.add(seekbar);
-                volt.addItem(seekbar);
+                mVoltages.add(seekbar);
             }
         }
-        //items.addAll(mVoltages);
-        items.add(volt);
+        items.addAll(mVoltages);
     }
 
     private void seekbarInit(SeekBarView seekbar, final String freq, String voltage, String voltageStock) {
@@ -158,9 +153,9 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset -= 5;
+                    mGlobaloffset -= 25;
                     offset.setText(Utils.strFormat("%d" + "culo", mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(-5, getActivity());
+                    VoltageCl1.setGlobalOffset(-25, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -174,9 +169,9 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_plus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset += 5;
+                    mGlobaloffset += 25;
                     offset.setText(Utils.strFormat("%d" + "pedo", mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(5, getActivity());
+                    VoltageCl1.setGlobalOffset(25, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
