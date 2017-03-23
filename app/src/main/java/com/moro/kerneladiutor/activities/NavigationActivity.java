@@ -47,9 +47,10 @@ import com.moro.kerneladiutor.R;
 import com.moro.kerneladiutor.fragments.BaseFragment;
 import com.moro.kerneladiutor.fragments.RecyclerViewFragment;
 import com.moro.kerneladiutor.fragments.kernel.BatteryFragment;
+import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUHotplugFragment;
-import com.moro.kerneladiutor.fragments.kernel.CPUVoltageFragment;
+import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.moro.kerneladiutor.fragments.kernel.GPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.IOFragment;
@@ -86,6 +87,7 @@ import com.moro.kerneladiutor.utils.Utils;
 import com.moro.kerneladiutor.utils.ViewUtils;
 import com.moro.kerneladiutor.utils.WebpageReader;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
+import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.kerneladiutor.utils.kernel.entropy.Entropy;
 import com.moro.kerneladiutor.utils.kernel.gpu.GPU;
@@ -180,8 +182,11 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.inputs, new InputsFragment(), R.drawable.ic_keyboard));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, new CPUFragment(), R.drawable.ic_cpu));
+        if (VoltageCl0.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, new CPUVoltageCl0Fragment(), R.drawable.ic_bolt));
+        }
         if (VoltageCl1.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, new CPUVoltageFragment(), R.drawable.ic_bolt));
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl1_voltage, new CPUVoltageCl1Fragment(), R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, new CPUHotplugFragment(), R.drawable.ic_switch));

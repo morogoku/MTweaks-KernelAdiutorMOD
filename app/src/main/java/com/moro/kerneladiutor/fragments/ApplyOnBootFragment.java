@@ -31,9 +31,10 @@ import android.widget.TextView;
 import com.moro.kerneladiutor.R;
 import com.moro.kerneladiutor.activities.tools.profile.ProfileActivity;
 import com.moro.kerneladiutor.fragments.kernel.BatteryFragment;
+import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl0Fragment;
+import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUHotplugFragment;
-import com.moro.kerneladiutor.fragments.kernel.CPUVoltageFragment;
 import com.moro.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.moro.kerneladiutor.fragments.kernel.GPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.IOFragment;
@@ -56,7 +57,8 @@ import java.util.HashMap;
 public class ApplyOnBootFragment extends BaseFragment {
 
     public static final String CPU = "cpu_onboot";
-    public static final String CPU_VOLTAGE = "cpuvoltage_onboot";
+    public static final String CPU_CL0_VOLTAGE = "cpucl0voltage_onboot";
+    public static final String CPU_CL1_VOLTAGE = "cpucl1voltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
     public static final String THERMAL = "thermal_onboot";
     public static final String GPU = "gpu_onboot";
@@ -76,7 +78,8 @@ public class ApplyOnBootFragment extends BaseFragment {
 
     static {
         sAssignments.put(CPUFragment.class, CPU);
-        sAssignments.put(CPUVoltageFragment.class, CPU_VOLTAGE);
+        sAssignments.put(CPUVoltageCl0Fragment.class, CPU_CL0_VOLTAGE);
+        sAssignments.put(CPUVoltageCl1Fragment.class, CPU_CL1_VOLTAGE);
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);

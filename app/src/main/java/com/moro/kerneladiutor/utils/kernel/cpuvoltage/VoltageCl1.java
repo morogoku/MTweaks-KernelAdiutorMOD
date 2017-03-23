@@ -35,9 +35,12 @@ import java.util.List;
  */
 public class VoltageCl1 {
 
+    private static final String BACKUP = "/data/.moro/bk/bk_orig_cl1_voltage";
+
     private static final String CPU_OVERRIDE_VMIN = "/sys/devices/system/cpu/cpu0/cpufreq/override_vmin";
 
     private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
+    //private static final String CL1_VOLTAGE = "/data/cluster1_volt_table";
     private static final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
     private static final String CPU_VDD_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/vdd_levels";
     private static final String CPU_FAUX_VOLTAGE = "/sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels";
@@ -121,6 +124,23 @@ public class VoltageCl1 {
 
     }
 
+    public static List<String> getStockVoltages() {
+        String value = Utils.readFile(BACKUP);
+        if (!value.isEmpty()) {
+            String[] lines = value.split(sSplitNewline.get(PATH));
+            List<String> voltages = new ArrayList<>();
+            for (String line : lines) {
+                String[] voltageLine = line.split(sSplitLine.get(PATH));
+                if (voltageLine.length > 1) {
+                    voltages.add(String.valueOf(Utils.strToInt(voltageLine[1].trim()) / sOffset.get(PATH)));
+
+                }
+            }
+            return voltages;
+        }
+        return null;
+    }
+
     public static List<String> getVoltages() {
         //String value = Utils.readFile(PATH).replace(" ", "");
         String value = Utils.readFile(PATH);
@@ -183,7 +203,7 @@ public class VoltageCl1 {
     }
 
     private static void run(String command, String id, Context context) {
-        Control.runSetting(command, ApplyOnBootFragment.CPU_VOLTAGE, id, context);
+        Control.runSetting(command, ApplyOnBootFragment.CPU_CL1_VOLTAGE, id, context);
     }
 
 }
