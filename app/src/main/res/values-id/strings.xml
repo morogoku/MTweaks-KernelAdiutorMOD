@@ -169,7 +169,7 @@
   <string name="hotplug_boost_summary">Wakeup Boost mirip dengan Indput Boost tetapi hal ini terjadi ketika CPU berjalan/aktif (dari kondisi menganggur).</string>
   <string name="touch_boost">Peningkat Sentuh</string>
   <string name="touch_boost_summary">Ini akan meningkatkan kecepatan CPU terendah jika anda menyentuh layar atau menekan tombol.</string>
-  <!-- CPU VoltageCl1 -->
+  <!-- CPU Voltage -->
   <string name="global_offset">Batasan Umum</string>
   <string name="override_vmin">Pengambil-alih Tegangan Terendah</string>
   <string name="override_vmin_summary">Non-aktifkan untuk menghilangkan batas Perendah Tegangan bawaan</string>

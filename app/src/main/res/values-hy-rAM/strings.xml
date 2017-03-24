@@ -99,7 +99,7 @@
   <string name="enabled">Միացված է</string>
   <string name="aggressive">Ագրեսիվ</string>
   <string name="cpu_quiet">CPUQuiet</string>
-  <!-- CPU VoltageCl1 -->
+  <!-- CPU Voltage -->
   <!-- CPU Hotplug -->
   <string name="balanced">Հավասարակշռված</string>
   <string name="performance">Արտադրողականությունը</string>

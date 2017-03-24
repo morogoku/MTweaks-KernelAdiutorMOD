@@ -95,7 +95,7 @@
   <string name="manual">Наръчник</string>
   <string name="aggressive">Агресивно</string>
   <string name="interval">Интервал</string>
-  <!-- CPU VoltageCl1 -->
+  <!-- CPU Voltage -->
   <!-- CPU Hotplug -->
   <string name="balanced">Балансирано</string>
   <string name="eco">Еко</string>

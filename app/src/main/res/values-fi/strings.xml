@@ -161,7 +161,7 @@
   <string name="hotplug_boost_summary">Hotplug Boost muistuttaa syöttö-boostia, mutta se tapahtuu kun ytimet heräävät.</string>
   <string name="touch_boost">Kosketus boosti</string>
   <string name="touch_boost_summary">Tämä nostaa suorittimen miniminopeutta, jos kosket näyttöä tai painat nappia.</string>
-  <!-- CPU VoltageCl1 -->
+  <!-- CPU Voltage -->
   <string name="global_offset">Globaali siirtymä</string>
   <string name="override_vmin">Ohita minimijännite</string>
   <string name="override_vmin_summary">Poista käytöstä poistaaksesi valmistajan undervolting-rajoitukset</string>
