@@ -126,7 +126,7 @@ public class VoltageCl1 {
             for (String line : lines) {
                 String[] voltageLine = line.split(sSplitLine.get(PATH));
                 if (voltageLine.length > 1) {
-                    voltages.add(String.valueOf(Utils.strToInt(voltageLine[1].trim()) / sOffset.get(PATH)));
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / sOffset.get(PATH)));
 
                 }
             }
