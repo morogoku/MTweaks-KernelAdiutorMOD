@@ -30,9 +30,9 @@ import com.moro.kerneladiutor.R;
 import com.moro.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.moro.kerneladiutor.fragments.BaseFragment;
 import com.moro.kerneladiutor.fragments.RecyclerViewFragment;
+import com.moro.kerneladiutor.utils.Prefs;
 import com.moro.kerneladiutor.utils.Utils;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
-import com.moro.kerneladiutor.views.recyclerview.CardView;
 import com.moro.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.moro.kerneladiutor.views.recyclerview.SeekBarView;
 import com.moro.kerneladiutor.views.recyclerview.SwitchView;
@@ -75,9 +75,6 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             items.add(overrideVmin);
         }
 
-        CardView volt = new CardView(getActivity());
-        volt.setTitle(getString(R.string.cluster_little));
-
         List<String> freqs = VoltageCl0.getFreqs();
         List<String> voltages = VoltageCl0.getVoltages();
         List<String> voltagesStock = VoltageCl0.getStockVoltages();
@@ -85,15 +82,14 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
                 seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i));
-                //mVoltages.add(seekbar);
-                volt.addItem(seekbar);
+                mVoltages.add(seekbar);
             }
         }
-        //items.addAll(mVoltages);
-        items.add(volt);
+        items.addAll(mVoltages);
     }
 
-    private void seekbarInit(SeekBarView seekbar, final String freq, String voltage, String voltageStock) {
+    private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
+                             String voltageStock) {
 
         final int min = (Utils.strToInt(voltageStock) - 300);
 
@@ -138,28 +134,30 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
 
     public static class GlobalOffsetFragment extends BaseFragment {
 
+        TextView vOffset;
+        int mGlobalOffset;
+        private CPUVoltageCl0Fragment mCPUVoltageFragment;
+
         public static GlobalOffsetFragment newInstance(CPUVoltageCl0Fragment cpuVoltageFragment) {
             GlobalOffsetFragment fragment = new GlobalOffsetFragment();
             fragment.mCPUVoltageFragment = cpuVoltageFragment;
             return fragment;
         }
 
-        private CPUVoltageCl0Fragment mCPUVoltageFragment;
-        private int mGlobaloffset;
-
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
-            final TextView offset = (TextView) rootView.findViewById(R.id.offset);
-            offset.setText(Utils.strFormat("%d" + "kk", mGlobaloffset));
+            vOffset = (TextView) rootView.findViewById(R.id.offset);
+
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset -= 5;
-                    offset.setText(Utils.strFormat("%d" + "culo", mGlobaloffset));
-                    VoltageCl0.setGlobalOffset(-5, getActivity());
+                    mGlobalOffset = mGlobalOffset - 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl0.setGlobalOffset(mGlobalOffset, getActivity());
+                    Prefs.saveInt("globalOffset_Cl0", mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -173,9 +171,10 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_plus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset += 5;
-                    offset.setText(Utils.strFormat("%d" + "pedo", mGlobaloffset));
-                    VoltageCl0.setGlobalOffset(5, getActivity());
+                    mGlobalOffset = mGlobalOffset + 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl0.setGlobalOffset(mGlobalOffset, getActivity());
+                    Prefs.saveInt("globalOffset_Cl0", mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -187,6 +186,13 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                 }
             });
             return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState){
+            super.onActivityCreated(savedInstanceState);
+            mGlobalOffset = Prefs.getInt("globalOffset_Cl0", 0, getActivity());
+            vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
         }
     }
 }

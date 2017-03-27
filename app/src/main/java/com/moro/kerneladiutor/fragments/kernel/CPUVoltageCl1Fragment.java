@@ -21,7 +21,6 @@ package com.moro.kerneladiutor.fragments.kernel;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,9 +30,9 @@ import com.moro.kerneladiutor.R;
 import com.moro.kerneladiutor.fragments.ApplyOnBootFragment;
 import com.moro.kerneladiutor.fragments.BaseFragment;
 import com.moro.kerneladiutor.fragments.RecyclerViewFragment;
+import com.moro.kerneladiutor.utils.Prefs;
 import com.moro.kerneladiutor.utils.Utils;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
-import com.moro.kerneladiutor.views.recyclerview.CardView;
 import com.moro.kerneladiutor.views.recyclerview.RecyclerViewItem;
 import com.moro.kerneladiutor.views.recyclerview.SeekBarView;
 import com.moro.kerneladiutor.views.recyclerview.SwitchView;
@@ -135,28 +134,30 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
 
     public static class GlobalOffsetFragment extends BaseFragment {
 
+        TextView vOffset;
+        int mGlobalOffset;
+        private CPUVoltageCl1Fragment mCPUVoltageFragment;
+
         public static GlobalOffsetFragment newInstance(CPUVoltageCl1Fragment cpuVoltageFragment) {
             GlobalOffsetFragment fragment = new GlobalOffsetFragment();
             fragment.mCPUVoltageFragment = cpuVoltageFragment;
             return fragment;
         }
 
-        private CPUVoltageCl1Fragment mCPUVoltageFragment;
-        private int mGlobaloffset;
-
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
-            final TextView offset = (TextView) rootView.findViewById(R.id.offset);
-            offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
+            vOffset = (TextView) rootView.findViewById(R.id.offset);
+
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset = mGlobaloffset - 25;
-                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
+                    mGlobalOffset = mGlobalOffset - 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl1.setGlobalOffset(mGlobalOffset, getActivity());
+                    Prefs.saveInt("globalOffset_Cl1", mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -170,9 +171,10 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_plus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset = mGlobaloffset + 25;
-                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
+                    mGlobalOffset = mGlobalOffset + 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl1.setGlobalOffset(mGlobalOffset, getActivity());
+                    Prefs.saveInt("globalOffset_Cl1", mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -184,6 +186,13 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
                 }
             });
             return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState){
+            super.onActivityCreated(savedInstanceState);
+            mGlobalOffset = Prefs.getInt("globalOffset_Cl1", 0, getActivity());
+            vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
         }
     }
 }

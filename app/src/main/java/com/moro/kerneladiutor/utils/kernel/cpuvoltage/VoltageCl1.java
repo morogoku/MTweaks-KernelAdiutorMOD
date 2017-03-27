@@ -95,8 +95,6 @@ public class VoltageCl1 {
             String freq = String.valueOf(Utils.strToInt(freqs.get(i)));
             setVoltage(freq, volt, context);
         }
-
-
     }
 
     public static void setVoltage(String freq, String voltage, Context context) {

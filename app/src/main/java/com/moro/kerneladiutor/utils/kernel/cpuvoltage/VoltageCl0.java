@@ -84,22 +84,16 @@ public class VoltageCl0 {
     private static String[] sFreqs;
 
     public static void setGlobalOffset(int adjust, Context context) {
-        String value = "";
+        List<String> freqs = getFreqs();
         List<String> voltages = getVoltages();
-        if (voltages == null) return;
-        if (sAppend.get(PATH)) {
-            for (String volt : voltages) {
-                if (!value.isEmpty()) {
-                    value += " ";
-                }
-                value += String.valueOf(Utils.strToInt(volt) + adjust);
-            }
-        } else {
-            value = String.valueOf(adjust * sOffset.get(PATH));
-            if (adjust > 0) value = "+" + value;
-        }
+        List<String> voltagesStock = getStockVoltages();
+        if (voltages == null || voltagesStock == null) return;
 
-        run(Control.write(value, PATH), PATH, context);
+        for (int i = 0; i < voltages.size(); i++) {
+            String volt = String.valueOf(Utils.strToInt(voltagesStock.get(i)) + adjust);
+            String freq = String.valueOf(Utils.strToInt(freqs.get(i)));
+            setVoltage(freq, volt, context);
+        }
     }
 
     public static void setVoltage(String freq, String voltage, Context context) {
