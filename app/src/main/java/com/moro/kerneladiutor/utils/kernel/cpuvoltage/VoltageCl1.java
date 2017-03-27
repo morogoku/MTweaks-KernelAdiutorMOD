@@ -91,9 +91,9 @@ public class VoltageCl1 {
         if (voltages == null || voltagesStock == null) return;
 
         for (int i = 0; i < voltages.size(); i++) {
-            int volt = (Utils.strToInt(voltagesStock.get(i)) + adjust) * sOffset.get(PATH);
-            String freq = String.valueOf(Utils.strToInt(freqs.get(i)) * sOffset.get(PATH));
-            run(Control.write(freq + " " + volt, PATH), PATH, context);
+            String volt = String.valueOf(Utils.strToInt(voltagesStock.get(i)) + adjust);
+            String freq = String.valueOf(Utils.strToInt(freqs.get(i)));
+            setVoltage(freq, volt, context);
         }
 
 
