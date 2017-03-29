@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId "com.moro.kerneladiutor"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 232
         versionName "0.9.6.10 beta"
