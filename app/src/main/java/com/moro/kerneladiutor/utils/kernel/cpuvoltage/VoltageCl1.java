@@ -118,6 +118,10 @@ public class VoltageCl1 {
 
     }
 
+    public static int getOffset () {
+        return sOffset.get(PATH);
+    }
+
     public static List<String> getStockVoltages() {
         String value = Utils.readFile(BACKUP);
         if (!value.isEmpty()) {
@@ -154,7 +158,6 @@ public class VoltageCl1 {
 
     public static List<String> getFreqs() {
         if (sFreqs == null) {
-            //String value = Utils.readFile(PATH).replace(" ", "");
             String value = Utils.readFile(PATH);
             if (!value.isEmpty()) {
                 String[] lines = value.split(sSplitNewline.get(PATH));
