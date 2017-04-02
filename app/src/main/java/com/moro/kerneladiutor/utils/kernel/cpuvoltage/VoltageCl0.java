@@ -37,12 +37,7 @@ public class VoltageCl0 {
 
     private static final String BACKUP = "/data/.moro/bk/bk_orig_cl0_voltage";
 
-    private static final String CPU_OVERRIDE_VMIN = "/sys/devices/system/cpu/cpu0/cpufreq/override_vmin";
-
     private static final String CL0_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster0_volt_table";
-    private static final String CPU_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/UV_mV_table";
-    private static final String CPU_VDD_VOLTAGE = "/sys/devices/system/cpu/cpu0/cpufreq/vdd_levels";
-    private static final String CPU_FAUX_VOLTAGE = "/sys/devices/system/cpu/cpufreq/vdd_table/vdd_levels";
 
     private static final HashMap<String, Boolean> sVoltages = new HashMap<>();
     private static final HashMap<String, Integer> sOffset = new HashMap<>();
@@ -53,31 +48,16 @@ public class VoltageCl0 {
 
     static {
         sVoltages.put(CL0_VOLTAGE, false);
-        sVoltages.put(CPU_VOLTAGE, false);
-        sVoltages.put(CPU_VDD_VOLTAGE, true);
-        sVoltages.put(CPU_FAUX_VOLTAGE, true);
 
         sOffsetFreq.put(CL0_VOLTAGE, 1000);
 
         sOffset.put(CL0_VOLTAGE, 1000);
-        sOffset.put(CPU_VOLTAGE, 1);
-        sOffset.put(CPU_VDD_VOLTAGE, 1);
-        sOffset.put(CPU_FAUX_VOLTAGE, 1000);
 
         sSplitNewline.put(CL0_VOLTAGE, "\\r?\\n");
-        sSplitNewline.put(CPU_VOLTAGE, "mV");
-        sSplitNewline.put(CPU_VDD_VOLTAGE, "\\r?\\n");
-        sSplitNewline.put(CPU_FAUX_VOLTAGE, "\\r?\\n");
 
         sSplitLine.put(CL0_VOLTAGE, " ");
-        sSplitLine.put(CPU_VOLTAGE, "mhz:");
-        sSplitLine.put(CPU_VDD_VOLTAGE, ":");
-        sSplitLine.put(CPU_FAUX_VOLTAGE, ":");
 
         sAppend.put(CL0_VOLTAGE, false);
-        sAppend.put(CPU_VOLTAGE, true);
-        sAppend.put(CPU_VDD_VOLTAGE, false);
-        sAppend.put(CPU_FAUX_VOLTAGE, false);
     }
 
     private static String PATH;
@@ -170,26 +150,10 @@ public class VoltageCl0 {
         return Arrays.asList(sFreqs);
     }
 
-    public static boolean isVddVoltage() {
-        return sVoltages.get(PATH);
-    }
-
-    public static void enableOverrideVmin(boolean enable, Context context) {
-        run(Control.write(enable ? "1" : "0", CPU_OVERRIDE_VMIN), CPU_OVERRIDE_VMIN, context);
-    }
-
-    public static boolean isOverrideVminEnabled() {
-        return Utils.readFile(CPU_OVERRIDE_VMIN).equals("1");
-    }
-
-    public static boolean hasOverrideVmin() {
-        return Utils.existFile(CPU_OVERRIDE_VMIN);
-    }
-
     public static boolean supported() {
         if (PATH != null) return true;
         for (String path : sVoltages.keySet()) {
-            if (Utils.existFile(path)) {
+            if (Utils.existFile(path) && Utils.existFile(BACKUP)) {
                 PATH = path;
                 return true;
             }
