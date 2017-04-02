@@ -54,5 +54,4 @@ public class Prefs {
     public static void saveString(String name, String value, Context context) {
         PreferenceManager.getDefaultSharedPreferences(context).edit().putString(name, value).apply();
     }
-
 }
