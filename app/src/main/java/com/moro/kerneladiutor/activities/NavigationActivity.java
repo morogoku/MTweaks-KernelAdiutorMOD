@@ -387,7 +387,7 @@ public class NavigationActivity extends BaseActivity
 
             Drawable drawable = ContextCompat.getDrawable(this,
                     Utils.DONATED
-                            && Prefs.getBoolean("section_icons", false, this)
+                            && Prefs.getBoolean("section_icons", true, this)
                             && navigationFragment.mDrawable != 0 ? navigationFragment.mDrawable :
                             R.drawable.ic_blank);
 
