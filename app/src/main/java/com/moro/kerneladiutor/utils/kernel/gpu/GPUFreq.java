@@ -50,6 +50,12 @@ public class GPUFreq {
     private static final String AVAILABLE_KGSL3D0_FREQS = "/sys/devices/platform/kgsl-3d0.0/kgsl/kgsl-3d0/gpu_available_frequencies";
     private static final String SCALING_KGSL3D0_GOVERNOR = "/sys/class/kgsl/kgsl-3d0/pwrscale/trustzone/governor";
 
+    private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
+    private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
+    private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
+    private static final String AVAILABLE_S7_FREQ = "/sys/devices/14ac0000.mali/dvfs_table";
+    private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
+
     private static final String KGSL3D0_DEVFREQ_GPUBUSY = "/sys/class/kgsl/kgsl-3d0/gpubusy";
     private static final String CUR_KGSL3D0_DEVFREQ_FREQ = "/sys/class/kgsl/kgsl-3d0/gpuclk";
     private static final String MAX_KGSL3D0_DEVFREQ_FREQ = "/sys/class/kgsl/kgsl-3d0/max_gpuclk";
@@ -95,31 +101,37 @@ public class GPUFreq {
         sCurrentFreqs.put(CUR_OMAP_FREQ, 1000000);
         sCurrentFreqs.put(CUR_TEGRA_FREQ, 1000000);
         sCurrentFreqs.put(CUR_POWERVR_FREQ, 1000);
+        sCurrentFreqs.put(CUR_S7_FREQ, 1);
 
         sMaxFreqs.put(MAX_KGSL3D0_FREQ, 1000000);
         sMaxFreqs.put(MAX_KGSL3D0_DEVFREQ_FREQ, 1000000);
         sMaxFreqs.put(MAX_OMAP_FREQ, 1000000);
         sMaxFreqs.put(MAX_TEGRA_FREQ, 1000000);
         sMaxFreqs.put(MAX_POWERVR_FREQ, 1000);
+        sMaxFreqs.put(MAX_S7_FREQ, 1);
 
         sMinFreqs.put(MIN_KGSL3D0_DEVFREQ_FREQ, 1000000);
         sMinFreqs.put(MIN_TEGRA_FREQ, 1000000);
         sMinFreqs.put(MIN_POWERVR_FREQ, 1000);
+        sMinFreqs.put(MIN_S7_FREQ, 1);
 
         sAvailableFreqs.put(AVAILABLE_KGSL3D0_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_KGSL3D0_DEVFREQ_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_OMAP_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_TEGRA_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_POWERVR_FREQS, 1000);
+        sAvailableFreqs.put(AVAILABLE_S7_FREQ, 1);
 
         sScalingGovernors.add(SCALING_KGSL3D0_GOVERNOR);
         sScalingGovernors.add(SCALING_KGSL3D0_DEVFREQ_GOVERNOR);
         sScalingGovernors.add(SCALING_OMAP_GOVERNOR);
         sScalingGovernors.add(SCALING_POWERVR_GOVERNOR);
+        sScalingGovernors.add(AVAILABLE_S7_GOVERNORS);
 
         sAvailableGovernors.add(AVAILABLE_KGSL3D0_DEVFREQ_GOVERNORS);
         sAvailableGovernors.add(AVAILABLE_OMAP_GOVERNORS);
         sAvailableGovernors.add(AVAILABLE_POWERVR_GOVERNORS);
+        sAvailableGovernors.add(AVAILABLE_S7_GOVERNORS);
 
         sTunables.add(TUNABLES_OMAP);
     }
@@ -214,6 +226,23 @@ public class GPUFreq {
         return Utils.existFile(CUR_KGSL2D0_QCOM_FREQ);
     }
 
+    public static void setS7Governor(String value, Context context) {
+        switch (value){
+            case "Default" :
+                run(Control.write("0", GOVERNOR), GOVERNOR, context);
+                break;
+            case "Interactive" :
+                run(Control.write("1", GOVERNOR), GOVERNOR, context);
+                break;
+            case "Static" :
+                run(Control.write("2", GOVERNOR), GOVERNOR, context);
+                break;
+            case "Booster" :
+                run(Control.write("3", GOVERNOR), GOVERNOR, context);
+                break;
+        }
+    }
+
     public static void setGovernor(String value, Context context) {
         run(Control.write(value, GOVERNOR), GOVERNOR, context);
     }
@@ -231,6 +260,37 @@ public class GPUFreq {
             AVAILABLE_GOVERNORS = GENERIC_GOVERNORS.split(" ");
         }
         return Arrays.asList(AVAILABLE_GOVERNORS);
+    }
+
+    public static List<String> getAvailableS7Governors() {
+        String value = Utils.readFile(AVAILABLE_S7_GOVERNORS);
+        if (!value.isEmpty()) {
+            String[] lines = value.split("\\r?\\n");
+            List<String> governors = new ArrayList<>();
+            for (String line : lines) {
+                if (line.startsWith("[Current Governor]")){
+                    break;
+                }
+                governors.add(line);
+        }
+            return governors;
+        }
+        return null;
+    }
+
+    public static String getS7Governor() {
+        String value = Utils.readFile(AVAILABLE_S7_GOVERNORS);
+        if (!value.isEmpty()) {
+            String[] lines = value.split("\\r?\\n");
+            String governor = "";
+            for (String line : lines) {
+                if (line.startsWith("[Current Governor]")){
+                    governor = line.replace("[Current Governor] ", "");;
+                }
+            }
+            return governor;
+        }
+        return null;
     }
 
     public static String getGovernor() {

@@ -162,12 +162,12 @@ public class GPUFragment extends RecyclerViewFragment {
             SelectView governor = new SelectView();
             governor.setTitle(getString(R.string.gpu_governor));
             governor.setSummary(getString(R.string.gpu_governor_summary));
-            governor.setItems(GPUFreq.getAvailableGovernors());
-            governor.setItem(GPUFreq.getGovernor());
+            governor.setItems(GPUFreq.getAvailableS7Governors());
+            governor.setItem(GPUFreq.getS7Governor());
             governor.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setGovernor(item, getActivity());
+                    GPUFreq.setS7Governor(item, getActivity());
                 }
             });
 
