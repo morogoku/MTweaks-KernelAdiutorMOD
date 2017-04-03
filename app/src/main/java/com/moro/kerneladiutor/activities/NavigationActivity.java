@@ -90,7 +90,7 @@ import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.kerneladiutor.utils.kernel.entropy.Entropy;
-import com.moro.kerneladiutor.utils.kernel.gpu.GPU;
+import com.moro.kerneladiutor.utils.kernel.gpu.GPUFreq;
 import com.moro.kerneladiutor.utils.kernel.io.IO;
 import com.moro.kerneladiutor.utils.kernel.ksm.KSM;
 import com.moro.kerneladiutor.utils.kernel.led.LED;
@@ -194,7 +194,7 @@ public class NavigationActivity extends BaseActivity
         if (Thermal.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.thermal, new ThermalFragment(), R.drawable.ic_temperature));
         }
-        if (GPU.supported()) {
+        if (GPUFreq.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu, new GPUFragment(), R.drawable.ic_gpu));
         }
         if (Screen.supported()) {

@@ -52,7 +52,7 @@ import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.QcomBcl;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
-import com.moro.kerneladiutor.utils.kernel.gpu.GPU;
+import com.moro.kerneladiutor.utils.kernel.gpu.GPUFreq;
 import com.moro.kerneladiutor.utils.kernel.io.IO;
 import com.moro.kerneladiutor.utils.kernel.ksm.KSM;
 import com.moro.kerneladiutor.utils.kernel.misc.Vibration;
@@ -219,7 +219,7 @@ public class MainActivity extends BaseActivity {
             Device.MemInfo.load();
             Device.ROMInfo.load();
             Device.TrustZone.supported();
-            GPU.supported();
+            GPUFreq.supported();
             Hotplug.supported();
             IO.supported();
             KSM.supported();
