@@ -53,7 +53,7 @@ public class GPUFreq {
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
     private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
-    private static final String AVAILABLE_S7_FREQ = "/sys/devices/14ac0000.mali/dvfs_table";
+    private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
 
     private static final String KGSL3D0_DEVFREQ_GPUBUSY = "/sys/class/kgsl/kgsl-3d0/gpubusy";
@@ -120,7 +120,7 @@ public class GPUFreq {
         sAvailableFreqs.put(AVAILABLE_OMAP_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_TEGRA_FREQS, 1000000);
         sAvailableFreqs.put(AVAILABLE_POWERVR_FREQS, 1000);
-        sAvailableFreqs.put(AVAILABLE_S7_FREQ, 1);
+        sAvailableFreqs.put(AVAILABLE_S7_FREQS, 1);
 
         sScalingGovernors.add(SCALING_KGSL3D0_GOVERNOR);
         sScalingGovernors.add(SCALING_KGSL3D0_DEVFREQ_GOVERNOR);
@@ -361,10 +361,30 @@ public class GPUFreq {
 
     public static List<String> getAdjustedFreqs(Context context) {
         List<String> list = new ArrayList<>();
-        for (int freq : getAvailableFreqs()) {
+        for (int freq : getAvailableS7Freqs()) {
             list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
         }
         return list;
+    }
+
+    public static List<Integer> getAvailableS7Freqs() {
+        if (AVAILABLE_FREQS == null) {
+            for (String file : sAvailableFreqs.keySet()) {
+                if (Utils.existFile(file)) {
+                    String freqs[] = Utils.readFile(file).split("\\r?\\n");
+                    AVAILABLE_FREQS = new ArrayList<>();
+                    for (String freq : freqs) {
+                        String[] freqLine = freq.split(" ");
+                        AVAILABLE_FREQS.add(Utils.strToInt(freqLine[0].trim()));
+                    }
+                    AVAILABLE_GOVERNORS_OFFSET = sAvailableFreqs.get(file);
+                    break;
+                }
+            }
+        }
+        if (AVAILABLE_FREQS == null) return null;
+        Collections.sort(AVAILABLE_FREQS);
+        return AVAILABLE_FREQS;
     }
 
     public static List<Integer> getAvailableFreqs() {
@@ -430,8 +450,8 @@ public class GPUFreq {
 
     public static boolean supported() {
         return hasCurFreq()
-                || (hasMaxFreq() && getAvailableFreqs() != null)
-                || (hasMinFreq() && getAvailableFreqs() != null)
+                || (hasMaxFreq() && getAvailableS7Freqs() != null)
+                || (hasMinFreq() && getAvailableS7Freqs() != null)
                 || hasGovernor()
                 || has2dCurFreq()
                 || (has2dMaxFreq() && get2dAvailableFreqs() != null)

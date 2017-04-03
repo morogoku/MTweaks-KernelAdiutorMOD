@@ -82,7 +82,7 @@ public class GPUFragment extends RecyclerViewFragment {
             freqCard.addItem(m2dCurFreq);
         }
 
-        if (GPUFreq.hasCurFreq() && GPUFreq.getAvailableFreqs() != null) {
+        if (GPUFreq.hasCurFreq() && GPUFreq.getAvailableS7Freqs() != null) {
             mCurFreq = new XYGraphView();
             mCurFreq.setTitle(getString(R.string.gpu_freq));
             freqCard.addItem(mCurFreq);
@@ -104,7 +104,7 @@ public class GPUFragment extends RecyclerViewFragment {
             freqCard.addItem(max2dFreq);
         }
 
-        if (GPUFreq.hasMaxFreq() && GPUFreq.getAvailableFreqs() != null) {
+        if (GPUFreq.hasMaxFreq() && GPUFreq.getAvailableS7Freqs() != null) {
             SelectView maxFreq = new SelectView();
             maxFreq.setTitle(getString(R.string.gpu_max_freq));
             maxFreq.setSummary(getString(R.string.gpu_max_freq_summary));
@@ -113,14 +113,14 @@ public class GPUFragment extends RecyclerViewFragment {
             maxFreq.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setMaxFreq(GPUFreq.getAvailableFreqs().get(position), getActivity());
+                    GPUFreq.setMaxFreq(GPUFreq.getAvailableS7Freqs().get(position), getActivity());
                 }
             });
 
             freqCard.addItem(maxFreq);
         }
 
-        if (GPUFreq.hasMinFreq() && GPUFreq.getAvailableFreqs() != null) {
+        if (GPUFreq.hasMinFreq() && GPUFreq.getAvailableS7Freqs() != null) {
             SelectView minFreq = new SelectView();
             minFreq.setTitle(getString(R.string.gpu_min_freq));
             minFreq.setSummary(getString(R.string.gpu_min_freq_summary));
@@ -129,7 +129,7 @@ public class GPUFragment extends RecyclerViewFragment {
             minFreq.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setMinFreq(GPUFreq.getAvailableFreqs().get(position), getActivity());
+                    GPUFreq.setMinFreq(GPUFreq.getAvailableS7Freqs().get(position), getActivity());
                 }
             });
 
@@ -369,7 +369,7 @@ public class GPUFragment extends RecyclerViewFragment {
             }
 
             int freq = GPUFreq.getCurFreq();
-            float maxFreq = GPUFreq.getAvailableFreqs().get(GPUFreq.getAvailableFreqs().size() - 1);
+            float maxFreq = GPUFreq.getAvailableS7Freqs().get(GPUFreq.getAvailableS7Freqs().size() - 1);
             text += freq / GPUFreq.getCurFreqOffset() + getString(R.string.mhz);
             mCurFreq.setText(text);
             float per = (float) freq / maxFreq * 100f;
