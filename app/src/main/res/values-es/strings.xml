@@ -379,6 +379,8 @@
   <string name="idle_wait_summary">Número de eventos para esperar antes de disminuir las frecuencias. Los eventos de idlewait\'th antes del actual deben ser todos inactivos antes de que Adreno Idler disminuya las frecuencias. Esta implementación se usa para prevenir micro-lags en el desplazamiento al jugar a juegos. Adreno Idler tratará de reducir la frecuencia más activamente si se establece a un valor inferior.</string>
   <string name="workload">Carga de trabajo</string>
   <string name="workload_summary">Adreno Idler tratará de reducir la frecuencia más activamente si éste se establece en un valor más alto.</string>
+  <string name="gov_tunables">Ajustes de Gobernador</string>
+
   <!-- Screen -->
   <string name="screen_color">Color de la pantalla</string>
   <string name="red">Rojo</string>

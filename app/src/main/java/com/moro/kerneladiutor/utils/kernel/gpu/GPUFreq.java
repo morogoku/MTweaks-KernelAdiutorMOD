@@ -27,7 +27,6 @@ import com.moro.kerneladiutor.utils.Utils;
 import com.moro.kerneladiutor.utils.root.Control;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +41,10 @@ public class GPUFreq {
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
     private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
+    private static final String TUNABLE_HIGHSPEED_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
+    private static final String TUNABLE_HIGHSPEED_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
+    private static final String TUNABLE_HIGHSPEED_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
+
 
     private static final HashMap<String, Integer> sCurrentFreqs = new HashMap<>();
     private static final HashMap<String, Integer> sMaxFreqs = new HashMap<>();
@@ -232,6 +235,42 @@ public class GPUFreq {
             }
         }
         return CUR_FREQ != null;
+    }
+
+    public static int getHighspeedClock() {
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_CLOCK));
+    }
+
+    public static void setHighspeedClock(String value, Context context) {
+        run(Control.write(value, TUNABLE_HIGHSPEED_CLOCK), TUNABLE_HIGHSPEED_CLOCK, context);
+    }
+
+    public static boolean hasHighspeedClock() {
+        return Utils.existFile(TUNABLE_HIGHSPEED_CLOCK);
+    }
+
+    public static int getHighspeedLoad() {
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_LOAD));
+    }
+
+    public static void setHighspeedLoad(int value, Context context) {
+        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_LOAD), TUNABLE_HIGHSPEED_LOAD, context);
+    }
+
+    public static boolean hasHighspeedLoad() {
+        return Utils.existFile(TUNABLE_HIGHSPEED_LOAD);
+    }
+
+    public static int getHighspeedDelay() {
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_DELAY));
+    }
+
+    public static void setHighspeedDelay(int value, Context context) {
+        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_DELAY), TUNABLE_HIGHSPEED_DELAY, context);
+    }
+
+    public static boolean hasHighspeedDelay() {
+        return Utils.existFile(TUNABLE_HIGHSPEED_DELAY);
     }
 
     public static boolean supported() {
