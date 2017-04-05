@@ -36,6 +36,8 @@ import java.util.List;
  */
 public class GPUFreq {
 
+    private static final String BACKUP = "/data/.moro/bk/gpu_stock_voltage";
+
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
     private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
@@ -70,6 +72,7 @@ public class GPUFreq {
     private static String CUR_FREQ;
     private static Integer CUR_FREQ_OFFSET;
     private static List<Integer> AVAILABLE_FREQS;
+    private static List<Integer> AVAILABLE_FREQS_SORT;
     private static String MAX_FREQ;
     private static Integer MAX_FREQ_OFFSET;
     private static String MIN_FREQ;
@@ -77,6 +80,10 @@ public class GPUFreq {
     private static String GOVERNOR;
     private static String[] AVAILABLE_GOVERNORS;
     private static Integer AVAILABLE_GOVERNORS_OFFSET;
+
+    private static String SPLIT_NEW_LINE = "\\r?\\n";
+    private static String SPLIT_LINE = " ";
+    private static Integer VOLT_OFFSET = 1000;
 
     public static void setS7Governor(String value, Context context) {
         switch (value){
@@ -212,8 +219,27 @@ public class GPUFreq {
             }
         }
         if (AVAILABLE_FREQS == null) return null;
-        Collections.sort(AVAILABLE_FREQS);
         return AVAILABLE_FREQS;
+    }
+
+    public static List<Integer> getAvailableS7FreqsSort() {
+        if (AVAILABLE_FREQS_SORT == null) {
+            for (String file : sAvailableFreqs.keySet()) {
+                if (Utils.existFile(file)) {
+                    String freqs[] = Utils.readFile(file).split("\\r?\\n");
+                    AVAILABLE_FREQS_SORT = new ArrayList<>();
+                    for (String freq : freqs) {
+                        String[] freqLine = freq.split(" ");
+                        AVAILABLE_FREQS_SORT.add(Utils.strToInt(freqLine[0].trim()));
+                    }
+                    AVAILABLE_GOVERNORS_OFFSET = sAvailableFreqs.get(file);
+                    break;
+                }
+            }
+        }
+        if (AVAILABLE_FREQS_SORT == null) return null;
+        Collections.sort(AVAILABLE_FREQS_SORT);
+        return AVAILABLE_FREQS_SORT;
     }
 
     public static int getCurFreqOffset() {
@@ -271,6 +297,55 @@ public class GPUFreq {
 
     public static boolean hasHighspeedDelay() {
         return Utils.existFile(TUNABLE_HIGHSPEED_DELAY);
+    }
+
+    public static void setVoltage(Integer freq, String voltage, Context context) {
+
+        //freq = String.valueOf(freq);
+        String volt = String.valueOf((int)(Utils.strToFloat(voltage) * VOLT_OFFSET));
+        run(Control.write(freq + " " + volt, AVAILABLE_S7_FREQS), AVAILABLE_S7_FREQS + freq, context);
+    }
+
+    public static List<String> getStockVoltages() {
+        String value = Utils.readFile(BACKUP);
+        if (!value.isEmpty()) {
+            String[] lines = value.split(SPLIT_NEW_LINE);
+            List<String> voltages = new ArrayList<>();
+            for (String line : lines) {
+                String[] voltageLine = line.split(SPLIT_LINE);
+                if (voltageLine.length > 1) {
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / VOLT_OFFSET));
+
+                }
+            }
+            return voltages;
+        }
+        return null;
+    }
+
+    public static List<String> getVoltages() {
+        String value = Utils.readFile(AVAILABLE_S7_FREQS);
+        if (!value.isEmpty()) {
+            String[] lines = value.split(SPLIT_NEW_LINE);
+            List<String> voltages = new ArrayList<>();
+            for (String line : lines) {
+                String[] voltageLine = line.split(SPLIT_LINE);
+                if (voltageLine.length > 1) {
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / VOLT_OFFSET));
+
+                }
+            }
+            return voltages;
+        }
+        return null;
+    }
+
+    public static int getOffset () {
+        return VOLT_OFFSET;
+    }
+
+    public static boolean hasBackup() {
+        return Utils.existFile(BACKUP);
     }
 
     public static boolean supported() {
