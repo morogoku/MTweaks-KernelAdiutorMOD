@@ -201,10 +201,13 @@
     <string name="touch_boost">Touch Boost</string>
     <string name="touch_boost_summary">This will boost your minimum CPU speed if you touch the screen or press a button.</string>
 
-    <!-- CPU VoltageCl1 -->
+    <!-- CPU Voltage -->
     <string name="global_offset">Global Offset</string>
     <string name="override_vmin">Override Minimum Voltage</string>
     <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>
+    <string name="cpu_volt_profile">Voltage Profile</string>
+    <string name="cpu_volt_profile_summary">Modify the global CPU voltage</string>
+    <string name="cpu_volt_control">CPU Voltage Control</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>
@@ -422,6 +425,7 @@
     <string name="tun_highspeed_delay_summary">Jump the minimum frequency level to highspeed_clock when the GPU utilization over highspeed_load and over this delayed value.</string>
     <string name="gov_tunables">Governor Tunables</string>
     <string name="gpu_voltage">GPU Voltage Control</string>
+
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>

@@ -178,6 +178,9 @@
   <string name="global_offset">Ajuste Global</string>
   <string name="override_vmin">Sobrescribir voltaje mínimo</string>
   <string name="override_vmin_summary">Desactivar para eliminar los límites del fabricante en undervolting</string>
+  <string name="cpu_volt_profile">Perfil de Voltaje</string>
+  <string name="cpu_volt_profile_summary">Modifique el voltaje global de CPU</string>
+  <string name="cpu_volt_control">Control de Voltaje de CPU</string>
   <!-- CPU Hotplug -->
   <string name="hotplug_warning">Más de un sistema de hotplugging activado!\nPor favor solo use uno.</string>
   <string name="mpdecision">MPDecision</string>
@@ -351,6 +354,7 @@
   <string name="allowed_max_freq">Fase 3: Frecuencia máxima permitida</string>
   <string name="check_interval">Intervalo de comprobaciones</string>
   <string name="shutdown_temp">Temperatura de apagado</string>
+  <string name="gpu_voltage">Control de Voltaje de GPU</string>
   <!-- GPU -->
   <string name="frequencies">Frecuencias</string>
   <string name="gpu_2d_freq">Frecuencia de la GPU 2D</string>

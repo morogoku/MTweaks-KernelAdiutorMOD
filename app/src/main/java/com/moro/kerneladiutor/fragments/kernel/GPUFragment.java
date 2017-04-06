@@ -226,7 +226,7 @@ public class GPUFragment extends RecyclerViewFragment {
                 voltCard.addItem(seekbar);
             }
         }
-        
+
         if (voltCard.size() > 0) {
             items.add(voltCard);
         }
