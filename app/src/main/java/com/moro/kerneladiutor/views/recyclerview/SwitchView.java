@@ -44,6 +44,8 @@ public class SwitchView extends RecyclerViewItem {
 
     private CharSequence mTitleText;
     private CharSequence mSummaryText;
+    private CharSequence mSummaryOnText;
+    private CharSequence mSummaryOffText;
     private boolean mChecked;
 
     private List<OnSwitchListener> mOnSwitchListeners = new ArrayList<>();
@@ -65,6 +67,9 @@ public class SwitchView extends RecyclerViewItem {
             @Override
             public void onClick(View v) {
                 mSwitcher.setChecked(!mChecked);
+                if (mSummary != null && mSummaryOnText != null && mSummaryOffText != null) {
+                    refresh();
+                }
             }
         });
         mSwitcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -89,6 +94,16 @@ public class SwitchView extends RecyclerViewItem {
 
     public void setSummary(CharSequence summary) {
         mSummaryText = summary;
+        refresh();
+    }
+
+    public void setSummaryOn(CharSequence summary) {
+        mSummaryOnText = summary;
+        refresh();
+    }
+
+    public void setSummaryOff(CharSequence summary) {
+        mSummaryOffText = summary;
         refresh();
     }
 
@@ -126,6 +141,13 @@ public class SwitchView extends RecyclerViewItem {
         }
         if (mSummary != null && mSummaryText != null) {
             mSummary.setText(mSummaryText);
+        }
+        if (mSummary != null && mSummaryOnText != null && mSummaryOffText != null){
+            if (mChecked) {
+                mSummary.setText(mSummaryOnText);
+            }else {
+                mSummary.setText(mSummaryOffText);
+            }
         }
         if (mSwitcher != null) {
             mSwitcher.setChecked(mChecked);
