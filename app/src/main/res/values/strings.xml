@@ -208,6 +208,9 @@
     <string name="cpu_volt_profile">Voltage Profile</string>
     <string name="cpu_volt_profile_summary">Modify the global CPU voltage</string>
     <string name="cpu_volt_control">CPU Voltage Control</string>
+    <string name="cpu_manual_volt">Individual Control</string>
+    <string name="cpu_manual_volt_summaryOn">Global Profile Control</string>
+    <string name="cpu_manual_volt_summaryOff">Enabled Individual Control</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>
