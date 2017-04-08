@@ -219,7 +219,7 @@ public class GPUFragment extends RecyclerViewFragment {
         List<String> voltages = GPUFreq.getVoltages();
         List<String> voltagesStock = GPUFreq.getStockVoltages();
 
-        if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
+        if (freqs != null && voltages != null && voltagesStock != null && freqs.size() == voltages.size()) {
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
                 seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i));
@@ -293,6 +293,5 @@ public class GPUFragment extends RecyclerViewFragment {
             float per = (float) freq / maxFreq * 100f;
             mCurFreq.addPercentage(load >= 0 ? load : Math.round(per > 100 ? 100 : per < 0 ? 0 : per));
         }
-
     }
 }

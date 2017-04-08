@@ -82,6 +82,18 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // If system is rebooted reset the Global voltages seekbar
+        Boolean mIsBooted = Prefs.getBoolean("is_booted", true, this);
+        if (mIsBooted) {
+            if (!Prefs.getBoolean("cpucl1voltage_onboot", false, this)) {
+                Prefs.saveInt("CpuCl1_SeekbarPref_value", 16, this);
+            }
+            if (!Prefs.getBoolean("cpucl0voltage_onboot", false, this)) {
+                Prefs.saveInt("CpuCl0_SeekbarPref_value", 16, this);
+            }
+        }
+        Prefs.saveBoolean("is_booted", false, this);
+
         // Don't initialize analytics with debug build
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());

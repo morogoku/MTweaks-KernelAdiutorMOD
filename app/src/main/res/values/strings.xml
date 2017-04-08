@@ -85,8 +85,8 @@
     <string name="inputs">Inputs</string>
     <string name="cpu">CPU</string>
     <string name="cpu_voltage">CPU Voltage</string>
-    <string name="cpucl1_voltage">CPU A72 big Voltage</string>
-    <string name="cpucl0_voltage">CPU A53 LITTLE Voltage</string>
+    <string name="cpucl1_voltage">CPU big Voltage</string>
+    <string name="cpucl0_voltage">CPU LITTLE Voltage</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="thermal">Thermal</string>
     <string name="gpu">GPU</string>
@@ -207,10 +207,13 @@
     <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>
     <string name="cpu_volt_profile">Voltage Profile</string>
     <string name="cpu_volt_profile_summary">Modify the global CPU voltage</string>
-    <string name="cpu_volt_control">CPU Voltage Control</string>
-    <string name="cpu_manual_volt">Individual Control</string>
-    <string name="cpu_manual_volt_summaryOn">Global Profile Control</string>
-    <string name="cpu_manual_volt_summaryOff">Enabled Individual Control</string>
+    <string name="cpuCl1_volt_control">CPU big Voltage Control</string>
+    <string name="cpuCl0_volt_control">CPU LITTLE Voltage Control</string>
+    <string name="cpuCl1_volt">CPU big Voltages</string>
+    <string name="cpuCl0_volt">CPU LITTLE Voltages</string>
+    <string name="cpu_manual_volt">Individual or Global voltage</string>
+    <string name="cpu_manual_volt_summaryOn">Global Control Enabled</string>
+    <string name="cpu_manual_volt_summaryOff">Individual Control Enabled</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>

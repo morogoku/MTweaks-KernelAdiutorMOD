@@ -182,11 +182,11 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.inputs, new InputsFragment(), R.drawable.ic_keyboard));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, new CPUFragment(), R.drawable.ic_cpu));
-        if (VoltageCl0.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, new CPUVoltageCl0Fragment(), R.drawable.ic_bolt));
-        }
         if (VoltageCl1.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl1_voltage, new CPUVoltageCl1Fragment(), R.drawable.ic_bolt));
+        }
+        if (VoltageCl0.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, new CPUVoltageCl0Fragment(), R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, new CPUHotplugFragment(), R.drawable.ic_switch));

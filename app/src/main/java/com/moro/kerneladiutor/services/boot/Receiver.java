@@ -38,6 +38,7 @@ public class Receiver extends BroadcastReceiver {
             if (Prefs.getBoolean("data_sharing", true, context)) {
                 context.startService(new Intent(context, Monitor.class));
             }
+            Prefs.saveBoolean("is_booted", true, context);
         }
     }
 
