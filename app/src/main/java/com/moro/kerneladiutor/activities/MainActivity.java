@@ -86,10 +86,13 @@ public class MainActivity extends BaseActivity {
         Boolean mIsBooted = Prefs.getBoolean("is_booted", true, this);
         if (mIsBooted) {
             if (!Prefs.getBoolean("cpucl1voltage_onboot", false, this)) {
-                Prefs.saveInt("CpuCl1_SeekbarPref_value", 16, this);
+                Prefs.saveInt("CpuCl1_seekbarPref_value", 16, this);
             }
             if (!Prefs.getBoolean("cpucl0voltage_onboot", false, this)) {
-                Prefs.saveInt("CpuCl0_SeekbarPref_value", 16, this);
+                Prefs.saveInt("CpuCl0_seekbarPref_value", 16, this);
+            }
+            if (!Prefs.getBoolean("gpu_onboot", false, this)) {
+                Prefs.saveInt("gpu_seekbarPref_value", 16, this);
             }
         }
         Prefs.saveBoolean("is_booted", false, this);

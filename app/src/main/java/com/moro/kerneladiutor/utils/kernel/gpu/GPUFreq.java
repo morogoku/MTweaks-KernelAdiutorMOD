@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class GPUFreq {
 
-    private static final String BACKUP = "/data/.moro/bk/gpu_stock_voltage";
+    private static final String BACKUP = "/data/.mtweaks2/bk/gpu_stock_voltage";
 
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
     private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
