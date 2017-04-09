@@ -244,7 +244,7 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.settings));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.about, new AboutFragment(), R.drawable.ic_about));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.contributors, new ContributorsFragment(), R.drawable.ic_people));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.help, new HelpFragment(), R.drawable.ic_help));
+        //sFragments.add(new NavigationActivity.NavigationFragment(R.string.help, new HelpFragment(), R.drawable.ic_help));
     }
 
     private void init(Bundle savedInstanceState) {
