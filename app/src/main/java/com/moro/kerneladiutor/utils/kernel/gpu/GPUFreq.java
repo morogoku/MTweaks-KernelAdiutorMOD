@@ -46,6 +46,8 @@ public class GPUFreq {
     private static final String TUNABLE_HIGHSPEED_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
     private static final String TUNABLE_HIGHSPEED_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
+    private static final String POWER_POLICY = "/sys/devices/14ac0000.mali/power_policy";
+
 
 
     private static final HashMap<String, Integer> sCurrentFreqs = new HashMap<>();
@@ -53,7 +55,6 @@ public class GPUFreq {
     private static final HashMap<String, Integer> sMinFreqs = new HashMap<>();
     private static final HashMap<String, Integer> sAvailableFreqs = new HashMap<>();
     private static final List<String> sScalingGovernors = new ArrayList<>();
-    private static final List<String> sAvailableGovernors = new ArrayList<>();
 
     static {
         sCurrentFreqs.put(CUR_S7_FREQ, 1);
@@ -65,8 +66,6 @@ public class GPUFreq {
         sAvailableFreqs.put(AVAILABLE_S7_FREQS, 1);
 
         sScalingGovernors.add(AVAILABLE_S7_GOVERNORS);
-
-        sAvailableGovernors.add(AVAILABLE_S7_GOVERNORS);
     }
 
     private static String CUR_FREQ;
@@ -78,7 +77,6 @@ public class GPUFreq {
     private static String MIN_FREQ;
     private static Integer MIN_FREQ_OFFSET;
     private static String GOVERNOR;
-    private static String[] AVAILABLE_GOVERNORS;
     private static Integer AVAILABLE_GOVERNORS_OFFSET;
 
     private static String SPLIT_NEW_LINE = "\\r?\\n";
@@ -125,7 +123,7 @@ public class GPUFreq {
             String governor = "";
             for (String line : lines) {
                 if (line.startsWith("[Current Governor]")){
-                    governor = line.replace("[Current Governor] ", "");;
+                    governor = line.replace("[Current Governor] ", "");
                 }
             }
             return governor;
@@ -197,8 +195,10 @@ public class GPUFreq {
 
     public static List<String> getAdjustedFreqs(Context context) {
         List<String> list = new ArrayList<>();
-        for (int freq : getAvailableS7Freqs()) {
-            list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
+        if (getAvailableS7Freqs() != null) {
+            for (int freq : getAvailableS7Freqs()) {
+                list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
+            }
         }
         return list;
     }
@@ -300,8 +300,6 @@ public class GPUFreq {
     }
 
     public static void setVoltage(Integer freq, String voltage, Context context) {
-
-        //freq = String.valueOf(freq);
         String volt = String.valueOf((int)(Utils.strToFloat(voltage) * VOLT_OFFSET));
         run(Control.write(freq + " " + volt, AVAILABLE_S7_FREQS), AVAILABLE_S7_FREQS + freq, context);
     }
@@ -338,6 +336,33 @@ public class GPUFreq {
             return voltages;
         }
         return null;
+    }
+
+    public static void setPowerPolicy(String value, Context context) {
+        run(Control.write(value, POWER_POLICY), POWER_POLICY, context);
+    }
+
+    public static String getPowerPolicy() {
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
+        for (String policy : policies) {
+            if (policy.startsWith("[") && policy.endsWith("]")) {
+                return policy.replace("[", "").replace("]", "");
+            }
+        }
+        return "";
+    }
+
+    public static List<String> getPowerPolicies() {
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
+        List<String> list = new ArrayList<>();
+        for (String policy : policies) {
+            list.add(policy.replace("[", "").replace("]", ""));
+        }
+        return list;
+    }
+
+    public static boolean hasPowerPolicy() {
+        return Utils.existFile(POWER_POLICY);
     }
 
     public static int getOffset () {

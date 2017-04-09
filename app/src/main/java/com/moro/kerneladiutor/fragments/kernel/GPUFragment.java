@@ -57,6 +57,9 @@ public class GPUFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         freqInit(items);
+        if (GPUFreq.hasPowerPolicy()){
+            powerPolicyInit(items);
+        }
         if (GPUFreq.hasGovernor()){
             governorInit(items);
         }
@@ -109,6 +112,29 @@ public class GPUFragment extends RecyclerViewFragment {
 
         if (freqCard.size() > 0) {
             items.add(freqCard);
+        }
+    }
+
+    private void powerPolicyInit (List<RecyclerViewItem> items){
+        CardView powCard = new CardView(getActivity());
+        powCard.setTitle(getString(R.string.gpu_power_policy_card));
+
+        SelectView powPol = new SelectView();
+        powPol.setTitle(getString(R.string.gpu_power_policy));
+        powPol.setSummary(getString(R.string.gpu_power_policy_summary));
+        powPol.setItems(GPUFreq.getPowerPolicies());
+        powPol.setItem(GPUFreq.getPowerPolicy());
+        powPol.setOnItemSelected(new SelectView.OnItemSelected() {
+            @Override
+            public void onItemSelected(SelectView selectView, int position, String item) {
+                GPUFreq.setPowerPolicy(item, getActivity());
+            }
+        });
+
+        powCard.addItem(powPol);
+
+        if (powCard.size() > 0) {
+            items.add(powCard);
         }
     }
 
