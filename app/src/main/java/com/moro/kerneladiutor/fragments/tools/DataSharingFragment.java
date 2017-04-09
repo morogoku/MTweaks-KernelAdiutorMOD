@@ -53,7 +53,7 @@ public class DataSharingFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         SwitchView datasharing = new SwitchView();
         datasharing.setSummary(getString(R.string.sharing_enable));
-        datasharing.setChecked(Prefs.getBoolean("data_sharing", true, getActivity()));
+        datasharing.setChecked(Prefs.getBoolean("data_sharing", false, getActivity()));
         datasharing.addOnSwitchListener(new SwitchView.OnSwitchListener() {
             @Override
             public void onChanged(SwitchView switchView, boolean isChecked) {

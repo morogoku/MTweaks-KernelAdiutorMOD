@@ -225,7 +225,7 @@ public class NavigationActivity extends BaseActivity
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.misc, new MiscFragment(), R.drawable.ic_clear));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.tools));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.data_sharing, new DataSharingFragment(), R.drawable.ic_database));
+        //sFragments.add(new NavigationActivity.NavigationFragment(R.string.data_sharing, new DataSharingFragment(), R.drawable.ic_database));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.custom_controls, new CustomControlsFragment(), R.drawable.ic_console));
 
         SupportedDownloads supportedDownloads = new SupportedDownloads(this);
