@@ -734,8 +734,7 @@
   <string name="fingerprint_summary">Käytä sormenjälkeä suojauksen avaamiseen. Tämä toimii, jos sinulla on sormenjälki rekisteröitynä.</string>
   <string name="sections">Alueet</string>
   <!-- About -->
-  <string name="about_me">Hei! Minä olen Willi Ye alias Grarak, 19-vuotias opiskelija, joka asuu Wienissä. Olen ollut Android-kehittäjänä jo melko pitkään. Kernel Adiutorin ohella olen myös ylläpitänyt CyanogenModia muutamille puhelinmalleille ja olen työskennellyt ParanoidAndroidin parissa. Siksi toivonkin, että ymmärrät, jos en aina löydä aikaa tämän sovelluksen päivittämiseen.</string>
-  <string name="libraries_used">Käytet kirjastot</string>
+    <string name="libraries_used">Käytet kirjastot</string>
   <!-- Contributors -->
   <string name="commits">%d on samaa mieltä</string>
   <string name="no_internet">Tarkista verkkoyhteytesi!</string>

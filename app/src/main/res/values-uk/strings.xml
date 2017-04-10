@@ -660,8 +660,7 @@
   <string name="fingerprint_summary">Використовувати відбиток пальця для проходження перевірки безпеки. Це буде працювати до тих пір, поки у вас є зареєстровані відбитки.</string>
   <string name="sections">Розділи</string>
   <!-- About -->
-  <string name="about_me">Привіт, я Віллі Йе ака Grarak, 19-річний студент з Відня. Я займаюся Android-розробкою досить довгий час. Крім Kernel Adiutor, я також підтримую CyanogenMod для декількох пристроїв і працюю над ParanoidAndroid. Тому прошу зрозуміти, якщо я не знайду час оновити додаток.</string>
-  <string name="libraries_used">Використані бібліотеки</string>
+    <string name="libraries_used">Використані бібліотеки</string>
   <!-- Contributors -->
   <string name="commits">Зміни: %d</string>
   <string name="no_internet">Будь-ласка, перевірте інтернет-з\'єднання!</string>

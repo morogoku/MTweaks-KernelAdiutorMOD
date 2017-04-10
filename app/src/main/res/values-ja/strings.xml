@@ -802,8 +802,7 @@
   <string name="fingerprint_summary">セキュリティチェックを通過するため指紋を使用します。指紋登録済みの場合のみ有効です。</string>
   <string name="sections">セクション</string>
   <!-- About -->
-  <string name="about_me">やぁ、私は Will Ye(@Grarak)、ウィーン在住の19才の学生です。Androidの開発を長い間続けています。Kernel Adiutor の他にも幾つかのデバイスのCyanogenMod のメンテナでもありParanoidAndoroid の開発に携わっています。申し訳ありませんが本アプリの開発にあまり時間を割くことが出来ないことをご了承下さい。</string>
-  <string name="libraries_used">使用中のライブラリ</string>
+    <string name="libraries_used">使用中のライブラリ</string>
   <!-- Contributors -->
   <string name="commits">コミット数 %d</string>
   <string name="no_internet">インターネット接続を確認して下さい!</string>

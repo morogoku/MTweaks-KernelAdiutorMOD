@@ -597,8 +597,7 @@
   <string name="fingerprint_summary">Použít otisk prstu pro bezpečnostní kontrolu. Toto bude fungovat dokud budete mít zaznamenané otisky prstu.</string>
   <string name="sections">Sekce</string>
   <!-- About -->
-  <string name="about_me">Ahoj, já jsem Willi Ye aka Grarak, devatenáctiletý student žijící ve Vídni. Vyvíjím na Androidu už docela dlouho. Vedle Kernel Adiutoru také spravuju CyanogenMod pro několik zařízení a pracuji na ParanoidAndroidu. Tak prosím pochopte, pokud nebudu mít čas tuto aplikaci aktualizovat.</string>
-  <string name="libraries_used">Použité knihovny</string>
+    <string name="libraries_used">Použité knihovny</string>
   <!-- Contributors -->
   <string name="commits">%d commitů</string>
   <string name="no_internet">Zkontrolujte připojení k internetu</string>

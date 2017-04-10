@@ -690,8 +690,7 @@
   <string name="fingerprint_summary">Sử dụng dấu vân tay để vượt qua kiểm tra an ninh. Tùy chọn này chạy nếu như bạn đã đăng kí dấu vân tay.</string>
   <string name="sections">Phần</string>
   <!-- About -->
-  <string name="about_me">Xin chào, tôi là Willi Ye aka Grarak, một sinh viên năm nay 19 tuổi đang sống ở Vienna. Tôi đã phát triển trên Android khá một thời gian dài. Bên cạnh Kernel Adiutor tôi cũng duy trì CyanogenMod cho vài thiết bị và làm việc trên ParanoidAndroid. Vì vậy hãy hiểu nếu tôi không có đủ thời gian để cập nhật ứng dụng này.</string>
-  <string name="libraries_used">Các thư viện sử dụng</string>
+    <string name="libraries_used">Các thư viện sử dụng</string>
   <!-- Contributors -->
   <string name="commits">%d cam kết</string>
   <string name="no_internet">Hãy kiểm tra kết nối mạng của bạn!</string>

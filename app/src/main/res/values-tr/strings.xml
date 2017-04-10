@@ -803,8 +803,7 @@
   <string name="fingerprint_summary">Parmak izi güvenlik kontrol geçmek için kullanın. Uzun kayıtlı parmak izleri var gibi bu işe yarar.</string>
   <string name="sections">Bölümler</string>
   <!-- About -->
-  <string name="about_me">Merhaba, ben Willi Ye yani Grarak, Viyana\'da yaşayan 19 yaşında bir öğrenciyim. Oldukça uzun bir süre için Android geliştirmesiyle ugraştım. Kernel Adiutor ve CyanogenMod için birkaç cihaz üzerinde uğraştım ve ParanoidAndroid üzerinde kusursuz çalışıyor. Bu yüzden lütfen uygulamayı güncelemezsem beni anlayın.</string>
-  <string name="libraries_used">Kütüphane kullanımda</string>
+    <string name="libraries_used">Kütüphane kullanımda</string>
   <!-- Contributors -->
   <string name="commits">%d işlendi</string>
   <string name="no_internet">Lütfen internet bağlantınızı kontrol edin!</string>

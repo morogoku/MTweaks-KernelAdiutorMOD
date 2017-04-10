@@ -802,8 +802,7 @@
   <string name="fingerprint_summary">Использовать отпечаток пальца для прохождения проверки безопасности. Это будет работать до тех пор, пока у вас есть зарегистрированные отпечатки.</string>
   <string name="sections">Разделы</string>
   <!-- About -->
-  <string name="about_me">Привет, я Вилли Йе aka Grarak, 19-летний студент из Вены. Я занимаюсь Android-разработкой достаточно долгое время. Помимо Kernel Adiutor, я также поддерживаю CyanogenMod для нескольких устройств и работаю над ParanoidAndroid. Поэтому прошу понять, если я не найду время обновить приложение.</string>
-  <string name="libraries_used">Использованые библиотеки</string>
+    <string name="libraries_used">Использованые библиотеки</string>
   <!-- Contributors -->
   <string name="commits">Изменения: %d</string>
   <string name="no_internet">Пожалуйста, проверьте интернет-соединение!</string>
