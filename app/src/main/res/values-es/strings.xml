@@ -78,11 +78,11 @@
   <string name="battery">Batería</string>
   <string name="led">LED</string>
   <string name="io_scheduler">Planificador E/S</string>
-  <string name="ksm">Memoria compartida de kernel (KSM)</string>
+  <string name="ksm">KSM</string>
   <string name="lmk">Low Memory Killer</string>
   <string name="virtual_memory">Memoria Virtual</string>
   <string name="entropy">Entropía</string>
-  <string name="misc">Miscelaneos</string>
+  <string name="misc">Varios</string>
   <string name="data_sharing">Intercambio de datos</string>
   <string name="custom_controls">Controles personalizados</string>
   <string name="downloads">Descargas</string>
