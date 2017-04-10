@@ -212,8 +212,8 @@
     <string name="cpuCl1_volt">CPU big Voltages</string>
     <string name="cpuCl0_volt">CPU LITTLE Voltages</string>
     <string name="cpu_manual_volt">Individual or Global voltage</string>
-    <string name="cpu_manual_volt_summaryOn">Global Control Enabled</string>
-    <string name="cpu_manual_volt_summaryOff">Individual Control Enabled</string>
+    <string name="cpu_manual_volt_summaryOn">When you activate Individual Control, the Global Control bar will return to its initial position and you can freely vary the individual bars\n\nGlobal Control Enabled</string>
+    <string name="cpu_manual_volt_summaryOff">When you activate Individual Control, the Global Control bar will return to its initial position and you can freely vary the individual bars\n\nIndividual Control Enabled</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>
