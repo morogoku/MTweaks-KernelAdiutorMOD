@@ -34,7 +34,6 @@ import com.moro.kerneladiutor.views.recyclerview.TitleView;
 import com.moro.kerneladiutor.views.recyclerview.XYGraphView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -56,6 +55,8 @@ public class GPUFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        mVoltages.clear();
+
         freqInit(items);
         if (GPUFreq.hasPowerPolicy()){
             powerPolicyInit(items);
@@ -165,31 +166,35 @@ public class GPUFragment extends RecyclerViewFragment {
         if (GPUFreq.hasHighspeedClock()){
             List<String> freqs = new ArrayList<>();
             List<Integer> list = GPUFreq.getAvailableS7FreqsSort();
-            int value = 0;
-            for (int i = 0; i < list.size(); i++) {
-                freqs.add(String.valueOf(list.get(i)));
-                if (list.get(i) == GPUFreq.getHighspeedClock()){
-                    value = i;
+            if(list != null) {
+                int value = 0;
+                for (int i = 0; i < list.size(); i++) {
+                    freqs.add(String.valueOf(list.get(i)));
+                    if (list.get(i) == GPUFreq.getHighspeedClock()) {
+                        value = i;
+                    }
                 }
+
+
+                SeekBarView seekbar = new SeekBarView();
+                seekbar.setTitle(getString(R.string.tun_highspeed_clock));
+                seekbar.setSummary(getString(R.string.tun_highspeed_clock_summary));
+                seekbar.setUnit(getString(R.string.mhz));
+                seekbar.setItems(freqs);
+                seekbar.setProgress(value);
+                seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreq.setHighspeedClock(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                govCard.addItem(seekbar);
             }
-
-            SeekBarView seekbar = new SeekBarView();
-            seekbar.setTitle(getString(R.string.tun_highspeed_clock));
-            seekbar.setSummary(getString(R.string.tun_highspeed_clock_summary));
-            seekbar.setUnit(getString(R.string.mhz));
-            seekbar.setItems(freqs);
-            seekbar.setProgress(value);
-            seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    GPUFreq.setHighspeedClock(value, getActivity());
-                }
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-            });
-
-            govCard.addItem(seekbar);
         }
 
         if (GPUFreq.hasHighspeedLoad()){
