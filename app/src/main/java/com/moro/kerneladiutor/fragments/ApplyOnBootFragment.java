@@ -41,6 +41,7 @@ import com.moro.kerneladiutor.fragments.kernel.IOFragment;
 import com.moro.kerneladiutor.fragments.kernel.KSMFragment;
 import com.moro.kerneladiutor.fragments.kernel.LEDFragment;
 import com.moro.kerneladiutor.fragments.kernel.LMKFragment;
+import com.moro.kerneladiutor.fragments.kernel.WakelockFragment;
 import com.moro.kerneladiutor.fragments.kernel.MiscFragment;
 import com.moro.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.moro.kerneladiutor.fragments.kernel.SoundFragment;
@@ -64,6 +65,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String GPU = "gpu_onboot";
     public static final String SCREEN = "screen_onboot";
     public static final String WAKE = "wake_onboot";
+    public static final String WAKELOCK = "wakelock_onboot";
     public static final String SOUND = "sound_onboot";
     public static final String BATTERY = "battery_onboot";
     public static final String LED = "led_onboot";
@@ -91,6 +93,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(IOFragment.class, IO);
         sAssignments.put(KSMFragment.class, KSM);
         sAssignments.put(LMKFragment.class, LMK);
+        sAssignments.put(WakelockFragment.class, WAKELOCK);
         sAssignments.put(VMFragment.class, VM);
         sAssignments.put(EntropyFragment.class, ENTROPY);
         sAssignments.put(MiscFragment.class, MISC);

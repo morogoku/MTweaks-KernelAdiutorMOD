@@ -57,6 +57,7 @@ import com.moro.kerneladiutor.fragments.kernel.IOFragment;
 import com.moro.kerneladiutor.fragments.kernel.KSMFragment;
 import com.moro.kerneladiutor.fragments.kernel.LEDFragment;
 import com.moro.kerneladiutor.fragments.kernel.LMKFragment;
+import com.moro.kerneladiutor.fragments.kernel.WakelockFragment;
 import com.moro.kerneladiutor.fragments.kernel.MiscFragment;
 import com.moro.kerneladiutor.fragments.kernel.ScreenFragment;
 import com.moro.kerneladiutor.fragments.kernel.SoundFragment;
@@ -99,6 +100,7 @@ import com.moro.kerneladiutor.utils.kernel.screen.Screen;
 import com.moro.kerneladiutor.utils.kernel.sound.Sound;
 import com.moro.kerneladiutor.utils.kernel.thermal.Thermal;
 import com.moro.kerneladiutor.utils.kernel.wake.Wake;
+import com.moro.kerneladiutor.utils.kernel.wakelock.Wakelock;
 import com.moro.kerneladiutor.utils.root.RootUtils;
 import com.moro.kerneladiutor.utils.tools.Backup;
 import com.moro.kerneladiutor.utils.tools.SupportedDownloads;
@@ -218,6 +220,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (LMK.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, new LMKFragment(), R.drawable.ic_stackoverflow));
+        }
+        if (Wakelock.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, new WakelockFragment(), R.drawable.ic_unlock));
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, new VMFragment(), R.drawable.ic_server));
         if (Entropy.supported()) {
