@@ -222,8 +222,7 @@ public class Utils {
     }
 
     public static String getInternalDataStorage() {
-        return Environment.getExternalStorageDirectory().toString() + "/Android/data/" +
-                BuildConfig.APPLICATION_ID;
+        return Environment.getExternalStorageDirectory().toString() + "/Mtweaks2";
     }
 
     // Sorry pirates!
