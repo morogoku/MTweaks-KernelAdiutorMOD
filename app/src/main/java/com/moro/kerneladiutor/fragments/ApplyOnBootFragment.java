@@ -35,6 +35,7 @@ import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUHotplugFragment;
+import com.moro.kerneladiutor.fragments.kernel.DvfsFragment;
 import com.moro.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.moro.kerneladiutor.fragments.kernel.GPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.IOFragment;
@@ -62,6 +63,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String CPU_CL1_VOLTAGE = "cpucl1voltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
     public static final String THERMAL = "thermal_onboot";
+    public static final String DVFS = "dvfs_onboot";
     public static final String GPU = "gpu_onboot";
     public static final String SCREEN = "screen_onboot";
     public static final String WAKE = "wake_onboot";
@@ -85,6 +87,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);
+        sAssignments.put(DvfsFragment.class, DVFS);
         sAssignments.put(ScreenFragment.class, SCREEN);
         sAssignments.put(WakeFrament.class, WAKE);
         sAssignments.put(SoundFragment.class, SOUND);

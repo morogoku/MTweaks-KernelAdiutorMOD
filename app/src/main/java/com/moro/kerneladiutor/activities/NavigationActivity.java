@@ -51,6 +51,7 @@ import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUHotplugFragment;
 import com.moro.kerneladiutor.fragments.kernel.CPUVoltageCl0Fragment;
+import com.moro.kerneladiutor.fragments.kernel.DvfsFragment;
 import com.moro.kerneladiutor.fragments.kernel.EntropyFragment;
 import com.moro.kerneladiutor.fragments.kernel.GPUFragment;
 import com.moro.kerneladiutor.fragments.kernel.IOFragment;
@@ -90,6 +91,7 @@ import com.moro.kerneladiutor.utils.WebpageReader;
 import com.moro.kerneladiutor.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.kerneladiutor.utils.kernel.cpuvoltage.VoltageCl1;
+import com.moro.kerneladiutor.utils.kernel.dvfs.Dvfs;
 import com.moro.kerneladiutor.utils.kernel.entropy.Entropy;
 import com.moro.kerneladiutor.utils.kernel.gpu.GPUFreq;
 import com.moro.kerneladiutor.utils.kernel.io.IO;
@@ -198,6 +200,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (GPUFreq.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu, new GPUFragment(), R.drawable.ic_gpu));
+        }
+        if (Dvfs.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.dvfs_nav, new DvfsFragment(), R.drawable.ic_dvfs));
         }
         if (Screen.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.screen, new ScreenFragment(), R.drawable.ic_display));
