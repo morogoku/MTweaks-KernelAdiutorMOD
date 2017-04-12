@@ -84,9 +84,8 @@ public class VMFragment extends RecyclerViewFragment {
     }
 
     private void zramInit(List<RecyclerViewItem> items) {
-        TitleView zramTitle = new TitleView();
-        zramTitle.setText(getString(R.string.zram));
-        items.add(zramTitle);
+        CardView zramCard = new CardView(getActivity());
+        zramCard.setTitle(getString(R.string.zram));
 
         SeekBarView zram = new SeekBarView();
         zram.setTitle(getString(R.string.disksize));
@@ -106,7 +105,11 @@ public class VMFragment extends RecyclerViewFragment {
             }
         });
 
-        items.add(zram);
+        zramCard.addItem(zram);
+
+        if (zramCard.size() > 0) {
+            items.add(zramCard);
+        }
     }
 
     private void zswapInit(List<RecyclerViewItem> items) {
@@ -134,11 +137,11 @@ public class VMFragment extends RecyclerViewFragment {
             maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
             maxPoolPercent.setUnit("%");
             maxPoolPercent.setMax(50);
-            maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent());
+            maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent() / 10);
             maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    ZSwap.setMaxPoolPercent(position, getActivity());
+                    ZSwap.setMaxPoolPercent(position * 10, getActivity());
                 }
 
                 @Override
