@@ -222,7 +222,7 @@ public class Utils {
     }
 
     public static String getInternalDataStorage() {
-        return Environment.getExternalStorageDirectory().toString() + "/Mtweaks2";
+        return Environment.getExternalStorageDirectory().toString() + "/Mtweaks";
     }
 
     // Sorry pirates!
