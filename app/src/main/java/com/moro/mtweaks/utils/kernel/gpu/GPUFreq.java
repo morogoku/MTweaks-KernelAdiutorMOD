@@ -46,7 +46,7 @@ public class GPUFreq {
         return sIOInstance;
     }
 
-    private static final String BACKUP = "/data/.mtweaks2/bk/gpu_stock_voltage";
+    private static final String BACKUP = "/data/.mtweaks/bk/gpu_stock_voltage";
 
     private static final String GENERIC_GOVERNORS = "performance powersave ondemand simple conservative";
 

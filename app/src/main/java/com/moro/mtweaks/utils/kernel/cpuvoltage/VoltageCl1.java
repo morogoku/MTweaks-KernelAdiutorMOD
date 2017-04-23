@@ -36,7 +36,7 @@ import java.util.List;
 public class VoltageCl1 {
 
     private static final String BACKUP = "/data/.moro/bk/bk_orig_cl1_voltage";
-    private static final String BACKUP_MTWEAKS = "/data/.mtweaks2/bk/cpuCl1_stock_voltage";
+    private static final String BACKUP_MTWEAKS = "/data/.mtweaks/bk/cpuCl1_stock_voltage";
 
     private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
 
