@@ -1,5 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="app_name" translatable="false">MTweaks 2</string>
+    <string name="app_name" translatable="false">MTweaks</string>
 
     <string name="checking_info">Checking info…</string>
     <string name="checking_root">Checking root access</string>
