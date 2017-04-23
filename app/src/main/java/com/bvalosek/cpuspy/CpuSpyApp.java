@@ -11,8 +11,8 @@ package com.bvalosek.cpuspy;
 import android.content.Context;
 import android.util.SparseArray;
 
-import com.moro.kerneladiutor.utils.Prefs;
-import com.moro.kerneladiutor.utils.Utils;
+import com.moro.mtweaks.utils.Prefs;
+import com.moro.mtweaks.utils.Utils;
 
 /**
  * main application class
