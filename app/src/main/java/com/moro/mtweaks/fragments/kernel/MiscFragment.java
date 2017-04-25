@@ -27,6 +27,7 @@ import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.misc.Misc;
 import com.moro.mtweaks.utils.kernel.misc.PowerSuspend;
+import com.moro.mtweaks.utils.kernel.misc.Pwm;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
 import com.moro.mtweaks.utils.kernel.misc.Wakelocks;
 import com.moro.mtweaks.views.recyclerview.CardView;
@@ -78,6 +79,9 @@ public class MiscFragment extends RecyclerViewFragment {
         }
         if (PowerSuspend.supported()) {
             powersuspendInit(items);
+        }
+        if (Pwm.supported()) {
+            pwmInit(items);
         }
         networkInit(items);
         wakelockInit(items);
@@ -181,6 +185,25 @@ public class MiscFragment extends RecyclerViewFragment {
         items.add(archPower);
     }
 
+    private void pwmInit(List<RecyclerViewItem> items) {
+        CardView pwmCard = new CardView(getActivity());
+        pwmCard.setTitle(getString(R.string.pwm));
+
+        SwitchView enable = new SwitchView();
+        enable.setTitle(getString(R.string.pwm));
+        enable.setSummary(getString(R.string.pwm_summary));
+        enable.setChecked(Pwm.isPwmEnabled());
+        enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                Pwm.enablePwm(isChecked, getActivity());
+            }
+        });
+
+        pwmCard.addItem(enable);
+
+        items.add(pwmCard);
+    }
     private void powersuspendInit(List<RecyclerViewItem> items) {
         if (PowerSuspend.hasMode()) {
             SelectView mode = new SelectView();
