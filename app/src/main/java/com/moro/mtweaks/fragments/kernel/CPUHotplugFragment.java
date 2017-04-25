@@ -35,8 +35,10 @@ import com.moro.mtweaks.utils.kernel.cpuhotplug.MBHotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.MPDecision;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.MSMHotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.MakoHotplug;
+import com.moro.mtweaks.utils.kernel.cpuhotplug.SamsungPlug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.ThunderPlug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.ZenDecision;
+import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
@@ -77,6 +79,9 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mEnableViews.clear();
 
+        if (SamsungPlug.supported()) {
+            samsungPlugInit(items);
+        }
         if (MPDecision.supported()) {
             mpdecisionInit(items);
         }
@@ -132,6 +137,31 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                 }
             });
         }
+    }
+
+    private void samsungPlugInit(List<RecyclerViewItem> items) {
+        final CardView samsungPlug = new CardView(getActivity());
+        samsungPlug.setTitle(getString(R.string.samsungPlug));
+
+        SwitchView enable = new SwitchView();
+        enable.setTitle(getString(R.string.samsungPlug));
+        enable.setSummary(getString(R.string.samsungPlug_summary));
+        enable.setChecked(SamsungPlug.isSamsungPlugEnabled());
+        enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+            @Override
+            public void onChanged(SwitchView switchView, boolean isChecked) {
+                SamsungPlug.enableSamsungPlug(isChecked, getActivity());
+            }
+        });
+
+        samsungPlug.addItem(enable);
+        mEnableViews.add(enable);
+
+
+        if (samsungPlug.size() > 0) {
+            items.add(samsungPlug);
+        }
+
     }
 
     private void mpdecisionInit(List<RecyclerViewItem> items) {
@@ -1706,9 +1736,8 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
     }
 
     private void thunderPlugInit(List<RecyclerViewItem> items) {
-        List<RecyclerViewItem> thunderPlug = new ArrayList<>();
-        TitleView title = new TitleView();
-        title.setText(getString(R.string.thunderplug));
+        CardView thunderPlug = new CardView(getActivity());
+        thunderPlug.setTitle(getString(R.string.thunderplug));
 
         if (ThunderPlug.hasThunderPlugEnable()) {
             SwitchView enable = new SwitchView();
@@ -1718,7 +1747,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enable.addOnSwitchListener((switchView, isChecked)
                     -> ThunderPlug.enableThunderPlug(isChecked, getActivity()));
 
-            thunderPlug.add(enable);
+            thunderPlug.addItem(enable);
             mEnableViews.add(enable);
         }
 
@@ -1740,7 +1769,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                 }
             });
 
-            thunderPlug.add(suspendCpus);
+            thunderPlug.addItem(suspendCpus);
         }
 
         if (ThunderPlug.hasThunderPlugEnduranceLevel()) {
@@ -1752,7 +1781,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enduranceLevel.setOnItemSelected((selectView, position, item)
                     -> ThunderPlug.setThunderPlugEnduranceLevel(position, getActivity()));
 
-            thunderPlug.add(enduranceLevel);
+            thunderPlug.addItem(enduranceLevel);
         }
 
         if (ThunderPlug.hasThunderPlugSamplingRate()) {
@@ -1773,7 +1802,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                 }
             });
 
-            thunderPlug.add(samplingRate);
+            thunderPlug.addItem(samplingRate);
         }
 
         if (ThunderPlug.hasThunderPlugLoadThreshold()) {
@@ -1793,7 +1822,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                 }
             });
 
-            thunderPlug.add(loadThreadshold);
+            thunderPlug.addItem(loadThreadshold);
         }
 
         if (ThunderPlug.hasThunderPlugTouchBoost()) {
@@ -1804,13 +1833,12 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             touchBoost.addOnSwitchListener((switchView, isChecked)
                     -> ThunderPlug.enableThunderPlugTouchBoost(isChecked, getActivity()));
 
-            thunderPlug.add(touchBoost);
+            thunderPlug.addItem(touchBoost);
         }
 
         if (thunderPlug.size() > 0) {
-            items.add(title);
-            items.addAll(thunderPlug);
-        }
+            items.add(thunderPlug);
+         }
     }
 
     private void zenDecisionInit(List<RecyclerViewItem> items) {
