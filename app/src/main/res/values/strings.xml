@@ -759,6 +759,8 @@
     <string name="wlan_rx_wakelock_divider">wlan_rx Wakelock Divider</string>
     <string name="msm_hsic_wakelock_divider">msm_hsic Wakelock Divider</string>
     <string name="bcmdhd_wakelock_divider">BCMDHD Wakelock Divider</string>
+    <string name="pwm">PWM Flicker Free</string>
+    <string name="pwm_summary">Reduces negative impact on eyesight</string>
 
     <!-- Data Sharing -->
     <string name="data_sharing_summary">Share your settings with others! Kernel Adiutor will automatically collect information and compile a score list available to all people.</string>
