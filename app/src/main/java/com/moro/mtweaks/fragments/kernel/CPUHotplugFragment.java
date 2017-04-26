@@ -1744,8 +1744,15 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enable.setTitle(getString(R.string.thunderplug));
             enable.setSummary(getString(R.string.thunderplug_summary));
             enable.setChecked(ThunderPlug.isThunderPlugEnabled());
-            enable.addOnSwitchListener((switchView, isChecked)
-                    -> ThunderPlug.enableThunderPlug(isChecked, getActivity()));
+            enable.addOnSwitchListener((switchView, isChecked) -> {
+                if (isChecked) {
+                    SamsungPlug.enableSamsungPlug(false, getActivity());
+                } else {
+                    SamsungPlug.enableSamsungPlug(true, getActivity());
+                }
+                ThunderPlug.enableStateNotifier(isChecked, getActivity());
+                ThunderPlug.enableThunderPlug(isChecked, getActivity());
+            });
 
             thunderPlug.addItem(enable);
             mEnableViews.add(enable);
