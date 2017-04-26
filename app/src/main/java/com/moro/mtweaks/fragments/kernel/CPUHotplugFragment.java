@@ -1847,6 +1847,12 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override
                 public void onChanged(SwitchView switchView, boolean isChecked) {
+                    if (isChecked) {
+                        SamsungPlug.enableSamsungPlug(false, getActivity());
+                    } else {
+                        SamsungPlug.enableSamsungPlug(true, getActivity());
+                    }
+                    ThunderPlug.enableStateNotifier(isChecked, getActivity());
                     ThunderPlug.enableThunderPlug(isChecked, getActivity());
                 }
             });
