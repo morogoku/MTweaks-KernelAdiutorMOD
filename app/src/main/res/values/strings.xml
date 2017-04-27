@@ -325,6 +325,8 @@
     <string name="cpu_up_rate">CPU Up Rate</string>
     <string name="samsungPlug">SamsungPlug</string>
     <string name="samsungPlug_summary">An in-kernel Samsung Stock Hotplugging</string>
+    <string name="samsungPlug_max_cpu">Maximun Online CPU</string>
+    <string name="samsungPlug_min_cpu">Minimun Online CPU</string>
     <string name="thunderplug">ThunderPlug</string>
     <string name="thunderplug_summary">An in-kernel replacement for Qualcomm\'s hotplugging. Developed by varunchitre15.</string>
     <string name="min_cpu_online_screen_off">Minimum CPU Screen Off</string>
