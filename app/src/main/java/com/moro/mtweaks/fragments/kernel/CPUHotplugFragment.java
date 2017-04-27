@@ -106,7 +106,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         if (CoreCtl.supported()) {
             coreCtlInit(items);
         }
-
+/*
         for (SwitchView view : mEnableViews) {
             view.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override
@@ -124,7 +124,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                     }
                 }
             });
-        }
+        }*/
     }
 
     private void samsungPlugInit(List<RecyclerViewItem> items) {
