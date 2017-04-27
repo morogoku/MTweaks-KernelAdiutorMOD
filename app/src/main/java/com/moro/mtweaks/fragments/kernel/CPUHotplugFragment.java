@@ -138,13 +138,55 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
             @Override
             public void onChanged(SwitchView switchView, boolean isChecked) {
-                SamsungPlug.enableSamsungPlug(isChecked, getActivity());
+                if(isChecked){
+                    ThunderPlug.enableThunderPlug(false, getActivity());
+                    ThunderPlug.enableStateNotifier(false, getActivity());
+                    SamsungPlug.enableSamsungPlug(true, getActivity());
+                } else {
+                    SamsungPlug.enableSamsungPlug(false, getActivity());
+                }
+                refreshHotPlugs();
             }
         });
 
         samsungPlug.addItem(enable);
         mEnableViews.add(enable);
 
+        SeekBarView max = new SeekBarView();
+        max.setTitle(getString(R.string.samsungPlug_max_cpu));
+        max.setMax(8);
+        max.setMin(1);
+        max.setProgress(Utils.strToInt(SamsungPlug.getMaxOnlineCpu()) - 1);
+        max.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                SamsungPlug.setMaxOnlineCpu((position + 1), getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        samsungPlug.addItem(max);
+
+        SeekBarView min = new SeekBarView();
+        min.setTitle(getString(R.string.samsungPlug_min_cpu));
+        min.setMax(8);
+        min.setMin(1);
+        min.setProgress(Utils.strToInt(SamsungPlug.getMinOnlineCpu()) - 1);
+        min.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                SamsungPlug.setMinOnlineCpu((position + 1), getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        samsungPlug.addItem(min);
 
         if (samsungPlug.size() > 0) {
             items.add(samsungPlug);
@@ -1849,11 +1891,14 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                 public void onChanged(SwitchView switchView, boolean isChecked) {
                     if (isChecked) {
                         SamsungPlug.enableSamsungPlug(false, getActivity());
+                        ThunderPlug.enableStateNotifier(true, getActivity());
+                        ThunderPlug.enableThunderPlug(true, getActivity());
                     } else {
+                        ThunderPlug.enableThunderPlug(false, getActivity());
+                        ThunderPlug.enableStateNotifier(false, getActivity());
                         SamsungPlug.enableSamsungPlug(true, getActivity());
                     }
-                    ThunderPlug.enableStateNotifier(isChecked, getActivity());
-                    ThunderPlug.enableThunderPlug(isChecked, getActivity());
+                    refreshHotPlugs();
                 }
             });
 
@@ -2325,4 +2370,13 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         }
     }
 
+    private void refreshHotPlugs() {
+        getHandler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mEnableViews.get(0).setChecked(SamsungPlug.isSamsungPlugEnabled());
+                mEnableViews.get(1).setChecked(ThunderPlug.isThunderPlugEnabled());
+            }
+        }, 250);
+    }
 }

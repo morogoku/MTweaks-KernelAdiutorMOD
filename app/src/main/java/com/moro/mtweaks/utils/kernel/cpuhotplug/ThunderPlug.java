@@ -38,6 +38,12 @@ public class ThunderPlug {
     private static final String HOTPLUG_THUNDER_PLUG_LOAD_THRESHOLD = HOTPLUG_THUNDER_PLUG + "/load_threshold";
     private static final String HOTPLUG_THUNDER_PLUG_TOUCH_BOOST = HOTPLUG_THUNDER_PLUG + "/touch_boost";
 
+    private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
+
+    public static void enableStateNotifier(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
+    }
+
     public static void enableThunderPlugTouchBoost(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", HOTPLUG_THUNDER_PLUG_TOUCH_BOOST),
                 HOTPLUG_THUNDER_PLUG_TOUCH_BOOST, context);
