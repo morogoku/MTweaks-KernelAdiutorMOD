@@ -21,6 +21,7 @@ package com.moro.mtweaks.views;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,6 +31,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -37,6 +39,7 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.ViewUtils;
+import com.moro.mtweaks.views.dialog.Dialog;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,7 +85,7 @@ public class NavHeaderView extends LinearLayout {
 
         LayoutInflater.from(context).inflate(R.layout.nav_header_view, this);
         mImage = (ImageView) findViewById(R.id.nav_header_pic);
-/*
+
         boolean noPic;
         try {
             String uri = Prefs.getString("previewpicture", null, mImage.getContext());
@@ -122,7 +125,7 @@ public class NavHeaderView extends LinearLayout {
                     }
                 }).show();
             }
-        });*/
+        });
     }
 
     public static class MainHeaderActivity extends Activity {
