@@ -138,20 +138,13 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
             @Override
             public void onChanged(SwitchView switchView, boolean isChecked) {
-                if(isChecked){
-                    ThunderPlug.enableThunderPlug(false, getActivity());
-                    ThunderPlug.enableStateNotifier(false, getActivity());
-                    SamsungPlug.enableSamsungPlug(true, getActivity());
-                } else {
-                    SamsungPlug.enableSamsungPlug(false, getActivity());
-                }
-                refreshHotPlugs();
+                SamsungPlug.enableSamsungPlug(isChecked, getActivity());
             }
         });
 
         samsungPlug.addItem(enable);
         mEnableViews.add(enable);
-
+/*
         SeekBarView max = new SeekBarView();
         max.setTitle(getString(R.string.samsungPlug_max_cpu));
         max.setMax(8);
@@ -187,7 +180,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         });
 
         samsungPlug.addItem(min);
-
+*/
         if (samsungPlug.size() > 0) {
             items.add(samsungPlug);
         }
