@@ -19,10 +19,28 @@
  */
 package com.moro.mtweaks.utils.kernel.cpuhotplug;
 
+import android.content.Context;
+
 /**
  * Created by willi on 07.05.16.
  */
 public class Hotplug {
+
+    public static void disableAllHotplugs(Context context) {
+        AlucardHotplug.enableAlucardHotplug(false, context);
+        AutoSmp.enableAutoSmp(false, context);
+        BluPlug.enableBluPlug(false, context);
+        CoreCtl.enable(false, context);
+        IntelliPlug.enableIntelliPlug(false, context);
+        LazyPlug.enable(false, context);
+        MakoHotplug.enableMakoHotplug(false, context);
+        MBHotplug.enableMBHotplug(false, context);
+        MPDecision.enableMpdecision(false, context);
+        MSMHotplug.enableMsmHotplug(false, context);
+        SamsungPlug.enableSamsungPlug(false, context);
+        ThunderPlug.enableThunderPlug(false, context);
+        ZenDecision.enableZenDecision(false, context);
+    }
 
     public static boolean supported() {
         return MPDecision.supported() || IntelliPlug.supported() || LazyPlug.supported()
