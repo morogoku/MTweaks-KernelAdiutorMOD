@@ -33,6 +33,8 @@ import java.util.List;
  */
 public abstract class IO {
 
+    private static final String UFS = "/sys/block/sda/queue";
+
     private static final String SCHEDULER = "scheduler";
     private static final String IOSCHED = "iosched";
     private static final String READ_AHEAD = "read_ahead_kb";
@@ -155,9 +157,19 @@ public abstract class IO {
             INTERNAL = exists(sInternal);
         }
         if (EXTERNAL == null) {
+            if (isUFS()) {
+                sExternal.add("/sys/block/mmcblk0/queue");
+            }
             EXTERNAL = exists(sExternal);
+            if (EXTERNAL != null && EXTERNAL.equals(INTERNAL)) {
+                EXTERNAL = null;
+            }
         }
         return INTERNAL != null;
+    }
+
+    private static boolean isUFS() {
+        return Utils.existFile(UFS);
     }
 
     private static String getPath(Storage storage, String file) {
