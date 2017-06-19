@@ -47,7 +47,7 @@ public class Hotplug {
                 || BluPlug.supported() || MSMHotplug.supported() || MakoHotplug.supported()
                 || MBHotplug.supported() || AlucardHotplug.supported() || ThunderPlug.supported()
                 || ZenDecision.supported() || AutoSmp.supported() || CoreCtl.supported()
-                || SamsungPlug.supported();
+                || AiOHotplug.supported() || SamsungPlug.supported();
     }
 
 }
