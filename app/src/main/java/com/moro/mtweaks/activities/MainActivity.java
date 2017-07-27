@@ -102,6 +102,11 @@ public class MainActivity extends BaseActivity {
         }
         Prefs.saveBoolean("is_booted", false, this);
 
+        // Check if exist /data/.mtweaks folder
+        if (!Utils.existFile("/data/.mtweaks")) {
+            RootUtils.runCommand("mkdir /data/.mtweaks");
+        }
+
         // Don't initialize analytics with debug build
         if (!BuildConfig.DEBUG) {
             Fabric.with(this, new Crashlytics());
