@@ -137,7 +137,7 @@ public class VMFragment extends RecyclerViewFragment {
                 maxPoolPercent.setTitle(getString(R.string.memory_pool));
                 maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
                 maxPoolPercent.setUnit("%");
-                maxPoolPercent.setMax(50);
+                maxPoolPercent.setMax(ZSwap.getStockMaxPoolPercent() / 10);
                 maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent() / 10);
                 maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                     @Override
@@ -157,7 +157,7 @@ public class VMFragment extends RecyclerViewFragment {
                 maxPoolPercent.setTitle(getString(R.string.memory_pool));
                 maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
                 maxPoolPercent.setUnit("%");
-                maxPoolPercent.setMax(50);
+                maxPoolPercent.setMax(ZSwap.getStockMaxPoolPercent());
                 maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent());
                 maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                     @Override

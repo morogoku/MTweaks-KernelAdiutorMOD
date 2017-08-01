@@ -109,6 +109,14 @@ public class MainActivity extends BaseActivity {
             RootUtils.runCommand("mkdir /data/.mtweaks");
         }
 
+        // If has MaxPoolPercent save file
+        if (!Prefs.getBoolean("max_pool_percent_saved", false, this)) {
+            if (ZSwap.hasMaxPoolPercent()) {
+                RootUtils.runCommand("cp /sys/module/zswap/parameters/max_pool_percent /data/.mtweaks/max_pool_percent");
+                Prefs.saveBoolean("max_pool_percent_saved", true, this);
+            }
+        }
+
         //Initialice profile Sharedpreference
         int prof = Utils.strToInt(Spectrum.getProfile());
         Prefs.saveInt("spectrum_profile", prof, this);
