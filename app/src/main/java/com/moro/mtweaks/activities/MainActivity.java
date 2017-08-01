@@ -58,6 +58,7 @@ import com.moro.mtweaks.utils.kernel.ksm.KSM;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
 import com.moro.mtweaks.utils.kernel.screen.Screen;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
+import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
 import com.moro.mtweaks.utils.root.RootUtils;
@@ -106,6 +107,10 @@ public class MainActivity extends BaseActivity {
         if (!Utils.existFile("/data/.mtweaks")) {
             RootUtils.runCommand("mkdir /data/.mtweaks");
         }
+
+        //Initialice profile Sharedpreference
+        int prof = Utils.strToInt(Spectrum.getProfile());
+        Prefs.saveInt("spectrum_profile", prof, this);
 
         // Don't initialize analytics with debug build
         if (!BuildConfig.DEBUG) {

@@ -597,6 +597,10 @@
   <string name="cs_pdic">Cargador Pdic</string>
   <string name="cs_qc20">QC20 Rapid Charge</string>
   <string name="cs_qc30">QC30 Rapid Charge</string>
+  <!-- SPECTRUM -->
+  <string name="spectrum">Spectrum</string>
+  <string name="spec_title">SPECTRUM Profile Manager</string>
+  <string name="spec_info">Adaptación del Gestor de Perfiles Spectrum de frap129.\nSeleccione uno de los 4 perfiles predefinidos.</string>
   <!-- LED -->
   <string name="fade">Desvanecimiento</string>
   <string name="fade_summary">Activar para desvanecerse, desactivar para parpadear.</string>
