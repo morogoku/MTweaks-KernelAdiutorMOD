@@ -60,6 +60,7 @@ import com.moro.mtweaks.utils.kernel.screen.Screen;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
+import com.moro.mtweaks.utils.kernel.vm.ZSwap;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
 import com.moro.mtweaks.utils.root.RootUtils;
 
@@ -111,6 +112,14 @@ public class MainActivity extends BaseActivity {
         //Initialice profile Sharedpreference
         int prof = Utils.strToInt(Spectrum.getProfile());
         Prefs.saveInt("spectrum_profile", prof, this);
+
+        //Check memory pool percent unit
+        if(!Prefs.getBoolean("memory_pool_percent_saved", false, this)){
+            int pool = ZSwap.getMaxPoolPercent();
+            if (pool >= 100) Prefs.saveBoolean("memory_pool_percent", false, this);
+            if (pool < 100) Prefs.saveBoolean("memory_pool_percent", true, this);
+            Prefs.saveBoolean("memory_pool_percent_saved", true, this);
+        }
 
         // Don't initialize analytics with debug build
         if (!BuildConfig.DEBUG) {
