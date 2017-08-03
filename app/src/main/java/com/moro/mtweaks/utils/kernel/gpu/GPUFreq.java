@@ -37,19 +37,17 @@ import java.util.List;
  */
 public class GPUFreq {
 
-    private static final String BACKUP = "/data/.mtweaks/gpu_stock_voltage";
+    public static final String BACKUP = "/data/.mtweaks/gpu_stock_voltage";
 
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
     private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
-    private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
+    public static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
     private static final String TUNABLE_HIGHSPEED_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
     private static final String POWER_POLICY = "/sys/devices/14ac0000.mali/power_policy";
-
-
 
     private static final HashMap<String, Integer> sCurrentFreqs = new HashMap<>();
     private static final HashMap<String, Integer> sMaxFreqs = new HashMap<>();
@@ -370,14 +368,15 @@ public class GPUFreq {
         return VOLT_OFFSET;
     }
 
+    public static boolean hasVoltage() {
+        return Utils.existFile(AVAILABLE_S7_FREQS);
+    }
+
     public static boolean hasBackup() {
         return Utils.existFile(BACKUP);
     }
 
     public static boolean supported() {
-        if (!Utils.existFile(BACKUP)) {
-            RootUtils.runCommand("cp " + AVAILABLE_S7_FREQS + " " + BACKUP);
-        }
         return hasCurFreq()
                 || (hasMaxFreq() && getAvailableS7Freqs() != null)
                 || (hasMinFreq() && getAvailableS7Freqs() != null)

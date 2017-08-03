@@ -113,14 +113,44 @@ public class MainActivity extends BaseActivity {
         int prof = Utils.strToInt(Spectrum.getProfile());
         Prefs.saveInt("spectrum_profile", prof, this);
 
-        // Save kernel version to reset max limit of max_pool_percent
+        // Check is kernel is changed
         String kernel_old = Prefs.getString("kernel_version_old", "", this);
         String kernel_new = Device.getKernelVersion(true);
 
-        if(!kernel_old.equals(kernel_new)){
+        if (!kernel_old.equals(kernel_new)){
+            // Reset max limit of max_poll_percent
             Prefs.saveBoolean("max_pool_percent_saved", false, this);
             Prefs.saveBoolean("memory_pool_percent_saved", false, this);
             Prefs.saveString("kernel_version_old", kernel_new, this);
+
+            // Reset voltage_saved to recopy voltage stock files
+            Prefs.saveBoolean("cl0_voltage_saved", false, this);
+            Prefs.saveBoolean("cl1_voltage_saved", false, this);
+            Prefs.saveBoolean("gpu_voltage_saved", false, this);
+        }
+
+        // Save backup of Cluster0 stock voltages
+        if (!Prefs.getBoolean("cl0_voltage_saved", false, this)){
+            if (VoltageCl0.supported()){
+                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP_MTWEAKS);
+                Prefs.saveBoolean("cl0_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of Cluster1 stock voltages
+        if (!Prefs.getBoolean("cl1_voltage_saved", false, this)){
+            if (VoltageCl1.supported()){
+                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP_MTWEAKS);
+                Prefs.saveBoolean("cl1_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of GPU stock voltages
+        if (!Prefs.getBoolean("gpu_voltage_saved", false, this)){
+            if (GPUFreq.supported() && GPUFreq.hasVoltage()){
+                RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_S7_FREQS + " " + GPUFreq.BACKUP);
+                Prefs.saveBoolean("gpu_voltage_saved", true, this);
+            }
         }
 
         // If has MaxPoolPercent save file
@@ -132,7 +162,7 @@ public class MainActivity extends BaseActivity {
         }
 
         //Check memory pool percent unit
-        if(!Prefs.getBoolean("memory_pool_percent_saved", false, this)){
+        if (!Prefs.getBoolean("memory_pool_percent_saved", false, this)){
             int pool = ZSwap.getMaxPoolPercent();
             if (pool >= 100) Prefs.saveBoolean("memory_pool_percent", false, this);
             if (pool < 100) Prefs.saveBoolean("memory_pool_percent", true, this);
