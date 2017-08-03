@@ -87,6 +87,7 @@ public class ProfileActivity extends BaseActivity {
                 break;
             }
         }
+        mItems.remove("Spectrum");
 
         if (mItems.size() < 1) {
             Utils.toast(R.string.sections_disabled, this);
