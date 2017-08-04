@@ -42,25 +42,25 @@ public class GPUFreq {
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
     private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
-    public static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
+    private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_S7_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_S7_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
     private static final String TUNABLE_HIGHSPEED_S7_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
     private static final String POWER_POLICY_S7 = "/sys/devices/14ac0000.mali/power_policy";
 
-    private static final String MAX_S8_FREQ = "/sys/devices/14ac0000.mali/max_clock";
-    private static final String MIN_S8_FREQ = "/sys/devices/14ac0000.mali/min_clock";
-    private static final String CUR_S8_FREQ = "/sys/devices/14ac0000.mali/clock";
-    public static final String AVAILABLE_S8_FREQS = "/sys/devices/14ac0000.mali/volt_table";
-    private static final String AVAILABLE_S8_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
-    private static final String TUNABLE_HIGHSPEED_S8_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
-    private static final String TUNABLE_HIGHSPEED_S8_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
-    private static final String TUNABLE_HIGHSPEED_S8_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
-    private static final String POWER_POLICY_S8 = "/sys/devices/14ac0000.mali/power_policy";
+    private static final String MAX_S8_FREQ = "/sys/devices/platform/13900000.mali/max_clock";
+    private static final String MIN_S8_FREQ = "/sys/devices/platform/13900000.mali/min_clock";
+    private static final String CUR_S8_FREQ = "/sys/devices/platform/13900000.mali/clock";
+    private static final String AVAILABLE_S8_FREQS = "/sys/devices/platform/13900000.mali/volt_table";
+    private static final String AVAILABLE_S8_GOVERNORS = "/sys/devices/platform/13900000.mali/dvfs_governor";
+    private static final String TUNABLE_HIGHSPEED_S8_CLOCK = "/sys/devices/platform/13900000.mali/highspeed_clock";
+    private static final String TUNABLE_HIGHSPEED_S8_LOAD = "/sys/devices/platform/13900000.mali/highspeed_load";
+    private static final String TUNABLE_HIGHSPEED_S8_DELAY = "/sys/devices/platform/13900000.mali/highspeed_delay";
+    private static final String POWER_POLICY_S8 = "/sys/devices/platform/13900000.mali/power_policy";
 
 
-
+    private static final HashMap<String, Integer> sAvailableVolts = new HashMap<>();
     private static final HashMap<String, Integer> sCurrentFreqs = new HashMap<>();
     private static final HashMap<String, Integer> sMaxFreqs = new HashMap<>();
     private static final HashMap<String, Integer> sMinFreqs = new HashMap<>();
@@ -69,9 +69,12 @@ public class GPUFreq {
     private static final HashMap<String, Integer> sTunableHighspeedClocks = new HashMap<>();
     private static final HashMap<String, Integer> sTunableHighspeedLoads = new HashMap<>();
     private static final HashMap<String, Integer> sTunableHighspeedDelays = new HashMap<>();
-    private static final HashMap<String, Integer> sPowerPolicys = new HashMap<>();
+    private static final HashMap<String, Integer> sPowerPolicies = new HashMap<>();
 
     static {
+        sAvailableVolts.put(AVAILABLE_S7_FREQS, 1000);
+        sAvailableVolts.put(AVAILABLE_S8_FREQS, 1000);
+
         sCurrentFreqs.put(CUR_S7_FREQ, 1);
         sCurrentFreqs.put(CUR_S8_FREQ, 1);
 
@@ -96,10 +99,12 @@ public class GPUFreq {
         sTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S7_DELAY, 1);
         sTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S8_DELAY, 1);
 
-        sPowerPolicys.put(POWER_POLICY_S7, 1);
-        sPowerPolicys.put(POWER_POLICY_S8, 1);
+        sPowerPolicies.put(POWER_POLICY_S7, 1);
+        sPowerPolicies.put(POWER_POLICY_S8, 1);
     }
 
+    public static String AVAILABLE_VOLTS;
+    private static int AVAILABLE_VOLTS_OFFSET;
     private static String CUR_FREQ;
     private static Integer CUR_FREQ_OFFSET;
     private static List<Integer> AVAILABLE_FREQS;
@@ -110,12 +115,19 @@ public class GPUFreq {
     private static Integer MIN_FREQ_OFFSET;
     private static String GOVERNOR;
     private static Integer AVAILABLE_GOVERNORS_OFFSET;
+    private static String TUNABLE_HIGHSPEED_CLOCK;
+    private static int TUNABLE_HIGHSPEED_CLOCK_OFFSET;
+    private static String TUNABLE_HIGHSPEED_LOAD;
+    private static int TUNABLE_HIGHSPEED_LOAD_OFFSET;
+    private static String TUNABLE_HIGHSPEED_DELAY;
+    private static int TUNABLE_HIGHSPEED_DELAY_OFFSET;
+    private static String POWER_POLICY;
+    private static int POWER_POLICY_OFFSET;
 
     private static String SPLIT_NEW_LINE = "\\r?\\n";
     private static String SPLIT_LINE = " ";
-    private static Integer VOLT_OFFSET = 1000;
 
-    public static void setS7Governor(String value, Context context) {
+    public static void setGovernor(String value, Context context) {
         switch (value){
             case "Default" :
                 run(Control.write("0", GOVERNOR), GOVERNOR, context);
@@ -132,8 +144,8 @@ public class GPUFreq {
         }
     }
 
-    public static List<String> getAvailableS7Governors() {
-        String value = Utils.readFile(AVAILABLE_S7_GOVERNORS);
+    public static List<String> getAvailableGovernors() {
+        String value = Utils.readFile(GOVERNOR);
         if (!value.isEmpty()) {
             String[] lines = value.split("\\r?\\n");
             List<String> governors = new ArrayList<>();
@@ -148,8 +160,8 @@ public class GPUFreq {
         return null;
     }
 
-    public static String getS7Governor() {
-        String value = Utils.readFile(AVAILABLE_S7_GOVERNORS);
+    public static String getGovernor() {
+        String value = Utils.readFile(GOVERNOR);
         if (!value.isEmpty()) {
             String[] lines = value.split("\\r?\\n");
             String governor = "";
@@ -227,15 +239,15 @@ public class GPUFreq {
 
     public static List<String> getAdjustedFreqs(Context context) {
         List<String> list = new ArrayList<>();
-        if (getAvailableS7Freqs() != null) {
-            for (int freq : getAvailableS7Freqs()) {
+        if (getAvailableFreqs() != null) {
+            for (int freq : getAvailableFreqs()) {
                 list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
             }
         }
         return list;
     }
 
-    public static List<Integer> getAvailableS7Freqs() {
+    public static List<Integer> getAvailableFreqs() {
         if (AVAILABLE_FREQS == null) {
             for (String file : sAvailableFreqs.keySet()) {
                 if (Utils.existFile(file)) {
@@ -254,7 +266,7 @@ public class GPUFreq {
         return AVAILABLE_FREQS;
     }
 
-    public static List<Integer> getAvailableS7FreqsSort() {
+    public static List<Integer> getAvailableFreqsSort() {
         if (AVAILABLE_FREQS_SORT == null) {
             for (String file : sAvailableFreqs.keySet()) {
                 if (Utils.existFile(file)) {
@@ -296,44 +308,71 @@ public class GPUFreq {
     }
 
     public static int getHighspeedClock() {
-        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_S7_CLOCK));
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_CLOCK));
     }
 
     public static void setHighspeedClock(String value, Context context) {
-        run(Control.write(value, TUNABLE_HIGHSPEED_S7_CLOCK), TUNABLE_HIGHSPEED_S7_CLOCK, context);
+        run(Control.write(value, TUNABLE_HIGHSPEED_CLOCK), TUNABLE_HIGHSPEED_CLOCK, context);
     }
 
     public static boolean hasHighspeedClock() {
-        return Utils.existFile(TUNABLE_HIGHSPEED_S7_CLOCK);
+        if (TUNABLE_HIGHSPEED_CLOCK == null) {
+            for (String file : sTunableHighspeedClocks.keySet()) {
+                if (Utils.existFile(file)) {
+                    TUNABLE_HIGHSPEED_CLOCK = file;
+                    TUNABLE_HIGHSPEED_CLOCK_OFFSET = sTunableHighspeedClocks.get(file);
+                    return true;
+                }
+            }
+        }
+        return TUNABLE_HIGHSPEED_CLOCK != null;
     }
 
     public static int getHighspeedLoad() {
-        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_S7_LOAD));
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_LOAD));
     }
 
     public static void setHighspeedLoad(int value, Context context) {
-        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_S7_LOAD), TUNABLE_HIGHSPEED_S7_LOAD, context);
+        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_LOAD), TUNABLE_HIGHSPEED_LOAD, context);
     }
 
     public static boolean hasHighspeedLoad() {
-        return Utils.existFile(TUNABLE_HIGHSPEED_S7_LOAD);
+        if (TUNABLE_HIGHSPEED_LOAD == null) {
+            for (String file : sTunableHighspeedLoads.keySet()) {
+                if (Utils.existFile(file)) {
+                    TUNABLE_HIGHSPEED_LOAD = file;
+                    TUNABLE_HIGHSPEED_LOAD_OFFSET = sTunableHighspeedLoads.get(file);
+                    return true;
+                }
+            }
+        }
+        return TUNABLE_HIGHSPEED_LOAD != null;
     }
 
     public static int getHighspeedDelay() {
-        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_S7_DELAY));
+        return Utils.strToInt(Utils.readFile(TUNABLE_HIGHSPEED_DELAY));
     }
 
     public static void setHighspeedDelay(int value, Context context) {
-        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_S7_DELAY), TUNABLE_HIGHSPEED_S7_DELAY, context);
+        run(Control.write(String.valueOf(value), TUNABLE_HIGHSPEED_DELAY), TUNABLE_HIGHSPEED_DELAY, context);
     }
 
     public static boolean hasHighspeedDelay() {
-        return Utils.existFile(TUNABLE_HIGHSPEED_S7_DELAY);
+        if (TUNABLE_HIGHSPEED_DELAY == null) {
+            for (String file : sTunableHighspeedDelays.keySet()) {
+                if (Utils.existFile(file)) {
+                    TUNABLE_HIGHSPEED_DELAY = file;
+                    TUNABLE_HIGHSPEED_DELAY_OFFSET = sTunableHighspeedDelays.get(file);
+                    return true;
+                }
+            }
+        }
+        return TUNABLE_HIGHSPEED_DELAY != null;
     }
 
     public static void setVoltage(Integer freq, String voltage, Context context) {
-        String volt = String.valueOf((int)(Utils.strToFloat(voltage) * VOLT_OFFSET));
-        run(Control.write(freq + " " + volt, AVAILABLE_S7_FREQS), AVAILABLE_S7_FREQS + freq, context);
+        String volt = String.valueOf((int)(Utils.strToFloat(voltage) * AVAILABLE_VOLTS_OFFSET));
+        run(Control.write(freq + " " + volt, AVAILABLE_VOLTS), AVAILABLE_VOLTS + freq, context);
     }
 
     public static List<String> getStockVoltages() {
@@ -344,7 +383,7 @@ public class GPUFreq {
             for (String line : lines) {
                 String[] voltageLine = line.split(SPLIT_LINE);
                 if (voltageLine.length > 1) {
-                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / VOLT_OFFSET));
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / AVAILABLE_VOLTS_OFFSET));
 
                 }
             }
@@ -354,14 +393,14 @@ public class GPUFreq {
     }
 
     public static List<String> getVoltages() {
-        String value = Utils.readFile(AVAILABLE_S7_FREQS);
+        String value = Utils.readFile(AVAILABLE_VOLTS);
         if (!value.isEmpty()) {
             String[] lines = value.split(SPLIT_NEW_LINE);
             List<String> voltages = new ArrayList<>();
             for (String line : lines) {
                 String[] voltageLine = line.split(SPLIT_LINE);
                 if (voltageLine.length > 1) {
-                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / VOLT_OFFSET));
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / AVAILABLE_VOLTS_OFFSET));
 
                 }
             }
@@ -370,12 +409,25 @@ public class GPUFreq {
         return null;
     }
 
+    public static boolean hasVoltage() {
+        if (AVAILABLE_VOLTS == null) {
+            for (String file : sAvailableVolts.keySet()) {
+                if (Utils.existFile(file)) {
+                    AVAILABLE_VOLTS = file;
+                    AVAILABLE_VOLTS_OFFSET = sAvailableVolts.get(file);
+                    return true;
+                }
+            }
+        }
+        return AVAILABLE_VOLTS != null;
+    }
+
     public static void setPowerPolicy(String value, Context context) {
-        run(Control.write(value, POWER_POLICY_S7), POWER_POLICY_S7, context);
+        run(Control.write(value, POWER_POLICY), POWER_POLICY, context);
     }
 
     public static String getPowerPolicy() {
-        String[] policies = Utils.readFile(POWER_POLICY_S7).split(" ");
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
         for (String policy : policies) {
             if (policy.startsWith("[") && policy.endsWith("]")) {
                 return policy.replace("[", "").replace("]", "");
@@ -385,7 +437,7 @@ public class GPUFreq {
     }
 
     public static List<String> getPowerPolicies() {
-        String[] policies = Utils.readFile(POWER_POLICY_S7).split(" ");
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
         List<String> list = new ArrayList<>();
         for (String policy : policies) {
             list.add(policy.replace("[", "").replace("]", ""));
@@ -394,26 +446,29 @@ public class GPUFreq {
     }
 
     public static boolean hasPowerPolicy() {
-        return Utils.existFile(POWER_POLICY_S7);
+        if (POWER_POLICY == null) {
+            for (String file : sPowerPolicies.keySet()) {
+                if (Utils.existFile(file)) {
+                    POWER_POLICY = file;
+                    POWER_POLICY_OFFSET = sPowerPolicies.get(file);
+                    return true;
+                }
+            }
+        }
+        return POWER_POLICY != null;
     }
 
-    public static int getOffset () {
-        return VOLT_OFFSET;
-    }
-
-    public static boolean hasVoltage() {
-        return Utils.existFile(AVAILABLE_S7_FREQS);
-    }
-
-    public static boolean hasBackup() {
-        return Utils.existFile(BACKUP);
+    public static int getVoltageOffset () {
+        return AVAILABLE_VOLTS_OFFSET;
     }
 
     public static boolean supported() {
-        return hasCurFreq()
-                || (hasMaxFreq() && getAvailableS7Freqs() != null)
-                || (hasMinFreq() && getAvailableS7Freqs() != null)
-                || hasGovernor();
+        return hasCurFreq() || hasVoltage()
+                || (hasMaxFreq() && getAvailableFreqs() != null)
+                || (hasMinFreq() && getAvailableFreqs() != null)
+                || hasGovernor()
+                || hasHighspeedClock() || hasHighspeedLoad() || hasHighspeedDelay()
+                || hasPowerPolicy();
     }
 
     private static void run(String command, String id, Context context) {

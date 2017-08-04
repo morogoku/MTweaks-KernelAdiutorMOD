@@ -64,7 +64,7 @@ public class GPUFragment extends RecyclerViewFragment {
         if (GPUFreq.hasGovernor()){
             governorInit(items);
         }
-        if (GPUFreq.hasBackup()){
+        if (GPUFreq.hasVoltage()){
             voltageInit(items);
         }
     }
@@ -73,13 +73,13 @@ public class GPUFragment extends RecyclerViewFragment {
         CardView freqCard = new CardView(getActivity());
         freqCard.setTitle(getString(R.string.frequencies));
 
-        if (GPUFreq.hasCurFreq() && GPUFreq.getAvailableS7Freqs() != null) {
+        if (GPUFreq.hasCurFreq() && GPUFreq.getAvailableFreqs() != null) {
             mCurFreq = new XYGraphView();
             mCurFreq.setTitle(getString(R.string.gpu_freq));
             freqCard.addItem(mCurFreq);
         }
 
-        if (GPUFreq.hasMaxFreq() && GPUFreq.getAvailableS7Freqs() != null) {
+        if (GPUFreq.hasMaxFreq() && GPUFreq.getAvailableFreqs() != null) {
             SelectView maxFreq = new SelectView();
             maxFreq.setTitle(getString(R.string.gpu_max_freq));
             maxFreq.setSummary(getString(R.string.gpu_max_freq_summary));
@@ -88,14 +88,14 @@ public class GPUFragment extends RecyclerViewFragment {
             maxFreq.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setMaxFreq(GPUFreq.getAvailableS7Freqs().get(position), getActivity());
+                    GPUFreq.setMaxFreq(GPUFreq.getAvailableFreqs().get(position), getActivity());
                 }
             });
 
             freqCard.addItem(maxFreq);
         }
 
-        if (GPUFreq.hasMinFreq() && GPUFreq.getAvailableS7Freqs() != null) {
+        if (GPUFreq.hasMinFreq() && GPUFreq.getAvailableFreqs() != null) {
             SelectView minFreq = new SelectView();
             minFreq.setTitle(getString(R.string.gpu_min_freq));
             minFreq.setSummary(getString(R.string.gpu_min_freq_summary));
@@ -104,7 +104,7 @@ public class GPUFragment extends RecyclerViewFragment {
             minFreq.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setMinFreq(GPUFreq.getAvailableS7Freqs().get(position), getActivity());
+                    GPUFreq.setMinFreq(GPUFreq.getAvailableFreqs().get(position), getActivity());
                 }
             });
 
@@ -147,12 +147,12 @@ public class GPUFragment extends RecyclerViewFragment {
             SelectView governor = new SelectView();
             governor.setTitle(getString(R.string.gpu_governor));
             governor.setSummary(getString(R.string.gpu_governor_summary));
-            governor.setItems(GPUFreq.getAvailableS7Governors());
-            governor.setItem(GPUFreq.getS7Governor());
+            governor.setItems(GPUFreq.getAvailableGovernors());
+            governor.setItem(GPUFreq.getGovernor());
             governor.setOnItemSelected(new SelectView.OnItemSelected() {
                 @Override
                 public void onItemSelected(SelectView selectView, int position, String item) {
-                    GPUFreq.setS7Governor(item, getActivity());
+                    GPUFreq.setGovernor(item, getActivity());
                 }
             });
 
@@ -165,7 +165,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
         if (GPUFreq.hasHighspeedClock()){
             List<String> freqs = new ArrayList<>();
-            List<Integer> list = GPUFreq.getAvailableS7FreqsSort();
+            List<Integer> list = GPUFreq.getAvailableFreqsSort();
             if(list != null) {
                 int value = 0;
                 for (int i = 0; i < list.size(); i++) {
@@ -248,7 +248,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
     private void voltageInit(List<RecyclerViewItem> items) {
 
-        List<Integer> freqs = GPUFreq.getAvailableS7Freqs();
+        List<Integer> freqs = GPUFreq.getAvailableFreqs();
         List<String> voltages = GPUFreq.getVoltages();
         List<String> voltagesStock = GPUFreq.getStockVoltages();
 
@@ -259,7 +259,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
             List<String> progress = new ArrayList<>();
             for (float i = -100000f; i < 31250f; i += 6250) {
-                String global = String.valueOf(i / GPUFreq.getOffset());
+                String global = String.valueOf(i / GPUFreq.getVoltageOffset());
                 progress.add(global);
             }
 
@@ -358,7 +358,7 @@ public class GPUFragment extends RecyclerViewFragment {
                              String voltageStock) {
 
         int mStep = 6250;
-        int mOffset = GPUFreq.getOffset();
+        int mOffset = GPUFreq.getVoltageOffset();
         float mMin = (Utils.strToFloat(voltageStock) - 100) * mOffset;
         float mMax = ((Utils.strToFloat(voltageStock) + 25) * mOffset) + mStep;
 
@@ -406,7 +406,7 @@ public class GPUFragment extends RecyclerViewFragment {
     }
 
     private void reload() {
-        List<Integer> freqs = GPUFreq.getAvailableS7Freqs();
+        List<Integer> freqs = GPUFreq.getAvailableFreqs();
         List<String> voltages = GPUFreq.getVoltages();
         List<String> voltagesStock = GPUFreq.getStockVoltages();
 
@@ -417,7 +417,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
             List<String> progress = new ArrayList<>();
             for (float i = -100000f; i < 31250f; i += 6250) {
-                String global = String.valueOf(i / GPUFreq.getOffset());
+                String global = String.valueOf(i / GPUFreq.getVoltageOffset());
                 progress.add(global);
             }
             seekbarProfInit(mSeekbarProf, freqs, voltages, voltagesStock, progress);
@@ -433,7 +433,7 @@ public class GPUFragment extends RecyclerViewFragment {
             String text = "";
 
             int freq = GPUFreq.getCurFreq();
-            float maxFreq = GPUFreq.getAvailableS7FreqsSort().get(GPUFreq.getAvailableS7FreqsSort().size() - 1);
+            float maxFreq = GPUFreq.getAvailableFreqsSort().get(GPUFreq.getAvailableFreqsSort().size() - 1);
             text += freq / GPUFreq.getCurFreqOffset() + getString(R.string.mhz);
             mCurFreq.setText(text);
             float per = (float) freq / maxFreq * 100f;

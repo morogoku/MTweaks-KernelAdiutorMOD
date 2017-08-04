@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity {
         // Save backup of GPU stock voltages
         if (!Prefs.getBoolean("gpu_voltage_saved", false, this)){
             if (GPUFreq.supported() && GPUFreq.hasVoltage()){
-                RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_S7_FREQS + " " + GPUFreq.BACKUP);
+                RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_VOLTS + " " + GPUFreq.BACKUP);
                 Prefs.saveBoolean("gpu_voltage_saved", true, this);
             }
         }
