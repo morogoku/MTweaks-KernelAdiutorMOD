@@ -61,18 +61,66 @@ public class Battery {
     private static Integer sCapacity;
 
     public static void saveS7StockValues(Context context) {
-        if (hasS7HvInput()) Prefs.saveString("bat_s7_hv_input", getS7HvInput(), context);
-        if (hasS7HvCharge()) Prefs.saveString("bat_s7_hv_charge", getS7HvCharge(), context);
-        if (hasS7AcInput()) Prefs.saveString("bat_s7_ac_input", getS7AcInput(), context);
-        if (hasS7AcCharge()) Prefs.saveString("bat_s7_ac_charge", getS7AcCharge(), context);
-        if (hasS7AcInputScreen()) Prefs.saveString("bat_s7_ac_input_screen", getS7AcInputScreen(), context);
-        if (hasS7AcChargeScreen()) Prefs.saveString("bat_s7_ac_charge_screen", getS7AcChargeScreen(), context);
-        if (hasS7UsbInput()) Prefs.saveString("bat_s7_usb_input", getS7UsbInput(), context);
-        if (hasS7UsbCharge()) Prefs.saveString("bat_s7_usb_charge", getS7UsbCharge(), context);
-        if (hasS7WcInput()) Prefs.saveString("bat_s7_wc_input", getS7WcInput(), context);
-        if (hasS7WcCharge()) Prefs.saveString("bat_s7_wc_charge", getS7WcCharge(), context);
-        if (hasS7CarInput()) Prefs.saveString("bat_s7_car_input", getS7CarInput(), context);
-        if (hasS7CarCharge()) Prefs.saveString("bat_s7_car_charge", getS7CarCharge(), context);
+        if (hasS7HvInput()) {
+            Prefs.saveString("bat_s7_hv_input", getS7HvInput(), context);
+        } else {
+            Prefs.remove("bat_s7_hv_input", context);
+        }
+        if (hasS7HvCharge()) {
+            Prefs.saveString("bat_s7_hv_charge", getS7HvCharge(), context);
+        } else {
+            Prefs.remove("bat_s7_hv_charge", context);
+        }
+        if (hasS7AcInput()) {
+            Prefs.saveString("bat_s7_ac_input", getS7AcInput(), context);
+        } else {
+            Prefs.remove("bat_s7_ac_input", context);
+        }
+        if (hasS7AcCharge()) {
+            Prefs.saveString("bat_s7_ac_charge", getS7AcCharge(), context);
+        } else {
+            Prefs.remove("bat_s7_ac_charge", context);
+        }
+        if (hasS7AcInputScreen()) {
+            Prefs.saveString("bat_s7_ac_input_screen", getS7AcInputScreen(), context);
+        } else {
+            Prefs.remove("bat_s7_ac_input_screen", context);
+        }
+        if (hasS7AcChargeScreen()) {
+            Prefs.saveString("bat_s7_ac_charge_screen", getS7AcChargeScreen(), context);
+        } else {
+            Prefs.remove("bat_s7_ac_charge_screen", context);
+        }
+        if (hasS7UsbInput()) {
+            Prefs.saveString("bat_s7_usb_input", getS7UsbInput(), context);
+        } else {
+            Prefs.remove("bat_s7_usb_input", context);
+        }
+        if (hasS7UsbCharge()) {
+            Prefs.saveString("bat_s7_usb_charge", getS7UsbCharge(), context);
+        } else {
+            Prefs.remove("bat_s7_usb_charge", context);
+        }
+        if (hasS7WcInput()) {
+            Prefs.saveString("bat_s7_wc_input", getS7WcInput(), context);
+        } else {
+            Prefs.remove("bat_s7_wc_input", context);
+        }
+        if (hasS7WcCharge()) {
+            Prefs.saveString("bat_s7_wc_charge", getS7WcCharge(), context);
+        } else {
+            Prefs.remove("bat_s7_wc_charge", context);
+        }
+        if (hasS7CarInput()) {
+            Prefs.saveString("bat_s7_car_input", getS7CarInput(), context);
+        } else {
+            Prefs.remove("bat_s7_car_input", context);
+        }
+        if (hasS7CarCharge()) {
+            Prefs.saveString("bat_s7_car_charge", getS7CarCharge(), context);
+        } else {
+            Prefs.remove("bat_s7_car_charge", context);
+        }
 
         Prefs.saveBoolean("s7_battery_saved", true, context);
     }
