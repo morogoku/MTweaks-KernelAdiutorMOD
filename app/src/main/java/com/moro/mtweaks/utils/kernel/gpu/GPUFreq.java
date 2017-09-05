@@ -45,7 +45,7 @@ public class GPUFreq {
     private static final String MIN_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
     private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
-    private static final String AVAILABLE_S7_FREQS_STOCK = "/sys/devices/14ac0000.mali/dvfs_table";
+    private static final String AVAILABLE_S7_FREQS_STOCK = "/sys/devices/platform/gpusysfs/gpu_freq_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_S7_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_S7_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
@@ -58,7 +58,7 @@ public class GPUFreq {
     private static final String MIN_S8_FREQ_STOCK = "/sys/kernel/gpu/gpu_min_clock";
     private static final String CUR_S8_FREQ = "/sys/devices/platform/13900000.mali/clock";
     private static final String AVAILABLE_S8_FREQS = "/sys/devices/platform/13900000.mali/volt_table";
-    private static final String AVAILABLE_S8_FREQS_STOCK = "/sys/devices/platform/13900000.mali/dvfs_table";
+    private static final String AVAILABLE_S8_FREQS_STOCK = "/sys/kernel/gpu/gpu_freq_table";
     private static final String AVAILABLE_S8_GOVERNORS = "/sys/devices/platform/13900000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_S8_CLOCK = "/sys/devices/platform/13900000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_S8_LOAD = "/sys/devices/platform/13900000.mali/highspeed_load";
@@ -85,12 +85,12 @@ public class GPUFreq {
         sCurrentFreqs.put(CUR_S8_FREQ, 1);
 
         sMaxFreqs.put(MAX_S7_FREQ, 1);
-        //sMaxFreqs.put(MAX_S7_FREQ_STOCK, 1);
+        sMaxFreqs.put(MAX_S7_FREQ_STOCK, 1);
         sMaxFreqs.put(MAX_S8_FREQ, 1);
         sMaxFreqs.put(MAX_S8_FREQ_STOCK, 1);
 
         sMinFreqs.put(MIN_S7_FREQ, 1);
-        //sMinFreqs.put(MIN_S7_FREQ_STOCK, 1);
+        sMinFreqs.put(MIN_S7_FREQ_STOCK, 1);
         sMinFreqs.put(MIN_S8_FREQ, 1);
         sMinFreqs.put(MIN_S8_FREQ_STOCK, 1);
 
@@ -290,14 +290,14 @@ public class GPUFreq {
         if (AVAILABLE_FREQS_SORT == null) {
             for (String file : sAvailableFreqs.keySet()) {
                 if (Utils.existFile(file)) {
-                    if (file.equals(AVAILABLE_S7_FREQS)) {
+                    if ((file.equals(AVAILABLE_S7_FREQS)) || (file.equals(AVAILABLE_S8_FREQS))) {
                         String freqs[] = Utils.readFile(file).split("\\r?\\n");
                         AVAILABLE_FREQS_SORT = new ArrayList<>();
                         for (String freq : freqs) {
                             String[] freqLine = freq.split(" ");
                             AVAILABLE_FREQS_SORT.add(Utils.strToInt(freqLine[0].trim()));
                         }
-                    } else if (file.equals(AVAILABLE_S7_FREQS_STOCK)){
+                    } else if ((file.equals(AVAILABLE_S7_FREQS_STOCK)) || (file.equals(AVAILABLE_S8_FREQS_STOCK))){
                         String freqs[] = Utils.readFile(file).split(" ");
                         AVAILABLE_FREQS_SORT = new ArrayList<>();
                         for (String freq : freqs) {
