@@ -39,7 +39,8 @@ public class Temperature {
 
     private static final HashMap<String, Integer> sCPUTemps = new HashMap<>();
 
-    private static final String THERMAL_ZONE0 = "/sys/class/thermal/thermal_zone0/temp";
+    private static final String THERMAL_ZONE0 = "/sys/class/thermal/thermal_zone1/temp";
+    private static final String THERMAL_GPU = "/sys/class/thermal/thermal_zone3/temp";
 
     static {
         sCPUTemps.put("/sys/devices/platform/omap/omap_temp_sensor.0/temperature", 1000);
@@ -76,9 +77,13 @@ public class Temperature {
                 }
                 return true;
             }
-            GPU_NODE = null;
+            return false;
         }
-        return false;
+        if (GPU_NODE == null && Utils.existFile(THERMAL_GPU)) {
+            GPU_NODE = THERMAL_GPU;
+            GPU_OFFSET = 1000;
+        }
+        return GPU_NODE != null;
     }
 
     public static String getCPU(Context context) {
