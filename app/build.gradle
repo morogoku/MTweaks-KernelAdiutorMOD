@@ -19,8 +19,8 @@ android {
         applicationId "com.moro.mtweaks"
         minSdkVersion 19
         targetSdkVersion 26
-        versionCode 248
-        versionName "2.5b3"
+        versionCode 250
+        versionName "2.5"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
