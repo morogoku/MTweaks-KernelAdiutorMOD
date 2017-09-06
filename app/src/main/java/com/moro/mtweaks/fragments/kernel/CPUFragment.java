@@ -526,6 +526,28 @@ public class CPUFragment extends RecyclerViewFragment {
             cpuBoost.add(inputMs);
         }
 
+        if (CPUBoost.hasCpuBoostExynosInputMs()) {
+            SeekBarView inputMs = new SeekBarView();
+            inputMs.setTitle(getString(R.string.input_interval));
+            inputMs.setSummary(getString(R.string.input_interval_summary));
+            inputMs.setUnit(getString(R.string.ms));
+            inputMs.setMax(5000);
+            inputMs.setOffset(10);
+            inputMs.setProgress(CPUBoost.getCpuBootExynosInputMs() / 10);
+            inputMs.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    CPUBoost.setCpuBoostExynosInputMs(position * 10, getActivity());
+                }
+            });
+
+            cpuBoost.add(inputMs);
+        }
+
         if (CPUBoost.hasCpuBoostInputFreq()) {
             List<Integer> freqs = CPUBoost.getCpuBootInputFreq();
             for (int i = 0; i < freqs.size(); i++) {
@@ -554,6 +576,26 @@ public class CPUFragment extends RecyclerViewFragment {
 
                 cpuBoost.add(inputCard);
             }
+        }
+
+        if (CPUBoost.hasCpuBoostExynosInputFreq()) {
+            List<String> freqs = CPUBoost.getCpuBootExynosInputFreq();
+            String littleFreq = freqs.get(0);
+            String bigFreq = freqs.get(1);
+
+            DescriptionView little = new DescriptionView();
+            little.setTitle("Little Input Boost Freq");
+            little.setSummary(littleFreq);
+
+            cpuBoost.add(little);
+
+            DescriptionView big = new DescriptionView();
+            big.setTitle("Big Input Boost Freq");
+            big.setSummary(bigFreq);
+
+            cpuBoost.add(big);
+
+
         }
 
         if (CPUBoost.hasCpuBoostWakeup()) {
