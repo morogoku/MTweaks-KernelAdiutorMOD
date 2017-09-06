@@ -37,9 +37,11 @@ public class S2s {
 
     private static final String S2S = "/sys/android_touch/sweep2sleep";
     private static final String S2S_2 = "/sys/android_touch2/sweep2sleep";
+    private static final String S2S_3 = "/sys/sweep2sleep/sweep2sleep";
 
     private static final HashMap<String, List<Integer>> sFiles = new HashMap<>();
     private static final List<Integer> sS2s2Menu = new ArrayList<>();
+    private static final List<Integer> sS2s3Menu = new ArrayList<>();
     private static final List<Integer> sGenericMenu = new ArrayList<>();
 
     static {
@@ -47,11 +49,17 @@ public class S2s {
         sS2s2Menu.add(R.string.s2s_left);
         sS2s2Menu.add(R.string.s2s_any);
 
+        sS2s3Menu.add(R.string.s2s_disabled);
+        sS2s3Menu.add(R.string.s2s_right);
+        sS2s3Menu.add(R.string.s2s_left);
+        sS2s3Menu.add(R.string.s2s_any);
+
         sGenericMenu.add(R.string.disabled);
         sGenericMenu.add(R.string.enabled);
 
         sFiles.put(S2S, sGenericMenu);
         sFiles.put(S2S_2, sS2s2Menu);
+        sFiles.put(S2S_3, sS2s3Menu);
     }
 
     private static String FILE;

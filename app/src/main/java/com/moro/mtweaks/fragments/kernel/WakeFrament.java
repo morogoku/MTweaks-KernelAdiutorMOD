@@ -34,6 +34,7 @@ import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
+import com.moro.mtweaks.views.recyclerview.ValueView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +89,9 @@ public class WakeFrament extends RecyclerViewFragment {
     }
 
     private void dt2wInit(List<RecyclerViewItem> items) {
+        CardView dt2wCard = new CardView(getActivity());
+        dt2wCard.setTitle(getString(R.string.dt2w));
+
         SelectView dt2w = new SelectView();
         dt2w.setTitle(getString(R.string.dt2w));
         dt2w.setSummary(getString(R.string.dt2w_summary));
@@ -100,10 +104,14 @@ public class WakeFrament extends RecyclerViewFragment {
             }
         });
 
-        items.add(dt2w);
+        dt2wCard.addItem(dt2w);
+        items.add(dt2wCard);
     }
 
     private void s2wInit(List<RecyclerViewItem> items) {
+        CardView s2wCard = new CardView(getActivity());
+        s2wCard.setTitle(getString(R.string.s2w));
+
         if (S2w.supported()) {
             SelectView s2w = new SelectView();
             s2w.setTitle(getString(R.string.s2w));
@@ -117,7 +125,7 @@ public class WakeFrament extends RecyclerViewFragment {
                 }
             });
 
-            items.add(s2w);
+            s2wCard.addItem(s2w);
         }
 
         if (S2w.hasLenient()) {
@@ -132,11 +140,18 @@ public class WakeFrament extends RecyclerViewFragment {
                 }
             });
 
-            items.add(lenient);
+            s2wCard.addItem(lenient);
+        }
+
+        if (s2wCard.size() > 0) {
+            items.add(s2wCard);
         }
     }
 
     private void t2wInit(List<RecyclerViewItem> items) {
+        CardView t2wCard = new CardView(getActivity());
+        t2wCard.setTitle(getString(R.string.t2w));
+
         SelectView t2w = new SelectView();
         t2w.setTitle(getString(R.string.t2w));
         t2w.setSummary(getString(R.string.t2w_summary));
@@ -149,10 +164,14 @@ public class WakeFrament extends RecyclerViewFragment {
             }
         });
 
-        items.add(t2w);
+        t2wCard.addItem(t2w);
+        items.add(t2wCard);
     }
 
     private void dt2sInit(List<RecyclerViewItem> items) {
+        CardView dt2sCard = new CardView(getActivity());
+        dt2sCard.setTitle(getString(R.string.dt2s));
+
         SelectView dt2s = new SelectView();
         dt2s.setTitle(getString(R.string.dt2s));
         dt2s.setSummary(getString(R.string.dt2s_summary));
@@ -165,10 +184,14 @@ public class WakeFrament extends RecyclerViewFragment {
             }
         });
 
-        items.add(dt2s);
+        dt2sCard.addItem(dt2s);
+        items.add(dt2sCard);
     }
 
     private void s2sInit(List<RecyclerViewItem> items) {
+        CardView s2sCard = new CardView(getActivity());
+        s2sCard.setTitle(getString(R.string.s2s));
+
         SelectView s2s = new SelectView();
         s2s.setTitle(getString(R.string.s2s));
         s2s.setSummary(getString(R.string.s2s_summary));
@@ -181,7 +204,8 @@ public class WakeFrament extends RecyclerViewFragment {
             }
         });
 
-        items.add(s2s);
+        s2sCard.addItem(s2s);
+        items.add(s2sCard);
     }
 
     private void wakeMiscInit(List<RecyclerViewItem> items) {
