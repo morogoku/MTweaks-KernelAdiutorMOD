@@ -34,7 +34,7 @@ import java.util.List;
 public class CPUBoost {
 
     private static final String CPU_BOOST = "/sys/module/cpu_boost/parameters";
-    private static final String CPU_BOOST_EXYNOS = "/data/kernel/cpu_input_boost";
+    private static final String CPU_BOOST_EXYNOS = "/sys/kernel/cpu_input_boost";
 
     private static final List<String> sEnable = new ArrayList<>();
 
@@ -58,14 +58,9 @@ public class CPUBoost {
 
     private static String ENABLE;
 
-    public static void setCpuBoostExynosInputFreq(int value, int core, Context context) {
-        if (Utils.readFile(CPU_BOOST_EXYNOS_BOOST_FREQ).contains(":")) {
-            run(Control.write(core + ":" + value, CPU_BOOST_EXYNOS_BOOST_FREQ),
-                    CPU_BOOST_EXYNOS_BOOST_FREQ + core, context);
-        } else {
-            run(Control.write(String.valueOf(value), CPU_BOOST_EXYNOS_BOOST_FREQ),
-                    CPU_BOOST_EXYNOS_BOOST_FREQ, context);
-        }
+    public static void setCpuBoostExynosInputFreq(String value1, String value2, Context context) {
+        String value = value1 + " " + value2;
+        run(Control.write(String.valueOf(value), CPU_BOOST_EXYNOS_BOOST_FREQ), CPU_BOOST_EXYNOS_BOOST_FREQ, context);
     }
 
     public static List<String> getCpuBootExynosInputFreq() {
@@ -89,8 +84,8 @@ public class CPUBoost {
         run(Control.write(String.valueOf(value), CPU_BOOST_EXYNOS_INPUT_MS), CPU_BOOST_EXYNOS_INPUT_MS, context);
     }
 
-    public static int getCpuBootExynosInputMs() {
-        return Utils.strToInt(Utils.readFile(CPU_BOOST_EXYNOS_INPUT_MS));
+    public static String getCpuBootExynosInputMs() {
+        return Utils.readFile(CPU_BOOST_EXYNOS_INPUT_MS);
     }
 
     public static void enableCpuBoostWakeup(boolean enable, Context context) {
@@ -222,7 +217,8 @@ public class CPUBoost {
 
     public static boolean supported() {
         return hasEnable() || hasCpuBoostDebugMask() || hasCpuBoostMs() || hasCpuBoostSyncThreshold()
-                || hasCpuBoostInputFreq() || hasCpuBoostInputMs() || hasCpuBoostHotplug() || hasCpuBoostWakeup();
+                || hasCpuBoostInputFreq() || hasCpuBoostInputMs() || hasCpuBoostHotplug() || hasCpuBoostWakeup()
+                || hasCpuBoostExynosInputFreq() || hasCpuBoostExynosInputMs();
     }
 
     private static void run(String command, String id, Context context) {

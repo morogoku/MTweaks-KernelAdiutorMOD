@@ -157,12 +157,17 @@
   <string name="cpu_quiet_summary">CPUQuiet implementa políticas complementables para obligar a los núcleos estar en estado de reposo. Una política apropiada puede ahorrar batería sin perjudicar al rendimiento.</string>
   <string name="cpu_quiet_governor">Gobernador CPUQuiet</string>
   <string name="cpu_boost">CPU Boost</string>
+  <string name="cpu_boost_summary_on">Activado</string>
+  <string name="cpu_boost_summary_off">Desactivado</string>
   <string name="debug_mask">Máscara de Depuración</string>
   <string name="debug_mask_summary">Permite activar la máscara de depuración para realizar operaciones.</string>
   <string name="interval">Intervalo</string>
   <string name="interval_summary">Intervalo mínimo que se aplica el potenciado de la CPU.</string>
   <string name="sync_threshold">Umbral de sincronización</string>
   <string name="sync_threshold_summary">Cuando la carga de CPU cruza el límite prefijado, la frecuencia actual aumenta a esta.</string>
+  <string name="ib_duration_ms">Duración ms</string>
+  <string name="ib_freq_little">Boost Freq. LITTLE A53</string>
+  <string name="ib_freq_big">Boost Freq. big A72</string>
   <string name="input_interval">Intervalo de entrada</string>
   <string name="input_interval_summary">Intervalo mínimo de potenciado de la cpu cuando se detecte una señal.</string>
   <string name="input_boost_freq">Aumento de frecuencia instantanea</string>

@@ -31,13 +31,11 @@ import com.moro.mtweaks.R;
 public abstract class ValueView2 extends RecyclerViewItem {
 
     private TextView mTitleView;
-    private TextView mSummaryView;
     private View mValueParent;
     private TextView mValueView;
     private View mProgress;
 
     private CharSequence mTitle;
-    private CharSequence mSummary;
     private String mValue;
     private int mValuesRes;
 
@@ -49,7 +47,6 @@ public abstract class ValueView2 extends RecyclerViewItem {
     @Override
     public void onCreateView(View view) {
         mTitleView = (TextView) view.findViewById(R.id.title);
-        mSummaryView = (TextView) view.findViewById(R.id.summary);
         mValueParent = view.findViewById(R.id.value_parent);
         mValueView = (TextView) view.findViewById(R.id.value);
         mProgress = view.findViewById(R.id.progress);
@@ -59,11 +56,6 @@ public abstract class ValueView2 extends RecyclerViewItem {
 
     public void setTitle(CharSequence title) {
         mTitle = title;
-        refresh();
-    }
-
-    public void setSummary(CharSequence summary) {
-        mSummary = summary;
         refresh();
     }
 
@@ -96,10 +88,6 @@ public abstract class ValueView2 extends RecyclerViewItem {
             } else {
                 mTitleView.setVisibility(View.GONE);
             }
-        }
-
-        if (mSummaryView != null && mSummary != null) {
-            mSummaryView.setText(mSummary);
         }
 
         if (mValueView != null && (mValue != null || mValuesRes != 0)) {
