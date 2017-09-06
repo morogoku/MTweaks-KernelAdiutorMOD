@@ -30,6 +30,7 @@ import com.moro.mtweaks.utils.kernel.vm.ZRAM;
 import com.moro.mtweaks.utils.kernel.vm.ZSwap;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView;
+import com.moro.mtweaks.views.recyclerview.GenericSelectView2;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
@@ -42,7 +43,7 @@ import java.util.List;
  */
 public class VMFragment extends RecyclerViewFragment {
 
-    private List<GenericSelectView> mVMs = new ArrayList<>();
+    private List<GenericSelectView2> mVMs = new ArrayList<>();
 
     @Override
     protected void init() {
@@ -54,28 +55,35 @@ public class VMFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         mVMs.clear();
+
+        CardView vmCard = new CardView(getActivity());
+        vmCard.setTitle(getString(R.string.vm_tunnables));
+
         for (int i = 0; i < VM.size(); i++) {
             if (VM.exists(i)) {
-                GenericSelectView vm = new GenericSelectView();
-                vm.setSummary(VM.getName(i));
+
+                GenericSelectView2 vm = new GenericSelectView2();
+                vm.setTitle(VM.getName(i));
                 vm.setValue(VM.getValue(i));
                 vm.setValueRaw(vm.getValue());
                 vm.setInputType(InputType.TYPE_CLASS_NUMBER);
 
                 final int position = i;
-                vm.setOnGenericValueListener(new GenericSelectView.OnGenericValueListener() {
+                vm.setOnGenericValueListener(new GenericSelectView2.OnGenericValueListener() {
                     @Override
-                    public void onGenericValueSelected(GenericSelectView genericSelectView, String value) {
+                    public void onGenericValueSelected(GenericSelectView2 genericSelectView, String value) {
                         VM.setValue(value, position, getActivity());
                         genericSelectView.setValue(value);
                         refreshVMs();
                     }
                 });
 
-                items.add(vm);
+                vmCard.addItem(vm);
                 mVMs.add(vm);
             }
         }
+
+        items.add(vmCard);
 
         if (ZRAM.supported()) {
             zramInit(items);
