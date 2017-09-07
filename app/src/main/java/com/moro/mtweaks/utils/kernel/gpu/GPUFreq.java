@@ -84,20 +84,29 @@ public class GPUFreq {
         sCurrentFreqs.put(CUR_S7_FREQ, 1);
         sCurrentFreqs.put(CUR_S8_FREQ, 1);
 
-        sMaxFreqs.put(MAX_S7_FREQ, 1);
-        sMaxFreqs.put(MAX_S7_FREQ_STOCK, 1);
-        sMaxFreqs.put(MAX_S8_FREQ, 1);
-        sMaxFreqs.put(MAX_S8_FREQ_STOCK, 1);
+        if (Utils.existFile(MAX_S7_FREQ) || Utils.existFile(MAX_S8_FREQ)) {
+            sMaxFreqs.put(MAX_S7_FREQ, 1);
+            sMaxFreqs.put(MAX_S8_FREQ, 1);
+        } else {
+            sMaxFreqs.put(MAX_S7_FREQ_STOCK, 1);
+            sMaxFreqs.put(MAX_S8_FREQ_STOCK, 1);
+        }
 
-        sMinFreqs.put(MIN_S7_FREQ, 1);
-        sMinFreqs.put(MIN_S7_FREQ_STOCK, 1);
-        sMinFreqs.put(MIN_S8_FREQ, 1);
-        sMinFreqs.put(MIN_S8_FREQ_STOCK, 1);
+        if (Utils.existFile(MIN_S7_FREQ) || Utils.existFile(MIN_S8_FREQ)) {
+            sMinFreqs.put(MIN_S7_FREQ, 1);
+            sMinFreqs.put(MIN_S8_FREQ, 1);
+        } else {
+            sMinFreqs.put(MIN_S7_FREQ_STOCK, 1);
+            sMinFreqs.put(MIN_S8_FREQ_STOCK, 1);
+        }
 
-        sAvailableFreqs.put(AVAILABLE_S7_FREQS, 1);
-        sAvailableFreqs.put(AVAILABLE_S7_FREQS_STOCK, 1);
-        sAvailableFreqs.put(AVAILABLE_S8_FREQS, 1);
-        sAvailableFreqs.put(AVAILABLE_S8_FREQS_STOCK, 1);
+        if (Utils.existFile(AVAILABLE_S7_FREQS) || Utils.existFile(AVAILABLE_S8_FREQS)) {
+            sAvailableFreqs.put(AVAILABLE_S7_FREQS, 1);
+            sAvailableFreqs.put(AVAILABLE_S8_FREQS, 1);
+        } else {
+            sAvailableFreqs.put(AVAILABLE_S7_FREQS_STOCK, 1);
+            sAvailableFreqs.put(AVAILABLE_S8_FREQS_STOCK, 1);
+        }
 
         sScalingGovernors.add(AVAILABLE_S7_GOVERNORS);
         sScalingGovernors.add(AVAILABLE_S8_GOVERNORS);
