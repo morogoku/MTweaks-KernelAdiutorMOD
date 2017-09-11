@@ -63,11 +63,17 @@ public class PowerSuspend {
 
     public static boolean hasOldState() {
         return Utils.existFile(STATE) && Utils.existFile(VERSION)
-                && Utils.readFile(VERSION).contains("1.2");
+                && (Utils.readFile(VERSION).contains("1.2") || Utils.readFile(VERSION).contains("1.4")
+                || Utils.readFile(VERSION).contains("1.6") || Utils.readFile(VERSION).contains("1.7")
+                || Utils.readFile(VERSION).contains("1.8"));
     }
 
     public static void setMode(int value, Context context) {
         run(Control.write(String.valueOf(value), MODE), MODE, context);
+    }
+
+    public static String getVersion() {
+        return Utils.readFile(VERSION);
     }
 
     public static int getMode() {
