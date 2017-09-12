@@ -21,7 +21,6 @@ package com.moro.mtweaks.fragments.kernel;
 
 import android.content.Context;
 import android.os.Vibrator;
-import android.support.v7.widget.RecyclerView;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
@@ -59,9 +58,6 @@ public class MiscFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
-        if (Selinux.supported()){
-            selinuxInit(items);
-        }
         if (Vibration.supported()) {
             vibrationInit(items);
         }
@@ -77,6 +73,9 @@ public class MiscFragment extends RecyclerViewFragment {
         }
         if (Misc.hasArchPower()) {
             archPowerInit(items);
+        }
+        if (Selinux.supported()){
+            selinuxInit(items);
         }
         if (PowerSuspend.supported()) {
             powersuspendInit(items);
