@@ -717,6 +717,9 @@
   <string name="read">Lectura</string>
   <string name="write">Escritura</string>
   <!-- Misc -->
+  <string name="selinux">Estado SELinux</string>
+  <string name="selinux_no_kernel_toast">Estado SELinux: Kernel no soportado</string>
+  <string name="selinux_summary">Seleccione el estado de SELinux, Permissive/Enforcing.\n(Requiere kernel que lo soporte.)</string>
   <string name="android_logger">Registro de Android</string>
   <string name="crc">Control de CRC por Software</string>
   <string name="crc_summary">CRC es un mecanismo que apunta a prevenir la corrupción de datos cuando está activado. Los bloques de datos pueden perder hasta un 30% de su rendimiento.</string>

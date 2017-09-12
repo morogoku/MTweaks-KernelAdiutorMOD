@@ -794,6 +794,11 @@
     <string name="write">Write</string>
 
     <!-- Misc -->
+    <string name="selinux">SELinux State</string>
+    <string name="selinux_no_kernel_toast">SELinux state: Kernel not supported</string>
+    <string name="selinux_summary">Select the SELinux state, Permissive/Enforcing.\n(Required a kernel with support.)</string>
+    <string name="selinux_enforcing">Enforcing</string>
+    <string name="selinux_permissive">Permissive</string>
     <string name="android_logger">Android logging</string>
     <string name="crc">Software CRC control</string>
     <string name="crc_summary">CRC is a mechanism aiming to prevent data corruption when enabled. Data blocks can lose up to 30% of their performance.</string>
