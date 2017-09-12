@@ -35,37 +35,16 @@ public class PowerSuspend {
     private static final String STATE = PARENT + "/power_suspend_state";
     private static final String VERSION = PARENT + "/power_suspend_version";
 
-    public static void setNewState(int value, Context context) {
-        run(Control.write(String.valueOf(value), STATE), STATE, context);
-    }
-
-    public static int getNewState() {
-        return Utils.strToInt(Utils.readFile(STATE));
-    }
-
-    public static boolean hasNewState() {
-        if (Utils.existFile(STATE) && Utils.existFile(VERSION)) {
-            String version = Utils.readFile(VERSION);
-            if (version.contains("1.3") || version.contains("1.5")) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static void enableOldState(boolean enable, Context context) {
+    public static void enableState(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", STATE), STATE, context);
     }
 
-    public static boolean isOldStateEnabled() {
+    public static boolean isStateEnabled() {
         return Utils.readFile(STATE).equals("1");
     }
 
-    public static boolean hasOldState() {
-        return Utils.existFile(STATE) && Utils.existFile(VERSION)
-                && (Utils.readFile(VERSION).contains("1.2") || Utils.readFile(VERSION).contains("1.4")
-                || Utils.readFile(VERSION).contains("1.6") || Utils.readFile(VERSION).contains("1.7")
-                || Utils.readFile(VERSION).contains("1.8"));
+    public static boolean hasState() {
+        return Utils.existFile(STATE);
     }
 
     public static void setMode(int value, Context context) {
@@ -85,7 +64,7 @@ public class PowerSuspend {
     }
 
     public static boolean supported() {
-        return hasMode() || hasOldState() || hasNewState();
+        return hasMode() || hasState();
     }
 
     private static void run(String command, String id, Context context) {
