@@ -580,6 +580,12 @@
     <string name="volume_gain">Volume Gain</string>
 
     <!-- Battery -->
+    <string name="store_mode">Store Mode</string>
+    <string name="store_mode_summary">Enable to set MAX &amp; MIN battery capacity limits whilst on charge.</string>
+    <string name="store_mode_max">Store Mode MAX</string>
+    <string name="store_mode_max_summary">If current battery capacity &lt; Store Mode Maximum, then charging will STOP when it reaches this MAX value.</string>
+    <string name="store_mode_min">Store Mode MIN</string>
+    <string name="store_mode_min_summary">If current battery capacity > Store Mode Minimum, then charging will START when it reaches this MIN value.</string>
     <string name="level">Level</string>
     <string name="voltage">Voltage</string>
     <string name="current_now">Current Now</string>
