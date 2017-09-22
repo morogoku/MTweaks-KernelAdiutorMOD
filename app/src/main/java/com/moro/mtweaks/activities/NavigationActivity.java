@@ -224,7 +224,11 @@ public class NavigationActivity extends BaseActivity
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.io_scheduler, new IOFragment(), R.drawable.ic_sdcard));
         }
         if (KSM.supported()) {
-            sFragments.add(new NavigationActivity.NavigationFragment(R.string.ksm, new KSMFragment(), R.drawable.ic_merge));
+            if (KSM.isUKSM()) {
+                sFragments.add(new NavigationActivity.NavigationFragment(R.string.uksm_name, new KSMFragment(), R.drawable.ic_merge));
+            } else {
+                sFragments.add(new NavigationActivity.NavigationFragment(R.string.ksm_name, new KSMFragment(), R.drawable.ic_merge));
+            }
         }
         if (LMK.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, new LMKFragment(), R.drawable.ic_stackoverflow));

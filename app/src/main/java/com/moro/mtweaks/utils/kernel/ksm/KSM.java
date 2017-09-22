@@ -47,6 +47,7 @@ public class KSM {
     private static final String PAGES_TO_SCAN = "/pages_to_scan";
     private static final String SLEEP_MILLISECONDS = "/sleep_millisecs";
     private static final String MAX_CPU_PERCENTAGE = "/max_cpu_percentage";
+    private static final String CPU_GOVERNOR = "/cpu_governor";
 
     private static final List<String> sParent = new ArrayList<>();
     private static final LinkedHashMap<String, Integer> sInfos = new LinkedHashMap<>();
@@ -64,16 +65,48 @@ public class KSM {
 
     private static String PARENT;
 
+    public static boolean isUKSM(){
+        return Utils.existFile(UKSM);
+    }
+
+    public static boolean hasCpuGovernor(){
+        return Utils.existFile(PARENT + CPU_GOVERNOR);
+    }
+
+    public static void setCpuGovernor(String value, Context context){
+        run(Control.write(String.valueOf(value), PARENT + CPU_GOVERNOR), PARENT + CPU_GOVERNOR, context);
+    }
+
+    public static String getCpuGovernor() {
+        String[] governors = Utils.readFile(PARENT + CPU_GOVERNOR).split(" ");
+        for (String governor : governors) {
+            if (governor.startsWith("[") && governor.endsWith("]")) {
+                return governor.replace("[", "").replace("]", "");
+            }
+        }
+        return "";
+    }
+
+    public static List<String> getCpuGovernors() {
+        String[] governors = Utils.readFile(PARENT + CPU_GOVERNOR).split(" ");
+        List<String> list = new ArrayList<>();
+        for (String governor : governors) {
+            list.add(governor.replace("[", "").replace("]", ""));
+        }
+        return list;
+    }
+
+
     public static void setMaxCpuPercentage(int value, Context context) {
-        run(Control.write(String.valueOf(value), MAX_CPU_PERCENTAGE), MAX_CPU_PERCENTAGE, context);
+        run(Control.write(String.valueOf(value), PARENT + MAX_CPU_PERCENTAGE), PARENT + MAX_CPU_PERCENTAGE, context);
     }
 
     public static int getMaxCpuPercentage() {
-        return Utils.strToInt(Utils.readFile(MAX_CPU_PERCENTAGE));
+        return Utils.strToInt(Utils.readFile(PARENT + MAX_CPU_PERCENTAGE));
     }
 
     public static boolean hasMaxCpuPercentage() {
-        return Utils.existFile(MAX_CPU_PERCENTAGE);
+        return Utils.existFile(PARENT + MAX_CPU_PERCENTAGE);
     }
 
     public static void setSleepMilliseconds(int ms, Context context) {
