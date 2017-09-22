@@ -46,12 +46,16 @@ import com.moro.mtweaks.database.tools.profiles.Profiles;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
 import com.moro.mtweaks.services.profile.Tile;
+import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
 import com.moro.mtweaks.utils.kernel.cpu.MSMPerformance;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.CoreCtl;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.MPDecision;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
+import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
 import com.moro.mtweaks.utils.root.Control;
 import com.moro.mtweaks.utils.root.RootFile;
 import com.moro.mtweaks.utils.root.RootUtils;
@@ -76,6 +80,30 @@ public class Service extends android.app.Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // Check if kernel is changed
+        String kernel_old = Prefs.getString("kernel_version_old", "", this);
+        String kernel_new = Device.getKernelVersion(true);
+        // If is changed save voltage files
+        if (!kernel_old.equals(kernel_new)) {
+            // Save backup of Cluster0 stock voltages
+            if (VoltageCl0.supported()) {
+                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP);
+                Prefs.saveBoolean("cl0_voltage_saved", true, this);
+            }
+            // Save backup of Cluster1 stock voltages
+            if (VoltageCl1.supported()) {
+                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
+                Prefs.saveBoolean("cl1_voltage_saved", true, this);
+            }
+            // Save backup of GPU stock voltages
+            if (GPUFreq.supported() && GPUFreq.hasVoltage()) {
+                RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_VOLTS + " " + GPUFreq.BACKUP);
+                Prefs.saveBoolean("gpu_voltage_saved", true, this);
+            }
+            RootUtils.runCommand("setprop mtweaks.voltage_saved 1");
+        }
+
         Messenger messenger = null;
         if (intent != null) {
             Bundle extras = intent.getExtras();
@@ -321,6 +349,7 @@ public class Service extends android.app.Service {
                         }
                     });
                 }
+                RootUtils.runCommand("setprop mtweaks.applied_onboot 1");
 
                 stopSelf();
             }

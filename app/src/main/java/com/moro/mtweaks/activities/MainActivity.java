@@ -84,6 +84,12 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // If setting is applied on boot, mAppliedOnBoot = 1
+        int mAppliedOnboot = Utils.strToInt(RootUtils.getProp("mtweaks.applied_onboot"));
+
+        // If voltages are saved on Service.java, mVoltageSaved = 1
+        int mVoltageSaved = Utils.strToInt(RootUtils.getProp("mtweaks.voltage_saved"));
+
         // Check if system is rebooted
         Boolean mIsBooted = Prefs.getBoolean("is_booted", true, this);
         if (mIsBooted) {
@@ -119,38 +125,40 @@ public class MainActivity extends BaseActivity {
             Prefs.saveBoolean("memory_pool_percent_saved", false, this);
             Prefs.saveString("kernel_version_old", kernel_new, this);
 
-            // Reset voltage_saved to recopy voltage stock files
-            Prefs.saveBoolean("cl0_voltage_saved", false, this);
-            Prefs.saveBoolean("cl1_voltage_saved", false, this);
-            Prefs.saveBoolean("gpu_voltage_saved", false, this);
+            if (mVoltageSaved != 1) {
+                // Reset voltage_saved to recopy voltage stock files
+                Prefs.saveBoolean("cl0_voltage_saved", false, this);
+                Prefs.saveBoolean("cl1_voltage_saved", false, this);
+                Prefs.saveBoolean("gpu_voltage_saved", false, this);
+            }
 
             // Reset battery_saved to recopy battery stock values
             Prefs.saveBoolean("s7_battery_saved", false, this);
         }
 
         // save battery stock values
-        if (!Prefs.getBoolean("s7_battery_saved", false, this)) {
+        if (!Prefs.getBoolean("s7_battery_saved", false, this)){
             Battery.saveS7StockValues(this);
         }
 
         // Save backup of Cluster0 stock voltages
-        if (!Prefs.getBoolean("cl0_voltage_saved", false, this)){
+        if (!Utils.existFile(VoltageCl0.BACKUP) || !Prefs.getBoolean("cl0_voltage_saved", false, this) ){
             if (VoltageCl0.supported()){
-                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP_MTWEAKS);
+                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP);
                 Prefs.saveBoolean("cl0_voltage_saved", true, this);
             }
         }
 
         // Save backup of Cluster1 stock voltages
-        if (!Prefs.getBoolean("cl1_voltage_saved", false, this)){
+        if (!Utils.existFile(VoltageCl1.BACKUP) || !Prefs.getBoolean("cl1_voltage_saved", false, this)){
             if (VoltageCl1.supported()){
-                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP_MTWEAKS);
+                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
                 Prefs.saveBoolean("cl1_voltage_saved", true, this);
             }
         }
 
         // Save backup of GPU stock voltages
-        if (!Prefs.getBoolean("gpu_voltage_saved", false, this)){
+        if (!Utils.existFile(GPUFreq.BACKUP) || !Prefs.getBoolean("gpu_voltage_saved", false, this)){
             if (GPUFreq.supported() && GPUFreq.hasVoltage()){
                 RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_VOLTS + " " + GPUFreq.BACKUP);
                 Prefs.saveBoolean("gpu_voltage_saved", true, this);
