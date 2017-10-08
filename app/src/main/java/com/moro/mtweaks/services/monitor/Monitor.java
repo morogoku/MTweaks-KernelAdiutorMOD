@@ -34,8 +34,6 @@ import com.moro.mtweaks.database.Settings;
 import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
-import com.moro.mtweaks.utils.root.Control;
-import com.moro.mtweaks.utils.root.RootUtils;
 import com.moro.mtweaks.utils.server.ServerCreateDevice;
 
 import org.json.JSONArray;
@@ -102,12 +100,6 @@ public class Monitor extends Service {
         @Override
         public void onReceive(Context context, Intent intent) {
             mScreenOn = intent.getAction().equals(Intent.ACTION_SCREEN_ON);
-            if (mScreenOn) {
-                RootUtils.SU su = new RootUtils.SU();
-                su.runCommand(Control.write("0", "/sys/class/graphics/fb0/SRGB"));
-                su.runCommand(Control.write("1", "/sys/class/graphics/fb0/SRGB"));
-                su.close();
-            }
             if (!mScreenOn && !mCalculating) {
                 mLevel = 0;
                 mTime = 0;
