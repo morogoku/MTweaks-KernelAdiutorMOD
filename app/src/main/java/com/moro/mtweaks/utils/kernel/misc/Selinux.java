@@ -5,6 +5,7 @@ import android.content.Context;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
+import com.moro.mtweaks.utils.root.RootUtils;
 
 /**
  * Created by Morogoku on 11/09/2017.
@@ -35,7 +36,8 @@ public class Selinux {
     }
 
     public static boolean supported() {
-        return Utils.existFile(SELINUX_ENFORCE);
+        String enforcePerm = RootUtils.runCommand("ls -l " + SELINUX_ENFORCE + " | cut -c -10");
+        return Utils.existFile(SELINUX_ENFORCE) && enforcePerm.contentEquals("-rw-r--r--");
     }
 
     private static void run(String command, String id, Context context) {
