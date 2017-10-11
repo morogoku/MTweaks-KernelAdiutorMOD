@@ -181,6 +181,7 @@ public class Device {
         public static List<String> getItems() {
             List<String> list = new ArrayList<>();
             try {
+                load();
                 for (String line : MEMINFO.split("\\r?\\n")) {
                     list.add(line.split(":")[0]);
                 }
@@ -191,6 +192,7 @@ public class Device {
 
         public static String getItem(String prefix) {
             try {
+                load();
                 for (String line : MEMINFO.split("\\r?\\n")) {
                     if (line.startsWith(prefix)) {
                         return line.split(":")[1].trim();
