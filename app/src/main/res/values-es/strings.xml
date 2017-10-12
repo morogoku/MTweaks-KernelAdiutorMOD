@@ -8,6 +8,8 @@
   <string name="no_root">Sin acceso root</string>
   <string name="no_busybox">Sin busybox</string>
   <string name="open">Abrir %s</string>
+  <string name="used">usado</string>
+  <string name="free">libre</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
   <string name="password_wrong">La contraseña es incorrecta</string>

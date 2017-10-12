@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:textSize="18sp"
+            android:text="@string/title" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/total"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?android:attr/textColorPrimary"
+            android:text="@string/total" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/used"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:text="@string/used" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/free"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textStyle="bold"
+            android:text="@string/free" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical">
+
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:id="@+id/progressbar"
+            android:layout_height="17dp"
+            android:layout_width="match_parent"
+            app:rcProgressColor="@color/blue_grey_accent"
+            app:rcBackgroundColor="?rcBackgroundColor" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/percent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+    <!--
+        <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+            android:layout_width="dimension"
+            android:layout_height="dimension"
+            app:rcProgress="float"
+            app:rcSecondaryProgress="float"
+            app:rcMax="float"
+            app:rcRadius="dimension"
+            app:rcBackgroundPadding="dimension"
+            app:rcReverse="boolean"
+            app:rcProgressColor="color"
+            app:rcSecondaryProgressColor="color"
+            app:rcBackgroundColor="color" />
+    -->

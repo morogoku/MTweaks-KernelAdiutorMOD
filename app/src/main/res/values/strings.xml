@@ -20,6 +20,9 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="unknown">Unknown</string>
+    <string name="used">used</string>
+    <string name="free">free</string>
+    <string name="total">total</string>
 
     <string name="license_invalid">Thanks for purchasing the donation app! Unfortunately license check failed. Please try again later. If it\'s still not working, please contact me. You need internet access!</string>
     <string name="pirated">Seems like the donation app wasn\'t purchased through Play Store! If you pirated it, then shame on you!</string>
@@ -67,6 +70,7 @@
     <string name="kb">kB</string>
     <string name="px">px</string>
     <string name="percent">%</string>
+    <string name="gb">GB</string>
 
     <!-- Special signs -->
     <string name="minus" translatable="false">-</string>
