@@ -326,6 +326,10 @@
   <string name="busy_up_threshold_summary">Umbral en que las grandes CPUs deben ser encendidas.</string>
   <string name="offline_delay">Retraso para desactivar</string>
   <string name="offline_delay_summary">Tiempo antes de apagar la CPU.</string>
+  <!--HMP-->
+  <string name="hmp_desc">Ajuste los ratios de HMP para el escalado ascendente/descendente para las tareas que migran entre núcleos LITTLE y big. Los valores más altos utilizan menos batería porque utilizan más núcleos LITTLE.</string>
+  <string name="hmp_up_threshold_summary">Mínima carga requerida para la migración de tareas a los rápidos big cores.</string>
+  <string name="hmp_down_threshold_summary">Carga máxima permitida para tareas que migran a los lentos LITTLE cores.</string>
   <!--Thermal-->
   <string name="thermal_info">Usar solo un Thermal driver en las opciones, usar mas al mismo tiempo puede provocar problemas.</string>
   <string name="thermald">Thermald</string>
