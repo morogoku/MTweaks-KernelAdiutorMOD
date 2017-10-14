@@ -38,6 +38,7 @@ import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
 import com.moro.mtweaks.fragments.kernel.DvfsFragment;
 import com.moro.mtweaks.fragments.kernel.EntropyFragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
+import com.moro.mtweaks.fragments.kernel.HmpFragment;
 import com.moro.mtweaks.fragments.kernel.IOFragment;
 import com.moro.mtweaks.fragments.kernel.KSMFragment;
 import com.moro.mtweaks.fragments.kernel.LEDFragment;
@@ -62,6 +63,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String CPU_CL0_VOLTAGE = "cpucl0voltage_onboot";
     public static final String CPU_CL1_VOLTAGE = "cpucl1voltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
+    public static final String HMP = "hmp_onboot";
     public static final String THERMAL = "thermal_onboot";
     public static final String DVFS = "dvfs_onboot";
     public static final String GPU = "gpu_onboot";
@@ -85,6 +87,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(CPUVoltageCl0Fragment.class, CPU_CL0_VOLTAGE);
         sAssignments.put(CPUVoltageCl1Fragment.class, CPU_CL1_VOLTAGE);
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
+        sAssignments.put(HmpFragment.class, HMP);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);
         sAssignments.put(DvfsFragment.class, DVFS);
