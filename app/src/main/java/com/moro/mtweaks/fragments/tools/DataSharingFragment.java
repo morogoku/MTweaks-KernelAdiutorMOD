@@ -33,7 +33,6 @@ import com.moro.mtweaks.services.monitor.Monitor;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.ViewUtils;
-import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 
@@ -62,7 +61,7 @@ public class DataSharingFragment extends RecyclerViewFragment {
     protected void onBottomFabClick() {
         super.onBottomFabClick();
         if (!Utils.DONATED) {
-            ViewUtils.dialogDonate(getActivity());
+            ViewUtils.dialogDonate(getActivity()).show();
             return;
         }
 
