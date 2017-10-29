@@ -44,7 +44,7 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity-alias
-            android:name=".activities.StartActivity-Material"
+            android:name=".activities.StartActivity.Material"
             android:banner="@drawable/ic_banner_material"
             android:enabled="false"
             android:icon="@mipmap/ic_launcher_material"
