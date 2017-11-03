@@ -56,6 +56,7 @@ import com.moro.mtweaks.utils.kernel.cpuhotplug.MPDecision;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
+import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.root.Control;
 import com.moro.mtweaks.utils.root.RootFile;
 import com.moro.mtweaks.utils.root.RootUtils;
@@ -80,6 +81,11 @@ public class Service extends android.app.Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        //Initialize Boeffla Wakelock Blocker Files
+        if(BoefflaWakelock.supported()) {
+            BoefflaWakelock.CopyWakelockBlockerDefault();
+        }
 
         // Check if kernel is changed
         String kernel_old = Prefs.getString("kernel_version_old", "", this);
