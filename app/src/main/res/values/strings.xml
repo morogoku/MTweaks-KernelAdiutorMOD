@@ -798,6 +798,17 @@
     <string name="wkl_battery_summary">Default = 10 (Lower = lower wake time)</string>
     <string name="wkl_nfc">NFC</string>
     <string name="wkl_nfc_summary">Default = 2 (Lower = lower wake time)</string>
+    <string name="boeffla_wakelock">Boeffla Wakelock Blocker</string>
+    <string name="boeffla_wakelock_summary">You can block any kernel wakelock you want.\nDisable the wakelock to block it, and Enable it to allow it.</string>
+    <string name="wkl_blocked">Wakelock Blocked</string>
+    <string name="wkl_allowed">Wakelock Allowed</string>
+    <string name="wkl_total_time">Time</string>
+    <string name="wkl_wakep_count">Wakeups</string>
+    <string name="wkl_name">Name</string>
+    <string name="wkl_time">Time</string>
+    <string name="wkl_wakeup">Wakeups</string>
+    <string name="wkl_order">Wakelocks order</string>
+    <string name="wkl_order_summary">Select the listing order of the Wakelocks</string>
 
     <!-- Virtual Memory -->
     <string name="vm_tunnables">VM Tunnables</string>
