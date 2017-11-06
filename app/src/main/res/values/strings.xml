@@ -821,6 +821,9 @@
     <string name="wkl_wakeup">Wakeups</string>
     <string name="wkl_order">Wakelocks order</string>
     <string name="wkl_order_summary">Select the listing order of the Wakelocks</string>
+    <string name="wkl_alert_title">WARNING</string>
+    <string name="wkl_alert_message">Wakelocks are usually there for a reason. Driver and app programmers surely had their reasons to put wakelocks into the code in certain areas. This means, by blocking some of them you can introduce smaller or bigger issues, you can trigger strange side effects and in worst case render the system completely unusable.\n\nBlocking wakelocks is solely your own responsibility.</string>
+    <string name="wkl_alert_checkbox">Show next time.</string>
 
     <!-- Virtual Memory -->
     <string name="vm_tunnables">VM Tunnables</string>
