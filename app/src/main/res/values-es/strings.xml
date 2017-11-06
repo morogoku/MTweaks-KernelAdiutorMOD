@@ -724,6 +724,10 @@
   <string name="wkl_wakeup">Wakeups</string>
   <string name="wkl_order">Orden Wakelocks</string>
   <string name="wkl_order_summary">Seleccione el orden de listado de los Wakelocks.</string>
+  <string name="wkl_alert_title">ADVERTENCIA</string>
+  <string name="wkl_alert_message">Los Wakelocks normalmente están ahí por una razón. Los programadores de controladores y aplicaciones seguramente tenían sus razones para incluir wakelocks en el código en ciertas áreas. Esto significa que, al bloquear algunos de ellos, puede presentarse problemas, y puede desencadenar extraños efectos secundarios y, en el peor de los casos, hacer que el sistema sea completamente inutilizable.\n\nBloquear wakelocks es responsabilidad exclusiva de usted.</string>
+  <string name="wkl_alert_checkbox">MOSTRAR LA PROXIMA VEZ</string>
+
   <!-- Virtual Memory -->
     <string name="vm_tunnables">VM Ajustables</string>
   <string name="zram">Z-RAM</string>

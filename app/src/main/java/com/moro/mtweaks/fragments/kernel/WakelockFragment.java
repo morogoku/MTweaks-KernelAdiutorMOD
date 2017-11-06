@@ -1,8 +1,15 @@
 package com.moro.mtweaks.fragments.kernel;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
+import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.kernel.wakelock.Wakelock;
@@ -25,6 +32,7 @@ import java.util.List;
 public class WakelockFragment extends RecyclerViewFragment {
 
     private List<CardView> mWakeCard = new ArrayList<>();
+    boolean mAlertCheckbox = true;
 
     @Override
     protected void init() {
@@ -257,5 +265,42 @@ public class WakelockFragment extends RecyclerViewFragment {
         if (wake.size() > 0) {
             items.add(wake);
         }
+    }
+
+    private void warningDialog() {
+
+        View checkBoxView = View.inflate(getActivity(), R.layout.alertdialog_wakelock_fragment, null);
+        CheckBox checkBox = (CheckBox) checkBoxView.findViewById(R.id.chbox);
+        checkBox.setChecked(true);
+        checkBox.setText(getString(R.string.wkl_alert_checkbox));
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                mAlertCheckbox = isChecked;
+            }
+        });
+
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle(getString(R.string.wkl_alert_title));
+        alert.setMessage(getString(R.string.wkl_alert_message));
+        alert.setView(checkBoxView);
+        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                Prefs.saveBoolean("show_wakelock_dialog", mAlertCheckbox, getActivity());
+            }
+        });
+
+        alert.show();
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        boolean showDialog = Prefs.getBoolean("show_wakelock_dialog", true, getActivity());
+
+        if(showDialog) warningDialog();
+
     }
 }
