@@ -1,4 +1,4 @@
-package com.moro.mtweaks.utils.kernel.wakelock;
+package com.moro.mtweaks.utils.kernel.boefflawakelock;
 
 import android.content.Context;
 
@@ -267,7 +267,7 @@ public class BoefflaWakelock {
     }
 
     private static void run(String command, String id, Context context) {
-        Control.runSetting(command, ApplyOnBootFragment.WAKELOCK, id, context);
+        Control.runSetting(command, ApplyOnBootFragment.BOEFFLA_WAKELOCK, id, context);
     }
 
     public static boolean supported() {

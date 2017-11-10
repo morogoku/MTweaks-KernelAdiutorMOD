@@ -56,7 +56,7 @@ import com.moro.mtweaks.utils.kernel.cpuhotplug.MPDecision;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
-import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
+import com.moro.mtweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.root.Control;
 import com.moro.mtweaks.utils.root.RootFile;
 import com.moro.mtweaks.utils.root.RootUtils;
