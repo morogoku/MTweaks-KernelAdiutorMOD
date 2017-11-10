@@ -36,8 +36,7 @@ public class Selinux {
     }
 
     public static boolean supported() {
-        String enforcePerm = RootUtils.runCommand("ls -l " + SELINUX_ENFORCE + " | cut -c -10");
-        return Utils.existFile(SELINUX_ENFORCE) && enforcePerm.contentEquals("-rw-r--r--");
+        return Utils.existFile(SELINUX_ENFORCE);
     }
 
     private static void run(String command, String id, Context context) {
