@@ -47,6 +47,7 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
 import com.moro.mtweaks.fragments.kernel.BatteryFragment;
+import com.moro.mtweaks.fragments.kernel.BoefflaWakelockFragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
@@ -104,7 +105,7 @@ import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
-import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
+import com.moro.mtweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.kernel.wakelock.Wakelock;
 import com.moro.mtweaks.utils.root.RootUtils;
 import com.moro.mtweaks.utils.tools.Backup;
@@ -239,8 +240,11 @@ public class NavigationActivity extends BaseActivity
         if (LMK.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, new LMKFragment(), R.drawable.ic_stackoverflow));
         }
-        if (Wakelock.supported() || BoefflaWakelock.supported()) {
+        if (Wakelock.supported()) {
             sFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, new WakelockFragment(), R.drawable.ic_unlock));
+        }
+        if (BoefflaWakelock.supported()) {
+            sFragments.add(new NavigationActivity.NavigationFragment(R.string.boeffla_wakelock, new BoefflaWakelockFragment(), R.drawable.ic_unlock));
         }
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, new VMFragment(), R.drawable.ic_server));
         if (Entropy.supported()) {

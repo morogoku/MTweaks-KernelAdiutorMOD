@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.tools.profile.ProfileActivity;
 import com.moro.mtweaks.fragments.kernel.BatteryFragment;
+import com.moro.mtweaks.fragments.kernel.BoefflaWakelockFragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUFragment;
@@ -70,6 +71,7 @@ public class ApplyOnBootFragment extends BaseFragment {
     public static final String SCREEN = "screen_onboot";
     public static final String WAKE = "wake_onboot";
     public static final String WAKELOCK = "wakelock_onboot";
+    public static final String BOEFFLA_WAKELOCK = "boeffla_wakelock_onboot";
     public static final String SOUND = "sound_onboot";
     public static final String BATTERY = "battery_onboot";
     public static final String LED = "led_onboot";
@@ -100,6 +102,7 @@ public class ApplyOnBootFragment extends BaseFragment {
         sAssignments.put(KSMFragment.class, KSM);
         sAssignments.put(LMKFragment.class, LMK);
         sAssignments.put(WakelockFragment.class, WAKELOCK);
+        sAssignments.put(BoefflaWakelockFragment.class, BOEFFLA_WAKELOCK);
         sAssignments.put(VMFragment.class, VM);
         sAssignments.put(EntropyFragment.class, ENTROPY);
         sAssignments.put(MiscFragment.class, MISC);
