@@ -18,6 +18,8 @@ I used following libraries:
 * Google: [Design Support Library](https://developer.android.com/topic/libraries/support-library/features.html#design)
 * Google: [v7 recyclerview library](https://developer.android.com/topic/libraries/support-library/features.html#v7)
 * Ozodrukh: [CircularReveal](https://github.com/ozodrukh/CircularReveal)
+* Akexorcist: [RoundCornerProgressBar](https://github.com/akexorcist/Android-RoundCornerProgressBar)
+* Javier Santos: [AppUpdater](https://github.com/javiersantos/AppUpdater)
 * Roman Nurik: [dashclock](https://github.com/romannurik/dashclock)
 * Google: [Firebase](https://firebase.google.com)
 * Matthew Precious: [swirl](https://github.com/mattprecious/swirl)
