@@ -66,6 +66,7 @@ dependencies {
     compile 'org.adw.library:discrete-seekbar:1.0.1'
     compile 'org.cyanogenmod:platform.sdk:5.0.1'
     compile 'com.akexorcist:RoundCornerProgressBar:2.0.3'
+    compile 'com.squareup.okhttp3:okhttp:3.8.1'
     testCompile 'junit:junit:4.12'
 }
 

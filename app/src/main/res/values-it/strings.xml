@@ -819,4 +819,15 @@
   <string name="feature_function_summary">Se non conosci l\'effetto di un parametro allora, semplicemente, non toccarlo. Ti prego di informarti bene sugli effetti dei parametri prima di giocare con il tuo costoso hardware.</string>
   <string name="add_new_features">Potresti aggiungere le caratteristiche X e Y?</string>
   <string name="add_new_features_summary">È difficile da dire. Provo ad aggiungere tutte le funzionalità, ma è difficile rendere questa app universale per tutti i dispositivi.</string>
+  <!-- APP Updater -->
+  <string name="appupdater_btn_disable">Non mostrare di nuovo</string>
+  <string name="appupdater_btn_dismiss">Ignora</string>
+  <string name="appupdater_btn_update">Aggiorna</string>
+  <string name="appupdater_update_available">Nuovo aggiornamento disponibile!</string>
+  <string name="appupdater_update_available_description_dialog">L\'aggiornamento %1$s è disponibile al download. Scaricando l\'ultimo aggiornamento avrai le ultime funzionalità, migliorie e bug fix per %2$s.</string>
+  <string name="appupdater_update_available_description_dialog_before_release_notes">Aggiornamento %1$s è disponibile al download.\n\nPuoi avere queste nuove funzionalità:\n%2$s</string>
+  <string name="appupdater_update_available_description_notification">L\'aggiornamento %1$s di %2$s è disponibile al download</string>
+  <string name="appupdater_update_available_description_snackbar">L\'aggiornamento %1$s è disponibile!</string>
+  <string name="appupdater_update_not_available">Nessun aggiornamento disponibile</string>
+  <string name="appupdater_update_not_available_description">Hai l\'ultima versione disponibile di %s!</string>
 </resources>
