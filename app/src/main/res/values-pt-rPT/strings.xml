@@ -639,4 +639,15 @@
   <string name="feature_function">O que é que a característica x faz?</string>
   <string name="add_new_features">Pode adicionar o recurso x e y?</string>
   <string name="add_new_features_summary">É difícil dizer. Eu tento adicionar todos os recursos, mas é difícil fazer este app universal para todos os dispositivos.</string>
+  <!-- APP Updater -->
+  <string name="appupdater_update_available">Nova atualização disponível!</string>
+  <string name="appupdater_update_available_description_dialog">Atualização %1$s está disponível para download. Realizando download da última versão com as mais novas funcionalidades, melhorias e correções de bugs para %2$s.</string>
+  <string name="appupdater_update_available_description_dialog_before_release_notes">Atualização %1$s disponível para download.\n\nContém:\n%2$s</string>
+  <string name="appupdater_update_available_description_snackbar">Atualização %1$s está disponível!</string>
+  <string name="appupdater_update_available_description_notification">Atualização %1$s de %2$s está disponível para download</string>
+  <string name="appupdater_update_not_available">Sem novas atualizações</string>
+  <string name="appupdater_update_not_available_description">Você está utilizando a atualização mais recente de %s!</string>
+  <string name="appupdater_btn_update">Atualizar</string>
+  <string name="appupdater_btn_disable">Não mostrar novamente</string>
+  <string name="appupdater_btn_dismiss">Fechar</string>
 </resources>

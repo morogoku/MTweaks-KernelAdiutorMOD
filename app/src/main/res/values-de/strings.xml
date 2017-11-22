@@ -853,4 +853,15 @@ sicher?</string>
   <string name="feature_function_summary">Wenn Sie nicht wissen, was diese Einstellung tut, verändern Sie diese auch nicht. Informieren Sie sich vorher gut, bevor Sie mit Ihrer teuren Hardware experimentieren.</string>
   <string name="add_new_features">Kannst du die Funktion x und y hinzufügen?</string>
   <string name="add_new_features_summary">Das ist schwer zu sagen. Ich versuche alle Features hinzuzufügen, aber es ist schwer diese App universal für alle Geräte zu machen.</string>
+  <!-- APP Updater -->
+  <string name="appupdater_update_available">Neues Update verfügbar!</string>
+  <string name="appupdater_update_available_description_dialog">Update %1$s steht zum Download bereit. Durch das Downloaden der neuesten Version erhältst du neue Features, Verbesserungen und Fehlerbehebungen von %2$s.</string>
+  <string name="appupdater_update_available_description_snackbar">Update %1$s ist verfügbar!</string>
+  <string name="appupdater_update_available_description_notification">Update %1$s von %2$s steht zum Download bereit</string>
+  <string name="appupdater_update_not_available">Keine Updates verfügbar</string>
+  <string name="appupdater_update_not_available_description">Du hast die neueste Version von %s!</string>
+  <string name="appupdater_btn_update">Aktualisieren</string>
+  <string name="appupdater_btn_disable">Nicht mehr anzeigen</string>
+  <string name="appupdater_btn_dismiss">Abbrechen</string>
+  <string name="appupdater_update_available_description_dialog_before_release_notes">Update %1$s steht zum Download bereit.\n\nDurch das Downloaden der neuesten Version erhältst du diese neue Features:\n%2$s</string>
 </resources>
