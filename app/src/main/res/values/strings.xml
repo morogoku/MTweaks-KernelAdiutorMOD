@@ -1122,4 +1122,7 @@
     <string name="appupdater_btn_update">Update</string>
     <string name="appupdater_btn_disable">Don\'t show again</string>
     <string name="appupdater_btn_dismiss">Dismiss</string>
+    <string name="appupdater_conecting">Conecting…</string>
+    <string name="appupdater_finishing">Finishing…</string>
+    <string name="appupdater_downloading">Downloading…</string>
 </resources>
