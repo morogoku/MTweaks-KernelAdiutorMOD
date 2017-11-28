@@ -37,6 +37,9 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.StartActivity;
@@ -81,6 +84,16 @@ public class Service extends android.app.Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        //Initialize AppUpdate check
+        new AppUpdater(this)
+                //.setDisplay(Display.SNACKBAR)
+                //.setDisplay(Display.DIALOG)
+                .setDisplay(Display.NOTIFICATION)
+                .setUpdateFrom(UpdateFrom.JSON)
+                .setIcon(R.drawable.logo)
+                .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
+                .start();
 
         //Initialize Boeffla Wakelock Blocker Files
         if(BoefflaWakelock.supported()) {

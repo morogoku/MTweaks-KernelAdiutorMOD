@@ -37,6 +37,9 @@ import android.widget.TextView;
 
 import com.bvalosek.cpuspy.CpuSpyApp;
 import com.bvalosek.cpuspy.CpuStateMonitor;
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
@@ -92,6 +95,16 @@ public class OverallFragment extends RecyclerViewFragment {
     }
 
     private void statsInit(List<RecyclerViewItem> items) {
+
+        //Initialize AppUpdate check
+        AppUpdater appUpdater = new AppUpdater(getActivity());
+        //appUpdater.setDisplay(Display.SNACKBAR);
+        appUpdater.setDisplay(Display.DIALOG);
+        //appUpdater.setDisplay(Display.NOTIFICATION);
+        appUpdater.setUpdateFrom(UpdateFrom.JSON);
+        appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
+        appUpdater.start();
+
         if (GPUFreq.hasCurFreq()) {
             mGPUFreq = new StatsView();
             mGPUFreq.setTitle(getString(R.string.gpu_freq));
