@@ -1,5 +1,6 @@
 package com.github.javiersantos.appupdater;
 
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -7,21 +8,31 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.enums.Duration;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.github.javiersantos.appupdater.objects.GitHub;
 import com.github.javiersantos.appupdater.objects.Update;
 import com.github.javiersantos.appupdater.objects.Version;
+import com.moro.mtweaks.R;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Locale;
 
 import okhttp3.OkHttpClient;
@@ -30,6 +41,10 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 class UtilsLibrary {
+
+    private static Context mContext;
+    private static ProgressDialog bar;
+
 
     static String getAppName(Context context) {
         return context.getString(context.getApplicationInfo().labelRes);
@@ -282,6 +297,11 @@ class UtilsLibrary {
     }
 
     static void goToUpdate(Context context, UpdateFrom updateFrom, URL url) {
+
+        mContext = context;
+
+        new DownloadNewVersion().execute(url.toString());
+/*
         Intent intent = intentToUpdate(context, updateFrom, url);
 
         if (updateFrom.equals(UpdateFrom.GOOGLE_PLAY)) {
@@ -294,6 +314,7 @@ class UtilsLibrary {
         } else {
             context.startActivity(intent);
         }
+*/
     }
 
     static Boolean isAbleToShow(Integer successfulChecks, Integer showEvery) {
@@ -313,4 +334,113 @@ class UtilsLibrary {
         return res;
     }
 
+    private static void OpenNewVersion(String location) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(new File(location)),
+                "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(Intent.createChooser(intent, ""));
+
+    }
+
+    static class DownloadNewVersion extends AsyncTask<String,Integer,Boolean> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            bar = new ProgressDialog(mContext);
+            bar.setCancelable(false);
+
+            bar.setMessage(mContext.getResources().getString(R.string.appupdater_conecting));
+
+            bar.setIndeterminate(true);
+            bar.setCanceledOnTouchOutside(false);
+            bar.show();
+
+        }
+
+        protected void onProgressUpdate(Integer... progress) {
+            super.onProgressUpdate(progress);
+
+            bar.setIndeterminate(false);
+            bar.setMax(100);
+            bar.setProgress(progress[0]);
+            String msg;
+            if(progress[0] > 99){
+                msg = mContext.getResources().getString(R.string.appupdater_finishing);
+            }else {
+                msg = mContext.getResources().getString(R.string.appupdater_downloading) + " " + progress[0] + "%";
+            }
+            bar.setMessage(msg);
+
+        }
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            bar.dismiss();
+
+            if(result){
+                Toast.makeText(mContext,"File downloaded !",
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(mContext,"Error: Try Again",
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(String... arg0) {
+            Boolean flag;
+
+            try{
+                URL url = new URL(arg0[0]);
+                URLConnection connection = url.openConnection();
+                connection.connect();
+
+                String DOWNLOAD_PATH = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Download2/";
+                String APK = new File(url.getPath()).getName();
+                String FULL_PATH = DOWNLOAD_PATH + APK;
+
+                // Create download folder if not exist
+                File downFolder = new File(DOWNLOAD_PATH);
+                if(!downFolder.exists()) downFolder.mkdirs();
+
+                // get size of file
+                int total_size = connection.getContentLength();
+
+                // define variables for progress
+                byte[] buffer = new byte[1024];
+                int len1;
+                int per;
+                int downloaded = 0;
+
+                // download the file
+                InputStream input = new BufferedInputStream(url.openStream());
+                OutputStream output = new FileOutputStream(FULL_PATH);
+
+                while ((len1 = input.read(buffer)) != -1) {
+                    output.write(buffer, 0, len1);
+                    downloaded +=len1;
+                    per = downloaded * 100 / total_size;
+                    publishProgress(per);
+                }
+
+                output.flush();
+                output.close();
+                input.close();
+
+                // Open file to install
+                OpenNewVersion(FULL_PATH);
+
+                flag = true;
+            } catch (Exception e) {
+                Log.e("MTweaks", "Update Error: " + e.getMessage());
+                flag = false;
+            }
+            return flag;
+        }
+    }
 }
