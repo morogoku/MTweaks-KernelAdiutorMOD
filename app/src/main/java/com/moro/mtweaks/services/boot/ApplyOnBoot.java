@@ -37,6 +37,7 @@ import com.moro.mtweaks.database.tools.profiles.Profiles;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
 import com.moro.mtweaks.services.profile.Tile;
+import com.moro.mtweaks.utils.NotificationId;
 import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
@@ -63,7 +64,6 @@ import java.util.List;
 public class ApplyOnBoot {
 
     private static final String TAG = ApplyOnBoot.class.getSimpleName();
-    private static final int NOTIFICATION_ID = 0;
     private static boolean sCancel;
 
     public interface ApplyOnBootListener {
@@ -196,7 +196,7 @@ public class ApplyOnBoot {
                         }
                         builder.setContentText(context.getString(R.string.apply_on_boot_text, seconds - i));
                         builder.setProgress(seconds, i, false);
-                        notificationManager.notify(NOTIFICATION_ID, builder.build());
+                        notificationManager.notify(NotificationId.APPLY_ON_BOOT, builder.build());
                     }
                     try {
                         Thread.sleep(1000);
@@ -205,12 +205,11 @@ public class ApplyOnBoot {
                     }
                 }
                 if (!hideNotification) {
+                    notificationManager.cancel(NotificationId.APPLY_ON_BOOT);
                     if (confirmationNotification) {
                         builderComplete.setContentText(context.getString(sCancel ? R.string.apply_on_boot_canceled :
                                 R.string.apply_on_boot_complete));
-                        notificationManager.notify(NOTIFICATION_ID, builderComplete.build());
-                    } else {
-                        notificationManager.cancel(NOTIFICATION_ID);
+                        notificationManager.notify(NotificationId.APPLY_ON_BOOT_CONFIRMATION, builderComplete.build());
                     }
 
                     if (sCancel) {
