@@ -988,6 +988,7 @@
   <string name="add_new_features_summary">Es difícil de decir. Intento añadir todas las funciones, pero es difícil hacer esta aplicación universal para todos los dispositivos.</string>
   <!-- APP updater -->
   <string name="appupdater_update_available">¡Nueva actualización disponible!</string>
+  <string name="appupdater_update_title">¡Nueva actualización disponible!\n%1$s v%2$s</string>
   <string name="appupdater_update_available_description_dialog">La actualización %1$s está disponible para descargar. Descargando la última actualización tendrás las novedades, mejoras y soluciones de errores más recientes de %2$s.</string>
   <string name="appupdater_update_available_description_dialog_before_release_notes">La actualización %1$s está disponible para descargar.\n\nIncluye las siguientes novedades:\n%2$s</string>
   <string name="appupdater_update_available_description_snackbar">¡La actualización %1$s está disponible!</string>
@@ -995,6 +996,7 @@
   <string name="appupdater_update_not_available">No hay actualizaciones disponibles</string>
   <string name="appupdater_update_not_available_description">¡Tienes la última versión disponible de %s!</string>
   <string name="appupdater_btn_update">Actualizar</string>
-  <string name="appupdater_btn_disable">No mostrar de nuevo</string>
-  <string name="appupdater_btn_dismiss">Ocultar</string>
+  <string name="appupdater_btn_disable">No mostrar\n de nuevo</string>
+  <string name="appupdater_btn_dismiss">Cancelar</string>
+  <string name="appupdater_download_filed">Descarga FALLIDA!</string>
 </resources>
