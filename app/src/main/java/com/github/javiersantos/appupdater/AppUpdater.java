@@ -343,6 +343,8 @@ public class AppUpdater implements IAppUpdater {
                                 final DialogInterface.OnClickListener updateClickListener = btnUpdateClickListener == null ? new UpdateClickListener(context, updateFrom, update.getUrlToDownload()) : btnUpdateClickListener;
                                 final DialogInterface.OnClickListener disableClickListener = btnDisableClickListener == null ? new DisableClickListener(context) : btnDisableClickListener;
 
+                                titleUpdate = String.format(context.getResources().getString(R.string.appupdater_update_title), UtilsLibrary.getAppName(context), update.getLatestVersion());
+                                
                                 alertDialog = UtilsDisplay.showUpdateAvailableDialog(context, titleUpdate, getDescriptionUpdate(context, update, Display.DIALOG), btnDismiss, btnUpdate, btnDisable, updateClickListener, btnDismissClickListener, disableClickListener);
                                 alertDialog.setCancelable(isDialogCancelable);
                                 alertDialog.show();
