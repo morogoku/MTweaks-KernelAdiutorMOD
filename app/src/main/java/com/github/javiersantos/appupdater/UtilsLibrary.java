@@ -1,22 +1,29 @@
 package com.github.javiersantos.appupdater;
 
-import android.content.ActivityNotFoundException;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.enums.Duration;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.github.javiersantos.appupdater.objects.GitHub;
 import com.github.javiersantos.appupdater.objects.Update;
 import com.github.javiersantos.appupdater.objects.Version;
+import com.moro.mtweaks.R;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,7 +36,13 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static android.content.Context.DOWNLOAD_SERVICE;
+
 class UtilsLibrary {
+
+    private static DownloadManager downloadManager;
+    private static long id;
+
 
     static String getAppName(Context context) {
         return context.getString(context.getApplicationInfo().labelRes);
@@ -282,18 +295,12 @@ class UtilsLibrary {
     }
 
     static void goToUpdate(Context context, UpdateFrom updateFrom, URL url) {
-        Intent intent = intentToUpdate(context, updateFrom, url);
 
-        if (updateFrom.equals(UpdateFrom.GOOGLE_PLAY)) {
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url.toString()));
-                context.startActivity(intent);
-            }
-        } else {
-            context.startActivity(intent);
-        }
+        IntentFilter filter = new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
+        context.registerReceiver(downloadReceiver, filter);
+
+        descargar(context, url);
+
     }
 
     static Boolean isAbleToShow(Integer successfulChecks, Integer showEvery) {
@@ -313,4 +320,59 @@ class UtilsLibrary {
         return res;
     }
 
+    private static void descargar(Context context, URL url)
+    {
+        downloadManager = (DownloadManager)context.getSystemService(DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url.toString()));
+
+        String APK = new File(url.getPath()).getName();
+
+        request.setTitle(APK);
+
+        // Guardar archivo
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
+        {
+            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,APK);
+        }
+
+        // Iniciamos la descarga
+        id = downloadManager.enqueue(request);
+
+    }
+
+    private static void OpenNewVersion(Context context, String location) {
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(new File(location)),
+                "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(Intent.createChooser(intent, ""));
+
+    }
+
+    private static BroadcastReceiver downloadReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            DownloadManager.Query query = new DownloadManager.Query();
+            query.setFilterById(id, 0);
+            Cursor cursor = downloadManager.query(query);
+
+            if(cursor.moveToFirst()) {
+                int status = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_STATUS));
+                int reason = cursor.getInt(cursor.getColumnIndex(DownloadManager.COLUMN_REASON));
+
+                if(status == DownloadManager.STATUS_SUCCESSFUL) {
+
+                    // Si la descarga es correcta abrimos el archivo para instalarlo
+                    String uriString = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)).replace("file://", "");
+                    OpenNewVersion(context, uriString);
+                }
+                else if(status == DownloadManager.STATUS_FAILED) {
+                    Toast.makeText(context,context.getString(R.string.appupdater_download_filed) + reason,Toast.LENGTH_LONG).show();
+                }
+            }
+        }
+    };
 }
