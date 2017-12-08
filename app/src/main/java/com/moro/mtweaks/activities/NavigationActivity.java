@@ -70,6 +70,7 @@ import com.moro.mtweaks.fragments.kernel.VMFragment;
 import com.moro.mtweaks.fragments.kernel.WakeFrament;
 import com.moro.mtweaks.fragments.other.AboutFragment;
 import com.moro.mtweaks.fragments.other.ContributorsFragment;
+import com.moro.mtweaks.fragments.other.DonationFragment;
 import com.moro.mtweaks.fragments.other.SettingsFragment;
 import com.moro.mtweaks.fragments.statistics.DeviceFragment;
 import com.moro.mtweaks.fragments.statistics.InputsFragment;
@@ -269,8 +270,9 @@ public class NavigationActivity extends BaseActivity
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.on_boot, new OnBootFragment(), R.drawable.ic_start));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.other));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.settings));
+        sFragments.add(new NavigationActivity.NavigationFragment(R.string.donation_title, new DonationFragment(), R.drawable.ic_donation));
         sFragments.add(new NavigationActivity.NavigationFragment(R.string.about, new AboutFragment(), R.drawable.ic_about));
-        sFragments.add(new NavigationActivity.NavigationFragment(R.string.contributors, new ContributorsFragment(), R.drawable.ic_people));
+        //sFragments.add(new NavigationActivity.NavigationFragment(R.string.contributors, new ContributorsFragment(), R.drawable.ic_people));
         //sFragments.add(new NavigationActivity.NavigationFragment(R.string.help, new HelpFragment(), R.drawable.ic_help));
     }
 
