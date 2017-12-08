@@ -1092,6 +1092,10 @@
     <string name="about_me">Hi, I\'m MoroGoku, developer of MoRoKernel of Samsung S7. This app is a mod of \"Kernel Adiutor\" of Willi Ye, aka Grarak. I make this mod for compatibilize Kernel Adiutor with Galaxy S7 smartphone, and add some new options. Thanks Willi for this great app.</string>
     <string name="libraries_used">Libraries used</string>
 
+    <!-- Donation -->
+    <string name="donation_title">Donation</string>
+    <string name="donation_summary">Hi, MTweaks v2 is an application based on \"Kernel Adiutor\" by Willi Ye, aka Grarak.\n\nIt has several new modifications and adjustments, especially for the latest Samsung Galaxy.\n\nI do this because I have fun and I like to share my work, that\'s why it\'s free and does not carry advertising.\n\nAlthough if you liked the work I have done and you want to donate something and invite me to a beer, as they say, you can do it in the following Paypal link.</string>
+
     <!-- Contributors -->
     <string name="commits">%d commits</string>
     <string name="no_internet">Please check your internet connection!</string>
