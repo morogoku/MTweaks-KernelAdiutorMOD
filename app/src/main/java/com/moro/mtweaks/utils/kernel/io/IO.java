@@ -51,6 +51,8 @@ public class IO {
     private static final String IOSTATS = "iostats";
     private static final String ADD_RANDOM = "add_random";
     private static final String RQ_AFFINITY = "rq_affinity";
+    private static final String NOMERGES = "nomerges";
+    private static final String NR_REQUESTS = "nr_requests";
 
     public enum Storage {
         Internal,
@@ -81,6 +83,32 @@ public class IO {
 
     public boolean hasExternal() {
         return EXTERNAL != null;
+    }
+
+    public boolean hasNomerges(Storage storage) {
+        return Utils.existFile(getPath(storage, NOMERGES));
+    }
+
+    public void setNomerges(Storage storage, int value, Context context) {
+        run(Control.write(String.valueOf(value), getPath(storage, NOMERGES)),
+                getPath(storage, NOMERGES), context);
+    }
+
+    public int getNomerges(Storage storage) {
+        return Utils.strToInt(Utils.readFile(getPath(storage, NOMERGES)));
+    }
+
+    public void setNrRequests(Storage storage, int value, Context context) {
+        run(Control.write(String.valueOf(value), getPath(storage, NR_REQUESTS)),
+                getPath(storage, NR_REQUESTS), context);
+    }
+
+    public int getNrRequests(Storage storage) {
+        return getReadahead(getPath(storage, NR_REQUESTS));
+    }
+
+    public boolean hasNrRequests(Storage storage) {
+        return Utils.existFile(getPath(storage, NR_REQUESTS));
     }
 
     public void setRqAffinity(Storage storage, int value, Context context) {

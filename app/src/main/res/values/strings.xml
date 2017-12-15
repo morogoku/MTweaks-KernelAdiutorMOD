@@ -179,7 +179,7 @@
     <string name="cpu_governor_tunables">CPU Governor Tunables</string>
     <string name="governor_tunables_summary">The various configuration items which are Governor-dependent.</string>
     <string name="cpu_governor_tunables_read_error">Failed to read current governor of CPU.\n\nIf you are using a QCOM big.LITTLE device this is a known problem. The system forces the CPU to turn off cores making it extremely hard to read out CPU specific stats. Try to select this option again. The CPU sometimes refuses to turn on a core.</string>
-    <string name="tunables_error">%s is not tuneable</string>
+    <string name="tunables_error">%1$s is not tuneable</string>
     <string name="manual">Manual</string>
     <string name="mc_power_saving">Multicore Power Saving</string>
     <string name="mc_power_saving_summary">Try to group tasks into the least cores possible.</string>
@@ -748,6 +748,10 @@
     <string name="add_random_summary">Draw entropy from spinning (rotational) storage.</string>
     <string name="rq_affitiny">RQ Affinity</string>
     <string name="rq_affinity_summary">Try to have scheduler requests complete on the CPU core they were made from. Higher values are more aggressive.</string>
+    <string name="nomerges">NoMerges</string>
+    <string name="nomerges_summary">This enables the user to disable the lookup logic involved with IO merging requests in the block layer.</string>
+    <string name="nr_requests">Nr Requests</string>
+    <string name="nr_requests_summary">This controls how many requests may be allocated in the block layer for read or write requests.</string>
 
     <!-- Kernel Samepage Merging -->
     <string name="full_scans">Full scans</string>
