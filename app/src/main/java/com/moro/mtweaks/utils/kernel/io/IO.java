@@ -42,6 +42,8 @@ public abstract class IO {
     private static final String IOSTATS = "iostats";
     private static final String ADD_RANDOM = "add_random";
     private static final String RQ_AFFINITY = "rq_affinity";
+    private static final String NOMERGES = "nomerges";
+    private static final String NR_REQUESTS = "nr_requests";
 
     private static final List<String> sInternal = new ArrayList<>();
     private static final List<String> sExternal = new ArrayList<>();
@@ -65,6 +67,32 @@ public abstract class IO {
 
     public static boolean hasExternal() {
         return EXTERNAL != null;
+    }
+
+    public static boolean hasNomerges(Storage storage) {
+        return Utils.existFile(getPath(storage, NOMERGES));
+    }
+
+    public static void setNomerges(Storage storage, int value, Context context) {
+        run(Control.write(String.valueOf(value), getPath(storage, NOMERGES)),
+                getPath(storage, NOMERGES), context);
+    }
+
+    public static int getNomerges(Storage storage) {
+        return Utils.strToInt(Utils.readFile(getPath(storage, NOMERGES)));
+    }
+
+    public static void setNrRequests(Storage storage, int value, Context context) {
+        run(Control.write(String.valueOf(value), getPath(storage, NR_REQUESTS)),
+                getPath(storage, NR_REQUESTS), context);
+    }
+
+    public static int getNrRequests(Storage storage) {
+        return getReadahead(getPath(storage, NR_REQUESTS));
+    }
+
+    public static boolean hasNrRequests(Storage storage) {
+        return Utils.existFile(getPath(storage, NR_REQUESTS));
     }
 
     public static void setRqAffinity(Storage storage, int value, Context context) {
