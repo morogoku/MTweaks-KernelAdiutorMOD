@@ -29,6 +29,7 @@ import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
+import com.moro.mtweaks.views.recyclerview.SwitchView;
 
 import java.util.List;
 
@@ -115,7 +116,7 @@ public class IOFragment extends RecyclerViewFragment {
 
             io.addItem(readahead);
         }
-/*
+
         if (IO.hasRotational(storage)) {
             SwitchView rotational = new SwitchView();
             rotational.setTitle(getString(R.string.rotational));
@@ -180,7 +181,49 @@ public class IOFragment extends RecyclerViewFragment {
 
             io.addItem(rqAffinity);
         }
-*/
+
+        if (IO.hasNomerges(storage)) {
+            SeekBarView Nomerges = new SeekBarView();
+            Nomerges.setTitle(getString(R.string.nomerges));
+            Nomerges.setSummary(getString(R.string.nomerges_summary));
+            Nomerges.setMax(2);
+            Nomerges.setProgress(IO.getNomerges(storage));
+            Nomerges.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    IO.setNomerges(storage, position, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            io.addItem(Nomerges);
+        }
+
+        if (IO.hasNrRequests(storage)) {
+            SeekBarView NrRequests = new SeekBarView();
+            NrRequests.setTitle(getString(R.string.nr_requests));
+            NrRequests.setSummary(getString(R.string.nr_requests_summary));
+            NrRequests.setMax(8192);
+            NrRequests.setMin(128);
+            NrRequests.setOffset(128);
+            NrRequests.setProgress(IO.getNrRequests(storage) / 128 - 1);
+            NrRequests.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    IO.setNrRequests(storage, (position + 1) * 128, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            io.addItem(NrRequests);
+        }
+
         if (io.size() > 0) {
             items.add(io);
         }

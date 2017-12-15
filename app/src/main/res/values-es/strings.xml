@@ -659,6 +659,10 @@
   <string name="add_random_summary">Extraer entropía de giro (rotación) de almacenamiento.</string>
   <string name="rq_affitiny">Afinidad RQ</string>
   <string name="rq_affinity_summary">Intentar que las peticiones del planificador se completen en el CPU desde el que se hicieron. Valores mas altos son más agresivos.</string>
+  <string name="nomerges">NoMerges</string>
+  <string name="nomerges_summary">Esto permite al usuario desactivar la lógica de búsqueda involucrada con IO fusionando solicitudes en la capa de bloque.</string>
+  <string name="nr_requests">Nr Requests</string>
+  <string name="nr_requests_summary">Controla cuántas solicitudes pueden asignarse en la capa de bloque para leer o escribir solicitudes.</string>
   <!-- Kernel Samepage Merging -->
   <string name="full_scans">Análisis completo</string>
   <string name="pages_shared">Páginas compartidas</string>
