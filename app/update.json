@@ -1,10 +1,11 @@
 {
-  "latestVersion": "2.6.3",
-  "latestVersionCode": "263",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/2.6.3/MTweaks_v2.6.3.apk",
+  "latestVersion": "2.7",
+  "latestVersionCode": "270",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.7/MTweaks_v2.7.apk",
   "releaseNotes": [
-    "- First evolution",
-    "- Second evolution",
-    "- Bug fixes"
+    "- Update dependencies",
+    "- Add APK Autoupdate system",
+    "- Add Donation Link",
+    "- Add I/O schedulers tunables"
   ]
 }
