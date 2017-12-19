@@ -520,6 +520,8 @@
     <string name="master_sequence_summary">Enabling the master sequence will disable and ignore Samsung\'s profiles and scenarios, the ROM controls will be disabled.</string>
     <string name="glove_mode">Glove Mode</string>
     <string name="glove_mode_summary">Enabling this will let you use your phone even while wearing gloves.</string>
+    <string name="restore_button">Restore</string>
+    <string name="restore_summary">Restore stock values</string>
 
     <!-- Wake -->
     <string name="gestures">Gestures</string>
