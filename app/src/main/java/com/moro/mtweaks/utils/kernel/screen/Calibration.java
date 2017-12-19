@@ -22,6 +22,7 @@ package com.moro.mtweaks.utils.kernel.screen;
 import android.content.Context;
 
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
+import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
 
@@ -343,6 +344,98 @@ public class Calibration {
             }
         }
         return false;
+    }
+
+    public static void saveCalibrationStockValues(Context context) {
+        if (Utils.existFile(KCAL)) {
+            Prefs.saveString("calibration_KCAL_CTRL", Utils.readFile(KCAL_CTRL), context);
+            Prefs.saveString("calibration_KCAL_CTRL_CTRL", Utils.readFile(KCAL_CTRL_CTRL), context);
+            Prefs.saveString("calibration_KCAL_CTRL_ENABLE", Utils.readFile(KCAL_CTRL_ENABLE), context);
+            Prefs.saveString("calibration_KCAL_CTRL_MIN", Utils.readFile(KCAL_CTRL_MIN), context);
+            Prefs.saveString("calibration_KCAL_CTRL_INVERT", Utils.readFile(KCAL_CTRL_INVERT), context);
+            Prefs.saveString("calibration_KCAL_CTRL_SAT", Utils.readFile(KCAL_CTRL_SAT), context);
+            Prefs.saveString("calibration_KCAL_CTRL_HUE", Utils.readFile(KCAL_CTRL_HUE), context);
+            Prefs.saveString("calibration_KCAL_CTRL_VAL", Utils.readFile(KCAL_CTRL_VAL), context);
+            Prefs.saveString("calibration_KCAL_CTRL_CONT", Utils.readFile(KCAL_CTRL_CONT), context);
+        }
+        if (Utils.existFile(DIAG0)){
+            Prefs.saveString("calibration_DIAG0_POWER", Utils.readFile(DIAG0_POWER), context);
+            Prefs.saveString("calibration_DIAG0_POWER_CTRL", Utils.readFile(DIAG0_POWER_CTRL), context);
+        }
+        if (Utils.existFile(COLOR_CONTROL)){
+            Prefs.saveString("calibration_COLOR_CONTROL_MUILTIPLIER", Utils.readFile(COLOR_CONTROL_MUILTIPLIER), context);
+            Prefs.saveString("calibration_COLOR_CONTROL_CTRL", Utils.readFile(COLOR_CONTROL_CTRL), context);
+        }
+        if (Utils.existFile(SAMOLED_COLOR)){
+            Prefs.saveString("calibration_SAMOLED_COLOR_RED", Utils.readFile(SAMOLED_COLOR_RED), context);
+            Prefs.saveString("calibration_SAMOLED_COLOR_GREEN", Utils.readFile(SAMOLED_COLOR_GREEN), context);
+            Prefs.saveString("calibration_SAMOLED_COLOR_BLUE", Utils.readFile(SAMOLED_COLOR_BLUE), context);
+        }
+        if (Utils.existFile(FB0_RGB)) {
+            Prefs.saveString("calibration_FB0_RGB", Utils.readFile(FB0_RGB), context);
+        }
+        if (Utils.existFile(FB_KCAL)) {
+            Prefs.saveString("calibration_FB_KCAL", Utils.readFile(FB_KCAL), context);
+        }
+        if (Utils.existFile(HBM)) {
+            Prefs.saveString("calibration_HBM", Utils.readFile(HBM), context);
+        }
+    }
+
+    public static void restoreCalibrationStockValues(Context context) {
+        if (Utils.existFile(KCAL)) {
+            Utils.writeFile(KCAL_CTRL, Prefs.getString(
+                    "calibration_KCAL_CTRL", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_CTRL, Prefs.getString(
+                    "calibration_KCAL_CTRL_CTRL", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_ENABLE, Prefs.getString(
+                    "calibration_KCAL_CTRL_ENABLE", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_MIN, Prefs.getString(
+                    "calibration_KCAL_CTRL_MIN", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_INVERT, Prefs.getString(
+                    "calibration_KCAL_CTRL_INVERT", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_SAT, Prefs.getString(
+                    "calibration_KCAL_CTRL_SAT", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_HUE, Prefs.getString(
+                    "calibration_KCAL_CTRL_HUE", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_VAL, Prefs.getString(
+                    "calibration_KCAL_CTRL_VAL", "", context), false, true);
+            Utils.writeFile(KCAL_CTRL_CONT, Prefs.getString(
+                    "calibration_KCAL_CTRL_CONT", "", context), false, true);
+        }
+        if (Utils.existFile(DIAG0)){
+            Utils.writeFile(DIAG0_POWER, Prefs.getString(
+                    "calibration_DIAG0_POWER", "", context), false, true);
+            Utils.writeFile(DIAG0_POWER_CTRL, Prefs.getString(
+                    "calibration_DIAG0_POWER_CTRL", "", context), false, true);
+        }
+        if (Utils.existFile(COLOR_CONTROL)){
+            Utils.writeFile(COLOR_CONTROL_MUILTIPLIER, Prefs.getString(
+                    "calibration_COLOR_CONTROL_MUILTIPLIER", "", context), false, true);
+            Utils.writeFile(COLOR_CONTROL_CTRL, Prefs.getString(
+                    "calibration_COLOR_CONTROL_CTRL", "", context), false, true);
+        }
+        if (Utils.existFile(SAMOLED_COLOR)){
+            Utils.writeFile(SAMOLED_COLOR_RED, Prefs.getString(
+                    "calibration_SAMOLED_COLOR_RED", "", context), false, true);
+            Utils.writeFile(SAMOLED_COLOR_GREEN, Prefs.getString(
+                    "calibration_SAMOLED_COLOR_GREEN", "", context), false, true);
+            Utils.writeFile(SAMOLED_COLOR_BLUE, Prefs.getString(
+                    "calibration_SAMOLED_COLOR_BLUE", "", context), false, true);
+        }
+        if (Utils.existFile(FB0_RGB)) {
+            Utils.writeFile(FB0_RGB, Prefs.getString(
+                    "calibration_FB0_RGB", "", context), false, true);
+        }
+        if (Utils.existFile(FB_KCAL)) {
+            Utils.writeFile(FB_KCAL, Prefs.getString(
+                    "calibration_FB_KCAL", "", context), false, true);
+        }
+        if (Utils.existFile(HBM)) {
+            Utils.writeFile(HBM, Prefs.getString(
+                    "calibration_HBM", "", context), false, true);
+        }
+
     }
 
     public static boolean supported() {

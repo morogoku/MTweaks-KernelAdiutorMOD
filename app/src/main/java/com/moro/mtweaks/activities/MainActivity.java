@@ -56,6 +56,7 @@ import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
+import com.moro.mtweaks.utils.kernel.screen.Calibration;
 import com.moro.mtweaks.utils.kernel.screen.Screen;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
@@ -140,11 +141,20 @@ public class MainActivity extends BaseActivity {
 
             // Reset battery_saved to recopy battery stock values
             Prefs.saveBoolean("s7_battery_saved", false, this);
+
+            // Reset calibration_saved to recopy screen calibration stock values
+            Prefs.saveBoolean("calibration_saved", false, this);
         }
 
         // save battery stock values
         if (!Prefs.getBoolean("s7_battery_saved", false, this)){
             Battery.saveS7StockValues(this);
+        }
+
+        // save screen calibration stock values
+        if (!Prefs.getBoolean("calibration_saved", false, this)){
+            Calibration.saveCalibrationStockValues(this);
+            Prefs.saveBoolean("calibration_saved", true, this);
         }
 
         // Save backup of Cluster0 stock voltages

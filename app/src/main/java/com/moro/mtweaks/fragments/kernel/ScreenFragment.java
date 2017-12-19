@@ -21,6 +21,7 @@ package com.moro.mtweaks.fragments.kernel;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ import com.moro.mtweaks.utils.kernel.screen.Gamma;
 import com.moro.mtweaks.utils.kernel.screen.GammaProfiles;
 import com.moro.mtweaks.utils.kernel.screen.Misc;
 import com.moro.mtweaks.views.ColorTable;
+import com.moro.mtweaks.views.recyclerview.ButtonView;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DropDownView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView;
@@ -92,6 +94,7 @@ public class ScreenFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        restoreValuesInit(items);
         screenColorInit(items);
         List<RecyclerViewItem> gammas = new ArrayList<>();
         if (Gamma.hasKGamma()) {
@@ -118,6 +121,23 @@ public class ScreenFragment extends RecyclerViewFragment {
         if (Misc.hasGloveMode()) {
             gloveModeInit(items);
         }
+    }
+
+    private void restoreValuesInit(List<RecyclerViewItem> items) {
+        ButtonView bv = new ButtonView();
+        bv.setSummary(getString(R.string.restore_summary));
+        bv.setButtonText(getString(R.string.restore_button));
+        bv.setOnItemClickListener(new ButtonView.OnItemClickListener(){
+            @Override
+            public void onClick(RecyclerViewItem item) {
+                Calibration.restoreCalibrationStockValues(getActivity());
+
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, new ScreenFragment()).commit();
+            }
+        });
+
+        items.add(bv);
     }
 
     private void screenColorInit(List<RecyclerViewItem> items) {
