@@ -82,13 +82,13 @@ public abstract class IO {
         return Utils.strToInt(Utils.readFile(getPath(storage, NOMERGES)));
     }
 
-    public static void setNrRequests(Storage storage, int value, Context context) {
-        run(Control.write(String.valueOf(value), getPath(storage, NR_REQUESTS)),
+    public static void setNrRequests(Storage storage, String value, Context context) {
+        run(Control.write(value, getPath(storage, NR_REQUESTS)),
                 getPath(storage, NR_REQUESTS), context);
     }
 
-    public static int getNrRequests(Storage storage) {
-        return getReadahead(getPath(storage, NR_REQUESTS));
+    public static String getNrRequests(Storage storage) {
+        return Utils.readFile(getPath(storage, NR_REQUESTS));
     }
 
     public static boolean hasNrRequests(Storage storage) {
