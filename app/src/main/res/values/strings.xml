@@ -1013,6 +1013,11 @@
 
     <!-- Settings -->
     <string name="open_settings">Open Settings</string>
+    <string name="reset_data_title">Restore application</string>
+    <string name="reset_data_summary">Clear data and restore the application settings</string>
+    <string name="reset_data_dialog1">The data and the configuration of the entire application will be erased.\n\nAre you sure?\n</string>
+    <string name="reset_data_dialog2_title">Reboot</string>
+    <string name="reset_data_dialog2_message">To avoid configuration failures it is recommended to reboot the system.\n\nDo you want to reboot?\n</string>
     <string name="fahrenheit_title">Fahrenheit</string>
     <string name="fahrenheit_summary">Use fahrenheit to measure temperature.</string>
     <string name="force_english">Force displaying english language</string>

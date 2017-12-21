@@ -6,6 +6,11 @@
         android:key="adview"
         app:layout="@layout/rv_ad_view" />
 
+    <Preference
+        android:key="reset_data"
+        android:summary="@string/reset_data_summary"
+        android:title="@string/reset_data_title" />
+
     <SwitchPreferenceCompat
         android:key="useretardedmeasurement"
         android:summary="@string/fahrenheit_summary"
