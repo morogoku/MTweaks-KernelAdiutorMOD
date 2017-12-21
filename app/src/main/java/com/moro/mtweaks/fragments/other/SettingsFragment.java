@@ -32,6 +32,7 @@ import android.os.Messenger;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
@@ -69,6 +70,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         Preference.OnPreferenceChangeListener, Preference.OnPreferenceClickListener {
 
     private static final String KEY_AD_VIEW = "adview";
+    private static final String KEY_RESET_DATA = "reset_data";
     private static final String KEY_FORCE_ENGLISH = "forceenglish";
     private static final String KEY_USER_INTERFACE = "user_interface";
     private static final String KEY_DARK_THEME = "darktheme";
@@ -143,6 +145,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             findPreference(KEY_MATERIAL_ICON).setOnPreferenceChangeListener(this);
         }
 */
+        findPreference(KEY_RESET_DATA).setOnPreferenceClickListener(this);
         findPreference(KEY_DARK_THEME).setOnPreferenceChangeListener(this);
         findPreference(KEY_BANNER_RESIZER).setOnPreferenceClickListener(this);
         findPreference(KEY_HIDE_BANNER).setOnPreferenceChangeListener(this);
@@ -254,6 +257,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     public boolean onPreferenceClick(Preference preference) {
         String key = preference.getKey();
         switch (key) {
+            case KEY_RESET_DATA:
+                resetDataDialog();
+                return true;
             case KEY_BANNER_RESIZER:
                 if (Utils.DONATED) {
                     Intent intent = new Intent(getActivity(), BannerResizerActivity.class);
@@ -335,6 +341,42 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             super.onPostExecute(aVoid);
             mProgressDialog.dismiss();
         }
+    }
+
+    private void resetDataDialog(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
+        alert.setTitle(getString(R.string.reset_data_title));
+        alert.setMessage(getString(R.string.reset_data_dialog1));
+        alert.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        alert.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+
+                AlertDialog.Builder alert2 = new AlertDialog.Builder(getActivity());
+                alert2.setTitle(getString(R.string.reset_data_dialog2_title));
+                alert2.setMessage(getString(R.string.reset_data_dialog2_message));
+                alert2.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        RootUtils.runCommand("rm -rf /data/.mtweaks");
+                        RootUtils.runCommand("pm clear com.moro.mtweaks");
+                    }
+                });
+                alert2.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        RootUtils.runCommand("rm -rf /data/.mtweaks");
+                        RootUtils.runCommand("pm clear com.moro.mtweaks && reboot");
+                    }
+                });
+                alert2.show();
+            }
+        });
+        alert.show();
     }
 
     private void editPasswordDialog(final String oldPass) {
