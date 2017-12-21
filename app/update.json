@@ -1,11 +1,11 @@
 {
-  "latestVersion": "2.7",
-  "latestVersionCode": "270",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.7/MTweaks_v2.7.apk",
+  "latestVersion": "2.7.5",
+  "latestVersionCode": "275",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.7.5/MTweaks_v2.7.5.apk",
   "releaseNotes": [
-    "- Update dependencies",
-    "- Add APK Autoupdate system",
-    "- Add Donation Link",
-    "- Add I/O schedulers tunables"
+    "- Screen setting: added button for restore stock values (only for qualcomm devices)",
+    "- Added Option to Restore application data (in Settings menu)",
+    "- Removed AppUpdate check from boot service",
+    "- I/O Schedulers: NrRequests changes seekbar to editbox"
   ]
 }
