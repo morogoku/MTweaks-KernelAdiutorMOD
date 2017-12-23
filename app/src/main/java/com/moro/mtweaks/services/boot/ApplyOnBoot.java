@@ -29,6 +29,9 @@ import android.os.Build;
 import android.os.Handler;
 import android.support.v4.app.NotificationCompat;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.MainActivity;
 import com.moro.mtweaks.database.Settings;
@@ -71,6 +74,16 @@ public class ApplyOnBoot {
     }
 
     public static boolean apply(final Context context, final ApplyOnBootListener listener) {
+
+        //Initialize AppUpdate check
+        new AppUpdater(context)
+                //.setDisplay(Display.SNACKBAR)
+                //.setDisplay(Display.DIALOG)
+                .setDisplay(Display.NOTIFICATION)
+                .setUpdateFrom(UpdateFrom.JSON)
+                .setIcon(R.drawable.logo)
+                .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
+                .start();
 
         //Initialize Boeffla Wakelock Blocker Files
         if(BoefflaWakelock.supported()) {
