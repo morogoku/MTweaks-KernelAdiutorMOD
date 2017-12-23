@@ -31,7 +31,7 @@ import android.widget.RemoteViewsService;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.database.tools.profiles.Profiles;
-import com.moro.mtweaks.services.boot.Service;
+import com.moro.mtweaks.services.boot.ApplyOnBoot;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
@@ -107,7 +107,7 @@ public class Widget extends AppWidgetProvider {
                         if (command.getCommand().startsWith("#")
                                 && (applyCpu = new CPUFreq.ApplyCpu(command.getCommand()
                                 .substring(1))).toString() != null) {
-                            adjustedCommands.addAll(Service.getApplyCpu(applyCpu, su));
+                            adjustedCommands.addAll(ApplyOnBoot.getApplyCpu(applyCpu, su));
                         } else {
                             adjustedCommands.add(command.getCommand());
                         }

@@ -27,7 +27,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.moro.mtweaks.R;
-import com.moro.mtweaks.services.boot.Service;
+import com.moro.mtweaks.services.boot.ApplyOnBoot;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
@@ -73,7 +73,7 @@ public class Tasker extends BroadcastReceiver {
                             CPUFreq.ApplyCpu applyCpu;
                             if (cs[i].startsWith("#") && (applyCpu =
                                     new CPUFreq.ApplyCpu(cs[i].substring(1))).toString() != null) {
-                                for (String applyCpuCommand : Service.getApplyCpu(applyCpu, su)) {
+                                for (String applyCpuCommand : ApplyOnBoot.getApplyCpu(applyCpu, su)) {
                                     Log.i(TAG + ": " + getClass().getSimpleName(), "Run: " + applyCpuCommand);
                                     su.runCommand(applyCpuCommand);
                                 }

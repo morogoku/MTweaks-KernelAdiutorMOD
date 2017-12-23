@@ -55,7 +55,7 @@ import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.DescriptionFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
 import com.moro.mtweaks.fragments.SwitcherFragment;
-import com.moro.mtweaks.services.boot.Service;
+import com.moro.mtweaks.services.boot.ApplyOnBoot;
 import com.moro.mtweaks.services.profile.Tile;
 import com.moro.mtweaks.services.profile.Widget;
 import com.moro.mtweaks.utils.Prefs;
@@ -361,7 +361,7 @@ public class ProfileFragment extends RecyclerViewFragment {
                                     if (command.getCommand().startsWith("#") && ((applyCpu =
                                             new CPUFreq.ApplyCpu(command.getCommand().substring(1)))
                                             .toString() != null)) {
-                                        for (String applyCpuCommand : Service.getApplyCpu(applyCpu,
+                                        for (String applyCpuCommand : ApplyOnBoot.getApplyCpu(applyCpu,
                                                 RootUtils.getSU())) {
                                             Control.runSetting(applyCpuCommand, null, null, null);
                                         }
@@ -635,7 +635,7 @@ public class ProfileFragment extends RecyclerViewFragment {
                 if (command.getCommand().startsWith("#")
                         & ((applyCpu =
                         new CPUFreq.ApplyCpu(command.getCommand().substring(1))).toString() != null)) {
-                    for (String applyCpuCommand : Service.getApplyCpu(applyCpu, RootUtils.getSU())) {
+                    for (String applyCpuCommand : ApplyOnBoot.getApplyCpu(applyCpu, RootUtils.getSU())) {
                         commandsText.append(applyCpuCommand).append("\n");
                     }
                 } else {
