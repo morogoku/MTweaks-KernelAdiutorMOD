@@ -371,10 +371,9 @@ public class NavigationActivity extends BaseActivity
 
         if (!mFetchingAds && !Utils.DONATED) {
             mFetchingAds = true;
-            mAdsFetcher = new WebpageReader(this, new WebpageReader.WebpageCallback() {
+            mAdsFetcher = new WebpageReader(this, new WebpageReader.WebpageListener() {
                 @Override
-                public void onCallback(String raw, CharSequence html) {
-                    if (raw == null || raw.isEmpty()) return;
+                public void onSuccess(String url, String raw, CharSequence html) {
                     AdNativeExpress.GHAds ghAds = new AdNativeExpress.GHAds(raw);
                     if (ghAds.readable()) {
                         ghAds.cache(NavigationActivity.this);
@@ -386,8 +385,12 @@ public class NavigationActivity extends BaseActivity
                         }
                     }
                 }
+
+                @Override
+                public void onFailure(String url) {
+                }
             });
-            mAdsFetcher.execute(AdNativeExpress.ADS_FETCH);
+            mAdsFetcher.get(AdNativeExpress.ADS_FETCH);
         }
     }
 

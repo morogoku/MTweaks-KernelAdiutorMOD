@@ -1,86 +1,72 @@
+/*
+ * Copyright (C) 2017 Willi Ye <williye97@gmail.com>
+ *
+ * This file is part of Kernel Adiutor.
+ *
+ * Kernel Adiutor is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Kernel Adiutor is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Kernel Adiutor.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.moro.mtweaks.views.recyclerview;
 
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.moro.mtweaks.R;
 
 /**
- * Created by Morogoku on 16/12/2017.
+ * Created by willi on 28.09.17.
  */
 
 public class ButtonView extends RecyclerViewItem {
 
     private AppCompatButton mButton;
-    private AppCompatTextView mTitle;
-    private AppCompatTextView mSummary;
 
-    private CharSequence mTitleText;
-    private CharSequence mSummaryText;
-    private CharSequence mButtonText;
+    private String mText;
+    private View.OnClickListener mOnClickListener;
 
     @Override
     public int getLayoutRes() {
-        return R.layout.rv_button_view;
+        return R.layout.rv_button;
+    }
+
+    @Override
+    protected boolean cardCompatible() {
+        return false;
     }
 
     @Override
     public void onCreateView(View view) {
-        mTitle = view.findViewById(R.id.title);
-        mSummary = view.findViewById(R.id.summary);
-        mButton = view.findViewById(R.id.button);
-
-        mButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (getOnItemClickListener() != null) {
-                    getOnItemClickListener().onClick(ButtonView.this);
-                }
-            }
-        });
+        mButton = view.findViewById(R.id.btn);
 
         super.onCreateView(view);
+        setup();
     }
 
-    public void setTitle(CharSequence title) {
-        mTitleText = title;
-        refresh();
+    public void setText(String text) {
+        mText = text;
+        setup();
     }
 
-    public void setSummary(CharSequence summary) {
-        mSummaryText = summary;
-        refresh();
-    }
-
-    public void setButtonText(CharSequence text) {
-        mButtonText = text;
-        refresh();
-    }
-
-    @Override
-    protected void refresh() {
-        super.refresh();
-        if (mButton != null){
-            if (mTitle != null) {
-                if (mTitleText != null) {
-                    mTitle.setText(mTitleText);
-                    mTitle.setVisibility(View.VISIBLE);
-                } else {
-                    mTitle.setVisibility(View.GONE);
-                }
-            }
-            if (mSummary != null) {
-                if (mSummaryText != null) {
-                    mSummary.setText(mSummaryText);
-                    mSummary.setVisibility(View.VISIBLE);
-                } else {
-                    mSummary.setVisibility(View.GONE);
-                }
-            }
-            if (mButtonText != null){
-                mButton.setText(mButtonText);
-            }
+    private void setup() {
+        if (mButton != null) {
+            mButton.setText(mText);
+            mButton.setOnClickListener(mOnClickListener);
         }
     }
+
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
 }

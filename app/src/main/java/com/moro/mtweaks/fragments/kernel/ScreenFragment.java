@@ -37,7 +37,7 @@ import com.moro.mtweaks.utils.kernel.screen.Gamma;
 import com.moro.mtweaks.utils.kernel.screen.GammaProfiles;
 import com.moro.mtweaks.utils.kernel.screen.Misc;
 import com.moro.mtweaks.views.ColorTable;
-import com.moro.mtweaks.views.recyclerview.ButtonView;
+import com.moro.mtweaks.views.recyclerview.ButtonView2;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DropDownView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView;
@@ -124,10 +124,10 @@ public class ScreenFragment extends RecyclerViewFragment {
     }
 
     private void restoreValuesInit(List<RecyclerViewItem> items) {
-        ButtonView bv = new ButtonView();
+        ButtonView2 bv = new ButtonView2();
         bv.setSummary(getString(R.string.restore_summary));
         bv.setButtonText(getString(R.string.restore_button));
-        bv.setOnItemClickListener(new ButtonView.OnItemClickListener(){
+        bv.setOnItemClickListener(new ButtonView2.OnItemClickListener(){
             @Override
             public void onClick(RecyclerViewItem item) {
                 Calibration.restoreCalibrationStockValues(getActivity());

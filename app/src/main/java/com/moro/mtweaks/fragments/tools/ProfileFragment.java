@@ -54,6 +54,7 @@ import com.moro.mtweaks.database.tools.profiles.Profiles;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.DescriptionFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
+import com.moro.mtweaks.fragments.SwitcherFragment;
 import com.moro.mtweaks.services.boot.Service;
 import com.moro.mtweaks.services.profile.Tile;
 import com.moro.mtweaks.services.profile.Widget;
@@ -144,7 +145,16 @@ public class ProfileFragment extends RecyclerViewFragment {
             addViewPagerFragment(DescriptionFragment.newInstance(getString(R.string.profile_tasker),
                     getString(R.string.profile_tasker_summary)));
             if (Utils.hasCMSDK()) {
-                addViewPagerFragment(ProfileTileFragment.newInstance(this));
+                addViewPagerFragment(SwitcherFragment.newInstance(getString(R.string.profile_tile),
+                        getString(R.string.profile_tile_summary),
+                        Prefs.getBoolean("profiletile", false, getActivity()),
+                        new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                                Prefs.saveBoolean("profiletile", b, getActivity());
+                                Tile.publishProfileTile(mProfiles.getAllProfiles(), getActivity());
+                            }
+                        }));
             }
         }
 
@@ -637,36 +647,6 @@ public class ProfileFragment extends RecyclerViewFragment {
             if (mCodeText != null) {
                 mCodeText.setText(commandsText.toString());
             }
-        }
-    }
-
-    public static class ProfileTileFragment extends BaseFragment {
-
-        public static ProfileTileFragment newInstance(ProfileFragment profileFragment) {
-            ProfileTileFragment fragment = new ProfileTileFragment();
-            fragment.mProfileFragment = profileFragment;
-            return fragment;
-        }
-
-        private ProfileFragment mProfileFragment;
-
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                                 @Nullable Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_profile_tile, container, false);
-
-            SwitchCompat switchCompat = (SwitchCompat) rootView.findViewById(R.id.switcher);
-            switchCompat.setChecked(Prefs.getBoolean("profiletile", false, getActivity()));
-            switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Prefs.saveBoolean("profiletile", b, getActivity());
-                    Tile.publishProfileTile(mProfileFragment.mProfiles.getAllProfiles(), getActivity());
-                }
-            });
-
-            return rootView;
         }
     }
 

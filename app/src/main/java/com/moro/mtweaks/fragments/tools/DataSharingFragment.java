@@ -20,13 +20,20 @@
 package com.moro.mtweaks.fragments.tools;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 
 import com.moro.mtweaks.R;
+import com.moro.mtweaks.activities.DataSharingSearchActivity;
 import com.moro.mtweaks.fragments.DescriptionFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
 import com.moro.mtweaks.services.monitor.Monitor;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
+import com.moro.mtweaks.utils.ViewUtils;
+import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 
@@ -37,6 +44,30 @@ import java.util.List;
  */
 
 public class DataSharingFragment extends RecyclerViewFragment {
+
+    @Override
+    protected boolean showBottomFab() {
+        return true;
+    }
+
+    @Override
+    protected Drawable getBottomFabDrawable() {
+        Drawable drawable = DrawableCompat.wrap(ContextCompat.getDrawable(
+                getActivity(), R.drawable.ic_search));
+        DrawableCompat.setTint(drawable, Color.WHITE);
+        return drawable;
+    }
+
+    @Override
+    protected void onBottomFabClick() {
+        super.onBottomFabClick();
+        if (!Utils.DONATED) {
+            ViewUtils.dialogDonate(getActivity());
+            return;
+        }
+
+        startActivity(new Intent(getActivity(), DataSharingSearchActivity.class));
+    }
 
     @Override
     protected void init() {

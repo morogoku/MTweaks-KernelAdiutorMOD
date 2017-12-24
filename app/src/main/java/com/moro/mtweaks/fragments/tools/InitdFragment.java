@@ -25,23 +25,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.PopupMenu;
-import android.support.v7.widget.SwitchCompat;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.EditorActivity;
-import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
+import com.moro.mtweaks.fragments.SwitcherFragment;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.ViewUtils;
@@ -88,7 +82,16 @@ public class InitdFragment extends RecyclerViewFragment {
     protected void init() {
         super.init();
 
-        addViewPagerFragment(new EmulateInitdFragment());
+        addViewPagerFragment(SwitcherFragment.newInstance(
+                getString(R.string.emulate_initd),
+                getString(R.string.emulate_initd_summary),
+                Prefs.getBoolean("initd_onboot", false, getActivity()),
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                        Prefs.saveBoolean("initd_onboot", b, getActivity());
+                    }
+                }));
 
         if (mExecuteDialog != null) {
             mExecuteDialog.show();
@@ -333,26 +336,6 @@ public class InitdFragment extends RecyclerViewFragment {
             mLoader = null;
         }
         mLoaded = false;
-    }
-
-    public static class EmulateInitdFragment extends BaseFragment {
-        @Nullable
-        @Override
-        public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
-                                 @Nullable Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_emulate_initd, container, false);
-
-            SwitchCompat switchCompat = (SwitchCompat) rootView.findViewById(R.id.switcher);
-            switchCompat.setChecked(Prefs.getBoolean("initd_onboot", false, getActivity()));
-            switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    Prefs.saveBoolean("initd_onboot", b, getActivity());
-                }
-            });
-
-            return rootView;
-        }
     }
 
     @Override

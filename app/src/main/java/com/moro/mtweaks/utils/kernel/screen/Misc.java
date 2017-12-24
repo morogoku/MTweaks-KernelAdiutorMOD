@@ -23,7 +23,7 @@ import android.content.Context;
 
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
-import com.grarak.kerneladiutor.utils.kernel.Switch;
+import com.moro.mtweaks.utils.kernel.Switch;
 import com.moro.mtweaks.utils.root.Control;
 
 import java.util.ArrayList;
