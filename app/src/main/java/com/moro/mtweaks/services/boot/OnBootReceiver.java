@@ -40,7 +40,7 @@ public class OnBootReceiver extends BroadcastReceiver {
             su.runCommand("echo /testRoot/");
             if (!su.denied) {
                 Utils.startService(context, new Intent(context, ApplyOnBootService.class));
-                if (Prefs.getBoolean("data_sharing", true, context)) {
+                if (Prefs.getBoolean("data_sharing", false, context)) {
                     Utils.startService(context, new Intent(context, Monitor.class));
                 }
             }
