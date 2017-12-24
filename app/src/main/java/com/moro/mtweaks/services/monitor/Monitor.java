@@ -213,6 +213,7 @@ public class Monitor extends Service {
             PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                     launchIntent, 0);
 
+            /*
             Notification.Builder builder =
                     new Notification.Builder(this, CHANNEL_ID);
             builder.setContentTitle(getString(R.string.data_sharing))
@@ -223,6 +224,7 @@ public class Monitor extends Service {
                     .setPriority(Notification.PRIORITY_MIN);
 
             startForeground(NotificationId.MONITOR, builder.build());
+            */
         }
 
         registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
