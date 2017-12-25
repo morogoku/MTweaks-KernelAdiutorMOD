@@ -925,6 +925,8 @@
   <string name="reset_data_dialog1">Se van a borrar los datos y la configuracion de toda la aplicación.\n\nEstás seguro?\n</string>
   <string name="reset_data_dialog2_title">Reiniciar</string>
   <string name="reset_data_dialog2_message">Para evitar fallos en la configuración se recomienda reiniciar el sistema.\n\nQuieres reiniciar?\n</string>
+  <string name="check_update_title">Comprobar actualización</string>
+  <string name="check_update_summary">Comprueba si existe nueva actualizacion de MTweaks</string>
   <string name="fahrenheit_title">Fahrenheit</string>
   <string name="fahrenheit_summary">Usar fahrenheit para medir la temperatura.</string>
   <string name="force_english">Forzar idioma inglés</string>

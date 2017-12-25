@@ -11,6 +11,11 @@
         android:summary="@string/reset_data_summary"
         android:title="@string/reset_data_title" />
 
+    <Preference
+        android:key="check_update"
+        android:summary="@string/check_update_summary"
+        android:title="@string/check_update_title" />
+
     <SwitchPreferenceCompat
         android:key="useretardedmeasurement"
         android:summary="@string/fahrenheit_summary"

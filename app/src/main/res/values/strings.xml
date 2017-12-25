@@ -1040,6 +1040,8 @@
     <!-- Settings -->
     <string name="open_settings">Open Settings</string>
     <string name="reset_data_title">Restore application</string>
+    <string name="check_update_title">Check update</string>
+    <string name="check_update_summary">Check if there is a new update of MTweaks</string>
     <string name="reset_data_summary">Clear data and restore the application settings</string>
     <string name="reset_data_dialog1">The data and the configuration of the entire application will be erased.\n\nAre you sure?\n</string>
     <string name="reset_data_dialog2_title">Reboot</string>
