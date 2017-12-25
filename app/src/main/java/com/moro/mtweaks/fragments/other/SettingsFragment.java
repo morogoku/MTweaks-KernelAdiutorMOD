@@ -47,6 +47,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.BannerResizerActivity;
 import com.moro.mtweaks.activities.MainActivity;
@@ -71,6 +74,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
 
     private static final String KEY_AD_VIEW = "adview";
     private static final String KEY_RESET_DATA = "reset_data";
+    private static final String KEY_CHECK_UPDATE = "check_update";
     private static final String KEY_FORCE_ENGLISH = "forceenglish";
     private static final String KEY_USER_INTERFACE = "user_interface";
     private static final String KEY_DARK_THEME = "darktheme";
@@ -165,6 +169,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         }
 */
         findPreference(KEY_RESET_DATA).setOnPreferenceClickListener(this);
+        findPreference(KEY_CHECK_UPDATE).setOnPreferenceClickListener(this);
         findPreference(KEY_DARK_THEME).setOnPreferenceChangeListener(this);
         findPreference(KEY_BANNER_RESIZER).setOnPreferenceClickListener(this);
         findPreference(KEY_HIDE_BANNER).setOnPreferenceChangeListener(this);
@@ -277,6 +282,9 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             case KEY_RESET_DATA:
                 resetDataDialog();
                 return true;
+            case KEY_CHECK_UPDATE:
+                checkUpdate();
+                return true;
             case KEY_BANNER_RESIZER:
                 if (Utils.DONATED) {
                     Intent intent = new Intent(getActivity(), BannerResizerActivity.class);
@@ -355,6 +363,15 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             super.onPostExecute(aVoid);
             mProgressDialog.dismiss();
         }
+    }
+
+    private void checkUpdate(){
+        AppUpdater appUpdater = new AppUpdater(getActivity());
+        appUpdater.setDisplay(Display.DIALOG);
+        appUpdater.showAppUpdated(true);
+        appUpdater.setUpdateFrom(UpdateFrom.JSON);
+        appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
+        appUpdater.start();
     }
 
     private void resetDataDialog(){
