@@ -178,6 +178,14 @@ public class Device {
             }
         }
 
+        public static long getItemMb( String prefix) {
+            try {
+                return Long.parseLong(getItem(prefix).replaceAll("[^\\d]", "")) / 1024L;
+            } catch (NumberFormatException ignored) {
+                return 0;
+            }
+        }
+
         public static List<String> getItems() {
             List<String> list = new ArrayList<>();
             try {

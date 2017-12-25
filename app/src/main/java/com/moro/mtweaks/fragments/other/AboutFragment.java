@@ -52,6 +52,7 @@ public class AboutFragment extends RecyclerViewFragment {
         sLibraries.put("Google,v7/v14 Preference", "https://developer.android.com/reference/android/support/v7/preference/package-summary.html");
         sLibraries.put("Google,v7 recyclerview library", "https://developer.android.com/topic/libraries/support-library/features.html#v7");
         sLibraries.put("Ozodrukh,CircularReveal", "https://github.com/ozodrukh/CircularReveal");
+        sLibraries.put("Akexorcist,RoundCornerProgressBar", "https://github.com/akexorcist/Android-RoundCornerProgressBar");
         sLibraries.put("Roman Nurik,dashclock", "https://github.com/romannurik/dashclock");
         sLibraries.put("Google,AdMob", "https://developers.google.com/android/guides/setup");
         sLibraries.put("Matthew Precious,swirl", "https://github.com/mattprecious/swirl");
