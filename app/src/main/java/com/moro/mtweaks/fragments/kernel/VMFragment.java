@@ -24,13 +24,14 @@ import android.text.InputType;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
+import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.kernel.vm.VM;
 import com.moro.mtweaks.utils.kernel.vm.ZRAM;
 import com.moro.mtweaks.utils.kernel.vm.ZSwap;
 import com.moro.mtweaks.views.recyclerview.CardView;
-import com.moro.mtweaks.views.recyclerview.GenericSelectView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView2;
+import com.moro.mtweaks.views.recyclerview.ProgressBarView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
@@ -45,6 +46,9 @@ public class VMFragment extends RecyclerViewFragment {
 
     private List<GenericSelectView2> mVMs = new ArrayList<>();
 
+    private ProgressBarView swap;
+    private ProgressBarView mem;
+
     @Override
     protected void init() {
         super.init();
@@ -56,6 +60,42 @@ public class VMFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mVMs.clear();
 
+        memBarsInit(items);
+        if (ZRAM.supported()) {
+            zramInit(items);
+        }
+        zswapInit(items);
+        vmTunnablesInit(items);
+    }
+
+    private void memBarsInit (List<RecyclerViewItem> items){
+        CardView card = new CardView(getActivity());
+        card.setTitle(getString(R.string.memory));
+
+        long swap_total = Device.MemInfo.getItemMb("SwapTotal");
+        long swap_progress = swap_total - Device.MemInfo.getItemMb("SwapFree");
+
+        swap = new ProgressBarView();
+        swap.setTitle("SWAP");
+        swap.setItems(swap_total, swap_progress);
+        swap.setUnit(getResources().getString(R.string.mb));
+        swap.setProgressColor(getResources().getColor(R.color.blue_accent));
+        card.addItem(swap);
+
+        long mem_total = Device.MemInfo.getItemMb("MemTotal");
+        long mem_progress = mem_total - (Device.MemInfo.getItemMb("Cached") + Device.MemInfo.getItemMb("MemFree"));
+
+        mem = new ProgressBarView();
+        mem.setTitle("RAM");
+        mem.setItems(mem_total, mem_progress);
+        mem.setUnit(getResources().getString(R.string.mb));
+        mem.setProgressColor(getResources().getColor(R.color.orange_accent));
+        card.addItem(mem);
+
+        items.add(card);
+    }
+
+    private void vmTunnablesInit (List<RecyclerViewItem> items){
         CardView vmCard = new CardView(getActivity());
         vmCard.setTitle(getString(R.string.vm_tunnables));
 
@@ -83,12 +123,9 @@ public class VMFragment extends RecyclerViewFragment {
             }
         }
 
-        items.add(vmCard);
-
-        if (ZRAM.supported()) {
-            zramInit(items);
+        if (vmCard.size() > 0) {
+            items.add(vmCard);
         }
-        zswapInit(items);
     }
 
     private void zramInit(List<RecyclerViewItem> items) {
@@ -218,6 +255,21 @@ public class VMFragment extends RecyclerViewFragment {
                 }
             }
         }, 250);
+    }
+
+    protected void refresh() {
+        super.refresh();
+
+        if (swap != null) {
+            long total = Device.MemInfo.getItemMb("SwapTotal");
+            long progress = total - Device.MemInfo.getItemMb("SwapFree");
+            swap.setItems(total, progress);
+        }
+        if (mem != null) {
+            long total = Device.MemInfo.getItemMb("MemTotal");
+            long progress = total - (Device.MemInfo.getItemMb("Cached") + Device.MemInfo.getItemMb("MemFree"));
+            mem.setItems(total, progress);
+        }
     }
 
 }
