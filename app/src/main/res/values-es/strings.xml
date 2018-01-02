@@ -735,7 +735,11 @@
   <string name="wkl_alert_checkbox">MOSTRAR LA PROXIMA VEZ</string>
 
   <!-- Virtual Memory -->
-    <string name="vm_tunnables">VM Ajustables</string>
+  <string name="vm_tunables">VM Ajustables</string>
+  <string name="vm_tun_switch_title">Lista de VM ajustables</string>
+  <string name="vm_tun_switch_summary">Elija entre mostrar lista con los ajustes más comunes, o todos los ajustes disponibles (para usuarios avanzados).</string>
+  <string name="vm_tun_tit_all">Todos los ajustes</string>
+  <string name="vm_tun_tit_common">Ajustes más comunes</string>
   <string name="zram">Z-RAM</string>
   <string name="disksize">Tamaño del disco</string>
   <string name="disksize_summary">Intenta aumentar el rendimiento evitando la paginación de almacenamiento físico, en su lugar usa un dispositivo de compresión virtual en la RAM. La paginación toma un lugar en la RAM hasta que sea necesario de usar el intercambio de espacio en el almacenamiento físico.</string>
