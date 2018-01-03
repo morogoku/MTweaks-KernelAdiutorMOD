@@ -75,15 +75,17 @@ public class ApplyOnBoot {
 
     public static boolean apply(final Context context, final ApplyOnBootListener listener) {
 
-        //Initialize AppUpdate check
-        new AppUpdater(context)
-                //.setDisplay(Display.SNACKBAR)
-                //.setDisplay(Display.DIALOG)
-                .setDisplay(Display.NOTIFICATION)
-                .setUpdateFrom(UpdateFrom.JSON)
-                .setIcon(R.drawable.logo)
-                .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
-                .start();
+        if (Prefs.getBoolean("show_update_notif", true, context)) {
+            //Initialize AppUpdate check
+            new AppUpdater(context)
+                    //.setDisplay(Display.SNACKBAR)
+                    //.setDisplay(Display.DIALOG)
+                    .setDisplay(Display.NOTIFICATION)
+                    .setUpdateFrom(UpdateFrom.JSON)
+                    .setIcon(R.drawable.logo)
+                    .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
+                    .start();
+        }
 
         //Initialize Boeffla Wakelock Blocker Files
         if(BoefflaWakelock.supported()) {

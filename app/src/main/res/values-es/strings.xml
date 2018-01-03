@@ -913,7 +913,11 @@
   <string name="disable_question">¿Deshabilitar %s?</string>
   <!-- Settings -->
   <string name="open_settings">Abrir Ajustes</string>
+  <string name="general">General</string>
   <string name="reset_data_title">Restablecer aplicación</string>
+  <string name="app_update_category">Ajustes de actualización</string>
+  <string name="app_update_notif_title">Notificar Actualización</string>
+  <string name="app_update_notif_summary">Notificar cuando una nueva versión esté disponible</string>
   <string name="reset_data_summary">Borra los datos y restablece la configuración de la aplicación</string>
   <string name="reset_data_dialog1">Se van a borrar los datos y la configuracion de toda la aplicación.\n\nEstás seguro?\n</string>
   <string name="reset_data_dialog2_title">Reiniciar</string>
