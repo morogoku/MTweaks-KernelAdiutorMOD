@@ -1044,7 +1044,11 @@
 
     <!-- Settings -->
     <string name="open_settings">Open Settings</string>
+    <string name="general">General</string>
     <string name="reset_data_title">Restore application</string>
+    <string name="app_update_category">Update settings</string>
+    <string name="app_update_notif_title">Update Notification</string>
+    <string name="app_update_notif_summary">Show update notifications when new version ia available</string>
     <string name="check_update_title">Check update</string>
     <string name="check_update_summary">Check if there is a new update of MTweaks</string>
     <string name="reset_data_summary">Clear data and restore the application settings</string>

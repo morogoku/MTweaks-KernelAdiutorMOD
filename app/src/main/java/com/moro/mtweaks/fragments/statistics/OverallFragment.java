@@ -45,6 +45,7 @@ import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Log;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
@@ -104,14 +105,16 @@ public class OverallFragment extends RecyclerViewFragment {
             requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
 
-        //Initialize AppUpdate check
-        AppUpdater appUpdater = new AppUpdater(getActivity());
-        //appUpdater.setDisplay(Display.SNACKBAR);
-        appUpdater.setDisplay(Display.DIALOG);
-        //appUpdater.setDisplay(Display.NOTIFICATION);
-        appUpdater.setUpdateFrom(UpdateFrom.JSON);
-        appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
-        appUpdater.start();
+        if (AppSettings.getBoolean("show_update_notif", true, getActivity())) {
+            //Initialize AppUpdate check
+            AppUpdater appUpdater = new AppUpdater(getActivity());
+            //appUpdater.setDisplay(Display.SNACKBAR);
+            appUpdater.setDisplay(Display.DIALOG);
+            //appUpdater.setDisplay(Display.NOTIFICATION);
+            appUpdater.setUpdateFrom(UpdateFrom.JSON);
+            appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
+            appUpdater.start();
+        }
 
         if (mGPUFreq.hasCurFreq()) {
             mGPUFreqStatsView = new StatsView();

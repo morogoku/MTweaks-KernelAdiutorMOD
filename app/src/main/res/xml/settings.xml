@@ -6,24 +6,32 @@
         android:key="adview"
         app:layout="@layout/rv_ad_view" />
 
-    <Preference
-        android:key="reset_data"
-        android:summary="@string/reset_data_summary"
-        android:title="@string/reset_data_title" />
+    <PreferenceCategory
+        android:key="general"
+        android:title="@string/general">
+        <Preference
+            android:key="reset_data"
+            android:summary="@string/reset_data_summary"
+            android:title="@string/reset_data_title" />
+        <SwitchPreferenceCompat
+            android:key="useretardedmeasurement"
+            android:summary="@string/fahrenheit_summary"
+            android:title="@string/fahrenheit_title" />
+    </PreferenceCategory>
 
-    <Preference
-        android:key="check_update"
-        android:summary="@string/check_update_summary"
-        android:title="@string/check_update_title" />
-
-    <SwitchPreferenceCompat
-        android:key="useretardedmeasurement"
-        android:summary="@string/fahrenheit_summary"
-        android:title="@string/fahrenheit_title" />
-
-    <SwitchPreferenceCompat
-        android:key="forceenglish"
-        android:summary="@string/force_english" />
+    <PreferenceCategory
+        android:key="app_update"
+        android:title="@string/app_update_category">
+        <SwitchPreferenceCompat
+            android:key="app_update_notif"
+            android:defaultValue="true"
+            android:title="@string/app_update_notif_title"
+            android:summary="@string/app_update_notif_summary" />
+        <Preference
+            android:key="check_update"
+            android:summary="@string/check_update_summary"
+            android:title="@string/check_update_title" />
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:key="user_interface"
@@ -31,6 +39,9 @@
         <SwitchPreferenceCompat
             android:key="darktheme"
             android:summary="@string/dark_theme" />
+        <SwitchPreferenceCompat
+            android:key="forceenglish"
+            android:summary="@string/force_english" />
 <!--
         <SwitchPreferenceCompat
             android:key="materialicon"
