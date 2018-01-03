@@ -1,11 +1,13 @@
 {
-  "latestVersion": "2.7.5",
-  "latestVersionCode": "275",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.7.5/MTweaks_v2.7.5.apk",
+  "latestVersion": "2.8.0",
+  "latestVersionCode": "280",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.0/MTweaks_v2.8.0.apk",
   "releaseNotes": [
-    "- Screen setting: added button for restore stock values (only for qualcomm devices)",
-    "- Added Option to Restore application data (in Settings menu)",
-    "- Removed AppUpdate check from boot service",
-    "- I/O Schedulers: NrRequests changes seekbar to editbox"
+    "Changelog:",
+    "- Oreo 8.1 compatible",
+    "- Latest Kernel Adiutor changes",
+    "- Update Virtual Memory Settings",
+    "-   Swap & Ram bars",
+    "-   Show all VM tunables availables"
   ]
 }
