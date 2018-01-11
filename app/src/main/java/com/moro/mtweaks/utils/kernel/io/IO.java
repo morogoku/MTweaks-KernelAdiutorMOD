@@ -49,12 +49,10 @@ public abstract class IO {
     private static final List<String> sExternal = new ArrayList<>();
 
     static {
-        //sInternal.add("/sys/block/mmcblk0/queue");
-        sInternal.add("/sys/block/dm-0/queue");
-        sInternal.add("/sys/block/sda/queue");
+        sInternal.add(UFS);
+        sInternal.add("/sys/block/mmcblk0/queue");
 
         sExternal.add("/sys/block/mmcblk1/queue");
-        sExternal.add("/sys/block/mmcblk0/queue");
     }
 
     public enum Storage {
