@@ -55,6 +55,7 @@ import com.moro.mtweaks.activities.BannerResizerActivity;
 import com.moro.mtweaks.activities.MainActivity;
 import com.moro.mtweaks.activities.NavigationActivity;
 import com.moro.mtweaks.services.boot.ApplyOnBootService;
+import com.moro.mtweaks.utils.AppUpdaterTask;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.ViewUtils;
@@ -288,7 +289,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 resetDataDialog();
                 return true;
             case KEY_CHECK_UPDATE:
-                checkUpdate();
+                AppUpdaterTask.appCheckDialogAllways(getActivity());
                 return true;
             case KEY_BANNER_RESIZER:
                 if (Utils.DONATED) {
@@ -368,15 +369,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             super.onPostExecute(aVoid);
             mProgressDialog.dismiss();
         }
-    }
-
-    private void checkUpdate(){
-        AppUpdater appUpdater = new AppUpdater(getActivity());
-        appUpdater.setDisplay(Display.DIALOG);
-        appUpdater.showAppUpdated(true);
-        appUpdater.setUpdateFrom(UpdateFrom.JSON);
-        appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
-        appUpdater.start();
     }
 
     private void resetDataDialog(){

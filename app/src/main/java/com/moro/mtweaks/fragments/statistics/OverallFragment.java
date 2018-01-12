@@ -38,13 +38,10 @@ import android.widget.TextView;
 
 import com.bvalosek.cpuspy.CpuSpyApp;
 import com.bvalosek.cpuspy.CpuStateMonitor;
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.RecyclerViewFragment;
-import com.moro.mtweaks.utils.Prefs;
+import com.moro.mtweaks.utils.AppUpdaterTask;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
@@ -91,26 +88,19 @@ public class OverallFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+        //Initialize AppUpdate check
+        AppUpdaterTask.appCheckDialog(getActivity());
+
         statsInit(items);
         frequenciesInit(items);
     }
 
     private void statsInit(List<RecyclerViewItem> items) {
-        
-        if (Build.VERSION.SDK_INT >= 23) {
-            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-        }
-
-        if (Prefs.getBoolean("show_update_notif", true, getActivity())) {
-            //Initialize AppUpdate check
-            AppUpdater appUpdater = new AppUpdater(getActivity());
-            //appUpdater.setDisplay(Display.SNACKBAR);
-            appUpdater.setDisplay(Display.DIALOG);
-            //appUpdater.setDisplay(Display.NOTIFICATION);
-            appUpdater.setUpdateFrom(UpdateFrom.JSON);
-            appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
-            appUpdater.start();
-        }
 
         if (GPUFreq.hasCurFreq()) {
             mGPUFreq = new StatsView();
