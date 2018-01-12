@@ -21,7 +21,6 @@ package com.moro.mtweaks.fragments.other;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -47,9 +46,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.BannerResizerActivity;
 import com.moro.mtweaks.activities.MainActivity;
@@ -57,6 +53,7 @@ import com.moro.mtweaks.activities.NavigationActivity;
 import com.moro.mtweaks.services.boot.ApplyOnBootService;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Themes;
+import com.moro.mtweaks.utils.AppUpdaterTask;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.ViewUtils;
 import com.moro.mtweaks.utils.root.RootUtils;
@@ -208,7 +205,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         String key = preference.getKey();
         switch (key) {
             case KEY_UPDATE_NOTIFICATION:
-                Prefs.saveBoolean("show_update_notif", checked, getActivity());
+                AppSettings.saveBoolean("show_update_notif", checked, getActivity());
                 return true;
             case KEY_FORCE_ENGLISH:
             case KEY_DARK_THEME:
@@ -272,7 +269,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 resetDataDialog();
                 return true;
             case KEY_CHECK_UPDATE:
-                checkUpdate();
+                AppUpdaterTask.appCheckDialogAllways(getActivity());
                 return true;
             case KEY_BANNER_RESIZER:
                 if (Utils.DONATED) {
@@ -355,15 +352,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
             super.onPostExecute(aVoid);
             mProgressDialog.dismiss();
         }
-    }
-
-    private void checkUpdate(){
-        AppUpdater appUpdater = new AppUpdater(getActivity());
-        appUpdater.setDisplay(Display.DIALOG);
-        appUpdater.showAppUpdated(true);
-        appUpdater.setUpdateFrom(UpdateFrom.JSON);
-        appUpdater.setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json");
-        appUpdater.start();
     }
 
     private void resetDataDialog(){

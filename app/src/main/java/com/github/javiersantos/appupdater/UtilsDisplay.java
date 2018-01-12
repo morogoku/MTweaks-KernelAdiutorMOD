@@ -24,7 +24,8 @@ class UtilsDisplay {
                 .setMessage(content)
                 .setPositiveButton(btnPositive, updateClickListener)
                 .setNegativeButton(btnNegative, dismissClickListener)
-                .setNeutralButton(btnNeutral, disableClickListener).create();
+                //.setNeutralButton(btnNeutral, disableClickListener)
+                .create();
     }
 
     static AlertDialog showUpdateNotAvailableDialog(final Context context, String title, String content) {

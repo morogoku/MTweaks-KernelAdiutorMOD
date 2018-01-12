@@ -1148,4 +1148,5 @@
     <string name="appupdater_btn_disable">Don\'t show again</string>
     <string name="appupdater_btn_dismiss">Dismiss</string>
     <string name="appupdater_download_filed">Download FAILED!</string>
+    <string name="appupdater_json">https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json</string>
 </resources>

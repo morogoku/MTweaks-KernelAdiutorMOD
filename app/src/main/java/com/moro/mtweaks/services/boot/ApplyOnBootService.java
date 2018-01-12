@@ -33,12 +33,9 @@ import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
-import com.github.javiersantos.appupdater.AppUpdater;
-import com.github.javiersantos.appupdater.enums.Display;
-import com.github.javiersantos.appupdater.enums.UpdateFrom;
-
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.AppUpdaterTask;
 import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.NotificationId;
 import com.moro.mtweaks.utils.Utils;
@@ -84,17 +81,8 @@ public class ApplyOnBootService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        if (AppSettings.getBoolean("show_update_notif", true, this)) {
-            //Initialize AppUpdate check
-            new AppUpdater(this)
-                    //.setDisplay(Display.SNACKBAR)
-                    //.setDisplay(Display.DIALOG)
-                    .setDisplay(Display.NOTIFICATION)
-                    .setUpdateFrom(UpdateFrom.JSON)
-                    .setIcon(R.drawable.logo)
-                    .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
-                    .start();
-        }
+        //Initialize AppUpdate check
+        AppUpdaterTask.appCheckNotification(this);
 
         //Initialize Boeffla Wakelock Blocker Files
         if(BoefflaWakelock.supported()) {
