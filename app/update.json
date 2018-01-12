@@ -1,13 +1,10 @@
 {
-  "latestVersion": "2.8.0",
-  "latestVersionCode": "280",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.0/MTweaks_v2.8.0.apk",
+  "latestVersion": "2.8.1",
+  "latestVersionCode": "281",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.1/MTweaks_v2.8.1.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Oreo 8.1 compatible",
-    "- Latest Kernel Adiutor changes",
-    "- Update Virtual Memory Settings",
-    "-   Swap & Ram bars",
-    "-   Show all VM tunables availables"
+    "- Fix Scheduler in some devices",
+    "- Update AppUpdateSystem"
   ]
 }
