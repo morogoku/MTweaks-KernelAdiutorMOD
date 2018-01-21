@@ -33,6 +33,7 @@ import com.moro.mtweaks.utils.kernel.misc.Selinux;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
 import com.moro.mtweaks.utils.kernel.misc.Wakelocks;
 import com.moro.mtweaks.views.recyclerview.CardView;
+import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
@@ -348,6 +349,14 @@ public class MiscFragment extends RecyclerViewFragment {
         });
 
         networkCard.addItem(hostname);
+
+        if (Misc.hasWireguard()) {
+            DescriptionView wireguard = new DescriptionView();
+            wireguard.setTitle(getString(R.string.wireguard_title));
+            wireguard.setSummary(getString(R.string.version) + ": " + Misc.getWireguard());
+
+            networkCard.addItem(wireguard);
+        }
 
         items.add(networkCard);
     }
