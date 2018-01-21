@@ -49,6 +49,7 @@ public class Misc {
     private static final String ARCH_POWER = "/sys/kernel/sched/arch_power";
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
     private static final String HOSTNAME_KEY = "net.hostname";
+    private static final String WIREGUARD = "/sys/module/wireguard/version";
 
     private final List<String> mLoggers = new ArrayList<>();
     private final List<String> mCrcs = new ArrayList<>();
@@ -93,6 +94,14 @@ public class Misc {
                 break;
             }
         }
+    }
+
+    public static boolean hasWireguard() {
+        return Utils.existFile(WIREGUARD);
+    }
+
+    public static String getWireguard() {
+        return Utils.readFile(WIREGUARD);
     }
 
     public void setHostname(String value, Context context) {

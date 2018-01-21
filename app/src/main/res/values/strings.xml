@@ -904,6 +904,7 @@
     <string name="bcmdhd_wakelock_divider">BCMDHD Wakelock Divider</string>
     <string name="pwm">PWM Flicker Free</string>
     <string name="pwm_summary">Reduces negative impact on eyesight</string>
+    <string name="wireguard_title">WireGuard VPN</string>
 
     <!-- Data Sharing -->
     <string name="data_sharing_summary_notification">Data sharing is active! Click to learn more about this feature.</string>
