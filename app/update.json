@@ -1,10 +1,10 @@
 {
-  "latestVersion": "2.8.1",
-  "latestVersionCode": "281",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.1/MTweaks_v2.8.1.apk",
+  "latestVersion": "2.8.2",
+  "latestVersionCode": "282",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.2/MTweaks_v2.8.2.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Fix Scheduler in some devices",
-    "- Update AppUpdateSystem"
+    "- Wireguard VPN version (Menu Misc->Network)",
+    "- Show Power Suspend version"
   ]
 }
