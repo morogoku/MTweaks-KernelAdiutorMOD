@@ -229,9 +229,6 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 Prefs.saveBoolean("show_update_notif", checked, getActivity());
                 return true;
             case KEY_FORCE_ENGLISH:
-                if (!checked) {
-                    Utils.setLocale(Resources.getSystem().getConfiguration().locale.getLanguage(), getActivity());
-                }
             case KEY_DARK_THEME:
                 getActivity().finish();
                 Intent intent = new Intent(getActivity(), MainActivity.class);
