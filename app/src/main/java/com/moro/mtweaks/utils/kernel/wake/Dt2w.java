@@ -47,6 +47,7 @@ public class Dt2w {
     private static final String DT2W_WAKE_GESTURE_2 = "/sys/devices/soc.0/f9924000.i2c/i2c-2/2-0070/input/input0/wake_gesture";
     private static final String DT2W_FT5X06 = "/sys/bus/i2c/drivers/ft5x06_i2c/5-0038/d2w_switch";
     private static final String LENOVO_DT2W= "/sys/lenovo_tp_gestures/tpd_suspend_status";
+    private static final String V2_DT2W= "/sys/class/dt2w/enabled";
 
     private static final HashMap<String, List<Integer>> sFiles = new HashMap<>();
     private static final List<Integer> sLgeTouchCoreMenu = new ArrayList<>();
@@ -79,6 +80,7 @@ public class Dt2w {
         sFiles.put(DT2W_WAKE_GESTURE_2, sGenericMenu);
         sFiles.put(DT2W_FT5X06, sGenericMenu);
         sFiles.put(LENOVO_DT2W, sGenericMenu);
+        sFiles.put(V2_DT2W, sGenericMenu);
     }
 
     private static String FILE;
