@@ -1,10 +1,9 @@
 {
-  "latestVersion": "2.8.2",
-  "latestVersionCode": "282",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.2/MTweaks_v2.8.2.apk",
+  "latestVersion": "2.8.3",
+  "latestVersionCode": "283",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.3/MTweaks_v2.8.3.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Wireguard VPN version (Menu Misc->Network)",
-    "- Show Power Suspend version"
+    "- DT2W: Add V2 DT2W"
   ]
 }
