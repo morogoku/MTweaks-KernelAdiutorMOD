@@ -24,6 +24,14 @@
         <item>@string/dual_core_mode</item>
     </string-array>
 
+    <!-- GPU -->
+    <string-array name="gpu_adreno_boost">
+        <item>@string/gpu_adreno_boost_off</item>
+        <item>@string/gpu_adreno_boost_low</item>
+        <item>@string/gpu_adreno_boost_medium</item>
+        <item>@string/gpu_adreno_boost_high</item>
+    </string-array>
+
     <!-- Screen -->
     <string-array name="colors">
         <item>@string/red</item>

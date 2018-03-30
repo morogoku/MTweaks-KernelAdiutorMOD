@@ -404,6 +404,12 @@
   <string name="gpu_power_policy_card">Control GPU Power Policy</string>
   <string name="gpu_power_policy">Control Mali Power Policy</string>
   <string name="gpu_power_policy_summary">COARSE DEMAND es para controlar solamente la energía externa (PMU para G3D). Es mejor en ahorro de energía y rendimiento. COARSE DEMAND apaga la GPU en caso de no haber trabajo durante 100ms y la enciende en cuanto entra un nuevo trabajo. Por defecto: COARSE DEMAND</string>
+  <string name="gpu_adreno_boost_title">Adreno Boost</string>
+  <string name="gpu_adreno_boost_summary">Ajuste el valor para Adreno Boost</string>
+  <string name="gpu_adreno_boost_off">0 Desactivado</string>
+  <string name="gpu_adreno_boost_low">1 Bajo</string>
+  <string name="gpu_adreno_boost_medium">2 Medio</string>
+  <string name="gpu_adreno_boost_high">3 Alto</string>
   <!-- Screen -->
   <string name="screen_color">Color de la pantalla</string>
   <string name="red">Rojo</string>
