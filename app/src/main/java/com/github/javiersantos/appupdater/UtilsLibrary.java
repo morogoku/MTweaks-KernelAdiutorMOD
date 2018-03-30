@@ -10,10 +10,11 @@ import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.github.javiersantos.appupdater.enums.Duration;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
@@ -21,6 +22,7 @@ import com.github.javiersantos.appupdater.objects.GitHub;
 import com.github.javiersantos.appupdater.objects.Update;
 import com.github.javiersantos.appupdater.objects.Version;
 import com.moro.mtweaks.R;
+import com.moro.mtweaks.utils.Utils;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -36,7 +38,10 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
+import static android.app.DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED;
 import static android.content.Context.DOWNLOAD_SERVICE;
+import static android.widget.Toast.LENGTH_LONG;
+
 
 class UtilsLibrary {
 
@@ -328,6 +333,7 @@ class UtilsLibrary {
         String APK = new File(url.getPath()).getName();
 
         request.setTitle(APK);
+        request.setNotificationVisibility(VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
 
         // Guardar archivo
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
@@ -336,17 +342,23 @@ class UtilsLibrary {
         }
 
         // Iniciamos la descarga
+        Utils.toast(context.getString(R.string.appupdater_downloading_file) + " " + APK + " ...", context, LENGTH_LONG);
         id = downloadManager.enqueue(request);
 
     }
 
-    private static void OpenNewVersion(Context context, String location) {
+    private static void OpenNewVersion(Context context, File file) {
 
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(location)),
-                "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent, ""));
+        Intent intent = new Intent(Intent.ACTION_INSTALL_PACKAGE);
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        Uri uriFile;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            uriFile = FileProvider.getUriForFile(context, "com.moro.mtweaks.provider", file);
+        } else {
+            uriFile = Uri.fromFile(file);
+        }
+        intent.setDataAndType(uriFile,"application/vnd.android.package-archive");
+        context.startActivity(Intent.createChooser(intent, "Open_Apk"));
 
     }
 
@@ -366,11 +378,11 @@ class UtilsLibrary {
                 if(status == DownloadManager.STATUS_SUCCESSFUL) {
 
                     // Si la descarga es correcta abrimos el archivo para instalarlo
-                    String uriString = cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI)).replace("file://", "");
-                    OpenNewVersion(context, uriString);
+                    File file = new File(Uri.parse(cursor.getString(cursor.getColumnIndex(DownloadManager.COLUMN_LOCAL_URI))).getPath());
+                    OpenNewVersion(context, file);
                 }
                 else if(status == DownloadManager.STATUS_FAILED) {
-                    Toast.makeText(context,context.getString(R.string.appupdater_download_filed) + reason,Toast.LENGTH_LONG).show();
+                    Utils.toast(context.getString(R.string.appupdater_download_filed) + reason, context, LENGTH_LONG);
                 }
             }
         }
