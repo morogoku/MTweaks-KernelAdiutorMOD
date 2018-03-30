@@ -1,9 +1,10 @@
 {
-  "latestVersion": "2.8.3",
-  "latestVersionCode": "283",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.3/MTweaks_v2.8.3.apk",
+  "latestVersion": "2.8.4",
+  "latestVersionCode": "284",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.4/MTweaks_v2.8.4.apk",
   "releaseNotes": [
     "Changelog:",
-    "- DT2W: Add V2 DT2W"
+    "- Open downloaded apk for API >= 24",
+    "(It will take effect when the next version is updated)"
   ]
 }
