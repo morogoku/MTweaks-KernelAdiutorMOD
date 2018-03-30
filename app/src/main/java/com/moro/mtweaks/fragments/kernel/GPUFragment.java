@@ -26,6 +26,7 @@ import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.gpu.AdrenoIdler;
+import com.moro.mtweaks.utils.kernel.gpu.AdrenoBoost;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
 import com.moro.mtweaks.utils.kernel.gpu.SimpleGPU;
@@ -39,6 +40,7 @@ import com.moro.mtweaks.views.recyclerview.TitleView;
 import com.moro.mtweaks.views.recyclerview.XYGraphView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,6 +90,32 @@ public class GPUFragment extends RecyclerViewFragment {
         }
         if (AdrenoIdler.supported()) {
             adrenoIdlerInit(items);
+        }
+        if (AdrenoBoost.hasAdrenoBoost()) {
+            adrenoboostInit(items);
+        }
+    }
+
+    private void adrenoboostInit(List<RecyclerViewItem> items) {
+        CardView abCard = new CardView(getActivity());
+        abCard.setTitle(getString(R.string.gpu_adreno_boost_title));
+
+        SelectView aB = new SelectView();
+        aB.setTitle(getString(R.string.gpu_adreno_boost_title));
+        aB.setSummary(getString(R.string.gpu_adreno_boost_summary));
+        aB.setItems(Arrays.asList(getResources().getStringArray(R.array.gpu_adreno_boost)));
+        aB.setItem(AdrenoBoost.getAdrenoBoost(getActivity()));
+        aB.setOnItemSelected(new SelectView.OnItemSelected() {
+            @Override
+            public void onItemSelected(SelectView selectView, int position, String item) {
+                AdrenoBoost.setAdrenoBoost(position, getActivity());
+            }
+        });
+
+        abCard.addItem(aB);
+
+        if (abCard.size() > 0) {
+            items.add(abCard);
         }
     }
 

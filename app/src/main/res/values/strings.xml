@@ -470,6 +470,12 @@
     <string name="gpu_power_policy_card">GPU Power Policy Control</string>
     <string name="gpu_power_policy">Mali Power Policy Control</string>
     <string name="gpu_power_policy_summary">COARSE DEMAND power policy is to control only external power (PMU for G3D). It is better at saving power and performance. COARSE DEMAND turns off GPU power in case of being no job for 100ms and turns it on in case of incomming first job on the state of GPU off. Default is coarse_demand.</string>
+    <string name="gpu_adreno_boost_title">Adreno Boost</string>
+    <string name="gpu_adreno_boost_summary">Set the value for Adreno Boost</string>
+    <string name="gpu_adreno_boost_off">0 Off</string>
+    <string name="gpu_adreno_boost_low">1 Low</string>
+    <string name="gpu_adreno_boost_medium">2 Medium</string>
+    <string name="gpu_adreno_boost_high">3 High</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>
