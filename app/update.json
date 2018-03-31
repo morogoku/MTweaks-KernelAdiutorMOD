@@ -1,10 +1,11 @@
 {
-  "latestVersion": "2.8.4",
-  "latestVersionCode": "284",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.4/MTweaks_v2.8.4.apk",
+  "latestVersion": "2.8.5",
+  "latestVersionCode": "285",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.5/MTweaks_v2.8.5.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Open downloaded apk for API >= 24",
-    "(It will take effect when the next version is updated)"
+    "- Update gradle",
+    "- Update dependencies",
+    "- Add Adreno Boost"
   ]
 }
