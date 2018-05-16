@@ -398,7 +398,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         RootUtils.runCommand("rm -rf /data/.mtweaks");
-                        RootUtils.runCommand("pm clear com.moro.mtweaks && reboot");
+                        RootUtils.runCommand("rm -rf /data/data/com.moro.mtweaks");
+                        RootUtils.runCommand("reboot");
                     }
                 });
                 alert2.show();
