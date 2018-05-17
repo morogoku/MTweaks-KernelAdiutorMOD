@@ -25,7 +25,9 @@ import com.moro.mtweaks.fragments.RecyclerViewFragment;
 import com.moro.mtweaks.utils.Prefs;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.gpu.AdrenoBoost;
+import com.moro.mtweaks.utils.kernel.gpu.AdrenoIdler;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
+import com.moro.mtweaks.utils.kernel.gpu.SimpleGPU;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
@@ -71,6 +73,12 @@ public class GPUFragment extends RecyclerViewFragment {
         }
         if (AdrenoBoost.hasAdrenoBoost()) {
             adrenoboostInit(items);
+        }
+        if (SimpleGPU.supported()) {
+            simpleGpuInit(items);
+        }
+        if (AdrenoIdler.supported()) {
+            adrenoIdlerInit(items);
         }
     }
 
@@ -272,6 +280,158 @@ public class GPUFragment extends RecyclerViewFragment {
 
         if (govCard.size() > 0) {
             items.add(govCard);
+        }
+    }
+
+    private void simpleGpuInit(List<RecyclerViewItem> items) {
+        List<RecyclerViewItem> simpleGpu = new ArrayList<>();
+        TitleView title = new TitleView();
+        title.setText(getString(R.string.simple_gpu_algorithm));
+
+        if (SimpleGPU.hasSimpleGpuEnable()) {
+            SwitchView enable = new SwitchView();
+            enable.setTitle(getString(R.string.simple_gpu_algorithm));
+            enable.setSummary(getString(R.string.simple_gpu_algorithm_summary));
+            enable.setChecked(SimpleGPU.isSimpleGpuEnabled());
+            enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    SimpleGPU.enableSimpleGpu(isChecked, getActivity());
+                }
+            });
+
+            simpleGpu.add(enable);
+        }
+
+        if (SimpleGPU.hasSimpleGpuLaziness()) {
+            SeekBarView laziness = new SeekBarView();
+            laziness.setTitle(getString(R.string.laziness));
+            laziness.setSummary(getString(R.string.laziness_summary));
+            laziness.setMax(10);
+            laziness.setProgress(SimpleGPU.getSimpleGpuLaziness());
+            laziness.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    SimpleGPU.setSimpleGpuLaziness(position, getActivity());
+                }
+            });
+
+            simpleGpu.add(laziness);
+        }
+
+        if (SimpleGPU.hasSimpleGpuRampThreshold()) {
+            SeekBarView rampThreshold = new SeekBarView();
+            rampThreshold.setTitle(getString(R.string.ramp_thresold));
+            rampThreshold.setSummary(getString(R.string.ramp_thresold_summary));
+            rampThreshold.setMax(10);
+            rampThreshold.setProgress(SimpleGPU.getSimpleGpuRampThreshold());
+            rampThreshold.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    SimpleGPU.setSimpleGpuRampThreshold(position, getActivity());
+                }
+            });
+
+            simpleGpu.add(rampThreshold);
+        }
+
+        if (simpleGpu.size() > 0) {
+            items.add(title);
+            items.addAll(simpleGpu);
+        }
+    }
+
+    private void adrenoIdlerInit(List<RecyclerViewItem> items) {
+        List<RecyclerViewItem> adrenoIdler = new ArrayList<>();
+        TitleView title = new TitleView();
+        title.setText(getString(R.string.adreno_idler));
+
+        if (AdrenoIdler.hasAdrenoIdlerEnable()) {
+            SwitchView enable = new SwitchView();
+            enable.setTitle(getString(R.string.adreno_idler));
+            enable.setSummary(getString(R.string.adreno_idler_summary));
+            enable.setChecked(AdrenoIdler.isAdrenoIdlerEnabled());
+            enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
+                @Override
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    AdrenoIdler.enableAdrenoIdler(isChecked, getActivity());
+                }
+            });
+            adrenoIdler.add(enable);
+        }
+
+        if (AdrenoIdler.hasAdrenoIdlerDownDiff()) {
+            SeekBarView downDiff = new SeekBarView();
+            downDiff.setTitle(getString(R.string.down_differential));
+            downDiff.setSummary(getString(R.string.down_differential_summary));
+            downDiff.setMax(99);
+            downDiff.setProgress(AdrenoIdler.getAdrenoIdlerDownDiff());
+            downDiff.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AdrenoIdler.setAdrenoIdlerDownDiff(position, getActivity());
+                }
+            });
+
+            adrenoIdler.add(downDiff);
+        }
+
+        if (AdrenoIdler.hasAdrenoIdlerIdleWait()) {
+            SeekBarView idleWait = new SeekBarView();
+            idleWait.setTitle(getString(R.string.idle_wait));
+            idleWait.setSummary(getString(R.string.idle_wait_summary));
+            idleWait.setMax(99);
+            idleWait.setProgress(AdrenoIdler.getAdrenoIdlerIdleWait());
+            idleWait.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AdrenoIdler.setAdrenoIdlerIdleWait(position, getActivity());
+                }
+            });
+
+            adrenoIdler.add(idleWait);
+        }
+
+        if (AdrenoIdler.hasAdrenoIdlerIdleWorkload()) {
+            SeekBarView idleWorkload = new SeekBarView();
+            idleWorkload.setTitle(getString(R.string.workload));
+            idleWorkload.setSummary(getString(R.string.workload_summary));
+            idleWorkload.setMax(10);
+            idleWorkload.setMin(1);
+            idleWorkload.setProgress(AdrenoIdler.getAdrenoIdlerIdleWorkload() - 1);
+            idleWorkload.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AdrenoIdler.setAdrenoIdlerIdleWorkload(position + 1, getActivity());
+                }
+            });
+
+            adrenoIdler.add(idleWorkload);
+        }
+
+        if (adrenoIdler.size() > 0) {
+            items.add(title);
+            items.addAll(adrenoIdler);
         }
     }
 

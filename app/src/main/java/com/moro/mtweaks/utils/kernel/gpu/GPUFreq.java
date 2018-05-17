@@ -37,6 +37,15 @@ import java.util.List;
  */
 public class GPUFreq {
 
+    private static GPUFreq sIOInstance;
+
+    public static GPUFreq getInstance() {
+        if (sIOInstance == null) {
+            sIOInstance = new GPUFreq();
+        }
+        return sIOInstance;
+    }
+
     public static final String BACKUP = "/data/.mtweaks/gpu_stock_voltage";
 
     private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
