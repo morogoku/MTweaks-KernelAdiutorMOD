@@ -24,14 +24,13 @@ import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.io.IO;
+import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
-import com.moro.mtweaks.views.recyclerview.TitleView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -64,9 +63,8 @@ public class IOFragment extends RecyclerViewFragment {
     }
 
     private void storageInit(final IO.Storage storage, List<RecyclerViewItem> items) {
-        List<RecyclerViewItem> views = new ArrayList<>();
-        TitleView title = new TitleView();
-        title.setText(getString(storage == IO.Storage.Internal ? R.string.internal_storage
+        CardView io = new CardView(getActivity());
+        io.setTitle(getString(storage == IO.Storage.Internal ? R.string.internal_storage
                 : R.string.external_storage));
 
         if (mIO.hasScheduler(storage)) {
@@ -78,7 +76,7 @@ public class IOFragment extends RecyclerViewFragment {
             scheduler.setOnItemSelected((selectView, position, item)
                     -> mIO.setScheduler(storage, item, getActivity()));
 
-            views.add(scheduler);
+            io.addItem(scheduler);
 
             DescriptionView tunable = new DescriptionView();
             tunable.setTitle(getString(R.string.scheduler_tunable));
@@ -86,7 +84,7 @@ public class IOFragment extends RecyclerViewFragment {
             tunable.setOnItemClickListener(item
                     -> showTunables(mIO.getScheduler(storage), mIO.getIOSched(storage)));
 
-            views.add(tunable);
+            io.addItem(tunable);
         }
 
         if (mIO.hasReadahead(storage)) {
@@ -109,7 +107,7 @@ public class IOFragment extends RecyclerViewFragment {
                 }
             });
 
-            views.add(readahead);
+            io.addItem(readahead);
         }
 
         if (mIO.hasRotational(storage)) {
@@ -120,7 +118,7 @@ public class IOFragment extends RecyclerViewFragment {
             rotational.addOnSwitchListener((switchView, isChecked)
                     -> mIO.enableRotational(storage, isChecked, getActivity()));
 
-            views.add(rotational);
+            io.addItem(rotational);
         }
 
         if (mIO.hasIOStats(storage)) {
@@ -131,7 +129,7 @@ public class IOFragment extends RecyclerViewFragment {
             iostats.addOnSwitchListener((switchView, isChecked)
                     -> mIO.enableIOstats(storage, isChecked, getActivity()));
 
-            views.add(iostats);
+            io.addItem(iostats);
         }
 
         if (mIO.hasAddRandom(storage)) {
@@ -142,7 +140,7 @@ public class IOFragment extends RecyclerViewFragment {
             addRandom.addOnSwitchListener((switchView, isChecked)
                     -> mIO.enableAddRandom(storage, isChecked, getActivity()));
 
-            views.add(addRandom);
+            io.addItem(addRandom);
         }
 
         if (mIO.hasRqAffinity(storage)) {
@@ -162,12 +160,11 @@ public class IOFragment extends RecyclerViewFragment {
                 }
             });
 
-            views.add(rqAffinity);
+            io.addItem(rqAffinity);
         }
 
-        if (views.size() > 0) {
-            items.add(title);
-            items.addAll(views);
+        if (io.size() > 0) {
+            items.add(io);
         }
     }
 
