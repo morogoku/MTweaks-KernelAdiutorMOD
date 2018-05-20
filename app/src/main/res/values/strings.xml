@@ -61,6 +61,7 @@
     <string name="mb">MB</string>
     <string name="ms">ms</string>
     <string name="mv">mV</string>
+    <string name="uv">µV</string>
     <string name="min">min</string>
     <string name="mah">mAh</string>
     <string name="ma">mA</string>

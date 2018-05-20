@@ -53,7 +53,7 @@ import com.moro.mtweaks.utils.kernel.cpu.MSMPerformance;
 import com.moro.mtweaks.utils.kernel.cpu.Temperature;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.QcomBcl;
-import com.moro.mtweaks.utils.kernel.cpuvoltage.Voltage;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPU;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
@@ -228,7 +228,7 @@ public class MainActivity extends BaseActivity {
             Thermal.supported();
             Tile.publishProfileTile(new Profiles(activity).getAllProfiles(), activity);
             Vibration.getInstance();
-            Voltage.getInstance();
+            VoltageCl1.supported();
             Wake.supported();
 
             try {
