@@ -167,7 +167,7 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationDelayOn.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    Sec.setNotificationDelayOn(position * 10, getActivity());
+                    Sec.setNotificationDelayOn(position * 100, getActivity());
                 }
 
                 @Override
@@ -188,7 +188,7 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationDelayOff.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    Sec.setNotificationDelayOff(position * 10, getActivity());
+                    Sec.setNotificationDelayOff(position * 100, getActivity());
                 }
 
                 @Override
@@ -235,7 +235,7 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationRampUp.setTitle(getString(R.string.fade_in));
             notificationRampUp.setSummary(getString(R.string.fade_in_summary));
             notificationRampUp.setUnit(getString(R.string.ms));
-            notificationRampUp.setMax(2000);
+            notificationRampUp.setMax(1900);
             notificationRampUp.setOffset(100);
             notificationRampUp.setProgress(Sec.getNotificationRampUp() / 100);
             notificationRampUp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
@@ -257,7 +257,7 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationRampDown.setTitle(getString(R.string.fade_out));
             notificationRampDown.setSummary(getString(R.string.fade_out_summary));
             notificationRampDown.setUnit(getString(R.string.ms));
-            notificationRampDown.setMax(2000);
+            notificationRampDown.setMax(1900);
             notificationRampDown.setOffset(100);
             notificationRampDown.setProgress(Sec.getNotificationRampDown() / 100);
             notificationRampDown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
