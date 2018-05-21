@@ -67,6 +67,14 @@ public class AppSettings {
         Prefs.saveBoolean(key, value, context);
     }
 
+    public static int getInt(String key, int defaults, Context context) {
+        return Prefs.getInt(key, defaults, context);
+    }
+
+    public static void saveInt(String key, int value, Context context) {
+        Prefs.saveInt(key, value, context);
+    }
+
     public static int getCpuGlobalOffsetCl0(Context context){
         return Prefs.getInt(CPU_GLOBAL_OFFSET_CL0, 0, context);
     }

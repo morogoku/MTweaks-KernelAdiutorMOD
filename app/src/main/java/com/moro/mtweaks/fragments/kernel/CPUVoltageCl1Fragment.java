@@ -19,16 +19,8 @@
  */
 package com.moro.mtweaks.fragments.kernel;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
-import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
@@ -39,7 +31,6 @@ import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -49,6 +40,7 @@ import java.util.Objects;
 public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
 
     private List<SeekBarView> mVoltages = new ArrayList<>();
+    private SeekBarView mSeekbarProf = new SeekBarView();
 
     @Override
     protected void init() {
@@ -76,34 +68,37 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
                 progress.add(global);
             }
 
-            SeekBarView seekbarProf = new SeekBarView();
-            seekbarProf.setTitle(getString(R.string.cpu_volt_profile));
-            seekbarProf.setSummary(getString(R.string.cpu_volt_profile_summary));
-            seekbarProf.setUnit(getString(R.string.mv));
-            seekbarProf.setItems(progress);
-            seekbarProf.setProgress(16);
-            seekbarProf.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            seekbarProfInit(mSeekbarProf, freqs, voltages, voltagesStock, progress);
+
+            freqCard.addItem(mSeekbarProf);
+
+            Boolean enableGlobal = AppSettings.getBoolean("CpuCl1_global_volts", true, getActivity());
+
+            SwitchView voltControl = new SwitchView();
+            voltControl.setSummaryOn(getString(R.string.cpu_manual_volt_summaryOn));
+            voltControl.setSummaryOff(getString(R.string.cpu_manual_volt_summaryOff));
+            voltControl.setChecked(enableGlobal);
+            voltControl.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    for (int i = 0; i < voltages.size(); i++) {
-                        String volt = String.valueOf(Utils.strToFloat(voltagesStock.get(i)) + Utils.strToFloat(value));
-                        String freq = freqs.get(i);
-                        VoltageCl1.setVoltage(freq, volt, getActivity());
+                public void onChanged(SwitchView switchView, boolean isChecked) {
+                    if(isChecked) {
+                        AppSettings.saveBoolean("CpuCl1_global_volts", true, getActivity());
+                        AppSettings.saveBoolean("CpuCl1_individual_volts", false, getActivity());
+                        reload();
+                    }else{
+                        AppSettings.saveBoolean("CpuCl1_global_volts", false, getActivity());
+                        AppSettings.saveBoolean("CpuCl1_individual_volts", true, getActivity());
+                        AppSettings.saveInt("CpuCl1_SeekbarPref_value", 16, getActivity());
+                        reload();
                     }
-                    getHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            reload();
-                        }
-                    }, 200);
-                }
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
                 }
             });
 
-            freqCard.addItem(seekbarProf);
-            items.add(freqCard);
+            freqCard.addItem(voltControl);
+
+            if (freqCard.size() > 0) {
+                items.add(freqCard);
+            }
 
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
@@ -112,6 +107,52 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             }
         }
         items.addAll(mVoltages);
+    }
+
+    private void seekbarProfInit(SeekBarView seekbar, final List<String> freqs, final List<String> voltages,
+                                 final List<String> voltagesStock, List<String> progress) {
+
+
+
+        Boolean enableSeekbar = AppSettings.getBoolean("CpuCl1_global_volts", true, getActivity());
+        int global = AppSettings.getInt("CpuCl1_SeekbarPref_value", 16, getActivity());
+
+        int value = 0;
+        for (int i = 0; i < progress.size(); i++) {
+            if (i == global){
+                value = i;
+                break;
+            }
+        }
+
+        seekbar.setTitle(getString(R.string.cpu_volt_profile));
+        seekbar.setSummary(getString(R.string.cpu_volt_profile_summary));
+        seekbar.setUnit(getString(R.string.mv));
+        seekbar.setItems(progress);
+        seekbar.setProgress(value);
+        seekbar.setEnabled(enableSeekbar);
+        if(!enableSeekbar) seekbar.setAlpha(0.4f);
+        else seekbar.setAlpha(1f);
+        seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                for (int i = 0; i < voltages.size(); i++) {
+                    String volt = String.valueOf(Utils.strToFloat(voltagesStock.get(i)) + Utils.strToFloat(value));
+                    String freq = freqs.get(i);
+                    VoltageCl1.setVoltage(freq, volt, getActivity());
+                    AppSettings.saveInt("CpuCl1_SeekbarPref_value", position, getActivity());
+                }
+                getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        reload();
+                    }
+                }, 200);
+            }
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
     }
 
     private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
@@ -136,11 +177,16 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             }
         }
 
+        Boolean enableSeekbar = AppSettings.getBoolean("CpuCl1_individual_volts", false, getActivity());
+
         seekbar.setTitle(freq + " " + getString(R.string.mhz));
         seekbar.setSummary(getString(R.string.def) + ": " + voltageStock + " " + getString(R.string.mv));
         seekbar.setUnit(getString(R.string.mv));
         seekbar.setItems(progress);
         seekbar.setProgress(value);
+        seekbar.setEnabled(enableSeekbar);
+        if(!enableSeekbar) seekbar.setAlpha(0.4f);
+        else seekbar.setAlpha(1f);
         seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
 
             @Override
@@ -169,6 +215,12 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             for (int i = 0; i < mVoltages.size(); i++) {
                 seekbarInit(mVoltages.get(i), freqs.get(i), voltages.get(i), voltagesStock.get(i));
             }
+            List<String> progress = new ArrayList<>();
+            for (float i = -100000f; i < 31250f; i += 6250) {
+                String global = String.valueOf(i / VoltageCl1.getOffset());
+                progress.add(global);
+            }
+            seekbarProfInit(mSeekbarProf, freqs, voltages, voltagesStock, progress);
         }
     }
 }

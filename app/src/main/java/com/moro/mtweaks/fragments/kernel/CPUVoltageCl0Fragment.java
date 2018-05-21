@@ -22,13 +22,11 @@ package com.moro.mtweaks.fragments.kernel;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
-import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
-import com.moro.mtweaks.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
 import java.util.List;
