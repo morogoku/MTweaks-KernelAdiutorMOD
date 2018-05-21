@@ -56,6 +56,7 @@ public class SeekBarView extends RecyclerViewItem {
     private List<String> mItems = new ArrayList<>();
     private int mOffset = 1;
     private boolean mEnabled = true;
+    private float mAlpha = 1f;
 
     private OnSeekBarListener mOnSeekBarListener;
 
@@ -72,15 +73,19 @@ public class SeekBarView extends RecyclerViewItem {
         mSeekBar = view.findViewById(R.id.seekbar);
 
         view.findViewById(R.id.button_minus).setOnClickListener(v -> {
-            mSeekBar.setProgress(mSeekBar.getProgress() - 1);
-            if (mOnSeekBarListener != null && mProgress < mItems.size() && mProgress >= 0) {
-                mOnSeekBarListener.onStop(SeekBarView.this, mProgress, mItems.get(mProgress));
+            if(mEnabled) {
+                mSeekBar.setProgress(mSeekBar.getProgress() - 1);
+                if (mOnSeekBarListener != null && mProgress < mItems.size() && mProgress >= 0) {
+                    mOnSeekBarListener.onStop(SeekBarView.this, mProgress, mItems.get(mProgress));
+                }
             }
         });
         view.findViewById(R.id.button_plus).setOnClickListener(v -> {
-            mSeekBar.setProgress(mSeekBar.getProgress() + 1);
-            if (mOnSeekBarListener != null && mProgress < mItems.size() && mProgress >= 0) {
-                mOnSeekBarListener.onStop(SeekBarView.this, mProgress, mItems.get(mProgress));
+            if (mEnabled) {
+                mSeekBar.setProgress(mSeekBar.getProgress() + 1);
+                if (mOnSeekBarListener != null && mProgress < mItems.size() && mProgress >= 0) {
+                    mOnSeekBarListener.onStop(SeekBarView.this, mProgress, mItems.get(mProgress));
+                }
             }
         });
 
@@ -170,6 +175,11 @@ public class SeekBarView extends RecyclerViewItem {
         refresh();
     }
 
+    public void setAlpha(float alpha) {
+        mAlpha = alpha;
+        refresh();
+    }
+
     public int getProgress() {
         return mProgress;
     }
@@ -200,6 +210,7 @@ public class SeekBarView extends RecyclerViewItem {
         if (mSeekBar != null) {
             mSeekBar.setMax(mItems.size() - 1);
             mSeekBar.setMin(0);
+            mSeekBar.setAlpha(mAlpha);
             mSeekBar.setEnabled(mEnabled);
             if (mValue != null) {
                 try {
