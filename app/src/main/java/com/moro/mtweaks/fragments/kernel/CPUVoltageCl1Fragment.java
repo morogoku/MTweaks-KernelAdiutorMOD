@@ -48,10 +48,6 @@ import java.util.Objects;
 public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
 
     private List<SeekBarView> mVoltages = new ArrayList<>();
-    private float mMin = 500000f;
-    private float mMax = 1206250f;
-    private int mStep = 6250;
-    private int mOffset = VoltageCl1.getOffset();
 
     @Override
     protected void init() {
@@ -84,16 +80,11 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         List<String> freqs = VoltageCl1.getFreqs();
         List<String> voltages = VoltageCl1.getVoltages();
         List<String> voltagesStock = VoltageCl1.getStockVoltages();
-        List<String> progress = new ArrayList<>();
-        for(float i = mMin ; i < mMax; i += mStep){
-            String string = String.valueOf(i / mOffset);
-            progress.add(string);
-        }
 
         if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
-                seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i), progress);
+                seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i));
                 mVoltages.add(seekbar);
             }
         }
@@ -101,7 +92,18 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
     }
 
     private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
-                             String voltageStock, List<String> progress) {
+                             String voltageStock) {
+
+        int mStep = 6250;
+        int mOffset = VoltageCl1.getOffset();
+        float mMin = (Utils.strToFloat(voltageStock) - 100) * mOffset;
+        float mMax = ((Utils.strToFloat(voltageStock) + 25) * mOffset) + mStep;
+
+        List<String> progress = new ArrayList<>();
+        for(float i = mMin ; i < mMax; i += mStep){
+            String string = String.valueOf(i / mOffset);
+            progress.add(string);
+        }
 
         int value = 0;
         for (int i = 0; i < progress.size(); i++) {
@@ -139,15 +141,10 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         List<String> freqs = VoltageCl1.getFreqs();
         List<String> voltages = VoltageCl1.getVoltages();
         List<String> voltagesStock = VoltageCl1.getStockVoltages();
-        List<String> progress = new ArrayList<>();
-        for(float i = mMin ; i < mMax; i += mStep){
-            String string = String.valueOf(i / mOffset);
-            progress.add(string);
-        }
 
         if (freqs != null && voltages != null) {
             for (int i = 0; i < mVoltages.size(); i++) {
-                seekbarInit(mVoltages.get(i), freqs.get(i), voltages.get(i), voltagesStock.get(i), progress);
+                seekbarInit(mVoltages.get(i), freqs.get(i), voltages.get(i), voltagesStock.get(i));
             }
         }
     }
