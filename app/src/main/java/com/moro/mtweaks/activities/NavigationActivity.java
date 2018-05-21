@@ -47,9 +47,10 @@ import android.view.SubMenu;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.kernel.BatteryFragment;
+import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
-import com.moro.mtweaks.fragments.kernel.CPUVoltageFragment;
+import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.mtweaks.fragments.kernel.EntropyFragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
 import com.moro.mtweaks.fragments.kernel.IOFragment;
@@ -89,6 +90,7 @@ import com.moro.mtweaks.utils.ViewUtils;
 import com.moro.mtweaks.utils.WebpageReader;
 import com.moro.mtweaks.utils.kernel.battery.Battery;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.Hotplug;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.entropy.Entropy;
 import com.moro.mtweaks.utils.kernel.gpu.GPU;
@@ -186,8 +188,11 @@ public class NavigationActivity extends BaseActivity
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, CPUFragment.class, R.drawable.ic_cpu));
+        if (VoltageCl0.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, CPUVoltageCl0Fragment.class, R.drawable.ic_bolt));
+        }
         if (VoltageCl1.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_voltage, CPUVoltageFragment.class, R.drawable.ic_bolt));
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl1_voltage, CPUVoltageCl1Fragment.class, R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, CPUHotplugFragment.class, R.drawable.ic_switch));

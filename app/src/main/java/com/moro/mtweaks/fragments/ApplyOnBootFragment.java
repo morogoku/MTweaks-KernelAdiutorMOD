@@ -33,7 +33,8 @@ import com.moro.mtweaks.activities.tools.profile.ProfileActivity;
 import com.moro.mtweaks.fragments.kernel.BatteryFragment;
 import com.moro.mtweaks.fragments.kernel.CPUFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
-import com.moro.mtweaks.fragments.kernel.CPUVoltageFragment;
+import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
+import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.EntropyFragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
 import com.moro.mtweaks.fragments.kernel.IOFragment;
@@ -60,7 +61,8 @@ public class ApplyOnBootFragment extends BaseFragment {
     private static final String INTENT_CATEGORY = PACKAGE + ".INTENT.CATEGORY";
 
     public static final String CPU = "cpu_onboot";
-    public static final String CPU_VOLTAGE = "cpuvoltage_onboot";
+    public static final String CPU_CL0_VOLTAGE = "cpucl0voltage_onboot";
+    public static final String CPU_CL1_VOLTAGE = "cpucl1voltage_onboot";
     public static final String CPU_HOTPLUG = "cpuhotplug_onboot";
     public static final String THERMAL = "thermal_onboot";
     public static final String GPU = "gpu_onboot";
@@ -80,7 +82,8 @@ public class ApplyOnBootFragment extends BaseFragment {
 
     static {
         sAssignments.put(CPUFragment.class, CPU);
-        sAssignments.put(CPUVoltageFragment.class, CPU_VOLTAGE);
+        sAssignments.put(CPUVoltageCl0Fragment.class, CPU_CL0_VOLTAGE);
+        sAssignments.put(CPUVoltageCl1Fragment.class, CPU_CL1_VOLTAGE);
         sAssignments.put(CPUHotplugFragment.class, CPU_HOTPLUG);
         sAssignments.put(ThermalFragment.class, THERMAL);
         sAssignments.put(GPUFragment.class, GPU);
