@@ -43,6 +43,7 @@
             android:summary="@string/accent_color"
             android:widgetLayout="@layout/preference_accent_color_view" />
         <SwitchPreferenceCompat
+            android:defaultValue="true"
             android:key="section_icons"
             android:summary="@string/section_icons_summary"
             android:title="@string/section_icons" />

@@ -228,7 +228,7 @@ public class AppSettings {
     }
 
     public static boolean isSectionIcons(Context context) {
-        return Prefs.getBoolean(SECTION_ICONS, false, context);
+        return Prefs.getBoolean(SECTION_ICONS, true, context);
     }
 
     public static int getFragmentOpened(Class<? extends Fragment> fragmentClass,
