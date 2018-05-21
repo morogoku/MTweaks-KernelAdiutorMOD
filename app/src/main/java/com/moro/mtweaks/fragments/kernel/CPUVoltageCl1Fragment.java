@@ -40,6 +40,7 @@ import com.moro.mtweaks.views.recyclerview.SwitchView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by willi on 07.05.16.
@@ -79,9 +80,11 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         List<String> freqs = VoltageCl1.getFreqs();
         List<String> voltages = VoltageCl1.getVoltages();
         List<String> voltagesStock = VoltageCl1.getStockVoltages();
-        List<String> progress = VoltageCl1.getStockVoltages();
-
-        Collections.reverse(progress);
+        List<String> progress = new ArrayList<>();
+        for(float i = 500000f ; i < 1581250f; i+=6250){
+            String string = String.valueOf(i / 1000);
+            progress.add(string);
+        }
 
         if (freqs != null && voltages != null && freqs.size() == voltages.size()) {
             for (int i = 0; i < freqs.size(); i++) {
@@ -96,31 +99,29 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
     private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
                              String voltageStock, List<String> progress) {
 
-        final int min = (Utils.strToInt(voltageStock) - 300);
-        float vStock = Utils.strToFloat(voltageStock);
+        int value = 0;
+        for (int i = 0; i < progress.size(); i++) {
+            if (Objects.equals(progress.get(i), voltage)){
+            value = i;
+            }
+        }
 
         seekbar.setTitle(freq + " " + getString(R.string.mhz));
-        seekbar.setSummary(getString(R.string.def) + ": " + vStock + " " + getString(R.string.mv));
+        seekbar.setSummary(getString(R.string.def) + ": " + voltageStock + " " + getString(R.string.mv));
         seekbar.setUnit(getString(R.string.mv));
-        seekbar.setMax(1300);
-        seekbar.setMin(min);
-        seekbar.setOffset(25);
         seekbar.setItems(progress);
-        seekbar.setProgress(Utils.strToInt(voltage) / 25 - (min / 25));
+        seekbar.setProgress(value);
         seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
 
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
-                /*
-                int a = (position + (min / 25)) * 25;
-                String str = Integer.toString(a);
-                VoltageCl1.setVoltage(freq, str, getActivity());
+                VoltageCl1.setVoltage(freq, value, getActivity());
                 getHandler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         reload();
                     }
-                }, 200);*/
+                }, 200);
             }
 
             @Override
@@ -133,8 +134,12 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         List<String> freqs = VoltageCl1.getFreqs();
         List<String> voltages = VoltageCl1.getVoltages();
         List<String> voltagesStock = VoltageCl1.getStockVoltages();
-        List<String> progress = voltagesStock;
-        Collections.reverse(progress);
+        List<String> progress = new ArrayList<>();
+        for(float i = 500000f ; i < 1581250f; i+=6250){
+            String string = String.valueOf(i / 1000);
+            progress.add(string);
+        }
+
         if (freqs != null && voltages != null) {
             for (int i = 0; i < mVoltages.size(); i++) {
                 seekbarInit(mVoltages.get(i), freqs.get(i), voltages.get(i), voltagesStock.get(i), progress);

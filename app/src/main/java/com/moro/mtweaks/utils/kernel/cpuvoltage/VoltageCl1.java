@@ -90,7 +90,7 @@ public class VoltageCl1 {
         if (voltages == null || voltagesStock == null) return;
 
         for (int i = 0; i < voltages.size(); i++) {
-            String volt = String.valueOf(Utils.strToInt(voltagesStock.get(i)) + adjust);
+            String volt = String.valueOf((int)(Utils.strToFloat(voltagesStock.get(i)) + adjust));
             String freq = String.valueOf(Utils.strToInt(freqs.get(i)));
             setVoltage(freq, volt, context);
         }
@@ -111,7 +111,7 @@ public class VoltageCl1 {
             run(Control.write(command, PATH), PATH, context);
         } else {
             freq = String.valueOf(Utils.strToInt(freq) * sOffsetFreq.get(PATH));
-            String volt = String.valueOf(Utils.strToInt(voltage) * sOffset.get(PATH));
+            String volt = String.valueOf((int)(Utils.strToFloat(voltage) * sOffset.get(PATH)));
             run(Control.write(freq + " " + volt, PATH), PATH + freq, context);
         }
 
@@ -135,7 +135,6 @@ public class VoltageCl1 {
     }
 
     public static List<String> getVoltages() {
-        //String value = Utils.readFile(PATH).replace(" ", "");
         String value = Utils.readFile(PATH);
         if (!value.isEmpty()) {
             String[] lines = value.split(sSplitNewline.get(PATH));
@@ -143,7 +142,7 @@ public class VoltageCl1 {
             for (String line : lines) {
                 String[] voltageLine = line.split(sSplitLine.get(PATH));
                 if (voltageLine.length > 1) {
-                    voltages.add(String.valueOf(Utils.strToInt(voltageLine[1].trim()) / sOffset.get(PATH)));
+                    voltages.add(String.valueOf(Utils.strToFloat(voltageLine[1].trim()) / sOffset.get(PATH)));
 
                 }
             }
