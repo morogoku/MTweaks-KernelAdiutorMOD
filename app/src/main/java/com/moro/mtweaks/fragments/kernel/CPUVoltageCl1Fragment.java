@@ -148,13 +148,13 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
             final TextView offset = (TextView) rootView.findViewById(R.id.offset);
-            offset.setText(Utils.strFormat("%d" + "kk", mGlobaloffset));
+            offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset -= 25;
-                    offset.setText(Utils.strFormat("%d" + "culo", mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(-25, getActivity());
+                    mGlobaloffset = mGlobaloffset - 25;
+                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
+                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -168,9 +168,9 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_plus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset += 25;
-                    offset.setText(Utils.strFormat("%d" + "pedo", mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(25, getActivity());
+                    mGlobaloffset = mGlobaloffset + 25;
+                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
+                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
