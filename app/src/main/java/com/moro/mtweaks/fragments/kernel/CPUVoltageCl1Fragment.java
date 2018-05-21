@@ -30,9 +30,9 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
-import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
@@ -134,28 +134,29 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
 
     public static class GlobalOffsetFragment extends BaseFragment {
 
+        TextView vOffset;
+        int mGlobalOffset;
+        private CPUVoltageCl1Fragment mCPUVoltageFragment;
+
         public static GlobalOffsetFragment newInstance(CPUVoltageCl1Fragment cpuVoltageFragment) {
             GlobalOffsetFragment fragment = new GlobalOffsetFragment();
             fragment.mCPUVoltageFragment = cpuVoltageFragment;
             return fragment;
         }
 
-        private CPUVoltageCl1Fragment mCPUVoltageFragment;
-        private int mGlobaloffset;
-
         @Nullable
         @Override
         public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                                  @Nullable Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_global_offset, container, false);
-            final TextView offset = (TextView) rootView.findViewById(R.id.offset);
-            offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
+            vOffset = (TextView) rootView.findViewById(R.id.offset);
             rootView.findViewById(R.id.button_minus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset = mGlobaloffset - 25;
-                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
+                    mGlobalOffset = mGlobalOffset - 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl1.setGlobalOffset(mGlobalOffset, getActivity());
+                    AppSettings.saveCpuGlobalOffsetCl1(mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -169,9 +170,10 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             rootView.findViewById(R.id.button_plus).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mGlobaloffset = mGlobaloffset + 25;
-                    offset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobaloffset));
-                    VoltageCl1.setGlobalOffset(mGlobaloffset, getActivity());
+                    mGlobalOffset = mGlobalOffset + 25;
+                    vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
+                    VoltageCl1.setGlobalOffset(mGlobalOffset, getActivity());
+                    AppSettings.saveCpuGlobalOffsetCl1(mGlobalOffset, getActivity());
                     if (mCPUVoltageFragment != null) {
                         mCPUVoltageFragment.getHandler().postDelayed(new Runnable() {
                             @Override
@@ -183,6 +185,13 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
                 }
             });
             return rootView;
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState){
+            super.onActivityCreated(savedInstanceState);
+            mGlobalOffset = AppSettings.getCpuGlobalOffsetCl1(getActivity());
+            vOffset.setText(Utils.strFormat("%d" + getString(R.string.mv), mGlobalOffset));
         }
     }
 }
