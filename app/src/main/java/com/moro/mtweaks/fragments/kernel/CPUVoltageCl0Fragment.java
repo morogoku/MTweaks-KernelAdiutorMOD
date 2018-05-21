@@ -60,22 +60,6 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mVoltages.clear();
 
-        if (VoltageCl0.hasOverrideVmin()) {
-            SwitchView overrideVmin = new SwitchView();
-            overrideVmin.setTitle(getString(R.string.override_vmin));
-            overrideVmin.setSummary(getString(R.string.override_vmin_summary));
-            overrideVmin.setChecked(VoltageCl0.isOverrideVminEnabled());
-            overrideVmin.setFullSpan(true);
-            overrideVmin.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    VoltageCl0.enableOverrideVmin(isChecked, getActivity());
-                }
-            });
-
-            items.add(overrideVmin);
-        }
-
         List<String> freqs = VoltageCl0.getFreqs();
         List<String> voltages = VoltageCl0.getVoltages();
         List<String> voltagesStock = VoltageCl0.getStockVoltages();
