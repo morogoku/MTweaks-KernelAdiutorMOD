@@ -71,7 +71,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
             overridevminInit(items);
         }
 
-        //bigInit(items);
+        bigInit(items);
         littleInit(items);
 
     }
@@ -104,8 +104,8 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
                 final int min = (Utils.strToInt(voltages.get(i)) - 300);
                 SeekBarView volt = new SeekBarView();
                 volt.setTitle(freqs.get(i) + " " + getString(R.string.mhz));
-                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.uv));
-                volt.setUnit(getString(R.string.uv));
+                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.mv));
+                volt.setUnit(getString(R.string.mv));
                 volt.setMax(1300);
                 volt.setMin(min);
                 volt.setOffset(25);
@@ -141,7 +141,7 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
     private void littleInit(List<RecyclerViewItem> items) {
 
         CardView littleCard = new CardView(getActivity());
-        littleCard.setTitle(getString(R.string.cluster_big));
+        littleCard.setTitle(getString(R.string.cluster_little));
 
         final List<String> freqs = VoltageCl0.getFreqs();
         List<String> voltages = VoltageCl0.getVoltages();
@@ -150,8 +150,8 @@ public class CPUVoltageFragment extends RecyclerViewFragment {
                 final int min = (Utils.strToInt(voltages.get(i)) - 300);
                 SeekBarView volt = new SeekBarView();
                 volt.setTitle(freqs.get(i) + " " + getString(R.string.mhz));
-                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.uv));
-                volt.setUnit(getString(R.string.uv));
+                volt.setSummary(getString(R.string.def) + ": " + voltages.get(i) + " " + getString(R.string.mv));
+                volt.setUnit(getString(R.string.mv));
                 volt.setMax(1300);
                 volt.setMin(min);
                 volt.setOffset(25);
