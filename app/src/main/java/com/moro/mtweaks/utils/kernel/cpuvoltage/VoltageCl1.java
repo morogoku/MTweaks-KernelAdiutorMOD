@@ -70,7 +70,7 @@ public class VoltageCl1 {
         if (voltages == null || voltagesStock == null) return;
 
         for (int i = 0; i < voltages.size(); i++) {
-            String volt = String.valueOf((Utils.strToFloat(voltagesStock.get(i)) * sOffset.get(PATH)) + adjust);
+            String volt = String.valueOf(Utils.strToFloat(voltagesStock.get(i)) + adjust);
             String freq = freqs.get(i);
             setVoltage(freq, volt, context);
         }
