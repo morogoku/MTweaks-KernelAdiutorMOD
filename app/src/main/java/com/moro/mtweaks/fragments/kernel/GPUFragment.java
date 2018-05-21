@@ -36,6 +36,7 @@ import com.moro.mtweaks.views.recyclerview.TitleView;
 import com.moro.mtweaks.views.recyclerview.XYGraphView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -142,6 +143,9 @@ public class GPUFragment extends RecyclerViewFragment {
     }
 
     private void governorInit(List<RecyclerViewItem> items) {
+        CardView govCard = new CardView(getActivity());
+        govCard.setTitle(getString(R.string.gpu_governor));
+
         if (GPUFreq.has2dGovernor()) {
             SelectView governor2d = new SelectView();
             governor2d.setTitle(getString(R.string.gpu_2d_governor));
@@ -155,7 +159,7 @@ public class GPUFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(governor2d);
+            govCard.addItem(governor2d);
         }
 
         if (GPUFreq.hasGovernor()) {
@@ -171,7 +175,86 @@ public class GPUFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(governor);
+            govCard.addItem(governor);
+
+            TitleView tun = new TitleView();
+            tun.setText(getString(R.string.gov_tunables));
+            govCard.addItem(tun);
+
+            if (GPUFreq.hasHighspeedClock()){
+                List<String> freqs = new ArrayList<>();
+                List<Integer> list = GPUFreq.getAvailableS7Freqs();
+                Collections.sort(list);
+                int value = 0;
+                for (int i = 0; i < list.size(); i++) {
+                    freqs.add(String.valueOf(list.get(i)));
+                    if (list.get(i) == GPUFreq.getHighspeedClock()){
+                        value = i;
+                    }
+                }
+
+                SeekBarView seekbar = new SeekBarView();
+                seekbar.setTitle(getString(R.string.tun_highspeed_clock));
+                seekbar.setSummary(getString(R.string.tun_highspeed_clock_summary));
+                seekbar.setUnit(getString(R.string.mhz));
+                seekbar.setItems(freqs);
+                seekbar.setProgress(value);
+                seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreq.setHighspeedClock(value, getActivity());
+                    }
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                govCard.addItem(seekbar);
+            }
+
+            if (GPUFreq.hasHighspeedLoad()){
+
+                SeekBarView seekbar = new SeekBarView();
+                seekbar.setTitle(getString(R.string.tun_highspeed_load));
+                seekbar.setSummary(getString(R.string.tun_highspeed_load_summary));
+                seekbar.setUnit(getString(R.string.percent));
+                seekbar.setMax(100);
+                seekbar.setMin(1);
+                seekbar.setProgress(GPUFreq.getHighspeedLoad() - 1);
+                seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreq.setHighspeedLoad((position + 1), getActivity());
+                    }
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                govCard.addItem(seekbar);
+            }
+
+            if (GPUFreq.hasHighspeedDelay()){
+
+                SeekBarView seekbar = new SeekBarView();
+                seekbar.setTitle(getString(R.string.tun_highspeed_delay));
+                seekbar.setSummary(getString(R.string.tun_highspeed_delay_summary));
+                seekbar.setUnit(getString(R.string.ms));
+                seekbar.setMax(5);
+                seekbar.setMin(0);
+                seekbar.setProgress(GPUFreq.getHighspeedDelay());
+                seekbar.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreq.setHighspeedDelay(position, getActivity());
+                    }
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                govCard.addItem(seekbar);
+            }
 
             if (GPUFreq.hasTunables(governor.getValue())) {
                 DescriptionView tunables = new DescriptionView();
@@ -189,8 +272,12 @@ public class GPUFragment extends RecyclerViewFragment {
                     }
                 });
 
-                items.add(tunables);
+                govCard.addItem(tunables);
             }
+        }
+
+        if (govCard.size() > 0) {
+            items.add(govCard);
         }
     }
 

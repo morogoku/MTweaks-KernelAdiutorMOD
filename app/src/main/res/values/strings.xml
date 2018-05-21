@@ -67,6 +67,7 @@
     <string name="ma">mA</string>
     <string name="kb">kB</string>
     <string name="px">px</string>
+    <string name="percent">%</string>
 
     <!-- Special signs -->
     <string name="minus" translatable="false">-</string>
@@ -426,6 +427,13 @@
     <string name="idle_wait_summary">Number of events to wait before ramping down the frequency. The idlewait\'th events before current one must be all idle before Adreno idler ramps down the frequency. This implementation is to prevent micro-lags on scrolling or playing games. Adreno idler will more actively try to ramp down the frequency if this is set to a lower value.</string>
     <string name="workload">Workload</string>
     <string name="workload_summary">Adreno idler will more actively try to ramp down the frequency if this is set to a higher value.</string>
+    <string name="tun_highspeed_clock">GPU Highspeed Clock</string>
+    <string name="tun_highspeed_clock_summary">Boost the minimum frequency the GPU scales up to.</string>
+    <string name="tun_highspeed_load">GPU Highspeed Load</string>
+    <string name="tun_highspeed_load_summary">Jump the minimum frequency level to highspeed_clock when the GPU utilization over this value.</string>
+    <string name="tun_highspeed_delay">GPU Highspeed Delay</string>
+    <string name="tun_highspeed_delay_summary">Jump the minimum frequency level to highspeed_clock when the GPU utilization over highspeed_load and over this delayed value.</string>
+    <string name="gov_tunables">Governor Tunables</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>
