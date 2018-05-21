@@ -88,7 +88,8 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         items.addAll(mVoltages);
     }
 
-    private void seekbarInit(SeekBarView seekbar, final String freq, String voltage, String voltageStock) {
+    private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
+                             String voltageStock) {
 
         final int min = (Utils.strToInt(voltageStock) - 300);
 
