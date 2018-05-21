@@ -210,6 +210,9 @@
     <string name="global_offset">Global Offset</string>
     <string name="override_vmin">Override Minimum Voltage</string>
     <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>
+    <string name="cpu_volt_profile">Voltage Profile</string>
+    <string name="cpu_volt_profile_summary">Modify the global CPU voltage</string>
+    <string name="cpu_volt_control">CPU Voltage Control</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>

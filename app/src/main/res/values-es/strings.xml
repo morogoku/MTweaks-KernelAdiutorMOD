@@ -177,6 +177,9 @@
   <string name="global_offset">Ajuste Global</string>
   <string name="override_vmin">Sobrescribir voltaje mínimo</string>
   <string name="override_vmin_summary">Desactivar para eliminar los límites del fabricante en undervolting</string>
+  <string name="cpu_volt_profile">Perfil de Voltaje</string>
+  <string name="cpu_volt_profile_summary">Modifique el voltaje global de CPU</string>
+  <string name="cpu_volt_control">Control de Voltaje de CPU</string>
   <!-- CPU Hotplug -->
   <string name="hotplug_warning">Más de un sistema de hotplugging activado!\nPor favor solo use uno.</string>
   <string name="mpdecision">MPDecision</string>
@@ -390,6 +393,7 @@
   <string name="workload">Carga de trabajo</string>
   <string name="workload_summary">Adreno Idler tratará de reducir la frecuencia más activamente si éste se establece en un valor más alto.</string>
   <string name="gov_tunables">Ajustes de Gobernador</string>
+  <string name="gpu_voltage">Control de Voltaje de GPU</string>
   <!-- Screen -->
   <string name="screen_color">Color de la pantalla</string>
   <string name="red">Rojo</string>

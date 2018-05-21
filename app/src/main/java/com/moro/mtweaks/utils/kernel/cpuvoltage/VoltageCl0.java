@@ -63,19 +63,6 @@ public class VoltageCl0 {
     private static String PATH;
     private static String[] sFreqs;
 
-    public static void setGlobalOffset(int adjust, Context context) {
-        List<String> freqs = getFreqs();
-        List<String> voltages = getVoltages();
-        List<String> voltagesStock = getStockVoltages();
-        if (voltages == null || voltagesStock == null) return;
-
-        for (int i = 0; i < voltages.size(); i++) {
-            String volt = String.valueOf((int)(Utils.strToFloat(voltagesStock.get(i)) + adjust));
-            String freq = String.valueOf(Utils.strToInt(freqs.get(i)));
-            setVoltage(freq, volt, context);
-        }
-    }
-
     public static void setVoltage(String freq, String voltage, Context context) {
         int position = getFreqs().indexOf(freq);
         if (sAppend.get(PATH)) {
@@ -140,12 +127,17 @@ public class VoltageCl0 {
                 String[] lines = value.split(sSplitNewline.get(PATH));
                 sFreqs = new String[lines.length];
                 for (int i = 0; i < sFreqs.length; i++) {
-                    sFreqs[i] = String.valueOf(Utils.strToInt(lines[i].split(sSplitLine.get(PATH))[0].trim()) / sOffsetFreq.get(PATH));
+                    sFreqs[i] = String.valueOf(Utils.strToInt(lines[i]
+                            .split(sSplitLine.get(PATH))[0].trim()) / sOffsetFreq.get(PATH));
                 }
             }
         }
         if (sFreqs == null) return null;
         return Arrays.asList(sFreqs);
+    }
+
+    public static boolean hasBackup() {
+        return Utils.existFile(BACKUP);
     }
 
     public static boolean supported() {
