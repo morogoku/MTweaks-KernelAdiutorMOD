@@ -53,6 +53,7 @@ import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.mtweaks.fragments.kernel.EntropyFragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
+import com.moro.mtweaks.fragments.kernel.DvfsFragment;
 import com.moro.mtweaks.fragments.kernel.IOFragment;
 import com.moro.mtweaks.fragments.kernel.KSMFragment;
 import com.moro.mtweaks.fragments.kernel.LEDFragment;
@@ -93,6 +94,7 @@ import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.entropy.Entropy;
 import com.moro.mtweaks.utils.kernel.gpu.GPU;
+import com.moro.mtweaks.utils.kernel.dvfs.Dvfs;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
 import com.moro.mtweaks.utils.kernel.led.LED;
@@ -202,6 +204,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (GPU.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.gpu, GPUFragment.class, R.drawable.ic_gpu));
+        }
+        if (Dvfs.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.dvfs_nav, DvfsFragment.class, R.drawable.ic_dvfs));
         }
         if (Screen.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.screen, ScreenFragment.class, R.drawable.ic_display));

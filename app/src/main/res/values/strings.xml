@@ -691,6 +691,13 @@
     <string name="kill_lmk_threshold">Kill LMK Threshold</string>
     <string name="kill_lmk_threshold_summary">How full swap needs to be to kill LMK.</string>
 
+    <!-- DVFS -->
+    <string name="dvfs_nav">DVFS</string>
+    <string name="dvfs_decision_mode">Decision Mode</string>
+    <string name="dvfs_decision_mode_summary">CPU DVFS min/max limitation determined by decision mode.</string>
+    <string name="dvfs_thermal_control">DVFS Thermal Control</string>
+    <string name="dvfs_thermal_control_summary">CPU DVFS min/max limitation determined by temperature.</string>
+
     <!-- Wakelock -->
     <string name="wakelock_nav">Wakelock</string>
     <string name="wkl_control">Wakelock Control</string>
