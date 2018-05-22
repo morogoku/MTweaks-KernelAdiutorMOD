@@ -57,6 +57,7 @@ import com.moro.mtweaks.fragments.kernel.IOFragment;
 import com.moro.mtweaks.fragments.kernel.KSMFragment;
 import com.moro.mtweaks.fragments.kernel.LEDFragment;
 import com.moro.mtweaks.fragments.kernel.LMKFragment;
+import com.moro.mtweaks.fragments.kernel.WakelockFragment;
 import com.moro.mtweaks.fragments.kernel.MiscFragment;
 import com.moro.mtweaks.fragments.kernel.ScreenFragment;
 import com.moro.mtweaks.fragments.kernel.SoundFragment;
@@ -65,7 +66,6 @@ import com.moro.mtweaks.fragments.kernel.VMFragment;
 import com.moro.mtweaks.fragments.kernel.WakeFragment;
 import com.moro.mtweaks.fragments.other.AboutFragment;
 import com.moro.mtweaks.fragments.other.ContributorsFragment;
-import com.moro.mtweaks.fragments.other.HelpFragment;
 import com.moro.mtweaks.fragments.other.SettingsFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.fragments.statistics.DeviceFragment;
@@ -74,7 +74,6 @@ import com.moro.mtweaks.fragments.statistics.MemoryFragment;
 import com.moro.mtweaks.fragments.statistics.OverallFragment;
 import com.moro.mtweaks.fragments.tools.BackupFragment;
 import com.moro.mtweaks.fragments.tools.BuildpropFragment;
-import com.moro.mtweaks.fragments.tools.DataSharingFragment;
 import com.moro.mtweaks.fragments.tools.InitdFragment;
 import com.moro.mtweaks.fragments.tools.OnBootFragment;
 import com.moro.mtweaks.fragments.tools.ProfileFragment;
@@ -102,6 +101,7 @@ import com.moro.mtweaks.utils.kernel.screen.Screen;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
+import com.moro.mtweaks.utils.kernel.wakelock.Wakelock;
 import com.moro.mtweaks.utils.root.RootUtils;
 import com.moro.mtweaks.utils.tools.Backup;
 import com.moro.mtweaks.utils.tools.SupportedDownloads;
@@ -226,6 +226,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (LMK.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, LMKFragment.class, R.drawable.ic_stackoverflow));
+        }
+        if (Wakelock.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, WakelockFragment.class, R.drawable.ic_unlock));
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, VMFragment.class, R.drawable.ic_server));
         if (Entropy.supported()) {
