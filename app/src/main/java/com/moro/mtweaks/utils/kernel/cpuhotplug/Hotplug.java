@@ -29,7 +29,7 @@ public class Hotplug {
                 || BluPlug.supported() || MSMHotplug.getInstance().supported() || MakoHotplug.supported()
                 || MBHotplug.getInstance().supported() || AlucardHotplug.supported() || ThunderPlug.supported()
                 || ZenDecision.supported() || AutoSmp.supported() || CoreCtl.getInstance().supported()
-                || AiOHotplug.supported();
+                || AiOHotplug.supported() || SamsungPlug.supported();
     }
 
 }
