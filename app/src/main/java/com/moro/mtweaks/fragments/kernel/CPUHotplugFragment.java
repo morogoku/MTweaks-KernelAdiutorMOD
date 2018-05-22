@@ -1768,7 +1768,11 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
     private void thunderPlugInit(List<RecyclerViewItem> items) {
         CardView thunderPlug = new CardView(getActivity());
-        thunderPlug.setTitle(getString(R.string.thunderplug));
+        if (ThunderPlug.hasThunderPlugVersion()){
+            thunderPlug.setTitle(ThunderPlug.getThunderPlugVersion());
+        }else {
+            thunderPlug.setTitle(getString(R.string.thunderplug));
+        }
 
         if (ThunderPlug.hasThunderPlugEnable()) {
             SwitchView enable = new SwitchView();
@@ -1828,10 +1832,10 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         if (ThunderPlug.hasThunderPlugSamplingRate()) {
             SeekBarView samplingRate = new SeekBarView();
             samplingRate.setTitle(getString(R.string.sampling_rate));
-            samplingRate.setMax(2600);
-            samplingRate.setMin(100);
-            samplingRate.setOffset(50);
-            samplingRate.setProgress(ThunderPlug.getThunderPlugSamplingRate() / 50);
+            samplingRate.setMax(500);
+            samplingRate.setMin(10);
+            samplingRate.setOffset(10);
+            samplingRate.setProgress(ThunderPlug.getThunderPlugSamplingRate() / 10 - 1);
             samplingRate.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onMove(SeekBarView seekBarView, int position, String value) {
@@ -1839,7 +1843,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    ThunderPlug.setThunderPlugSamplingRate(position * 50, getActivity());
+                    ThunderPlug.setThunderPlugSamplingRate((position + 1) * 10, getActivity());
                 }
             });
 
@@ -1877,9 +1881,51 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             thunderPlug.addItem(touchBoost);
         }
 
+        if (ThunderPlug.hasThunderPlugCpusBoosted()) {
+            SeekBarView cpusBoosted = new SeekBarView();
+            cpusBoosted.setTitle(getString(R.string.cpus_boosted));
+            cpusBoosted.setSummary(getString(R.string.cpus_boosted_summary));
+            cpusBoosted.setMax(8);
+            cpusBoosted.setMin(1);
+            cpusBoosted.setProgress(ThunderPlug.getThunderPlugCpusBoosted() - 1);
+            cpusBoosted.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ThunderPlug.setThunderPlugLoadCpusBoosted(position + 1, getActivity());
+                }
+            });
+
+            thunderPlug.addItem(cpusBoosted);
+        }
+
+        if (ThunderPlug.hasThunderPlugCpusBoosted()) {
+            SeekBarView cpusBoosted = new SeekBarView();
+            cpusBoosted.setTitle(getString(R.string.cpus_boosted));
+            cpusBoosted.setSummary(getString(R.string.cpus_boosted_summary));
+            cpusBoosted.setMax(8);
+            cpusBoosted.setMin(1);
+            cpusBoosted.setProgress(ThunderPlug.getThunderPlugCpusBoosted() - 1);
+            cpusBoosted.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ThunderPlug.setThunderPlugLoadCpusBoosted(position + 1, getActivity());
+                }
+            });
+
+            thunderPlug.addItem(cpusBoosted);
+        }
+
         if (thunderPlug.size() > 0) {
             items.add(thunderPlug);
-         }
+        }
     }
 
     private void zenDecisionInit(List<RecyclerViewItem> items) {

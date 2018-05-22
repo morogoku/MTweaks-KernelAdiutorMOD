@@ -37,11 +37,62 @@ public class ThunderPlug {
     private static final String HOTPLUG_THUNDER_PLUG_SAMPLING_RATE = HOTPLUG_THUNDER_PLUG + "/sampling_rate";
     private static final String HOTPLUG_THUNDER_PLUG_LOAD_THRESHOLD = HOTPLUG_THUNDER_PLUG + "/load_threshold";
     private static final String HOTPLUG_THUNDER_PLUG_TOUCH_BOOST = HOTPLUG_THUNDER_PLUG + "/touch_boost";
+    private static final String HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED = HOTPLUG_THUNDER_PLUG + "/cpus_boosted";
+    private static final String HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE = HOTPLUG_THUNDER_PLUG + "/max_core_online";
+    private static final String HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE = HOTPLUG_THUNDER_PLUG + "/min_core_online";
+    private static final String HOTPLUG_THUNDER_PLUG_VERSION = HOTPLUG_THUNDER_PLUG + "/version";
 
     private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
 
     public static void enableStateNotifier(boolean enable, Context context) {
         run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
+    }
+
+    public static boolean hasThunderPlugVersion() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_VERSION);
+    }
+
+    public static String getThunderPlugVersion() {
+        return Utils.readFile(HOTPLUG_THUNDER_PLUG_VERSION);
+    }
+
+    public static boolean hasThunderPlugMaxCoreOnline() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE);
+    }
+
+    public static int getThunderPlugMaxCoreOnline() {
+        return Utils.strToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE));
+    }
+
+    public static void setThunderPlugMaxCoreOnline(int value, Context context) {
+        run(Control.write(String.valueOf(value), HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE),
+                HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE, context);
+    }
+
+    public static boolean hasThunderPlugMinCoreOnline() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE);
+    }
+
+    public static int getThunderPlugMinCoreOnline() {
+        return Utils.strToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE));
+    }
+
+    public static void setThunderPlugMinCoreOnline(int value, Context context) {
+        run(Control.write(String.valueOf(value), HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE),
+                HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE, context);
+    }
+
+    public static boolean hasThunderPlugCpusBoosted() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED);
+    }
+
+    public static int getThunderPlugCpusBoosted() {
+        return Utils.strToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED));
+    }
+
+    public static void setThunderPlugLoadCpusBoosted(int value, Context context) {
+        run(Control.write(String.valueOf(value), HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED),
+                HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED, context);
     }
 
     public static void enableThunderPlugTouchBoost(boolean enable, Context context) {
