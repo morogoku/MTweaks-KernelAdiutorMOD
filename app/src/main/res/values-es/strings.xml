@@ -855,7 +855,8 @@
   <string name="fingerprint_summary">Utilizar huellas dactilares para pasar control de seguridad. Esto funcionará si tienes huellas dactilares registradas.</string>
   <string name="sections">Secciones</string>
   <!-- About -->
-  <string name="about_me">Hola, soy Willi Ye aka Grarak, un estudiante de 19 años viviendo en Viena. He estado desarrollando en Android durante mucho tiempo. Además de Kernel Adiutor también mantengo LineageOS para algunos dispositivos y trabajo en ParanoidAndroid. Así que por favor comprenda si no encuentro el tiempo para actualizar esta aplicación.</string>
+  <!--<string name="about_me">Hola, soy Willi Ye aka Grarak, un estudiante de 19 años viviendo en Viena. He estado desarrollando en Android durante mucho tiempo. Además de Kernel Adiutor también mantengo LineageOS para algunos dispositivos y trabajo en ParanoidAndroid. Así que por favor comprenda si no encuentro el tiempo para actualizar esta aplicación.</string>-->
+  <string name="about_me">Hola, soy MoroGoku, desarrollador del MoRoKernel para Samsung S7. Esta aplicación es un mod de \"Kernel Adiutor\" de Willi Ye, aka Grarak. Hago este mod para compatibilizar Kernel Adiutor con el smartphone Galaxy S7, y añadir algunas nuevas opciones. Gracias Willi por esta gran aplicación.</string>
   <!-- Contributors -->
   <string name="commits">%d cambios</string>
   <string name="no_internet">Por favor, compruebe su conexión a internet!</string>
