@@ -249,7 +249,7 @@
   <string name="update_rate_summary">Intervalo entre toma de muestras de la carga a través de CPUs. Inferior significa más rápido y más errático.</string>
   <string name="fast_lane_load">Carga de vía rápida</string>
   <string name="fast_lane_load_summary">Mejorar las latencias poniendo en línea todos los CPU si la carga actual en cualquier CPU sobrepasa un umbral determinado.</string>
-  <string name="fast_lane_min_freq">Frecuencia mínima de Via Rápida</string>
+  <string name="fast_lane_min_freq">Frecuencia mínima de Vía Rápida</string>
   <string name="fast_lane_min_freq_summary">Establece la frecuencia mínima a la que la CPU desciende cuando la Vía rápida alcanza la carga anterior.</string>
   <string name="offline_load">Carga inactiva</string>
   <string name="offline_load_summary">No desactivar una CPU si no cae bajo los niveles mínimos de la carga de umbral.</string>
@@ -291,7 +291,7 @@
   <string name="cpu_up_rate">Aumento de velocidad del CPU</string>
   <string name="thunderplug">Thunderplug</string>
   <string name="thunderplug_summary">Un reemplazo en el Kernel de hotplugging de Qualcomm. Desarrollado por varunchitre15.</string>
-  <string name="min_cpu_online_screen_off">Minimo de CPUs con la pantalla apagada</string>
+  <string name="min_cpu_online_screen_off">Mínimo de CPUs con la pantalla apagada</string>
   <string name="min_cpu_online_screen_off_summary">Número mínimo de CPUs que estarán activos cuando la pantalla está apagada.</string>
   <string name="endurance_level">Nivel de resistencia</string>
   <string name="endurance_level_summary">Un perfil de ahorro energético.</string>
@@ -399,7 +399,10 @@
   <string name="workload">Carga de trabajo</string>
   <string name="workload_summary">Adreno Idler tratará de reducir la frecuencia más activamente si éste se establece en un valor más alto.</string>
   <string name="gov_tunables">Ajustes de Gobernador</string>
-  <string name="gpu_voltage">Control de Voltaje de GPU</string>
+  <string name="gpu_voltage">Control Voltaje GPU</string>
+  <string name="gpu_power_policy_card">Control GPU Power Policy</string>
+  <string name="gpu_power_policy">Control Mali Power Policy</string>
+  <string name="gpu_power_policy_summary">COARSE DEMAND es para controlar solamente la energía externa (PMU para G3D). Es mejor en ahorro de energía y rendimiento. COARSE DEMAND apaga la GPU en caso de no haber trabajo durante 100ms y la enciende en cuanto entra un nuevo trabajo. Por defecto: COARSE DEMAND</string>
   <!-- Screen -->
   <string name="screen_color">Color de la pantalla</string>
   <string name="red">Rojo</string>
@@ -527,14 +530,39 @@
   <!-- Battery -->
   <string name="level">Nivel</string>
   <string name="voltage">Voltage</string>
+  <string name="current_now">Carga Actual</string>
+  <string name="current_avg">Carga Media</string>
+  <string name="char_type">Tipo Carga</string>
+  <string name="temp">Temp</string>
+  <string name="status">Estado</string>
+  <string name="health">Health</string>
   <string name="capacity">Capacidad</string>
+  <string name="unstable_charge_card">Carga Inestable</string>
+  <string name="enable_unstable_charge">Activar Detección de Carga Inestable</string>
+  <string name="enable_unstable_charge_summary">Deshabilitado, el chip de carga ignorará las corrientes inestables. Uselo en riesgo de su cargador o puertos de carga. La detección de energía inestable reducirá la corriente de entrada hasta que se consiga un voltaje estable de la fuente de alimentación.</string>
   <string name="usb_fast_charge">Carga rápida USB</string>
   <string name="usb_fast_charge_summary">Dispositivo cargará más rápido cuando está conectado con el USB. Vuelva a conectar el cargador al cambiar esta opción.</string>
   <string name="blx">Extensión de la duración de la batería</string>
   <string name="blx_summary">Establecer un límite a la capacidad que la batería se cargará pasando un valor entre 0 y 100.</string>
   <string name="charge_rate">Índice de carga</string>
   <string name="charging_current">Corriente de Carga</string>
-  <string name="charging_current_summary">Ajustar indice de carga de batería. Cuidado: Exceder los 1250mA puede dañar el controlador de carga.</string>
+  <string name="charging_current_summary">Ajustar índice de carga de batería. Cuidado: Exceder los 1250mA puede dañar el controlador de carga.</string>
+  <string name="hv_prep_charge">Preparar Corriente de Carga</string>
+  <string name="hv_prep_input">Preparar Corriente de Entrada</string>
+  <string name="hv_charge">Corriente de Carga</string>
+  <string name="hv_input">Corriente de Entrada</string>
+  <string name="hv_power_supply">Cargador Rápido Samsung</string>
+  <string name="ac_mains">Cargador Estándar AC</string>
+  <string name="ac_input">Corriente de Entrada</string>
+  <string name="ac_charge">Corriente de Carga</string>
+  <string name="ac_input_screen">Corriente de Entrada (pantalla-on)</string>
+  <string name="ac_charge_screen">Corriente de Carga (pantalla-on)</string>
+  <string name="usb_port">USB</string>
+  <string name="usb_input">USB Corriente de Entrada</string>
+  <string name="usb_charge">USB Corriente de Carga</string>
+  <string name="wireless_power">Wireless</string>
+  <string name="wc_input">Wireless Corriente de Entrada</string>
+  <string name="wc_charge">Wireless Corriente de Carga</string>
   <!-- LED -->
   <string name="fade">Desvanecimiento</string>
   <string name="fade_summary">Activar para desvanecerse, desactivar para parpadear.</string>

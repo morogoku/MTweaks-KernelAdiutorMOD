@@ -444,6 +444,9 @@
     <string name="tun_highspeed_delay_summary">Jump the minimum frequency level to highspeed_clock when the GPU utilization over highspeed_load and over this delayed value.</string>
     <string name="gov_tunables">Governor Tunables</string>
     <string name="gpu_voltage">GPU Voltage Control</string>
+    <string name="gpu_power_policy_card">GPU Power Policy Control</string>
+    <string name="gpu_power_policy">Mali Power Policy Control</string>
+    <string name="gpu_power_policy_summary">COARSE DEMAND power policy is to control only external power (PMU for G3D). It is better at saving power and performance. COARSE DEMAND turns off GPU power in case of being no job for 100ms and turns it on in case of incomming first job on the state of GPU off. Default is coarse_demand.</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>

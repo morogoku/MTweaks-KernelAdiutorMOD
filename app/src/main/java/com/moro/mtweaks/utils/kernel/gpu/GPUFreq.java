@@ -69,6 +69,7 @@ public class GPUFreq {
     private static final String TUNABLE_HIGHSPEED_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
     private static final String TUNABLE_HIGHSPEED_DELAY = "/sys/devices/14ac0000.mali/highspeed_delay";
+    private static final String POWER_POLICY = "/sys/devices/14ac0000.mali/power_policy";
 
     private static final String KGSL3D0_DEVFREQ_GPUBUSY = "/sys/class/kgsl/kgsl-3d0/gpubusy";
     private static final String CUR_KGSL3D0_DEVFREQ_FREQ = "/sys/class/kgsl/kgsl-3d0/gpuclk";
@@ -145,7 +146,6 @@ public class GPUFreq {
         sAvailableGovernors.add(AVAILABLE_KGSL3D0_DEVFREQ_GOVERNORS);
         sAvailableGovernors.add(AVAILABLE_OMAP_GOVERNORS);
         sAvailableGovernors.add(AVAILABLE_POWERVR_GOVERNORS);
-        sAvailableGovernors.add(AVAILABLE_S7_GOVERNORS);
 
         sTunables.add(TUNABLES_OMAP);
     }
@@ -304,7 +304,7 @@ public class GPUFreq {
             String governor = "";
             for (String line : lines) {
                 if (line.startsWith("[Current Governor]")){
-                    governor = line.replace("[Current Governor] ", "");;
+                    governor = line.replace("[Current Governor] ", "");
                 }
             }
             return governor;
@@ -380,8 +380,10 @@ public class GPUFreq {
 
     public static List<String> getAdjustedFreqs(Context context) {
         List<String> list = new ArrayList<>();
-        for (int freq : getAvailableS7Freqs()) {
-            list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
+        if (getAvailableS7Freqs() != null) {
+            for (int freq : getAvailableS7Freqs()) {
+                list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
+            }
         }
         return list;
     }
@@ -524,7 +526,6 @@ public class GPUFreq {
 
     public static void setVoltage(Integer freq, String voltage, Context context) {
 
-        //freq = String.valueOf(freq);
         String volt = String.valueOf((int)(Utils.strToFloat(voltage) * VOLT_OFFSET));
         run(Control.write(freq + " " + volt, AVAILABLE_S7_FREQS), AVAILABLE_S7_FREQS + freq, context);
     }
@@ -561,6 +562,33 @@ public class GPUFreq {
             return voltages;
         }
         return null;
+    }
+
+    public static void setPowerPolicy(String value, Context context) {
+        run(Control.write(value, POWER_POLICY), POWER_POLICY, context);
+    }
+
+    public static String getPowerPolicy() {
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
+        for (String policy : policies) {
+            if (policy.startsWith("[") && policy.endsWith("]")) {
+                return policy.replace("[", "").replace("]", "");
+            }
+        }
+        return "";
+    }
+
+    public static List<String> getPowerPolicies() {
+        String[] policies = Utils.readFile(POWER_POLICY).split(" ");
+        List<String> list = new ArrayList<>();
+        for (String policy : policies) {
+            list.add(policy.replace("[", "").replace("]", ""));
+        }
+        return list;
+    }
+
+    public static boolean hasPowerPolicy() {
+        return Utils.existFile(POWER_POLICY);
     }
 
     public static int getOffset () {
