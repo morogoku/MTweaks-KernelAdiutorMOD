@@ -36,6 +36,7 @@ import java.util.List;
 public class VoltageCl1 {
 
     private static final String BACKUP = "/data/.moro/bk/bk_orig_cl1_voltage";
+    private static final String BACKUP_MTWEAKS = "/data/.mtweaks2/bk/cpuCl1_stock_voltage";
 
     private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
 
@@ -45,6 +46,7 @@ public class VoltageCl1 {
     private static final HashMap<String, String> sSplitNewline = new HashMap<>();
     private static final HashMap<String, String> sSplitLine = new HashMap<>();
     private static final HashMap<String, Boolean> sAppend = new HashMap<>();
+    private static final HashMap<String, Boolean> sBackup = new HashMap<>();
 
     static {
         sVoltages.put(CL1_VOLTAGE, false);
@@ -58,9 +60,13 @@ public class VoltageCl1 {
         sSplitLine.put(CL1_VOLTAGE, " ");
 
         sAppend.put(CL1_VOLTAGE, false);
+
+        sBackup.put(BACKUP, false);
+        sBackup.put(BACKUP_MTWEAKS, false);
     }
 
     private static String PATH;
+    private static String PATH_BACKUP;
     private static String[] sFreqs;
 
     public static void setVoltage(String freq, String voltage, Context context) {
@@ -89,7 +95,7 @@ public class VoltageCl1 {
     }
 
     public static List<String> getStockVoltages() {
-        String value = Utils.readFile(BACKUP);
+        String value = Utils.readFile(PATH_BACKUP);
         if (!value.isEmpty()) {
             String[] lines = value.split(sSplitNewline.get(PATH));
             List<String> voltages = new ArrayList<>();
@@ -136,19 +142,19 @@ public class VoltageCl1 {
         return Arrays.asList(sFreqs);
     }
 
-    public static boolean hasBackup() {
-        return Utils.existFile(BACKUP);
-    }
-
     public static boolean supported() {
-        if (PATH != null) return true;
+        if (PATH != null && PATH_BACKUP != null) return true;
         for (String path : sVoltages.keySet()) {
-            if (Utils.existFile(path) && Utils.existFile(BACKUP)) {
+            if (Utils.existFile(path)) {
                 PATH = path;
-                return true;
             }
         }
-        return false;
+        for (String path : sBackup.keySet()) {
+            if (Utils.existFile(path)) {
+                PATH_BACKUP = path;
+            }
+        }
+        return PATH != null && PATH_BACKUP != null;
     }
 
     private static void run(String command, String id, Context context) {
