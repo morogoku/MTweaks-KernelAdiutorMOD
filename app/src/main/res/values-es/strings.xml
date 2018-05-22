@@ -640,21 +640,21 @@
   <string name="dvfs_thermal_control_summary">Limitación DVFS de CPU min/max determinada por la temperatura.</string>
   <!-- Wakelock -->
   <string name="wakelock_nav">Wakelock</string>
-  <string name="wkl_control">Wakelock Control</string>
+  <string name="wkl_control">Control de Wakelock</string>
   <string name="wkl_sensorhub">SensorHub</string>
-  <string name="wkl_sensorhub_summary">The SensorHub Wakelock is one of the biggest wake sources. Disable for better deep sleep and less awake time. Enable for stock behavior.</string>
+  <string name="wkl_sensorhub_summary">El Wakelock SensorHub es uno de los mayores causantes de despertares. Desactivar para un mejor Deep Sleep y menos despertares.\nHabilitar para comportamiento Stock.</string>
   <string name="wkl_ssp">SSP</string>
-  <string name="wkl_ssp_summary">The SSP Wakelock is one of the biggest wake sources after Sensorhub. Disable for better deep sleep and less awake time. Enable for stock behavior.</string>
+  <string name="wkl_ssp_summary">El Wakelock SSP es uno de los más grandes cusantes de despertares después del Sensorhub. Desactivelo para un mejor Deep Sleep y menos desertares.\nHabilitar para comportamiento Stock.</string>
   <string name="wkl_gps">GPS</string>
-  <string name="wkl_gps_summary">The bcm4359 Wakelock (GPS chip) is one of the biggest wake sources after Sensorhub &amp; SSP. Disable for better deep sleep and less awake time. Enable for stock behavior.</string>
+  <string name="wkl_gps_summary">El Wakelock bcm4359 (chip GPS) es de los mayores causantes de despertares después de Sensorhub… SSP. Desactivelo para un mejor Deep Sleep y menos desertares.\nHabilitar para comportamiento Stock.</string>
   <string name="wkl_wireless">Wireless</string>
-  <string name="wkl_wireless_summary">Wireless Wakelock. Disable for better deep sleep and less awake time. Enable for stock behavior.</string>
+  <string name="wkl_wireless_summary">Wakelock Wireless. Desactivelo para un mejor Deep Sleep y menos desertares.\nHabilitar para comportamiento Stock.</string>
   <string name="wkl_bluetooth">Bluetooth</string>
-  <string name="wkl_bluetooth_summary">Bluetooth Wakelock. Disable for better deep sleep and less awake time. Enable for stock behavior.</string>
+  <string name="wkl_bluetooth_summary">Wakelock Bluetooth. Desactivelo para un mejor Deep Sleep y menos desertares.\nHabilitar para comportamiento Stock.</string>
   <string name="wkl_battery">Battery polling</string>
-  <string name="wkl_battery_summary">Default = 10 (Lower = lower wake time)</string>
+  <string name="wkl_battery_summary">Por defecto = 10\n(Más bajo = Menor tiempo de despertar)</string>
   <string name="wkl_nfc">NFC</string>
-  <string name="wkl_nfc_summary">Default = 2 (Lower = lower wake time)</string>
+  <string name="wkl_nfc_summary">Por defecto = 2\n(Más bajo = Menor tiempo de despertar)</string>
   <!-- Virtual Memory -->
   <string name="zram">Z-RAM</string>
   <string name="disksize">Tamaño del disco</string>
