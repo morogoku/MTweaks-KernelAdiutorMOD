@@ -21,9 +21,11 @@
         <SwitchPreferenceCompat
             android:key="darktheme"
             android:summary="@string/dark_theme" />
+<!--
         <SwitchPreferenceCompat
             android:key="materialicon"
             android:summary="@string/material_icon" />
+-->
         <Preference
             android:key="banner_resizer"
             android:summary="@string/banner_resizer" />

@@ -72,7 +72,7 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
     private static final String KEY_FORCE_ENGLISH = "forceenglish";
     private static final String KEY_USER_INTERFACE = "user_interface";
     private static final String KEY_DARK_THEME = "darktheme";
-    private static final String KEY_MATERIAL_ICON = "materialicon";
+    //private static final String KEY_MATERIAL_ICON = "materialicon";
     private static final String KEY_BANNER_RESIZER = "banner_resizer";
     private static final String KEY_HIDE_BANNER = "hide_banner";
     private static final String KEY_PRIMARY_COLOR = "primary_color";
@@ -135,14 +135,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
         } else {
             forceEnglish.setOnPreferenceChangeListener(this);
         }
-
+/*
         if (Utils.hideStartActivity()) {
             ((PreferenceCategory) findPreference(KEY_USER_INTERFACE))
                     .removePreference(findPreference(KEY_MATERIAL_ICON));
         } else {
             findPreference(KEY_MATERIAL_ICON).setOnPreferenceChangeListener(this);
         }
-
+*/
         findPreference(KEY_DARK_THEME).setOnPreferenceChangeListener(this);
         findPreference(KEY_BANNER_RESIZER).setOnPreferenceClickListener(this);
         findPreference(KEY_HIDE_BANNER).setOnPreferenceChangeListener(this);
@@ -205,9 +205,11 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                         SettingsFragment.class.getCanonicalName());
                 startActivity(intent);
                 return true;
+/*
             case KEY_MATERIAL_ICON:
                 Utils.setStartActivity(checked, getActivity());
                 return true;
+*/
             case KEY_HIDE_BANNER:
                 if (!Utils.DONATED) {
                     ViewUtils.dialogDonate(getActivity()).show();
