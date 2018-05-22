@@ -45,6 +45,7 @@ public class OnBootReceiver extends BroadcastReceiver {
                 }
             }
             su.close();
+            AppSettings.saveBoolean("is_booted", true, context);
         }
     }
 }

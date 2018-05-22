@@ -29,6 +29,7 @@ import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
+import com.moro.mtweaks.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,7 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
         if (freqs != null && voltages != null && voltagesStock != null && freqs.size() == voltages.size()) {
 
             CardView freqCard = new CardView(getActivity());
-            freqCard.setTitle(getString(R.string.cpu_volt_control));
+            freqCard.setTitle(getString(R.string.cpuCl1_volt_control));
 
             List<String> progress = new ArrayList<>();
             for (float i = -100000f; i < 31250f; i += 6250) {
@@ -75,6 +76,7 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
             Boolean enableGlobal = AppSettings.getBoolean("CpuCl1_global_volts", true, getActivity());
 
             SwitchView voltControl = new SwitchView();
+            voltControl.setTitle(getString(R.string.cpu_manual_volt));
             voltControl.setSummaryOn(getString(R.string.cpu_manual_volt_summaryOn));
             voltControl.setSummaryOff(getString(R.string.cpu_manual_volt_summaryOff));
             voltControl.setChecked(enableGlobal);
@@ -100,6 +102,10 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
                 items.add(freqCard);
             }
 
+            TitleView tunables = new TitleView();
+            tunables.setText(getString(R.string.cpuCl1_volt));
+            items.add(tunables);
+
             for (int i = 0; i < freqs.size(); i++) {
                 SeekBarView seekbar = new SeekBarView();
                 seekbarInit(seekbar, freqs.get(i), voltages.get(i), voltagesStock.get(i));
@@ -111,8 +117,6 @@ public class CPUVoltageCl1Fragment extends RecyclerViewFragment {
 
     private void seekbarProfInit(SeekBarView seekbar, final List<String> freqs, final List<String> voltages,
                                  final List<String> voltagesStock, List<String> progress) {
-
-
 
         Boolean enableSeekbar = AppSettings.getBoolean("CpuCl1_global_volts", true, getActivity());
         int global = AppSettings.getInt("CpuCl1_SeekbarPref_value", 16, getActivity());

@@ -83,6 +83,19 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // If system is rebooted reset the Global voltages seekbar
+        Boolean mIsBooted = AppSettings.getBoolean("is_booted", true, this);
+        if (mIsBooted) {
+            if (!AppSettings.getBoolean("cpucl1voltage_onboot", false, this)) {
+                AppSettings.saveInt("CpuCl1_SeekbarPref_value", 16, this);
+            }
+            if (!AppSettings.getBoolean("cpucl0voltage_onboot", false, this)) {
+                AppSettings.saveInt("CpuCl0_SeekbarPref_value", 16, this);
+            }
+        }
+        AppSettings.saveBoolean("is_booted", false, this);
+
         setContentView(R.layout.activity_main);
 
         View splashBackground = findViewById(R.id.splash_background);
