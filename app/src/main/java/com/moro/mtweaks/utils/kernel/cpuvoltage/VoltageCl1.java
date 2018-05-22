@@ -24,6 +24,7 @@ import android.content.Context;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
+import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,8 +36,7 @@ import java.util.List;
  */
 public class VoltageCl1 {
 
-    private static final String BACKUP = "/data/.moro/bk/bk_orig_cl1_voltage";
-    private static final String BACKUP_MTWEAKS = "/data/.mtweaks/bk/cpuCl1_stock_voltage";
+    private static final String BACKUP_MTWEAKS = "/data/.mtweaks/cpuCl1_stock_voltage";
 
     private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
 
@@ -61,7 +61,6 @@ public class VoltageCl1 {
 
         sAppend.put(CL1_VOLTAGE, false);
 
-        sBackup.put(BACKUP, false);
         sBackup.put(BACKUP_MTWEAKS, false);
     }
 
@@ -150,6 +149,9 @@ public class VoltageCl1 {
             }
         }
         for (String path : sBackup.keySet()) {
+            if (!Utils.existFile(BACKUP_MTWEAKS)) {
+                RootUtils.runCommand("cp " + CL1_VOLTAGE + " " + BACKUP_MTWEAKS);
+            }
             if (Utils.existFile(path)) {
                 PATH_BACKUP = path;
             }

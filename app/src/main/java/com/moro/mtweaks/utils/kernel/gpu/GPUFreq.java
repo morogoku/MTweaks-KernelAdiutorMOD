@@ -25,6 +25,7 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
+import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class GPUFreq {
         return sIOInstance;
     }
 
-    private static final String BACKUP = "/data/.mtweaks/bk/gpu_stock_voltage";
+    private static final String BACKUP = "/data/.mtweaks/gpu_stock_voltage";
 
     private static final String GENERIC_GOVERNORS = "performance powersave ondemand simple conservative";
 
@@ -600,6 +601,9 @@ public class GPUFreq {
     }
 
     public static boolean supported() {
+        if (!Utils.existFile(BACKUP)) {
+            RootUtils.runCommand("cp " + AVAILABLE_S7_FREQS + " " + BACKUP);
+        }
         return hasCurFreq()
                 || (hasMaxFreq() && getAvailableS7Freqs() != null)
                 || (hasMinFreq() && getAvailableS7Freqs() != null)

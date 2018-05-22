@@ -104,6 +104,11 @@ public class MainActivity extends BaseActivity {
         }
         AppSettings.saveBoolean("is_booted", false, this);
 
+        // Check if exist /data/.mtweaks folder
+        if (!Utils.existFile("/data/.mtweaks")) {
+            RootUtils.runCommand("mkdir /data/.mtweaks");
+        }
+
         setContentView(R.layout.activity_main);
 
         View splashBackground = findViewById(R.id.splash_background);
