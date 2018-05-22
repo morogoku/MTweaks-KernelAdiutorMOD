@@ -228,7 +228,7 @@ public class AppSettings {
     }
 
     public static boolean isDataSharing(Context context) {
-        return Prefs.getBoolean(DATA_SHARING, true, context);
+        return Prefs.getBoolean(DATA_SHARING, false, context);
     }
 
     public static void saveDataSharing(boolean enabled, Context context) {
