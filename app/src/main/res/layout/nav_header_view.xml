@@ -17,7 +17,7 @@
             android:src="@drawable/morokernel"
             android:scaleType="centerCrop" />
     </io.codetail.widget.RevealFrameLayout>
-<!--
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/nav_header_fab"
         android:layout_width="wrap_content"
@@ -32,5 +32,4 @@
         android:tint="@color/white"
         app:fabSize="mini"
         app:srcCompat="@drawable/ic_gallery" />
-        -->
 </FrameLayout>

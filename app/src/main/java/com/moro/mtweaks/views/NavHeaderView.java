@@ -83,7 +83,7 @@ public class NavHeaderView extends LinearLayout {
 
         LayoutInflater.from(context).inflate(R.layout.nav_header_view, this);
         mImage = findViewById(R.id.nav_header_pic);
-/*
+
         boolean noPic;
         try {
             String uri = AppSettings.getPreviewPicture(getContext());
@@ -116,7 +116,7 @@ public class NavHeaderView extends LinearLayout {
                             animateBg();
                             break;
                     }
-                }).show());*/
+                }).show());
     }
 
     public static class MainHeaderActivity extends Activity {
