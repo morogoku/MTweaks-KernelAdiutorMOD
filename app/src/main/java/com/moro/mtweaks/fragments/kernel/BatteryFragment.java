@@ -29,6 +29,7 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.DescriptionFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.battery.Battery;
 import com.moro.mtweaks.views.recyclerview.CardView;
@@ -51,7 +52,8 @@ public class BatteryFragment extends RecyclerViewFragment {
     private StatsView mVoltage;
     private StatsView mCurrent;
     private StatsView mCurrentAvg;
-    private StatsView mCharType;
+    //private StatsView mCharType;
+    private StatsView mCharSource;
     private StatsView mTemp;
     private StatsView mStatus;
     private StatsView mHealth;
@@ -60,7 +62,8 @@ public class BatteryFragment extends RecyclerViewFragment {
     private int mBatteryVoltage;
     private int mBatteryCurrent;
     private int mBatteryCurrentAvg;
-    private String mBatteryCharType;
+    //private static String sBatteryCharType;
+    private String mBatteryCharSource;
     private double mBatteryTemp;
     private String mBatteryStatus;
     private String mBatteryHealth;
@@ -79,7 +82,8 @@ public class BatteryFragment extends RecyclerViewFragment {
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
         if (mBattery.hasChargeS7()) {
-            chartypeInit(items);
+            //chartypeInit(items);
+            charsourceInit(items);
             statusInit(items);
             currentavgInit(items);
             currentInit(items);
@@ -114,258 +118,343 @@ public class BatteryFragment extends RecyclerViewFragment {
 
     private void chargeS7Init(List<RecyclerViewItem> items) {
 
-        CardView unsCharge = new CardView(getActivity());
-        unsCharge.setTitle(getString(R.string.unstable_charge_card));
-        unsCharge.setFullSpan(true);
+        if (mBattery.hasUnstableCharge()) {
+            CardView unsCharge = new CardView(getActivity());
+            unsCharge.setTitle(getString(R.string.unstable_charge_card));
+            unsCharge.setFullSpan(true);
 
-        SwitchView uCharge = new SwitchView();
-        uCharge.setTitle(getString(R.string.enable_unstable_charge));
-        uCharge.setSummary(getString(R.string.enable_unstable_charge_summary));
-        uCharge.setChecked(mBattery.isUnstableChargeEnabled());
-        uCharge.addOnSwitchListener((switchView, isChecked)
-                -> mBattery.enableUnstableCharge(isChecked, getActivity()));
+            SwitchView uCharge = new SwitchView();
+            uCharge.setTitle(getString(R.string.enable_unstable_charge));
+            uCharge.setSummary(getString(R.string.enable_unstable_charge_summary));
+            uCharge.setChecked(mBattery.isUnstableChargeEnabled());
+            uCharge.addOnSwitchListener((switchView, isChecked)
+                    -> mBattery.enableUnstableCharge(isChecked, getActivity()));
 
-        unsCharge.addItem(uCharge);
+            unsCharge.addItem(uCharge);
 
-        items.add(unsCharge);
+            items.add(unsCharge);
+        }
 
 
         CardView hvPower = new CardView(getActivity());
         hvPower.setTitle(getString(R.string.hv_power_supply));
         hvPower.setFullSpan(true);
 
-        SeekBarView hv_input = new SeekBarView();
-        hv_input.setTitle(getString(R.string.hv_input));
-        hv_input.setSummary(getString(R.string.def) + ": " + mBattery.getS7HvInput() + getString(R.string.ma));
-        hv_input.setMax(3000);
-        hv_input.setMin(400);
-        hv_input.setUnit(getString(R.string.ma));
-        hv_input.setOffset(25);
-        hv_input.setProgress(Utils.strToInt(mBattery.getS7HvInput()) / 25 - 16);
-        hv_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7HvInput((position + 16) * 25, getActivity());
-            }
+        if (mBattery.hasS7HvInput()) {
+            SeekBarView hv_input = new SeekBarView();
+            hv_input.setTitle(getString(R.string.hv_input));
+            hv_input.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_hv_input", "", getActivity()) + getString(R.string.ma));
+            hv_input.setMax(3000);
+            hv_input.setMin(400);
+            hv_input.setUnit(getString(R.string.ma));
+            hv_input.setOffset(25);
+            hv_input.setProgress(Utils.strToInt(mBattery.getS7HvInput()) / 25 - 16);
+            hv_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7HvInput((position + 16) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        hvPower.addItem(hv_input);
+            hvPower.addItem(hv_input);
+        }
 
-        SeekBarView hv_charge = new SeekBarView();
-        hv_charge.setTitle(getString(R.string.hv_charge));
-        hv_charge.setSummary(getString(R.string.def) + ": " + mBattery.getS7HvCharge() + getString(R.string.ma));
-        hv_charge.setMax(3150);
-        hv_charge.setMin(1000);
-        hv_charge.setUnit(getString(R.string.ma));
-        hv_charge.setOffset(25);
-        hv_charge.setProgress(Utils.strToInt(mBattery.getS7HvCharge()) / 25 - 40);
-        hv_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7HvCharge((position + 40) * 25, getActivity());
-            }
+        if (mBattery.hasS7HvCharge()) {
+            SeekBarView hv_charge = new SeekBarView();
+            hv_charge.setTitle(getString(R.string.hv_charge));
+            hv_charge.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_hv_charge", "", getActivity()) + getString(R.string.ma));
+            hv_charge.setMax(3150);
+            hv_charge.setMin(1000);
+            hv_charge.setUnit(getString(R.string.ma));
+            hv_charge.setOffset(25);
+            hv_charge.setProgress(Utils.strToInt(mBattery.getS7HvCharge()) / 25 - 40);
+            hv_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7HvCharge((position + 40) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        hvPower.addItem(hv_charge);
+            hvPower.addItem(hv_charge);
+        }
 
-        items.add(hvPower);
+        if (hvPower.size() > 0) {
+            items.add(hvPower);
+        }
 
 
         CardView acMains = new CardView(getActivity());
         acMains.setTitle(getString(R.string.ac_mains));
         acMains.setFullSpan(true);
 
-        SeekBarView ac_input = new SeekBarView();
-        ac_input.setTitle(getString(R.string.ac_input));
-        ac_input.setSummary(getString(R.string.def) + ": " + mBattery.getS7AcInput() + getString(R.string.ma));
-        ac_input.setMax(3150);
-        ac_input.setMin(400);
-        ac_input.setUnit(getString(R.string.ma));
-        ac_input.setOffset(25);
-        ac_input.setProgress(Utils.strToInt(mBattery.getS7AcInput()) / 25 - 16);
-        ac_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7AcInput((position + 16) * 25, getActivity());
-            }
+        if (mBattery.hasS7AcInput()) {
+            SeekBarView ac_input = new SeekBarView();
+            ac_input.setTitle(getString(R.string.ac_input));
+            ac_input.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_ac_input", "", getActivity()) + getString(R.string.ma));
+            ac_input.setMax(3150);
+            ac_input.setMin(400);
+            ac_input.setUnit(getString(R.string.ma));
+            ac_input.setOffset(25);
+            ac_input.setProgress(Utils.strToInt(mBattery.getS7AcInput()) / 25 - 16);
+            ac_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7AcInput((position + 16) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        acMains.addItem(ac_input);
+            acMains.addItem(ac_input);
+        }
 
-        SeekBarView ac_charge = new SeekBarView();
-        ac_charge.setTitle(getString(R.string.ac_charge));
-        ac_charge.setSummary(getString(R.string.def) + ": " + mBattery.getS7AcCharge() + getString(R.string.ma));
-        ac_charge.setMax(3150);
-        ac_charge.setMin(400);
-        ac_charge.setUnit(getString(R.string.ma));
-        ac_charge.setOffset(25);
-        ac_charge.setProgress(Utils.strToInt(mBattery.getS7AcCharge()) / 25 - 16);
-        ac_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7AcCharge((position + 16) * 25, getActivity());
-            }
+        if (mBattery.hasS7AcCharge()) {
+            SeekBarView ac_charge = new SeekBarView();
+            ac_charge.setTitle(getString(R.string.ac_charge));
+            ac_charge.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_ac_charge", "", getActivity()) + getString(R.string.ma));
+            ac_charge.setMax(3150);
+            ac_charge.setMin(400);
+            ac_charge.setUnit(getString(R.string.ma));
+            ac_charge.setOffset(25);
+            ac_charge.setProgress(Utils.strToInt(mBattery.getS7AcCharge()) / 25 - 16);
+            ac_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7AcCharge((position + 16) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        acMains.addItem(ac_charge);
+            acMains.addItem(ac_charge);
+        }
 
-        SeekBarView ac_input_screen = new SeekBarView();
-        ac_input_screen.setTitle(getString(R.string.ac_input_screen));
-        ac_input_screen.setSummary(getString(R.string.def) + ": " + mBattery.getS7AcInputScreen() + getString(R.string.ma));
-        ac_input_screen.setMax(3150);
-        ac_input_screen.setMin(400);
-        ac_input_screen.setUnit(getString(R.string.ma));
-        ac_input_screen.setOffset(25);
-        ac_input_screen.setProgress(Utils.strToInt(mBattery.getS7AcInputScreen()) / 25 - 16);
-        ac_input_screen.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7AcInputScreen((position + 16) * 25, getActivity());
-            }
+        if (mBattery.hasS7AcInputScreen()) {
+            SeekBarView ac_input_screen = new SeekBarView();
+            ac_input_screen.setTitle(getString(R.string.ac_input_screen));
+            ac_input_screen.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_ac_input_screen", "", getActivity()) + getString(R.string.ma));
+            ac_input_screen.setMax(3150);
+            ac_input_screen.setMin(400);
+            ac_input_screen.setUnit(getString(R.string.ma));
+            ac_input_screen.setOffset(25);
+            ac_input_screen.setProgress(Utils.strToInt(mBattery.getS7AcInputScreen()) / 25 - 16);
+            ac_input_screen.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7AcInputScreen((position + 16) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        acMains.addItem(ac_input_screen);
+            acMains.addItem(ac_input_screen);
+        }
 
-        SeekBarView ac_charge_screen = new SeekBarView();
-        ac_charge_screen.setTitle(getString(R.string.ac_charge_screen));
-        ac_charge_screen.setSummary(getString(R.string.def) + ": " + mBattery.getS7AcChargeScreen() + getString(R.string.ma));
-        ac_charge_screen.setMax(3150);
-        ac_charge_screen.setMin(400);
-        ac_charge_screen.setUnit(getString(R.string.ma));
-        ac_charge_screen.setOffset(25);
-        ac_charge_screen.setProgress(Utils.strToInt(mBattery.getS7AcChargeScreen()) / 25 - 16);
-        ac_charge_screen.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7AcChargeScreen((position + 16) * 25, getActivity());
-            }
+        if (mBattery.hasS7AcChargeScreen()) {
+            SeekBarView ac_charge_screen = new SeekBarView();
+            ac_charge_screen.setTitle(getString(R.string.ac_charge_screen));
+            ac_charge_screen.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_ac_charge_screen", "", getActivity()) + getString(R.string.ma));
+            ac_charge_screen.setMax(3150);
+            ac_charge_screen.setMin(400);
+            ac_charge_screen.setUnit(getString(R.string.ma));
+            ac_charge_screen.setOffset(25);
+            ac_charge_screen.setProgress(Utils.strToInt(mBattery.getS7AcChargeScreen()) / 25 - 16);
+            ac_charge_screen.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7AcChargeScreen((position + 16) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        acMains.addItem(ac_charge_screen);
+            acMains.addItem(ac_charge_screen);
+        }
 
-        items.add(acMains);
+        if (acMains.size() > 0) {
+            items.add(acMains);
+        }
 
 
         CardView usbCard = new CardView(getActivity());
         usbCard.setTitle(getString(R.string.usb_port));
         usbCard.setFullSpan(true);
 
-        SeekBarView usb_input = new SeekBarView();
-        usb_input.setTitle(getString(R.string.usb_input));
-        usb_input.setSummary(getString(R.string.def) + ": " + mBattery.getS7UsbInput() + getString(R.string.ma));
-        usb_input.setMax(1200);
-        usb_input.setMin(400);
-        usb_input.setUnit(getString(R.string.ma));
-        usb_input.setOffset(25);
-        usb_input.setProgress(Utils.strToInt(mBattery.getS7UsbInput()) / 25 - 16);
-        usb_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7UsbCharge((position + 16) * 25, getActivity());
-            }
+        if(mBattery.hasS7UsbInput()) {
+            SeekBarView usb_input = new SeekBarView();
+            usb_input.setTitle(getString(R.string.usb_input));
+            usb_input.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_usb_input", "", getActivity()) + getString(R.string.ma));
+            usb_input.setMax(1200);
+            usb_input.setMin(100);
+            usb_input.setUnit(getString(R.string.ma));
+            usb_input.setOffset(25);
+            usb_input.setProgress(Utils.strToInt(mBattery.getS7UsbInput()) / 25 - 4);
+            usb_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7UsbInput((position + 4) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        usbCard.addItem(usb_input);
+            usbCard.addItem(usb_input);
+        }
 
-        SeekBarView usb_charge = new SeekBarView();
-        usb_charge.setTitle(getString(R.string.usb_charge));
-        usb_charge.setSummary(getString(R.string.def) + ": " + mBattery.getS7UsbCharge() + getString(R.string.ma));
-        usb_charge.setMax(1200);
-        usb_charge.setMin(400);
-        usb_charge.setUnit(getString(R.string.ma));
-        usb_charge.setOffset(25);
-        usb_charge.setProgress(Utils.strToInt(mBattery.getS7UsbCharge()) / 25 - 16);
-        usb_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7UsbCharge((position + 16) * 25, getActivity());
-            }
+        if(mBattery.hasS7UsbCharge()) {
+            SeekBarView usb_charge = new SeekBarView();
+            usb_charge.setTitle(getString(R.string.usb_charge));
+            usb_charge.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_usb_charge", "", getActivity()) + getString(R.string.ma));
+            usb_charge.setMax(1200);
+            usb_charge.setMin(100);
+            usb_charge.setUnit(getString(R.string.ma));
+            usb_charge.setOffset(25);
+            usb_charge.setProgress(Utils.strToInt(mBattery.getS7UsbCharge()) / 25 - 4);
+            usb_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7UsbCharge((position + 4) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        usbCard.addItem(usb_charge);
+            usbCard.addItem(usb_charge);
+        }
 
-        items.add(usbCard);
+        if (usbCard.size() > 0) {
+            items.add(usbCard);
+        }
+
+
+        CardView carCard = new CardView(getActivity());
+        carCard.setTitle(getString(R.string.car_dock));
+        carCard.setFullSpan(true);
+
+        if(mBattery.hasS7CarInput()) {
+            SeekBarView car_input = new SeekBarView();
+            car_input.setTitle(getString(R.string.car_input));
+            car_input.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_car_input", "", getActivity()) + getString(R.string.ma));
+            car_input.setMax(2300);
+            car_input.setMin(800);
+            car_input.setUnit(getString(R.string.ma));
+            car_input.setOffset(25);
+            car_input.setProgress(Utils.strToInt(mBattery.getS7CarInput()) / 25 - 32);
+            car_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7CarInput((position + 32) * 25, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            carCard.addItem(car_input);
+        }
+
+        if(mBattery.hasS7CarCharge()) {
+            SeekBarView car_charge = new SeekBarView();
+            car_charge.setTitle(getString(R.string.car_charge));
+            car_charge.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_car_charge", "", getActivity()) + getString(R.string.ma));
+            car_charge.setMax(2300);
+            car_charge.setMin(800);
+            car_charge.setUnit(getString(R.string.ma));
+            car_charge.setOffset(25);
+            car_charge.setProgress(Utils.strToInt(mBattery.getS7CarCharge()) / 25 - 32);
+            car_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7CarCharge((position + 32) * 25, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            carCard.addItem(car_charge);
+        }
+
+        if (carCard.size() > 0) {
+            items.add(carCard);
+        }
 
 
         CardView wcCard = new CardView(getActivity());
         wcCard.setTitle(getString(R.string.wireless_power));
         wcCard.setFullSpan(true);
 
-        SeekBarView wc_input = new SeekBarView();
-        wc_input.setTitle(getString(R.string.wc_input));
-        wc_input.setSummary(getString(R.string.def) + ": " + mBattery.getS7WcInput() + getString(R.string.ma));
-        wc_input.setMax(1500);
-        wc_input.setMin(800);
-        wc_input.setUnit(getString(R.string.ma));
-        wc_input.setOffset(25);
-        wc_input.setProgress(Utils.strToInt(mBattery.getS7WcInput()) / 25 - 32);
-        wc_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7WcCharge((position + 32) * 25, getActivity());
-            }
+        if(mBattery.hasS7WcInput()) {
+            SeekBarView wc_input = new SeekBarView();
+            wc_input.setTitle(getString(R.string.wc_input));
+            wc_input.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_wc_input", "", getActivity()) + getString(R.string.ma));
+            wc_input.setMax(1500);
+            wc_input.setMin(800);
+            wc_input.setUnit(getString(R.string.ma));
+            wc_input.setOffset(25);
+            wc_input.setProgress(Utils.strToInt(mBattery.getS7WcInput()) / 25 - 32);
+            wc_input.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7WcInput((position + 32) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        wcCard.addItem(wc_input);
+            wcCard.addItem(wc_input);
+        }
 
-        SeekBarView wc_charge = new SeekBarView();
-        wc_charge.setTitle(getString(R.string.wc_charge));
-        wc_charge.setSummary(getString(R.string.def) + ": " + mBattery.getS7WcCharge() + getString(R.string.ma));
-        wc_charge.setMax(2300);
-        wc_charge.setMin(800);
-        wc_charge.setUnit(getString(R.string.ma));
-        wc_charge.setOffset(25);
-        wc_charge.setProgress(Utils.strToInt(mBattery.getS7WcCharge()) / 25 - 32);
-        wc_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-            @Override
-            public void onStop(SeekBarView seekBarView, int position, String value) {
-                mBattery.setS7WcCharge((position + 32) * 25, getActivity());
-            }
+        if(mBattery.hasS7WcCharge()) {
+            SeekBarView wc_charge = new SeekBarView();
+            wc_charge.setTitle(getString(R.string.wc_charge));
+            wc_charge.setSummary(getString(R.string.def) + ": " + AppSettings.getString("bat_s7_wc_charge", "", getActivity()) + getString(R.string.ma));
+            wc_charge.setMax(2300);
+            wc_charge.setMin(800);
+            wc_charge.setUnit(getString(R.string.ma));
+            wc_charge.setOffset(25);
+            wc_charge.setProgress(Utils.strToInt(mBattery.getS7WcCharge()) / 25 - 32);
+            wc_charge.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7WcCharge((position + 32) * 25, getActivity());
+                }
 
-            @Override
-            public void onMove(SeekBarView seekBarView, int position, String value) {
-            }
-        });
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
 
-        wcCard.addItem(wc_charge);
+            wcCard.addItem(wc_charge);
+        }
 
-        items.add(wcCard);
+        if (wcCard.size() > 0) {
+            items.add(wcCard);
+        }
     }
 
     private void levelInit(List<RecyclerViewItem> items) {
@@ -417,13 +506,21 @@ public class BatteryFragment extends RecyclerViewFragment {
 
         items.add(mHealth);
     }
-
+/*
     private void chartypeInit(List<RecyclerViewItem> items) {
         mCharType = new StatsView();
         mCharType.setTitle(getString(R.string.char_type));
         mCharType.setFullSpan(true);
 
         items.add(mCharType);
+    }
+*/
+    private void charsourceInit(List<RecyclerViewItem> items) {
+        mCharSource = new StatsView();
+        mCharSource.setTitle(getString(R.string.char_source));
+        mCharSource.setFullSpan(true);
+
+        items.add(mCharSource);
     }
 
     private void forceFastChargeInit(List<RecyclerViewItem> items) {
@@ -512,7 +609,8 @@ public class BatteryFragment extends RecyclerViewFragment {
             mBatteryVoltage = intent.getIntExtra(BatteryManager.EXTRA_VOLTAGE, 0);
             mBatteryCurrent = Utils.strToInt(Utils.readFile("/sys/devices/battery/power_supply/battery/current_now"));
             mBatteryCurrentAvg = Utils.strToInt(Utils.readFile("/sys/devices/battery/power_supply/battery/current_avg"));
-            mBatteryCharType = Utils.readFile("/sys/devices/battery/power_supply/battery/charge_type");
+            //sBatteryCharType = Utils.readFile("/sys/devices/battery/power_supply/battery/charge_type");
+            mBatteryCharSource = mBattery.getS7ChargeSource(context);
             mBatteryTemp = intent.getIntExtra(BatteryManager.EXTRA_TEMPERATURE, 0) / 10D;
             mBatteryStatus = Utils.readFile("/sys/devices/battery/power_supply/battery/status");
             mBatteryHealth = Utils.readFile("/sys/devices/battery/power_supply/battery/health");
@@ -534,8 +632,11 @@ public class BatteryFragment extends RecyclerViewFragment {
         if (mCurrent != null) {
             mCurrentAvg.setStat(mBatteryCurrentAvg + getString(R.string.ma));
         }
-        if (mCharType != null) {
+        /*if (mCharType != null) {
             mCharType.setStat(mBatteryCharType);
+        }*/
+        if (mCharSource != null) {
+            mCharSource.setStat(mBatteryCharSource);
         }
         if (mCurrent != null) {
             mTemp.setStat(mBatteryTemp + getString(R.string.celsius));

@@ -84,9 +84,10 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // If system is rebooted reset the Global voltages seekbar
+        // Check if system is rebooted
         Boolean mIsBooted = AppSettings.getBoolean("is_booted", true, this);
         if (mIsBooted) {
+            // reset the Global voltages seekbar
             if (!AppSettings.getBoolean("cpucl1voltage_onboot", false, this)) {
                 AppSettings.saveInt("CpuCl1_seekbarPref_value", 16, this);
             }
@@ -95,6 +96,10 @@ public class MainActivity extends BaseActivity {
             }
             if (!AppSettings.getBoolean("gpu_onboot", false, this)) {
                 AppSettings.saveInt("gpu_seekbarPref_value", 16, this);
+            }
+            // save battery stock values
+            if (!AppSettings.getBoolean("s7_battery_saved", false, this)) {
+                Battery.getInstance(this).saveS7StockValues(this);
             }
         }
         AppSettings.saveBoolean("is_booted", false, this);

@@ -22,7 +22,9 @@ package com.moro.mtweaks.utils.kernel.battery;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
 
@@ -62,6 +64,9 @@ public class Battery {
     private static final String S7_USB_CHARGE = CHARGE_S7 + "/sdp_charge";
     private static final String S7_WC_INPUT = CHARGE_S7 + "/wc_input";
     private static final String S7_WC_CHARGE = CHARGE_S7 + "/wc_charge";
+    private static final String S7_CAR_INPUT = CHARGE_S7 + "/car_input";
+    private static final String S7_CAR_CHARGE = CHARGE_S7 + "/car_charge";
+    private static final String S7_CHARGE_SOURCE = CHARGE_S7 + "/power_supply/battery/batt_charging_source";
 
     private int mCapacity;
 
@@ -78,6 +83,23 @@ public class Battery {
                 mCapacity = 0;
             }
         }
+    }
+
+    public void saveS7StockValues(Context context) {
+        if (hasS7HvInput()) AppSettings.saveString("bat_s7_hv_input", getS7HvInput(), context);
+        if (hasS7HvCharge()) AppSettings.saveString("bat_s7_hv_charge", getS7HvCharge(), context);
+        if (hasS7AcInput()) AppSettings.saveString("bat_s7_ac_input", getS7AcInput(), context);
+        if (hasS7AcCharge()) AppSettings.saveString("bat_s7_ac_charge", getS7AcCharge(), context);
+        if (hasS7AcInputScreen()) AppSettings.saveString("bat_s7_ac_input_screen", getS7AcInputScreen(), context);
+        if (hasS7AcChargeScreen()) AppSettings.saveString("bat_s7_ac_charge_screen", getS7AcChargeScreen(), context);
+        if (hasS7UsbInput()) AppSettings.saveString("bat_s7_usb_input", getS7UsbInput(), context);
+        if (hasS7UsbCharge()) AppSettings.saveString("bat_s7_usb_charge", getS7UsbCharge(), context);
+        if (hasS7WcInput()) AppSettings.saveString("bat_s7_wc_input", getS7WcInput(), context);
+        if (hasS7WcCharge()) AppSettings.saveString("bat_s7_wc_charge", getS7WcCharge(), context);
+        if (hasS7CarInput()) AppSettings.saveString("bat_s7_car_input", getS7CarInput(), context);
+        if (hasS7CarCharge()) AppSettings.saveString("bat_s7_car_charge", getS7CarCharge(), context);
+
+        AppSettings.saveBoolean("s7_battery_saved", true, context);
     }
 
 
@@ -148,12 +170,20 @@ public class Battery {
 
 /* Init S7 Battery */
 
+    public boolean hasS7HvInput() {
+        return Utils.existFile(S7_HV_INPUT);
+    }
+
     public void setS7HvInput(int value, Context context) {
         run(Control.write(String.valueOf(value), S7_HV_INPUT), S7_HV_INPUT, context);
     }
 
     public String getS7HvInput() {
         return Utils.readFile(S7_HV_INPUT);
+    }
+
+    public boolean hasS7HvCharge() {
+        return Utils.existFile(S7_HV_CHARGE);
     }
 
     public void setS7HvCharge(int value, Context context) {
@@ -164,12 +194,20 @@ public class Battery {
         return Utils.readFile(S7_HV_CHARGE);
     }
 
+    public boolean hasS7AcInput() {
+        return Utils.existFile(S7_AC_INPUT);
+    }
+
     public void setS7AcInput(int value, Context context) {
         run(Control.write(String.valueOf(value), S7_AC_INPUT), S7_AC_INPUT, context);
     }
 
     public String getS7AcInput() {
         return Utils.readFile(S7_AC_INPUT);
+    }
+
+    public boolean hasS7AcCharge() {
+        return Utils.existFile(S7_AC_CHARGE);
     }
 
     public void setS7AcCharge(int value, Context context) {
@@ -180,12 +218,20 @@ public class Battery {
         return Utils.readFile(S7_AC_CHARGE);
     }
 
+    public boolean hasS7AcInputScreen() {
+        return Utils.existFile(S7_AC_INPUT_SCREEN);
+    }
+
     public void setS7AcInputScreen(int value, Context context) {
         run(Control.write(String.valueOf(value), S7_AC_INPUT_SCREEN), S7_AC_INPUT_SCREEN, context);
     }
 
     public String getS7AcInputScreen() {
         return Utils.readFile(S7_AC_INPUT_SCREEN);
+    }
+
+    public boolean hasS7AcChargeScreen() {
+        return Utils.existFile(S7_AC_CHARGE_SCREEN);
     }
 
     public void setS7AcChargeScreen(int value, Context context) {
@@ -196,12 +242,20 @@ public class Battery {
         return Utils.readFile(S7_AC_CHARGE_SCREEN);
     }
 
+    public boolean hasS7UsbInput() {
+        return Utils.existFile(S7_USB_INPUT);
+    }
+
     public void setS7UsbInput(int value, Context context) {
         run(Control.write(String.valueOf(value), S7_USB_INPUT), S7_USB_INPUT, context);
     }
 
     public String getS7UsbInput() {
         return Utils.readFile(S7_USB_INPUT);
+    }
+
+    public boolean hasS7UsbCharge() {
+        return Utils.existFile(S7_USB_CHARGE);
     }
 
     public void setS7UsbCharge(int value, Context context) {
@@ -212,12 +266,20 @@ public class Battery {
         return Utils.readFile(S7_USB_CHARGE);
     }
 
+    public boolean hasS7WcInput() {
+        return Utils.existFile(S7_WC_INPUT);
+    }
+
     public void setS7WcInput(int value, Context context) {
         run(Control.write(String.valueOf(value), S7_WC_INPUT), S7_WC_INPUT, context);
     }
 
     public String getS7WcInput() {
         return Utils.readFile(S7_WC_INPUT);
+    }
+
+    public boolean hasS7WcCharge() {
+        return Utils.existFile(S7_WC_CHARGE);
     }
 
     public void setS7WcCharge(int value, Context context) {
@@ -228,8 +290,131 @@ public class Battery {
         return Utils.readFile(S7_WC_CHARGE);
     }
 
+    public boolean hasS7CarCharge() {
+        return Utils.existFile(S7_CAR_CHARGE);
+    }
+
+    public void setS7CarCharge(int value, Context context) {
+        run(Control.write(String.valueOf(value), S7_CAR_CHARGE), S7_CAR_CHARGE, context);
+    }
+
+    public String getS7CarCharge() {
+        return Utils.readFile(S7_CAR_CHARGE);
+    }
+
+    public boolean hasS7CarInput() {
+        return Utils.existFile(S7_CAR_INPUT);
+    }
+
+    public void setS7CarInput(int value, Context context) {
+        run(Control.write(String.valueOf(value), S7_CAR_INPUT), S7_CAR_INPUT, context);
+    }
+
+    public String getS7CarInput() {
+        return Utils.readFile(S7_CAR_INPUT);
+    }
+
+    public boolean hasS7ChargeSource() {
+        return Utils.existFile(S7_CHARGE_SOURCE);
+    }
+
+    public static String getS7ChargeSource(Context context) {
+        String value = Utils.readFile(S7_CHARGE_SOURCE);
+        switch (value){
+            case "0" :
+                return context.getResources().getString(R.string.cs_unknown);
+            case "1" :
+                return context.getResources().getString(R.string.cs_battery);
+            case "2" :
+                return context.getResources().getString(R.string.cs_ups);
+            case "3" :
+                return context.getResources().getString(R.string.cs_main_ac);
+            case "4" :
+                return context.getResources().getString(R.string.cs_usb);
+            case "5" :
+                return context.getResources().getString(R.string.cs_usb_dedeicated);
+            case "6" :
+                return context.getResources().getString(R.string.cs_usb_charging);
+            case "7" :
+                return context.getResources().getString(R.string.cs_usb_accesory);
+            case "8" :
+                return context.getResources().getString(R.string.cs_battery_monitor);
+            case "9" :
+                return context.getResources().getString(R.string.cs_misc);
+            case "10" :
+                return context.getResources().getString(R.string.cs_wireless);
+            case "11" :
+                return context.getResources().getString(R.string.cs_hv_wireless);
+            case "12" :
+                return context.getResources().getString(R.string.cs_pma_wireless);
+            case "13" :
+                return context.getResources().getString(R.string.cs_car);
+            case "14" :
+                return context.getResources().getString(R.string.cs_uart_off);
+            case "15" :
+                return context.getResources().getString(R.string.cs_otg);
+            case "16" :
+                return context.getResources().getString(R.string.cs_lan);
+            case "17" :
+                return context.getResources().getString(R.string.cs_mhl_500);
+            case "18" :
+                return context.getResources().getString(R.string.cs_mhl_900);
+            case "19" :
+                return context.getResources().getString(R.string.cs_mhl_1500);
+            case "20" :
+                return context.getResources().getString(R.string.cs_mhl_usb);
+            case "21" :
+                return context.getResources().getString(R.string.cs_smart_otg);
+            case "22" :
+                return context.getResources().getString(R.string.cs_smart_notg);
+            case "23" :
+                return context.getResources().getString(R.string.cs_power_sharing);
+            case "24" :
+                return context.getResources().getString(R.string.cs_hv_mains);
+            case "25" :
+                return context.getResources().getString(R.string.cs_hv_mains_12);
+            case "26" :
+                return context.getResources().getString(R.string.cs_hv_prepare);
+            case "27" :
+                return context.getResources().getString(R.string.cs_hv_error);
+            case "28" :
+                return context.getResources().getString(R.string.cs_mhl_100);
+            case "29" :
+                return context.getResources().getString(R.string.cs_mhl_2000);
+            case "30" :
+                return context.getResources().getString(R.string.cs_hv_unknown);
+            case "31" :
+                return context.getResources().getString(R.string.cs_mdock);
+            case "32" :
+                return context.getResources().getString(R.string.cs_hmt_conected);
+            case "33" :
+                return context.getResources().getString(R.string.cs_hmt_charge);
+            case "34" :
+                return context.getResources().getString(R.string.cs_wireless_pack);
+            case "35" :
+                return context.getResources().getString(R.string.cs_wireless_pack_ta);
+            case "36" :
+                return context.getResources().getString(R.string.cs_wireless_stand);
+            case "37" :
+                return context.getResources().getString(R.string.cs_wireless_hv_stand);
+            case "38" :
+                return context.getResources().getString(R.string.cs_pdic);
+            case "39" :
+                return context.getResources().getString(R.string.cs_hv_mains);
+            case "40" :
+                return context.getResources().getString(R.string.cs_qc20);
+            case "41" :
+                return context.getResources().getString(R.string.cs_qc30);
+        }
+        return "Unknown source";
+    }
+
     public boolean hasChargeS7() {
         return Utils.existFile(CHARGE_S7);
+    }
+
+    public boolean hasUnstableCharge() {
+        return Utils.existFile(S7_UNSTABLE_CHARGE);
     }
 
     public boolean isUnstableChargeEnabled() {
