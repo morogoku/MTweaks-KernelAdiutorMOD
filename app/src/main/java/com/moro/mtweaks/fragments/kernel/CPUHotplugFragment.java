@@ -121,7 +121,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         if (AiOHotplug.supported()) {
             aioHotplugInit(items);
         }
-
+/*
         for (SwitchView view : mEnableViews) {
             view.addOnSwitchListener((switchView, isChecked) -> {
                 boolean enabled = false;
@@ -136,7 +136,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
                     }
                 }
             });
-        }
+        }*/
     }
 
     private void samsungPlugInit(List<RecyclerViewItem> items) {
