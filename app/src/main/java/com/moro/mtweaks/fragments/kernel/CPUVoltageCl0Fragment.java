@@ -90,7 +90,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                     }else{
                         AppSettings.saveBoolean("CpuCl0_global_volts", false, getActivity());
                         AppSettings.saveBoolean("CpuCl0_individual_volts", true, getActivity());
-                        AppSettings.saveInt("CpuCl0_SeekbarPref_value", 16, getActivity());
+                        AppSettings.saveInt("CpuCl0_seekbarPref_value", 16, getActivity());
                         reload();
                     }
                 }
@@ -119,7 +119,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                                  final List<String> voltagesStock, List<String> progress) {
 
         Boolean enableSeekbar = AppSettings.getBoolean("CpuCl0_global_volts", true, getActivity());
-        int global = AppSettings.getInt("CpuCl0_SeekbarPref_value", 16, getActivity());
+        int global = AppSettings.getInt("CpuCl0_seekbarPref_value", 16, getActivity());
 
         int value = 0;
         for (int i = 0; i < progress.size(); i++) {
@@ -144,7 +144,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                     String volt = String.valueOf(Utils.strToFloat(voltagesStock.get(i)) + Utils.strToFloat(value));
                     String freq = freqs.get(i);
                     VoltageCl0.setVoltage(freq, volt, getActivity());
-                    AppSettings.saveInt("CpuCl0_SeekbarPref_value", position, getActivity());
+                    AppSettings.saveInt("CpuCl0_seekbarPref_value", position, getActivity());
                 }
                 getHandler().postDelayed(new Runnable() {
                     @Override
