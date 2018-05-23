@@ -111,6 +111,20 @@ public class MainActivity extends BaseActivity {
             RootUtils.runCommand("mkdir /data/.mtweaks");
         }
 
+        // Initialice profile Sharedpreference
+        int prof = Utils.strToInt(Spectrum.getProfile());
+        AppSettings.saveInt("spectrum_profile", prof, this);
+
+        // Save kernel version to reset max limit of max_pool_percent
+        String kernel_old = AppSettings.getString("kernel_version_old", "", this);
+        String kernel_new = Device.getKernelVersion(true);
+
+        if(!kernel_old.equals(kernel_new)){
+            AppSettings.saveBoolean("max_pool_percent_saved", false, this);
+            AppSettings.saveBoolean("memory_pool_percent_saved", false, this);
+            AppSettings.saveString("kernel_version_old", kernel_new, this);
+        }
+
         // If has MaxPoolPercent save file
         if (!AppSettings.getBoolean("max_pool_percent_saved", false, this)) {
             if (ZSwap.hasMaxPoolPercent()) {
@@ -118,10 +132,6 @@ public class MainActivity extends BaseActivity {
                 AppSettings.saveBoolean("max_pool_percent_saved", true, this);
             }
         }
-
-        //Initialice profile Sharedpreference
-        int prof = Utils.strToInt(Spectrum.getProfile());
-        AppSettings.saveInt("spectrum_profile", prof, this);
 
         //Check memory pool percent unit
         if(!AppSettings.getBoolean("memory_pool_percent_saved", false, this)){
