@@ -84,6 +84,7 @@ public class ProfileActivity extends BaseActivity {
             mItems.put(getString(navigationFragment.mId), getFragment(navigationFragment.mId,
                     navigationFragment.mFragmentClass));
         }
+        mItems.remove("Spectrum");
 
         if (mItems.size() < 1) {
             Utils.toast(R.string.sections_disabled, this);
