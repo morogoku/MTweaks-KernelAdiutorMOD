@@ -19,6 +19,7 @@
  */
 package com.moro.mtweaks.views.recyclerview;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.AppCompatTextView;
@@ -42,6 +43,9 @@ public class DescriptionView extends RecyclerViewItem {
     private CharSequence mSummary;
     private MovementMethod mLinkMovementMethod;
 
+    private boolean mGrxIsInitSelected = false;
+    private int mGrxColor = 0;
+
     @Override
     public int getLayoutRes() {
         return R.layout.rv_description_view;
@@ -53,6 +57,7 @@ public class DescriptionView extends RecyclerViewItem {
         mImageView = view.findViewById(R.id.image);
         mTitleView = view.findViewById(R.id.title);
         mSummaryView = view.findViewById(R.id.summary);
+        if(mGrxIsInitSelected) this.setTextColor(mGrxColor);
 
         if (mTitleView != null) {
             mTitleView.setOnFocusChangeListener((v, hasFocus) -> {
@@ -72,6 +77,10 @@ public class DescriptionView extends RecyclerViewItem {
         super.onCreateView(view);
     }
 
+    public void setBackgroundColor (int color){
+        mRootView.setBackgroundColor(color);
+    }
+
     public void setDrawable(Drawable drawable) {
         mImage = drawable;
         refresh();
@@ -85,6 +94,23 @@ public class DescriptionView extends RecyclerViewItem {
     public void setSummary(CharSequence summary) {
         mSummary = summary;
         refresh();
+    }
+
+    public void GrxSetInitSelection(boolean isInitSelected, int color ){
+        mGrxIsInitSelected = isInitSelected;
+        mGrxColor = color;
+    }
+
+    public void setTextColor(int color) {
+        mSummaryView.setTextColor(color);
+    }
+
+    public void setTextColor(ColorStateList color) {
+        mSummaryView.setTextColor(color);
+    }
+
+    public ColorStateList getTextColors(){
+        return mSummaryView.getTextColors();
     }
 
     public void setMovementMethod(MovementMethod movementMethod) {

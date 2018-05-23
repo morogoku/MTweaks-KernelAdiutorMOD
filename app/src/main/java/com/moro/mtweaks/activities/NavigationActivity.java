@@ -62,6 +62,7 @@ import com.moro.mtweaks.fragments.kernel.WakelockFragment;
 import com.moro.mtweaks.fragments.kernel.MiscFragment;
 import com.moro.mtweaks.fragments.kernel.ScreenFragment;
 import com.moro.mtweaks.fragments.kernel.SoundFragment;
+import com.moro.mtweaks.fragments.kernel.SpectrumFragment;
 import com.moro.mtweaks.fragments.kernel.ThermalFragment;
 import com.moro.mtweaks.fragments.kernel.VMFragment;
 import com.moro.mtweaks.fragments.kernel.WakeFragment;
@@ -101,6 +102,7 @@ import com.moro.mtweaks.utils.kernel.led.LED;
 import com.moro.mtweaks.utils.kernel.lmk.LMK;
 import com.moro.mtweaks.utils.kernel.screen.Screen;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
+import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
 import com.moro.mtweaks.utils.kernel.wakelock.Wakelock;
@@ -216,6 +218,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (Sound.getInstance().supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.sound, SoundFragment.class, R.drawable.ic_music));
+        }
+        if (Spectrum.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.spectrum, SpectrumFragment.class, R.drawable.ic_spectrum_logo));
         }
         if (Battery.getInstance(this).supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.battery, BatteryFragment.class, R.drawable.ic_battery));
