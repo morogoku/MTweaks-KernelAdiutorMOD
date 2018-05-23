@@ -367,6 +367,10 @@ public class Device {
         return Build.getRadioVersion();
     }
 
+    public static String getAsv() {
+        return Utils.readFile("/sys/kernel/debug/asv_summary");
+    }
+
     public static String getCodename() {
         String codeName = "";
         Field[] fields = Build.VERSION_CODES.class.getFields();

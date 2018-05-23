@@ -69,7 +69,8 @@ public class DeviceFragment extends RecyclerViewFragment {
                 {getString(R.string.baseband), Device.getBaseBand()},
                 {getString(R.string.bootloader), Device.getBootloader()},
                 {getString(R.string.rom), Device.ROMInfo.getInstance().getVersion()},
-                {getString(R.string.trustzone), Device.TrustZone.getInstance().getVersion()}
+                {getString(R.string.trustzone), Device.TrustZone.getInstance().getVersion()},
+                {getString(R.string.asv), Device.getAsv()}
         };
 
         String[][] boardInfos = {
