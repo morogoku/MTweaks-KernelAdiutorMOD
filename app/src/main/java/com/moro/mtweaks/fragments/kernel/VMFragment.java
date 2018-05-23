@@ -24,6 +24,7 @@ import android.text.InputType;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.kernel.vm.VM;
 import com.moro.mtweaks.utils.kernel.vm.ZRAM;
 import com.moro.mtweaks.utils.kernel.vm.ZSwap;
@@ -32,7 +33,6 @@ import com.moro.mtweaks.views.recyclerview.GenericSelectView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
-import com.moro.mtweaks.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -125,24 +125,46 @@ public class VMFragment extends RecyclerViewFragment {
         }
 
         if (ZSwap.hasMaxPoolPercent()) {
-            SeekBarView maxPoolPercent = new SeekBarView();
-            maxPoolPercent.setTitle(getString(R.string.memory_pool));
-            maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
-            maxPoolPercent.setUnit("%");
-            maxPoolPercent.setMax(50);
-            maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent() / 10);
-            maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    ZSwap.setMaxPoolPercent(position * 10, getActivity());
-                }
+            if(!AppSettings.getBoolean("memory_pool_percent", false, getActivity())) {
+                SeekBarView maxPoolPercent = new SeekBarView();
+                maxPoolPercent.setTitle(getString(R.string.memory_pool));
+                maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
+                maxPoolPercent.setUnit("%");
+                maxPoolPercent.setMax(50);
+                maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent() / 10);
+                maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        ZSwap.setMaxPoolPercent(position * 10, getActivity());
+                    }
 
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-            });
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
 
-            zswapCard.addItem(maxPoolPercent);
+                zswapCard.addItem(maxPoolPercent);
+
+            } else {
+                SeekBarView maxPoolPercent = new SeekBarView();
+                maxPoolPercent.setTitle(getString(R.string.memory_pool));
+                maxPoolPercent.setSummary(getString(R.string.memory_pool_summary));
+                maxPoolPercent.setUnit("%");
+                maxPoolPercent.setMax(50);
+                maxPoolPercent.setProgress(ZSwap.getMaxPoolPercent());
+                maxPoolPercent.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        ZSwap.setMaxPoolPercent(position, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                zswapCard.addItem(maxPoolPercent);
+            }
         }
 
         if (ZSwap.hasMaxCompressionRatio()) {
