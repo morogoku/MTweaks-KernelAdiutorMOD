@@ -33,6 +33,7 @@ public class ZSwap {
 
     private static final String ZSWAP = "/sys/module/zswap/parameters/enabled";
     private static final String MAX_POOL_PERCENT = "/sys/module/zswap/parameters/max_pool_percent";
+    private static final String STOCK_MAX_POOL_PERCENT = "/data/.mtweaks/max_pool_percent";
     private static final String MAX_COMPRESSION_RATIO = "/sys/module/zswap/parameters/max_compression_ratio";
 
     public static void setMaxCompressionRatio(int value, Context context) {
@@ -57,6 +58,10 @@ public class ZSwap {
 
     public static boolean hasMaxPoolPercent() {
         return Utils.existFile(MAX_POOL_PERCENT);
+    }
+
+    public static int getStockMaxPoolPercent() {
+        return Utils.strToInt(Utils.readFile(STOCK_MAX_POOL_PERCENT));
     }
 
     public static void enable(boolean enable, Context context) {
