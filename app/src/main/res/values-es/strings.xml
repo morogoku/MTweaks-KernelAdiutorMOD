@@ -706,6 +706,7 @@
   <string name="wkl_nfc">NFC</string>
   <string name="wkl_nfc_summary">Por defecto = 2\n(Más bajo = Menor tiempo de despertar)</string>
   <!-- Virtual Memory -->
+  <string name="vm_tunnables">VM Ajustables</string>
   <string name="zram">Z-RAM</string>
   <string name="disksize">Tamaño del disco</string>
   <string name="disksize_summary">Intenta aumentar el rendimiento evitando la paginación de almacenamiento físico, en su lugar usa un dispositivo de compresión virtual en la RAM. La paginación toma un lugar en la RAM hasta que sea necesario de usar el intercambio de espacio en el almacenamiento físico.</string>
