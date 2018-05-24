@@ -56,7 +56,7 @@ import com.moro.mtweaks.utils.kernel.cpuhotplug.QcomBcl;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPU;
-import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
+import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
@@ -150,8 +150,8 @@ public class MainActivity extends BaseActivity {
 
         // Save backup of GPU stock voltages
         if (!AppSettings.getBoolean("gpu_voltage_saved", false, this)){
-            if (GPUFreq.supported() && GPUFreq.hasVoltage()){
-                RootUtils.runCommand("cp " + GPUFreq.AVAILABLE_S7_FREQS + " " + GPUFreq.BACKUP);
+            if (GPUFreqExynos.supported() && GPUFreqExynos.hasVoltage()){
+                RootUtils.runCommand("cp " + GPUFreqExynos.AVAILABLE_S7_FREQS + " " + GPUFreqExynos.BACKUP);
                 AppSettings.saveBoolean("gpu_voltage_saved", true, this);
             }
         }

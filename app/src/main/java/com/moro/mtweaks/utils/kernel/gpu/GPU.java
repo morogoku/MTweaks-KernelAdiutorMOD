@@ -25,7 +25,8 @@ package com.moro.mtweaks.utils.kernel.gpu;
 public class GPU {
 
     public static boolean supported() {
-        return GPUFreq.getInstance().supported() || SimpleGPU.supported() || AdrenoIdler.supported();
+        return GPUFreq.getInstance().supported() || SimpleGPU.supported() || AdrenoIdler.supported()
+                || GPUFreqExynos.supported();
     }
 
 }
