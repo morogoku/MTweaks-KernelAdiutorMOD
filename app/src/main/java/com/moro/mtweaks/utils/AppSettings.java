@@ -83,6 +83,10 @@ public class AppSettings {
         Prefs.saveString(key, value, context);
     }
 
+    public static void remove (String name, Context context){
+        Prefs.remove(name, context);
+    }
+
     public static int getCpuGlobalOffsetCl0(Context context){
         return Prefs.getInt(CPU_GLOBAL_OFFSET_CL0, 0, context);
     }

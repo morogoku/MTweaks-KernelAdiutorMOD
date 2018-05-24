@@ -86,18 +86,66 @@ public class Battery {
     }
 
     public void saveS7StockValues(Context context) {
-        if (hasS7HvInput()) AppSettings.saveString("bat_s7_hv_input", getS7HvInput(), context);
-        if (hasS7HvCharge()) AppSettings.saveString("bat_s7_hv_charge", getS7HvCharge(), context);
-        if (hasS7AcInput()) AppSettings.saveString("bat_s7_ac_input", getS7AcInput(), context);
-        if (hasS7AcCharge()) AppSettings.saveString("bat_s7_ac_charge", getS7AcCharge(), context);
-        if (hasS7AcInputScreen()) AppSettings.saveString("bat_s7_ac_input_screen", getS7AcInputScreen(), context);
-        if (hasS7AcChargeScreen()) AppSettings.saveString("bat_s7_ac_charge_screen", getS7AcChargeScreen(), context);
-        if (hasS7UsbInput()) AppSettings.saveString("bat_s7_usb_input", getS7UsbInput(), context);
-        if (hasS7UsbCharge()) AppSettings.saveString("bat_s7_usb_charge", getS7UsbCharge(), context);
-        if (hasS7WcInput()) AppSettings.saveString("bat_s7_wc_input", getS7WcInput(), context);
-        if (hasS7WcCharge()) AppSettings.saveString("bat_s7_wc_charge", getS7WcCharge(), context);
-        if (hasS7CarInput()) AppSettings.saveString("bat_s7_car_input", getS7CarInput(), context);
-        if (hasS7CarCharge()) AppSettings.saveString("bat_s7_car_charge", getS7CarCharge(), context);
+        if (hasS7HvInput()) {
+            AppSettings.saveString("bat_s7_hv_input", getS7HvInput(), context);
+        } else {
+            AppSettings.remove("bat_s7_hv_input", context);
+        }
+        if (hasS7HvCharge()) {
+            AppSettings.saveString("bat_s7_hv_charge", getS7HvCharge(), context);
+        } else {
+            AppSettings.remove("bat_s7_hv_charge", context);
+        }
+        if (hasS7AcInput()) {
+            AppSettings.saveString("bat_s7_ac_input", getS7AcInput(), context);
+        } else {
+            AppSettings.remove("bat_s7_ac_input", context);
+        }
+        if (hasS7AcCharge()) {
+            AppSettings.saveString("bat_s7_ac_charge", getS7AcCharge(), context);
+        } else {
+            AppSettings.remove("bat_s7_ac_charge", context);
+        }
+        if (hasS7AcInputScreen()) {
+            AppSettings.saveString("bat_s7_ac_input_screen", getS7AcInputScreen(), context);
+        } else {
+            AppSettings.remove("bat_s7_ac_input_screen", context);
+        }
+        if (hasS7AcChargeScreen()) {
+            AppSettings.saveString("bat_s7_ac_charge_screen", getS7AcChargeScreen(), context);
+        } else {
+            AppSettings.remove("bat_s7_ac_charge_screen", context);
+        }
+        if (hasS7UsbInput()) {
+            AppSettings.saveString("bat_s7_usb_input", getS7UsbInput(), context);
+        } else {
+            AppSettings.remove("bat_s7_usb_input", context);
+        }
+        if (hasS7UsbCharge()) {
+            AppSettings.saveString("bat_s7_usb_charge", getS7UsbCharge(), context);
+        } else {
+            AppSettings.remove("bat_s7_usb_charge", context);
+        }
+        if (hasS7WcInput()) {
+            AppSettings.saveString("bat_s7_wc_input", getS7WcInput(), context);
+        } else {
+            AppSettings.remove("bat_s7_wc_input", context);
+        }
+        if (hasS7WcCharge()) {
+            AppSettings.saveString("bat_s7_wc_charge", getS7WcCharge(), context);
+        } else {
+            AppSettings.remove("bat_s7_wc_charge", context);
+        }
+        if (hasS7CarInput()) {
+            AppSettings.saveString("bat_s7_car_input", getS7CarInput(), context);
+        } else {
+            AppSettings.remove("bat_s7_car_input", context);
+        }
+        if (hasS7CarCharge()) {
+            AppSettings.saveString("bat_s7_car_charge", getS7CarCharge(), context);
+        } else {
+            AppSettings.remove("bat_s7_car_charge", context);
+        }
 
         AppSettings.saveBoolean("s7_battery_saved", true, context);
     }

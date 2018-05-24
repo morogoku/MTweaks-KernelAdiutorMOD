@@ -100,10 +100,6 @@ public class MainActivity extends BaseActivity {
             if (!AppSettings.getBoolean("gpu_onboot", false, this)) {
                 AppSettings.saveInt("gpu_seekbarPref_value", 16, this);
             }
-            // save battery stock values
-            if (!AppSettings.getBoolean("s7_battery_saved", false, this)) {
-                Battery.getInstance(this).saveS7StockValues(this);
-            }
         }
         AppSettings.saveBoolean("is_booted", false, this);
 
@@ -116,7 +112,7 @@ public class MainActivity extends BaseActivity {
         int prof = Utils.strToInt(Spectrum.getProfile());
         AppSettings.saveInt("spectrum_profile", prof, this);
 
-        // Check is kernel is changed
+        // Check if kernel is changed
         String kernel_old = AppSettings.getString("kernel_version_old", "", this);
         String kernel_new = Device.getKernelVersion(true);
 
@@ -130,6 +126,14 @@ public class MainActivity extends BaseActivity {
             AppSettings.saveBoolean("cl0_voltage_saved", false, this);
             AppSettings.saveBoolean("cl1_voltage_saved", false, this);
             AppSettings.saveBoolean("gpu_voltage_saved", false, this);
+
+            // Reset battery_saved to recopy battery stock values
+            AppSettings.saveBoolean("s7_battery_saved", false, this);
+        }
+
+        // save battery stock values
+        if (!AppSettings.getBoolean("s7_battery_saved", false, this)) {
+            Battery.getInstance(this).saveS7StockValues(this);
         }
 
         // Save backup of Cluster0 stock voltages
