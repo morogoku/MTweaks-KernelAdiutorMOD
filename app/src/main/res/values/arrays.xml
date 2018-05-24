@@ -54,6 +54,10 @@
         <item>@string/lcd_panel</item>
         <item> </item>
     </string-array>
+    <string-array name="selinux_states">
+        <item>@string/selinux_permissive</item>
+        <item>@string/selinux_enforcing</item>
+    </string-array>
 
     <!-- Custom Controls -->
     <string-array name="custom_controls_options">

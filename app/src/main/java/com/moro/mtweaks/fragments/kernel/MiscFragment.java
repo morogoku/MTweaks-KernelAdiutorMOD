@@ -21,6 +21,7 @@ package com.moro.mtweaks.fragments.kernel;
 
 import android.content.Context;
 import android.os.Vibrator;
+import android.support.v7.widget.RecyclerView;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
@@ -29,6 +30,7 @@ import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.misc.Misc;
 import com.moro.mtweaks.utils.kernel.misc.PowerSuspend;
 import com.moro.mtweaks.utils.kernel.misc.Pwm;
+import com.moro.mtweaks.utils.kernel.misc.Selinux;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
 import com.moro.mtweaks.utils.kernel.misc.Wakelocks;
 import com.moro.mtweaks.views.recyclerview.CardView;
@@ -62,6 +64,9 @@ public class MiscFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        if (Selinux.supported()){
+            selinuxInit(items);
+        }
         if (mVibration.supported()) {
             vibrationInit(items);
         }
@@ -86,6 +91,37 @@ public class MiscFragment extends RecyclerViewFragment {
         }
         networkInit(items);
         wakelockInit(items);
+    }
+
+    private void selinuxInit(List<RecyclerViewItem> items){
+        CardView sl = new CardView(getActivity());
+        sl.setTitle(getString(R.string.selinux));
+
+        final SelectView mode = new SelectView();
+        mode.setTitle(getString(R.string.selinux));
+        mode.setSummary(getString(R.string.selinux_summary));
+        mode.setItems(Arrays.asList(getResources().getStringArray(R.array.selinux_states)));
+        mode.setItem(Selinux.getStringEnforceMode());
+        mode.setOnItemSelected(new SelectView.OnItemSelected() {
+            @Override
+            public void onItemSelected(SelectView selectView, final int position, String item) {
+                Selinux.setEnforceMode(position, getActivity());
+                getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mode.setItem(Selinux.getStringEnforceMode());
+                        if (position != Selinux.getEnforceMode())
+                            Utils.toast(getString(R.string.selinux_no_kernel_toast), getActivity());
+                    }
+                }, 500);
+            }
+        });
+
+        sl.addItem(mode);
+
+        if (sl.size() > 0) {
+            items.add(sl);
+        }
     }
 
     private void vibrationInit(List<RecyclerViewItem> items) {
