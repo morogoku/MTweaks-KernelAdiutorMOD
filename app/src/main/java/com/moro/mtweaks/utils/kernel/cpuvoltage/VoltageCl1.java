@@ -36,9 +36,9 @@ import java.util.List;
  */
 public class VoltageCl1 {
 
-    private static final String BACKUP_MTWEAKS = "/data/.mtweaks/cpuCl1_stock_voltage";
+    public static final String BACKUP_MTWEAKS = "/data/.mtweaks/cpuCl1_stock_voltage";
 
-    private static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
+    public static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
 
     private static final HashMap<String, Boolean> sVoltages = new HashMap<>();
     private static final HashMap<String, Integer> sOffset = new HashMap<>();
@@ -149,9 +149,6 @@ public class VoltageCl1 {
             }
         }
         for (String path : sBackup.keySet()) {
-            if (!Utils.existFile(BACKUP_MTWEAKS)) {
-                RootUtils.runCommand("cp " + CL1_VOLTAGE + " " + BACKUP_MTWEAKS);
-            }
             if (Utils.existFile(path)) {
                 PATH_BACKUP = path;
             }
