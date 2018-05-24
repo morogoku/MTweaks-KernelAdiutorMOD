@@ -460,6 +460,7 @@
   <string name="glove_mode">Modo de Guantes</string>
   <string name="glove_mode_summary">Habilitando esto le permitirá usar el teléfono aunque esté con guantes.</string>
   <!-- Wake -->
+  <string name="gestures">Gestos</string>
   <string name="dt2w">DoubleTap2Wake</string>
   <string name="dt2w_summary">Enciende la pantalla pulsando dos veces la pantalla.</string>
   <string name="center">Centro</string>
@@ -487,6 +488,7 @@
   <string name="dt2w_s2w">DobleToqueParaDespertar + DeslizarParaDespertar</string>
   <string name="dt2w_s2w_charging">DoubleTap2Wake + Sweep2Wake mientras se está cargando</string>
   <string name="s2s_summary">Bloquea tu dispositivo deslizando en la pantalla.</string>
+  <string name="s2s_disabled">Desactivado</string>
   <string name="s2s_right">Deslizar hacía la derecha</string>
   <string name="s2s_left">Deslizar hacía la izquierda</string>
   <string name="s2s_any">Deslizar hacía la derecha o izquierda</string>

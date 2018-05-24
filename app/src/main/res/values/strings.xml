@@ -509,6 +509,7 @@
     <string name="glove_mode_summary">Enabling this will let you use your phone even while wearing gloves.</string>
 
     <!-- Wake -->
+    <string name="gestures">Gestures</string>
     <string name="dt2w">DoubleTap2Wake</string>
     <string name="dt2w_summary">Wake up your device by double tapping the screen.</string>
     <string name="center">Center</string>
@@ -536,6 +537,7 @@
     <string name="dt2w_s2w">DoubleTap2Wake + Sweep2Wake</string>
     <string name="dt2w_s2w_charging">DoubleTap2Wake + Sweep2Wake while charging</string>
     <string name="s2s_summary">Lock you device by swiping on the screen.</string>
+    <string name="s2s_disabled">Disabled</string>
     <string name="s2s_right">Sweep Right</string>
     <string name="s2s_left">Sweep Left</string>
     <string name="s2s_any">Sweep Left or Right</string>
