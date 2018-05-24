@@ -26,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
@@ -74,6 +75,16 @@ public class AboutFragment extends RecyclerViewFragment {
     }
 
     private void librariesInit(List<RecyclerViewItem> items) {
+        CardView about = new CardView(getActivity());
+        about.setTitle(getString(R.string.app_version));
+
+        DescriptionView app = new DescriptionView();
+        app.setTitle(getString(R.string.app_name));
+        app.setSummary("v" + BuildConfig.VERSION_NAME);
+
+        about.addItem(app);
+        items.add(about);
+
         CardView cardView = new CardView(getActivity());
         cardView.setTitle(getString(R.string.libraries_used));
 

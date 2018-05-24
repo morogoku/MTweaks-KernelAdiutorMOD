@@ -1041,6 +1041,7 @@
     <!-- Contributors -->
     <string name="commits">%d commits</string>
     <string name="no_internet">Please check your internet connection!</string>
+    <string name="app_version">App version</string>
 
     <!-- Help -->
     <string name="misspelled">Why did you misspell \"Adiutor\"?</string>
