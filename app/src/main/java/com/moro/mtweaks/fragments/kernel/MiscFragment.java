@@ -262,39 +262,23 @@ public class MiscFragment extends RecyclerViewFragment {
             ps.addItem(mode);
         }
 
-        if (PowerSuspend.hasOldState()) {
+        if (PowerSuspend.hasState()) {
             final SwitchView state = new SwitchView();
             state.setTitle(getString(R.string.power_suspend_state));
             state.setSummary(getString(R.string.power_suspend_state_summary));
-            state.setChecked(PowerSuspend.isOldStateEnabled());
-            state.addOnSwitchListener((switchView, isChecked) -> {
-                    PowerSuspend.enableOldState(isChecked, getActivity());
-                    getHandler().postDelayed(() -> {
-                        int mode = PowerSuspend.getMode();
-                        boolean st = PowerSuspend.isOldStateEnabled();
-                        state.setChecked(st);
-                        if (!st && mode != 1) Utils.toast(getString(R.string.power_suspend_state_toast),
-                                getActivity());
-                }, 200);
-            });
-
-            ps.addItem(state);
-        }
-
-        if (PowerSuspend.hasNewState()) {
-            SeekBarView state = new SeekBarView();
-            state.setTitle(getString(R.string.power_suspend_state));
-            state.setSummary(getString(R.string.power_suspend_state_summary));
-            state.setMax(2);
-            state.setProgress(PowerSuspend.getNewState());
-            state.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            state.setChecked(PowerSuspend.isStateEnabled());
+            state.addOnSwitchListener(new SwitchView.OnSwitchListener() {
                 @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    PowerSuspend.setNewState(position, getActivity());
-                }
-
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
+                public void onChanged(SwitchView switchView, final boolean isChecked) {
+                    PowerSuspend.enableState(isChecked, getActivity());
+                    getHandler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            state.setChecked(PowerSuspend.isStateEnabled());
+                            if (isChecked != PowerSuspend.isStateEnabled())
+                                Utils.toast(getString(R.string.power_suspend_state_toast), getActivity());
+                        }
+                    }, 500);
                 }
             });
 
