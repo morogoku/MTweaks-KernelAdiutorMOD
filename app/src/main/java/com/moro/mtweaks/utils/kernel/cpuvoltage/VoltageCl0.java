@@ -46,7 +46,6 @@ public class VoltageCl0 {
     private static final HashMap<String, String> sSplitNewline = new HashMap<>();
     private static final HashMap<String, String> sSplitLine = new HashMap<>();
     private static final HashMap<String, Boolean> sAppend = new HashMap<>();
-    private static final HashMap<String, Boolean> sBackup = new HashMap<>();
 
     static {
         sVoltages.put(CL0_VOLTAGE, false);
@@ -60,12 +59,9 @@ public class VoltageCl0 {
         sSplitLine.put(CL0_VOLTAGE, " ");
 
         sAppend.put(CL0_VOLTAGE, false);
-
-        sBackup.put(BACKUP_MTWEAKS, false);
     }
 
     private static String PATH;
-    private static String PATH_BACKUP;
     private static String[] sFreqs;
 
     public static void setVoltage(String freq, String voltage, Context context) {
@@ -142,18 +138,13 @@ public class VoltageCl0 {
     }
 
     public static boolean supported() {
-        if (PATH != null && PATH_BACKUP != null) return true;
+        if (PATH != null) return true;
         for (String path : sVoltages.keySet()) {
             if (Utils.existFile(path)) {
                 PATH = path;
             }
         }
-        for (String path : sBackup.keySet()) {
-            if (Utils.existFile(path)) {
-                PATH_BACKUP = path;
-            }
-        }
-        return PATH != null && PATH_BACKUP != null;
+        return PATH != null;
     }
 
     private static void run(String command, String id, Context context) {
