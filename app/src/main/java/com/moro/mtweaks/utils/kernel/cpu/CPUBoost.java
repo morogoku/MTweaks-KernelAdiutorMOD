@@ -43,6 +43,7 @@ public class CPUBoost {
     }
 
     private static final String CPU_BOOST = "/sys/module/cpu_boost/parameters";
+    private static final String CPU_BOOST_EXYNOS = "/data/kernel/cpu_input_boost";
 
     private static final List<String> sEnable = new ArrayList<>();
 
@@ -50,6 +51,7 @@ public class CPUBoost {
         sEnable.add(CPU_BOOST + "/cpu_boost");
         sEnable.add(CPU_BOOST + "/cpuboost_enable");
         sEnable.add(CPU_BOOST + "/input_boost_enabled");
+        sEnable.add(CPU_BOOST_EXYNOS + "/enabled");
     }
 
     private static final String CPU_BOOST_DEBUG_MASK = CPU_BOOST + "/debug_mask";
@@ -59,6 +61,8 @@ public class CPUBoost {
     private static final String CPU_BOOST_INPUT_BOOST_FREQ = CPU_BOOST + "/input_boost_freq";
     private static final String CPU_BOOST_WAKEUP = CPU_BOOST + "/wakeup_boost";
     private static final String CPU_BOOST_HOTPLUG = CPU_BOOST + "/hotplug_boost";
+    private static final String CPU_BOOST_EXYNOS_INPUT_MS = CPU_BOOST_EXYNOS + "/ib_duration_ms";
+    private static final String CPU_BOOST_EXYNOS_BOOST_FREQ = CPU_BOOST_EXYNOS + "/ib_freqs";
 
     private String ENABLE;
 
@@ -69,6 +73,41 @@ public class CPUBoost {
                 break;
             }
         }
+    }
+
+    public void setCpuBoostExynosInputFreq(int value, int core, Context context) {
+        if (Utils.readFile(CPU_BOOST_EXYNOS_BOOST_FREQ).contains(":")) {
+            run(Control.write(core + ":" + value, CPU_BOOST_EXYNOS_BOOST_FREQ),
+                    CPU_BOOST_EXYNOS_BOOST_FREQ + core, context);
+        } else {
+            run(Control.write(String.valueOf(value), CPU_BOOST_EXYNOS_BOOST_FREQ),
+                    CPU_BOOST_EXYNOS_BOOST_FREQ, context);
+        }
+    }
+
+    public List<String> getCpuBootExynosInputFreq() {
+        String freqs[] = Utils.readFile(CPU_BOOST_EXYNOS_BOOST_FREQ).split(" ");
+        List<String> INPUT_FREQS = new ArrayList<>();
+        for (String freq : freqs) {
+            INPUT_FREQS.add(freq.trim());
+        }
+        return INPUT_FREQS;
+    }
+
+    public boolean hasCpuBoostExynosInputFreq() {
+        return Utils.existFile(CPU_BOOST_EXYNOS_BOOST_FREQ);
+    }
+
+    public boolean hasCpuBoostExynosInputMs() {
+        return Utils.existFile(CPU_BOOST_EXYNOS_INPUT_MS);
+    }
+
+    public void setCpuBoostExynosInputMs(int value, Context context) {
+        run(Control.write(String.valueOf(value), CPU_BOOST_EXYNOS_INPUT_MS), CPU_BOOST_EXYNOS_INPUT_MS, context);
+    }
+
+    public int getCpuBootExynosInputMs() {
+        return Utils.strToInt(Utils.readFile(CPU_BOOST_EXYNOS_INPUT_MS));
     }
 
     public void enableCpuBoostWakeup(boolean enable, Context context) {

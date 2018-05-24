@@ -471,6 +471,28 @@ public class CPUFragment extends RecyclerViewFragment {
             cpuBoost.add(inputMs);
         }
 
+        if (mCPUBoost.hasCpuBoostExynosInputMs()) {
+            SeekBarView inputMs = new SeekBarView();
+            inputMs.setTitle(getString(R.string.input_interval));
+            inputMs.setSummary(getString(R.string.input_interval_summary));
+            inputMs.setUnit(getString(R.string.ms));
+            inputMs.setMax(5000);
+            inputMs.setOffset(10);
+            inputMs.setProgress(mCPUBoost.getCpuBootExynosInputMs() / 10);
+            inputMs.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mCPUBoost.setCpuBoostExynosInputMs(position * 10, getActivity());
+                }
+            });
+
+            cpuBoost.add(inputMs);
+        }
+
         if (mCPUBoost.hasCpuBoostInputFreq()) {
             List<Integer> freqs = mCPUBoost.getCpuBootInputFreq();
             for (int i = 0; i < freqs.size(); i++) {
@@ -496,6 +518,24 @@ public class CPUFragment extends RecyclerViewFragment {
 
                 cpuBoost.add(inputCard);
             }
+        }
+
+        if (mCPUBoost.hasCpuBoostExynosInputFreq()) {
+            List<String> freqs = mCPUBoost.getCpuBootExynosInputFreq();
+            String littleFreq = freqs.get(0);
+            String bigFreq = freqs.get(1);
+
+            DescriptionView little = new DescriptionView();
+            little.setTitle("Little Input Boost Freq");
+            little.setSummary(littleFreq);
+
+            cpuBoost.add(little);
+
+            DescriptionView big = new DescriptionView();
+            big.setTitle("Big Input Boost Freq");
+            big.setSummary(bigFreq);
+
+            cpuBoost.add(big);
         }
 
         if (mCPUBoost.hasCpuBoostWakeup()) {
