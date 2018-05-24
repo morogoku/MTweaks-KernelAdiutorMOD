@@ -48,6 +48,12 @@
         <item>@string/lcd_panel</item>
         <item>@string/hybrid</item>
     </string-array>
+    <string-array name="powersuspend_items_lite">
+        <item> </item>
+        <item>@string/userspace</item>
+        <item>@string/lcd_panel</item>
+        <item> </item>
+    </string-array>
 
     <!-- Custom Controls -->
     <string-array name="custom_controls_options">

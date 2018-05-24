@@ -25,6 +25,7 @@ import android.os.Vibrator;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.misc.Misc;
 import com.moro.mtweaks.utils.kernel.misc.PowerSuspend;
 import com.moro.mtweaks.utils.kernel.misc.Pwm;
@@ -205,27 +206,43 @@ public class MiscFragment extends RecyclerViewFragment {
         items.add(pwmCard);
     }
     private void powersuspendInit(List<RecyclerViewItem> items) {
+        CardView ps = new CardView(getActivity());
+        ps.setTitle(getString(R.string.power_suspend));
+
         if (PowerSuspend.hasMode()) {
+            String v = PowerSuspend.getVersion();
             SelectView mode = new SelectView();
             mode.setTitle(getString(R.string.power_suspend_mode));
             mode.setSummary(getString(R.string.power_suspend_mode_summary));
-            mode.setItems(Arrays.asList(getResources().getStringArray(R.array.powersuspend_items)));
+            if (v.contains("1.5") || v.contains("1.8")) {
+                mode.setItems(Arrays.asList(getResources().getStringArray(R.array.powersuspend_items)));
+            } else {
+                mode.setItems(Arrays.asList(getResources().getStringArray(R.array.powersuspend_items_lite)));
+            }
             mode.setItem(PowerSuspend.getMode());
             mode.setOnItemSelected((selectView, position, item)
                     -> PowerSuspend.setMode(position, getActivity()));
 
-            items.add(mode);
+            ps.addItem(mode);
         }
 
         if (PowerSuspend.hasOldState()) {
-            SwitchView state = new SwitchView();
+            final SwitchView state = new SwitchView();
             state.setTitle(getString(R.string.power_suspend_state));
             state.setSummary(getString(R.string.power_suspend_state_summary));
             state.setChecked(PowerSuspend.isOldStateEnabled());
-            state.addOnSwitchListener((switchView, isChecked)
-                    -> PowerSuspend.enableOldState(isChecked, getActivity()));
+            state.addOnSwitchListener((switchView, isChecked) -> {
+                    PowerSuspend.enableOldState(isChecked, getActivity());
+                    getHandler().postDelayed(() -> {
+                        int mode = PowerSuspend.getMode();
+                        boolean st = PowerSuspend.isOldStateEnabled();
+                        state.setChecked(st);
+                        if (!st && mode != 1) Utils.toast(getString(R.string.power_suspend_state_toast),
+                                getActivity());
+                }, 200);
+            });
 
-            items.add(state);
+            ps.addItem(state);
         }
 
         if (PowerSuspend.hasNewState()) {
@@ -245,7 +262,11 @@ public class MiscFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(state);
+            ps.addItem(state);
+        }
+
+        if (ps.size() > 0) {
+            items.add(ps);
         }
     }
 
