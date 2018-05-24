@@ -19,6 +19,7 @@
  */
 package com.moro.mtweaks.fragments.kernel;
 
+import android.text.InputType;
 import android.util.SparseArray;
 
 import com.moro.mtweaks.R;
@@ -36,11 +37,11 @@ import com.moro.mtweaks.utils.kernel.cpu.Misc;
 import com.moro.mtweaks.views.dialog.Dialog;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
+import com.moro.mtweaks.views.recyclerview.GenericSelectView2;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
-import com.moro.mtweaks.views.recyclerview.TitleView;
 import com.moro.mtweaks.views.recyclerview.XYGraphView;
 
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class CPUFragment extends RecyclerViewFragment {
     private PathReaderFragment mGovernorTunableFragment;
     private Dialog mGovernorTunableErrorDialog;
 
+    private List<GenericSelectView2> mInput = new ArrayList<>();
+
     @Override
     protected BaseFragment getForegroundFragment() {
         return mGovernorTunableFragment = new PathReaderFragment();
@@ -95,8 +98,14 @@ public class CPUFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
+        mInput.clear();
+
         Log.crashlyticsI("freqInit");
         freqInit(items);
+        if (mCPUBoost.supported()) {
+            Log.crashlyticsI("cpuBoostInit");
+            cpuBoostInit(items);
+        }
         if (Misc.hasMcPowerSaving()) {
             Log.crashlyticsI("mcPowerSavingInit");
             mcPowerSavingInit(items);
@@ -112,10 +121,6 @@ public class CPUFragment extends RecyclerViewFragment {
         if (Misc.hasCpuQuiet()) {
             Log.crashlyticsI("cpuQuietInit");
             cpuQuietInit(items);
-        }
-        if (mCPUBoost.supported()) {
-            Log.crashlyticsI("cpuBoostInit");
-            cpuBoostInit(items);
         }
         if (Misc.hasCpuTouchBoost()) {
             Log.crashlyticsI("cpuTouchBoostInit");
@@ -383,19 +388,74 @@ public class CPUFragment extends RecyclerViewFragment {
     }
 
     private void cpuBoostInit(List<RecyclerViewItem> items) {
-        List<RecyclerViewItem> cpuBoost = new ArrayList<>();
-
-        TitleView title = new TitleView();
-        title.setText(getString(R.string.cpu_boost));
+        CardView cpuBoostCard = new CardView(getActivity());
+        cpuBoostCard.setTitle(getString(R.string.ib_enabled));
 
         if (mCPUBoost.hasEnable()) {
             SwitchView enable = new SwitchView();
-            enable.setSummary(getString(R.string.cpu_boost));
+            enable.setTitle(getString(R.string.ib_enabled));
+            enable.setSummaryOn(getString(R.string.cpu_boost_summary_on));
+            enable.setSummaryOff(getString(R.string.cpu_boost_summary_off));
             enable.setChecked(mCPUBoost.isEnabled());
             enable.addOnSwitchListener((switchView, isChecked)
                     -> mCPUBoost.enableCpuBoost(isChecked, getActivity()));
 
-            items.add(enable);
+            cpuBoostCard.addItem(enable);
+        }
+
+        if (mCPUBoost.hasCpuBoostExynosInputMs()) {
+            GenericSelectView2 ms = new GenericSelectView2();
+            ms.setTitle(getString(R.string.ib_duration_ms));
+            ms.setValue(mCPUBoost.getCpuBootExynosInputMs() + " ms");
+            ms.setValueRaw(ms.getValue().replace(" ms", ""));
+            ms.setInputType(InputType.TYPE_CLASS_NUMBER);
+            ms.setOnGenericValueListener(new GenericSelectView2.OnGenericValueListener() {
+                @Override
+                public void onGenericValueSelected(GenericSelectView2 genericSelectView, String value) {
+                    mCPUBoost.setCpuBoostExynosInputMs(Utils.strToInt(value), getActivity());
+                    genericSelectView.setValue(value + " ms");
+                }
+            });
+
+            cpuBoostCard.addItem(ms);
+        }
+
+        if (mCPUBoost.hasCpuBoostExynosInputFreq()) {
+            List<String> freqs = mCPUBoost.getCpuBootExynosInputFreq();
+            final String[] littleFreq = {freqs.get(0)};
+            final String[] bigFreq = {freqs.get(1)};
+
+            GenericSelectView2 little = new GenericSelectView2();
+            little.setTitle(getString(R.string.ib_freq_little));
+            little.setValue(littleFreq[0] + " Hz");
+            little.setValueRaw(little.getValue().replace(" Hz", ""));
+            little.setInputType(InputType.TYPE_CLASS_NUMBER);
+            little.setOnGenericValueListener(new GenericSelectView2.OnGenericValueListener() {
+                @Override
+                public void onGenericValueSelected(GenericSelectView2 genericSelectView, String value) {
+                    mCPUBoost.setCpuBoostExynosInputFreq(value, bigFreq[0], getActivity());
+                    genericSelectView.setValue(value + " Hz");
+                    littleFreq[0] = value;
+                }
+            });
+
+            cpuBoostCard.addItem(little);
+
+            GenericSelectView2 big = new GenericSelectView2();
+            big.setTitle(getString(R.string.ib_freq_big));
+            big.setValue(bigFreq[0] + " Hz");
+            big.setValueRaw(big.getValue().replace(" Hz", ""));
+            big.setInputType(InputType.TYPE_CLASS_NUMBER);
+            big.setOnGenericValueListener(new GenericSelectView2.OnGenericValueListener() {
+                @Override
+                public void onGenericValueSelected(GenericSelectView2 genericSelectView, String value) {
+                    mCPUBoost.setCpuBoostExynosInputFreq(littleFreq[0], value, getActivity());
+                    genericSelectView.setValue(value + " Hz");
+                    bigFreq[0] = value;
+                }
+            });
+
+            cpuBoostCard.addItem(big);
         }
 
         if (mCPUBoost.hasCpuBoostDebugMask()) {
@@ -406,7 +466,7 @@ public class CPUFragment extends RecyclerViewFragment {
             debugMask.addOnSwitchListener((switchView, isChecked)
                     -> mCPUBoost.enableCpuBoostDebugMask(isChecked, getActivity()));
 
-            cpuBoost.add(debugMask);
+            cpuBoostCard.addItem(debugMask);
         }
 
         if (mCPUBoost.hasCpuBoostMs()) {
@@ -428,7 +488,7 @@ public class CPUFragment extends RecyclerViewFragment {
                 }
             });
 
-            cpuBoost.add(ms);
+            cpuBoostCard.addItem(ms);
         }
 
         if (mCPUBoost.hasCpuBoostSyncThreshold() && mCPUFreq.getFreqs() != null) {
@@ -446,7 +506,7 @@ public class CPUFragment extends RecyclerViewFragment {
                             0 : mCPUFreq.getFreqs().get(position - 1),
                     getActivity()));
 
-            cpuBoost.add(syncThreshold);
+            cpuBoostCard.addItem(syncThreshold);
         }
 
         if (mCPUBoost.hasCpuBoostInputMs()) {
@@ -468,29 +528,7 @@ public class CPUFragment extends RecyclerViewFragment {
                 }
             });
 
-            cpuBoost.add(inputMs);
-        }
-
-        if (mCPUBoost.hasCpuBoostExynosInputMs()) {
-            SeekBarView inputMs = new SeekBarView();
-            inputMs.setTitle(getString(R.string.input_interval));
-            inputMs.setSummary(getString(R.string.input_interval_summary));
-            inputMs.setUnit(getString(R.string.ms));
-            inputMs.setMax(5000);
-            inputMs.setOffset(10);
-            inputMs.setProgress(mCPUBoost.getCpuBootExynosInputMs() / 10);
-            inputMs.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
-
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    mCPUBoost.setCpuBoostExynosInputMs(position * 10, getActivity());
-                }
-            });
-
-            cpuBoost.add(inputMs);
+            cpuBoostCard.addItem(inputMs);
         }
 
         if (mCPUBoost.hasCpuBoostInputFreq()) {
@@ -516,26 +554,8 @@ public class CPUFragment extends RecyclerViewFragment {
                                 0 : mCPUFreq.getFreqs(core).get(position - 1),
                         core, getActivity()));
 
-                cpuBoost.add(inputCard);
+                cpuBoostCard.addItem(inputCard);
             }
-        }
-
-        if (mCPUBoost.hasCpuBoostExynosInputFreq()) {
-            List<String> freqs = mCPUBoost.getCpuBootExynosInputFreq();
-            String littleFreq = freqs.get(0);
-            String bigFreq = freqs.get(1);
-
-            DescriptionView little = new DescriptionView();
-            little.setTitle("Little Input Boost Freq");
-            little.setSummary(littleFreq);
-
-            cpuBoost.add(little);
-
-            DescriptionView big = new DescriptionView();
-            big.setTitle("Big Input Boost Freq");
-            big.setSummary(bigFreq);
-
-            cpuBoost.add(big);
         }
 
         if (mCPUBoost.hasCpuBoostWakeup()) {
@@ -546,7 +566,7 @@ public class CPUFragment extends RecyclerViewFragment {
             wakeup.addOnSwitchListener((switchView, isChecked)
                     -> mCPUBoost.enableCpuBoostWakeup(isChecked, getActivity()));
 
-            cpuBoost.add(wakeup);
+            cpuBoostCard.addItem(wakeup);
         }
 
         if (mCPUBoost.hasCpuBoostHotplug()) {
@@ -557,12 +577,11 @@ public class CPUFragment extends RecyclerViewFragment {
             hotplug.addOnSwitchListener((switchView, isChecked)
                     -> mCPUBoost.enableCpuBoostHotplug(isChecked, getActivity()));
 
-            cpuBoost.add(hotplug);
+            cpuBoostCard.addItem(hotplug);
         }
 
-        if (cpuBoost.size() > 0) {
-            items.add(title);
-            items.addAll(cpuBoost);
+        if (cpuBoostCard.size() > 0) {
+            items.add(cpuBoostCard);
         }
     }
 
