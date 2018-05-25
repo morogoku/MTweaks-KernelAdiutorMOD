@@ -748,6 +748,10 @@
     <string name="deferred_timer_summary">Reduces some CPU usage in return for less memory savings.</string>
     <string name="max_cpu_usage">Max CPU Usage</string>
     <string name="max_cpu_usage_summary">Max CPU percentage to use when merging pages.</string>
+    <string name="uksm_governor">UKSM CPU Governor</string>
+    <string name="uksm_governor_summary">Set the CPU Governor for Ultra Kernel Samepage Merging (UKSM).</string>
+    <string name="uksm_name">UKSM</string>
+    <string name="ksm_name">KSM</string>
 
     <!-- Low Memory Killer -->
     <string name="foreground_app">Foreground Applications</string>

@@ -23,9 +23,11 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
+import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
+import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
@@ -40,6 +42,10 @@ public class KSMFragment extends RecyclerViewFragment {
 
     private List<DescriptionView> mInfos = new ArrayList<>();
 
+    public int getSpanCount() {
+        return super.getSpanCount() + 1;
+    }
+
     @Override
     protected void init() {
         super.init();
@@ -52,15 +58,39 @@ public class KSMFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         infoInit(items);
 
+        CardView ksm = new CardView(getActivity());
+        if (mKSM.isUKSM()) {
+            ksm.setTitle(getString(R.string.uksm_name));
+        } else {
+            ksm.setTitle(getString(R.string.ksm));
+        }
+        ksm.setFullSpan(true);
+
         if (mKSM.hasEnable()) {
             SwitchView enable = new SwitchView();
-            enable.setTitle(getString(R.string.ksm));
+            if (mKSM.isUKSM()) {
+                enable.setTitle(getString(R.string.uksm_name));
+            } else {
+                enable.setTitle(getString(R.string.ksm));
+            }
             enable.setSummary(getString(R.string.ksm_summary));
             enable.setChecked(mKSM.isEnabled());
             enable.addOnSwitchListener((switchView, isChecked)
                     -> mKSM.enableKsm(isChecked, getActivity()));
 
-            items.add(enable);
+            ksm.addItem(enable);
+        }
+
+        if (mKSM.hasCpuGovernor()) {
+            SelectView governor = new SelectView();
+            governor.setTitle(getString(R.string.uksm_governor));
+            governor.setSummary(getString(R.string.uksm_governor_summary));
+            governor.setItems(mKSM.getCpuGovernors());
+            governor.setItem(mKSM.getCpuGovernor());
+            governor.setOnItemSelected((selectView, position, item)
+                    -> mKSM.setCpuGovernor(item, getActivity()));
+
+            ksm.addItem(governor);
         }
 
         if (mKSM.hasDeferredTimer()) {
@@ -71,7 +101,7 @@ public class KSMFragment extends RecyclerViewFragment {
             deferredTimer.addOnSwitchListener((switchView, isChecked)
                     -> mKSM.enableDeferredTimer(isChecked, getActivity()));
 
-            items.add(deferredTimer);
+            ksm.addItem(deferredTimer);
         }
 
         if (mKSM.hasPagesToScan()) {
@@ -90,7 +120,7 @@ public class KSMFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(pagesToScan);
+            ksm.addItem(pagesToScan);
         }
 
         if (mKSM.hasSleepMilliseconds()) {
@@ -111,7 +141,7 @@ public class KSMFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(sleepMilliseconds);
+            ksm.addItem(sleepMilliseconds);
         }
 
         if (mKSM.hasMaxCpuPercentage()) {
@@ -131,7 +161,11 @@ public class KSMFragment extends RecyclerViewFragment {
                 }
             });
 
-            items.add(maxCpuPercentage);
+            ksm.addItem(maxCpuPercentage);
+        }
+
+        if (ksm.size() > 0) {
+            items.add(ksm);
         }
     }
 
