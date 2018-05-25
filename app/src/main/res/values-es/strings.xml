@@ -535,6 +535,12 @@
   <string name="microphone_gain">Ganancia del Micrófono</string>
   <string name="volume_gain">Ganancia de Volumen</string>
   <!-- Battery -->
+  <string name="store_mode">Store Mode</string>
+  <string name="store_mode_summary">Establezca los límites MAX y MIN para la carga de bateía.</string>
+  <string name="store_mode_max">Store Mode MAX</string>
+  <string name="store_mode_max_summary">Si la capacidad actual de la batería &lt; Store Mode MAX, la carga se detendrá cuando alcance este valor Máximo.</string>
+  <string name="store_mode_min">Store Mode MIN</string>
+  <string name="store_mode_min_summary">Si la capacidad actual de la batería > Store Mode MIN, la carga comenzará cuando alzance este valor Mínimo.</string>
   <string name="level">Nivel</string>
   <string name="voltage">Voltage</string>
   <string name="current_now">Carga Actual</string>

@@ -67,6 +67,9 @@ public class Battery {
     private static final String S7_CAR_INPUT = CHARGE_S7 + "/car_input";
     private static final String S7_CAR_CHARGE = CHARGE_S7 + "/car_charge";
     private static final String S7_CHARGE_SOURCE = CHARGE_S7 + "/power_supply/battery/batt_charging_source";
+    private static final String S7_STORE_MODE = "/sys/devices/battery/power_supply/battery/store_mode";
+    private static final String S7_STORE_MODE_MAX = "/sys/module/sec_battery/parameters/store_mode_max";
+    private static final String S7_STORE_MODE_MIN = "/sys/module/sec_battery/parameters/store_mode_min";
 
     private int mCapacity;
 
@@ -150,6 +153,35 @@ public class Battery {
         AppSettings.saveBoolean("s7_battery_saved", true, context);
     }
 
+
+    public boolean hasS7StoreMode(){
+        return (Utils.existFile(S7_STORE_MODE) && Utils.existFile(S7_STORE_MODE_MAX)
+                && Utils.existFile(S7_STORE_MODE_MIN));
+    }
+
+    public boolean isS7StoreModeEnabled(){
+        return Utils.readFile(S7_STORE_MODE).equals("1");
+    }
+
+    public void enableS7StoreMode(boolean enable, Context context){
+        run(Control.write(enable ? "1" : "0", S7_STORE_MODE), S7_STORE_MODE, context);
+    }
+
+    public String getS7StoreModeMax(){
+        return Utils.readFile(S7_STORE_MODE_MAX);
+    }
+
+    public void setS7StoreModeMax(int value, Context context){
+        run(Control.write(String.valueOf(value), S7_STORE_MODE_MAX), S7_STORE_MODE_MAX, context);
+    }
+
+    public String getS7StoreModeMin(){
+        return Utils.readFile(S7_STORE_MODE_MIN);
+    }
+
+    public void setS7StoreModeMin(int value, Context context){
+        run(Control.write(String.valueOf(value), S7_STORE_MODE_MIN), S7_STORE_MODE_MIN, context);
+    }
 
     public void setChargingCurrent(int value, Context context) {
         run(Control.write(String.valueOf(value), CUSTOM_CURRENT), CUSTOM_CURRENT, context);

@@ -40,6 +40,7 @@ import com.moro.mtweaks.views.recyclerview.SwitchView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by willi on 26.06.16.
@@ -76,7 +77,7 @@ public class BatteryFragment extends RecyclerViewFragment {
     protected void init() {
         super.init();
 
-        mBattery = Battery.getInstance(getActivity());
+        mBattery = Battery.getInstance(Objects.requireNonNull(getActivity()));
     }
 
     @Override
@@ -118,11 +119,11 @@ public class BatteryFragment extends RecyclerViewFragment {
 
     private void chargeS7Init(List<RecyclerViewItem> items) {
 
-        if (mBattery.hasUnstableCharge()) {
-            CardView unsCharge = new CardView(getActivity());
-            unsCharge.setTitle(getString(R.string.unstable_charge_card));
-            unsCharge.setFullSpan(true);
+        CardView unsCharge = new CardView(getActivity());
+        unsCharge.setTitle(getString(R.string.unstable_charge_card));
+        unsCharge.setFullSpan(true);
 
+        if (mBattery.hasUnstableCharge()) {
             SwitchView uCharge = new SwitchView();
             uCharge.setTitle(getString(R.string.enable_unstable_charge));
             uCharge.setSummary(getString(R.string.enable_unstable_charge_summary));
@@ -131,8 +132,72 @@ public class BatteryFragment extends RecyclerViewFragment {
                     -> mBattery.enableUnstableCharge(isChecked, getActivity()));
 
             unsCharge.addItem(uCharge);
+        }
 
+        if (unsCharge.size() > 0) {
             items.add(unsCharge);
+        }
+
+
+        CardView storeCard = new CardView(getActivity());
+        storeCard.setTitle(getString(R.string.store_mode));
+        storeCard.setFullSpan(true);
+
+        if (mBattery.hasS7StoreMode()){
+            SwitchView sMode = new SwitchView();
+            sMode.setTitle(getString(R.string.store_mode));
+            sMode.setSummary(getString(R.string.store_mode_summary));
+            sMode.setChecked(mBattery.isS7StoreModeEnabled());
+            sMode.addOnSwitchListener((switchView, isChecked)
+                    -> mBattery.enableS7StoreMode(isChecked, getActivity()));
+
+            storeCard.addItem(sMode);
+
+
+            SeekBarView smMax = new SeekBarView();
+            smMax.setTitle(getString(R.string.store_mode_max));
+            smMax.setSummary(getString(R.string.store_mode_max_summary));
+            smMax.setMax(100);
+            smMax.setMin(1);
+            smMax.setUnit(getString(R.string.percent));
+            smMax.setProgress(Utils.strToInt(mBattery.getS7StoreModeMax()) -1 );
+            smMax.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7StoreModeMax(position +1, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            storeCard.addItem(smMax);
+
+
+            SeekBarView smMin = new SeekBarView();
+            smMin.setTitle(getString(R.string.store_mode_min));
+            smMin.setSummary(getString(R.string.store_mode_min_summary));
+            smMin.setMax(100);
+            smMin.setMin(1);
+            smMin.setUnit(getString(R.string.percent));
+            smMin.setProgress(Utils.strToInt(mBattery.getS7StoreModeMin()) -1 );
+            smMin.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mBattery.setS7StoreModeMin(position +1, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+
+            storeCard.addItem(smMin);
+        }
+
+        if (storeCard.size() > 0) {
+            items.add(storeCard);
         }
 
 
