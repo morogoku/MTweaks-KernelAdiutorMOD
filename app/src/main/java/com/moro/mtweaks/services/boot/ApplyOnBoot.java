@@ -274,6 +274,8 @@ public class ApplyOnBoot {
                 }
 
                 listener.onFinish();
+
+                RootUtils.runCommand("setprop mtweaks.applied_onboot 1");
             }
         }).start();
         return true;

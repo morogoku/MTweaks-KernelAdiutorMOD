@@ -34,8 +34,14 @@ import android.os.RemoteException;
 import android.support.annotation.Nullable;
 
 import com.moro.mtweaks.R;
+import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.NotificationId;
 import com.moro.mtweaks.utils.Utils;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
+import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
+import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
+import com.moro.mtweaks.utils.root.RootUtils;
 
 /**
  * Created by willi on 03.05.16.
@@ -72,6 +78,30 @@ public class ApplyOnBootService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // Check if kernel is changed
+        String kernel_old = AppSettings.getString("kernel_version_old", "", this);
+        String kernel_new = Device.getKernelVersion(true);
+        // If is changed save voltage files
+        if (!kernel_old.equals(kernel_new)) {
+            // Save backup of Cluster0 stock voltages
+            if (VoltageCl0.supported()) {
+                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP);
+                AppSettings.saveBoolean("cl0_voltage_saved", true, this);
+            }
+            // Save backup of Cluster1 stock voltages
+            if (VoltageCl1.supported()) {
+                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
+                AppSettings.saveBoolean("cl1_voltage_saved", true, this);
+            }
+            // Save backup of GPU stock voltages
+            if (GPUFreqExynos.supported() && GPUFreqExynos.hasVoltage()) {
+                RootUtils.runCommand("cp " + GPUFreqExynos.AVAILABLE_VOLTS + " " + GPUFreqExynos.BACKUP);
+                AppSettings.saveBoolean("gpu_voltage_saved", true, this);
+            }
+            RootUtils.runCommand("setprop mtweaks.voltage_saved 1");
+        }
+
         Messenger messenger = null;
         if (intent != null) {
             Bundle extras = intent.getExtras();

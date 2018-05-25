@@ -36,7 +36,7 @@ import java.util.List;
  */
 public class VoltageCl1 {
 
-    public static final String BACKUP_MTWEAKS = "/data/.mtweaks/cpuCl1_stock_voltage";
+    public static final String BACKUP = "/data/.mtweaks/cpuCl1_stock_voltage";
 
     public static final String CL1_VOLTAGE = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_volt_table";
 
@@ -90,7 +90,7 @@ public class VoltageCl1 {
     }
 
     public static List<String> getStockVoltages() {
-        String value = Utils.readFile(BACKUP_MTWEAKS);
+        String value = Utils.readFile(BACKUP);
         if (!value.isEmpty()) {
             String[] lines = value.split(sSplitNewline.get(PATH));
             List<String> voltages = new ArrayList<>();
