@@ -12,6 +12,7 @@
         <item name="android:textAlignment">gravity</item>
         <item name="android:textDirection">locale</item>
         <item name="dim_dialog_background">@color/dim_foreground_disabled_material_dark</item>
+        <item name="rcBackgroundColor">@color/rcBackground_light</item>
     </style>
 
     <style name="AppThemeDark" parent="Base.Theme.AppCompat">
@@ -26,6 +27,7 @@
         <item name="android:textAlignment">gravity</item>
         <item name="android:textDirection">locale</item>
         <item name="dim_dialog_background">@color/dim_foreground_disabled_material_light</item>
+        <item name="rcBackgroundColor">@color/rcBackground_dark</item>
     </style>
 
     <style name="AppThemeParent" parent="AppTheme" />

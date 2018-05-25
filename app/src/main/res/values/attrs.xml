@@ -19,5 +19,6 @@
     <attr name="banner_frame_drawable" format="reference" />
     <attr name="native_express_id" format="string" />
     <attr name="dim_dialog_background" format="color" />
+    <attr name="rcBackgroundColor" format="color"/>
 
 </resources>
