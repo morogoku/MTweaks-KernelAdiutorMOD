@@ -379,6 +379,16 @@
     <string name="max_cpu_online_little">Maximum LITTLE CPUs Online</string>
     <string name="max_cpu_online_little_summary">Maximum number of LITTLE CPUs that will be online.</string>
 
+    <!-- Hmp -->
+    <string name="hmp">HMP</string>
+    <string name="hmp_long">HMP (Heterogeneous Multi-Processing)</string>
+    <string name="hmp_desc">Adjust HMP ratios for up/down scaling for tasks migrating between LITTLE cores and big cores. Higher up-threshold values use less battery because use more of the power efficient Little cores.</string>
+    <string name="hmp_up_threshold">Up Threshold</string>
+    <string name="hmp_up_threshold_summary">Min load required for migrating tasks to the faster big cores.</string>
+    <string name="hmp_down_threshold">Down Threshold</string>
+    <string name="hmp_down_threshold_summary">Max load allowed for tasks migrating to the slower little cores.</string>
+    <string name="hmp_profile_summary">Select your profile for HMP thresholds.</string>
+
     <!--Thermal-->
     <string name="thermal_info">Use only one thermal driver from the following options, using more at the same time may cause unexpected behavior.</string>
     <string name="thermald">Thermald</string>

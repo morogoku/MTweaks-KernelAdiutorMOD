@@ -54,6 +54,7 @@ import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.mtweaks.fragments.kernel.EntropyFragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
 import com.moro.mtweaks.fragments.kernel.DvfsFragment;
+import com.moro.mtweaks.fragments.kernel.HmpFragment;
 import com.moro.mtweaks.fragments.kernel.IOFragment;
 import com.moro.mtweaks.fragments.kernel.KSMFragment;
 import com.moro.mtweaks.fragments.kernel.LEDFragment;
@@ -95,6 +96,7 @@ import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.entropy.Entropy;
 import com.moro.mtweaks.utils.kernel.gpu.GPU;
+import com.moro.mtweaks.utils.kernel.hmp.Hmp;
 import com.moro.mtweaks.utils.kernel.dvfs.Dvfs;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.utils.kernel.ksm.KSM;
@@ -200,6 +202,9 @@ public class NavigationActivity extends BaseActivity
         }
         if (Hotplug.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, CPUHotplugFragment.class, R.drawable.ic_switch));
+        }
+        if (Hmp.getInstance().supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.hmp, HmpFragment.class, R.drawable.ic_cpu));
         }
         if (Thermal.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.thermal, ThermalFragment.class, R.drawable.ic_temperature));
