@@ -66,6 +66,7 @@ import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.vm.ZSwap;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
+import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.io.File;
@@ -86,6 +87,11 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //Initialize Boeffla Wakelock Blocker Files
+        if(BoefflaWakelock.getInstance().supported()) {
+            BoefflaWakelock.getInstance().CopyWakelockBlockerDefault();
+        }
 
         // If setting is applied on boot, mAppliedOnBoot = 1
         int mAppliedOnboot = Utils.strToInt(RootUtils.getProp("mtweaks.applied_onboot"));

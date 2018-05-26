@@ -107,6 +107,7 @@ import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.kernel.thermal.Thermal;
 import com.moro.mtweaks.utils.kernel.wake.Wake;
+import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.kernel.wakelock.Wakelock;
 import com.moro.mtweaks.utils.root.RootUtils;
 import com.moro.mtweaks.utils.tools.Backup;
@@ -246,7 +247,7 @@ public class NavigationActivity extends BaseActivity
         if (LMK.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.lmk, LMKFragment.class, R.drawable.ic_stackoverflow));
         }
-        if (Wakelock.supported()) {
+        if (Wakelock.supported() || BoefflaWakelock.getInstance().supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.wakelock_nav, WakelockFragment.class, R.drawable.ic_unlock));
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.virtual_memory, VMFragment.class, R.drawable.ic_server));
