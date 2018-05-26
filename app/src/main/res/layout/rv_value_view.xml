@@ -43,6 +43,7 @@
                 <ImageView
                     android:layout_width="18dp"
                     android:layout_height="18dp"
+                    android:tint="?android:attr/textColorSecondary"
                     app:srcCompat="@drawable/ic_arrow_right" />
 
                 <TextView
