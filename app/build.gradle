@@ -18,8 +18,8 @@ android {
         applicationId 'com.moro.mtweaks'
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 256
-        versionName "2.5.6"
+        versionCode 260
+        versionName "2.6"
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
