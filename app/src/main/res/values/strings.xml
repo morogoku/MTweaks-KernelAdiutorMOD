@@ -830,6 +830,11 @@
     <string name="wkl_alert_checkbox">Show next time.</string>
 
     <!-- Virtual Memory -->
+    <string name="vm_tunables">VM Tunables</string>
+    <string name="vm_tun_switch_title">List of VM tunables</string>
+    <string name="vm_tun_switch_summary">Choose between displaying list with the most common settings, or all available settings (for advanced users).</string>
+    <string name="vm_tun_tit_all">All settings</string>
+    <string name="vm_tun_tit_common">Common settings</string>
     <string name="vm_tunnables">VM Tunnables</string>
     <string name="zram">Z-RAM</string>
     <string name="disksize">Disksize</string>

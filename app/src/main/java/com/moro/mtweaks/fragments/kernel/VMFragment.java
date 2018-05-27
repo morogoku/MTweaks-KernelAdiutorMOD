@@ -36,6 +36,7 @@ import com.moro.mtweaks.views.recyclerview.ProgressBarView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
+import com.moro.mtweaks.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,7 @@ import java.util.List;
 public class VMFragment extends RecyclerViewFragment {
 
     private List<GenericSelectView2> mVMs = new ArrayList<>();
+    private boolean mCompleteList;
 
     private Device.MemInfo mMemInfo;
     private ProgressBarView swap;
@@ -61,14 +63,13 @@ public class VMFragment extends RecyclerViewFragment {
 
     @Override
     protected void addItems(List<RecyclerViewItem> items) {
-        mVMs.clear();
 
         memBarsInit(items);
         if (ZRAM.supported()) {
             zramInit(items);
         }
         zswapInit(items);
-        vmTunnablesInit(items);
+        vmTunablesInit(items);
     }
 
     private void memBarsInit (List<RecyclerViewItem> items){
@@ -98,32 +99,62 @@ public class VMFragment extends RecyclerViewFragment {
         items.add(card);
     }
 
-    private void vmTunnablesInit (List<RecyclerViewItem> items){
-        CardView vmCard = new CardView(getActivity());
-        vmCard.setTitle(getString(R.string.vm_tunnables));
+    private void vmTunablesInit (List<RecyclerViewItem> items){
+        final CardView CardVm = new CardView(getActivity());
+        CardVm.setTitle(getString(R.string.vm_tunables));
 
-        for (int i = 0; i < VM.size(); i++) {
-            if (VM.exists(i)) {
-                GenericSelectView2 vm = new GenericSelectView2();
-                vm.setTitle(VM.getName(i));
-                vm.setValue(VM.getValue(i));
-                vm.setValueRaw(vm.getValue());
-                vm.setInputType(InputType.TYPE_CLASS_NUMBER);
+        CardVmTunablesInit(CardVm);
 
-                final int position = i;
-                vm.setOnGenericValueListener((genericSelectView, value) -> {
-                    VM.setValue(value, position, getActivity());
-                    genericSelectView.setValue(value);
-                    refreshVMs();
-                });
+        if (CardVm.size() > 0) {
+            items.add(CardVm);
+        }
+    }
 
-                vmCard.addItem(vm);
-                mVMs.add(vm);
-            }
+    private void CardVmTunablesInit(final CardView card) {
+        card.clearItems();
+        mVMs.clear();
+
+        mCompleteList = AppSettings.getBoolean("vm_show_complete_list", false, getActivity());
+
+        SwitchView sv = new SwitchView();
+        sv.setTitle(getString(R.string.vm_tun_switch_title));
+        sv.setSummary(getString(R.string.vm_tun_switch_summary));
+        sv.setChecked(mCompleteList);
+        sv.addOnSwitchListener((switchView, isChecked) -> {
+            mCompleteList = isChecked;
+            AppSettings.saveBoolean("vm_show_complete_list", mCompleteList, getActivity());
+            getHandler().postDelayed(() -> CardVmTunablesInit(card), 250);
+        });
+
+        card.addItem(sv);
+
+
+        TitleView tit = new TitleView();
+        if (mCompleteList) {
+            tit.setText(getString(R.string.vm_tun_tit_all));
+        }
+        else {
+            tit.setText(getString(R.string.vm_tun_tit_common));
         }
 
-        if (vmCard.size() > 0) {
-            items.add(vmCard);
+        card.addItem(tit);
+
+        for (int i = 0; i < VM.size(mCompleteList); i++) {
+            GenericSelectView2 vm = new GenericSelectView2();
+            vm.setTitle(VM.getName(i, mCompleteList));
+            vm.setValue(VM.getValue(i, mCompleteList));
+            vm.setValueRaw(vm.getValue());
+            vm.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+            final int position = i;
+            vm.setOnGenericValueListener((genericSelectView, value) -> {
+                VM.setValue(value, position, getActivity(), mCompleteList);
+                genericSelectView.setValue(value);
+                refreshVMs();
+            });
+
+            card.addItem(vm);
+            mVMs.add(vm);
         }
     }
 
@@ -242,7 +273,7 @@ public class VMFragment extends RecyclerViewFragment {
     private void refreshVMs() {
         getHandler().postDelayed(() -> {
             for (int i = 0; i < mVMs.size(); i++) {
-                mVMs.get(i).setValue(VM.getValue(i));
+                mVMs.get(i).setValue(VM.getValue(i, mCompleteList));
                 mVMs.get(i).setValueRaw(mVMs.get(i).getValue());
             }
         }, 250);
