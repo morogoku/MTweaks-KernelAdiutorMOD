@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.BatteryManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -98,6 +99,10 @@ public class OverallFragment extends RecyclerViewFragment {
     }
 
     private void statsInit(List<RecyclerViewItem> items) {
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
 
         //Initialize AppUpdate check
         AppUpdater appUpdater = new AppUpdater(getActivity());
