@@ -1,4 +1,4 @@
-package com.moro.mtweaks.utils.kernel.wakelock;
+package com.moro.mtweaks.utils.kernel.boefflawakelock;
 
 import android.content.Context;
 
@@ -9,7 +9,6 @@ import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -47,7 +46,7 @@ public class BoefflaWakelock {
         return Utils.readFile(VERSION);
     }
 
-    public void CopyWakelockBlockerDefault(){
+    public static void CopyWakelockBlockerDefault(){
         try {
             String wbd = Utils.readFile(WAKELOCK_BLOCKER_DEFAULT);
             if (!wbd.contentEquals("")) {
@@ -258,7 +257,7 @@ public class BoefflaWakelock {
     }
 
     private static void run(String command, String id, Context context) {
-        Control.runSetting(command, ApplyOnBootFragment.WAKELOCK, id, context);
+        Control.runSetting(command, ApplyOnBootFragment.BOEFFLA_WAKELOCK, id, context);
     }
 
     public static boolean supported() {

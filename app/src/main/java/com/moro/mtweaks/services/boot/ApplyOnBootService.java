@@ -41,7 +41,7 @@ import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
-import com.moro.mtweaks.utils.kernel.wakelock.BoefflaWakelock;
+import com.moro.mtweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
 import com.moro.mtweaks.utils.root.RootUtils;
 
 /**
@@ -81,8 +81,8 @@ public class ApplyOnBootService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         //Initialize Boeffla Wakelock Blocker Files
-        if(BoefflaWakelock.getInstance().supported()) {
-            BoefflaWakelock.getInstance().CopyWakelockBlockerDefault();
+        if(BoefflaWakelock.supported()) {
+            BoefflaWakelock.CopyWakelockBlockerDefault();
         }
 
         // Check if kernel is changed
