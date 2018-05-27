@@ -19,6 +19,8 @@
  */
 package com.moro.mtweaks.fragments.kernel;
 
+import android.text.InputType;
+
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.BaseFragment;
@@ -26,6 +28,7 @@ import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.io.IO;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
+import com.moro.mtweaks.views.recyclerview.GenericSelectView2;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
@@ -184,22 +187,14 @@ public class IOFragment extends RecyclerViewFragment {
         }
 
         if (mIO.hasNrRequests(storage)) {
-            SeekBarView NrRequests = new SeekBarView();
+            GenericSelectView2 NrRequests = new GenericSelectView2();
             NrRequests.setTitle(getString(R.string.nr_requests));
-            NrRequests.setSummary(getString(R.string.nr_requests_summary));
-            NrRequests.setMax(8192);
-            NrRequests.setMin(128);
-            NrRequests.setOffset(128);
-            NrRequests.setProgress(mIO.getNrRequests(storage) / 128 - 1);
-            NrRequests.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
-                @Override
-                public void onStop(SeekBarView seekBarView, int position, String value) {
-                    mIO.setNrRequests(storage, (position + 1) * 128, getActivity());
-                }
-
-                @Override
-                public void onMove(SeekBarView seekBarView, int position, String value) {
-                }
+            NrRequests.setValue(mIO.getNrRequests(storage));
+            NrRequests.setValueRaw(NrRequests.getValue());
+            NrRequests.setInputType(InputType.TYPE_CLASS_NUMBER);
+            NrRequests.setOnGenericValueListener((genericSelectView, value) -> {
+                mIO.setNrRequests(storage, value, getActivity());
+                genericSelectView.setValue(value);
             });
 
             io.addItem(NrRequests);
