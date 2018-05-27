@@ -242,11 +242,11 @@ public class MiscFragment extends RecyclerViewFragment {
         items.add(pwmCard);
     }
     private void powersuspendInit(List<RecyclerViewItem> items) {
+        String v = PowerSuspend.getVersion().replace("version: ", " v");
         CardView ps = new CardView(getActivity());
-        ps.setTitle(getString(R.string.power_suspend));
+        ps.setTitle(getString(R.string.power_suspend) + v);
 
         if (PowerSuspend.hasMode()) {
-            String v = PowerSuspend.getVersion();
             SelectView mode = new SelectView();
             mode.setTitle(getString(R.string.power_suspend_mode));
             mode.setSummary(getString(R.string.power_suspend_mode_summary));
