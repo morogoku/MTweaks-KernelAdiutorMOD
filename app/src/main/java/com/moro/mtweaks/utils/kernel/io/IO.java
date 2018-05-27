@@ -98,13 +98,13 @@ public class IO {
         return Utils.strToInt(Utils.readFile(getPath(storage, NOMERGES)));
     }
 
-    public void setNrRequests(Storage storage, int value, Context context) {
-        run(Control.write(String.valueOf(value), getPath(storage, NR_REQUESTS)),
+    public void setNrRequests(Storage storage, String value, Context context) {
+        run(Control.write(value, getPath(storage, NR_REQUESTS)),
                 getPath(storage, NR_REQUESTS), context);
     }
 
-    public int getNrRequests(Storage storage) {
-        return getReadahead(getPath(storage, NR_REQUESTS));
+    public String getNrRequests(Storage storage) {
+        return Utils.readFile(getPath(storage, NR_REQUESTS));
     }
 
     public boolean hasNrRequests(Storage storage) {
