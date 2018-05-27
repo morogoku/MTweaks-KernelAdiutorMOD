@@ -83,16 +83,6 @@ public class ApplyOnBootService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        //Initialize AppUpdate check
-        new AppUpdater(this)
-                //.setDisplay(Display.SNACKBAR)
-                //.setDisplay(Display.DIALOG)
-                .setDisplay(Display.NOTIFICATION)
-                .setUpdateFrom(UpdateFrom.JSON)
-                .setIcon(R.drawable.logo)
-                .setUpdateJSON("https://raw.githubusercontent.com/morogoku/MTweaks-KernelAdiutorMOD/master/app/update.json")
-                .start();
-
         //Initialize Boeffla Wakelock Blocker Files
         if(BoefflaWakelock.supported()) {
             BoefflaWakelock.CopyWakelockBlockerDefault();
