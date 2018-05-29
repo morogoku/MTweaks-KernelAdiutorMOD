@@ -15,7 +15,7 @@ android {
     compileSdkVersion 27
     buildToolsVersion "27.0.3"
     defaultConfig {
-        applicationId "com.grarak.kerneladiutor"
+        applicationId 'com.moro.mtweaks'
         minSdkVersion 15
         targetSdkVersion 27
         versionCode 265
@@ -35,6 +35,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    productFlavors {
     }
 }
 
@@ -68,7 +70,6 @@ dependencies {
     implementation 'org.cyanogenmod:platform.sdk:5.0.1'
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
-
     testImplementation 'junit:junit:4.12'
 }
 
