@@ -38,6 +38,11 @@ android {
     }
     productFlavors {
     }
+    android.applicationVariants.all { final variant ->
+        variant.outputs.all {
+            outputFileName = "MTweaks_v${variant.versionName}.apk"
+        }
+    }
 }
 
 repositories {
