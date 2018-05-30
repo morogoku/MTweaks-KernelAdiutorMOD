@@ -278,7 +278,7 @@ public class VMFragment extends RecyclerViewFragment {
             }
         }, 250);
     }
-
+/*
     protected void refresh() {
         super.refresh();
 
@@ -293,5 +293,5 @@ public class VMFragment extends RecyclerViewFragment {
             mem.setItems(total, progress);
         }
     }
-
+*/
 }
