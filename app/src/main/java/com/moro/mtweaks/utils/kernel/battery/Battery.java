@@ -67,6 +67,7 @@ public class Battery {
     private static final String S7_CAR_INPUT = CHARGE_S7 + "/car_input";
     private static final String S7_CAR_CHARGE = CHARGE_S7 + "/car_charge";
     private static final String S7_CHARGE_SOURCE = CHARGE_S7 + "/power_supply/battery/batt_charging_source";
+    private static final String S7_FG_FULLCAPNOM = CHARGE_S7 + "/power_supply/battery/fg_fullcapnom";
     private static final String S7_STORE_MODE = "/sys/devices/battery/power_supply/battery/store_mode";
     private static final String S7_STORE_MODE_MAX = "/sys/module/sec_battery/parameters/store_mode_max";
     private static final String S7_STORE_MODE_MIN = "/sys/module/sec_battery/parameters/store_mode_min";
@@ -86,6 +87,12 @@ public class Battery {
                 mCapacity = 0;
             }
         }
+    }
+
+    public String getHealthValue() {
+        float cap = Utils.strToInt(Utils.readFile(S7_FG_FULLCAPNOM));
+        float value = ((cap * 2) / getCapacity()) * 100;
+        return String.format("%.2f", value);
     }
 
     public void saveS7StockValues(Context context) {
