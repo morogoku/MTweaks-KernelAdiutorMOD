@@ -69,6 +69,7 @@ public class Misc {
 
     private String LOGGER_FILE;
     private String CRC_FILE;
+    private Boolean CRC_USE_INTEGER;
     private String FSYNC_FILE;
     private Boolean FSYNC_USE_INTEGER;
 
@@ -83,6 +84,7 @@ public class Misc {
         for (String file : mCrcs) {
             if (Utils.existFile(file)) {
                 CRC_FILE = file;
+                CRC_USE_INTEGER = Character.isDigit(Utils.readFile(CRC_FILE).toCharArray()[0]);
                 break;
             }
         }
@@ -174,11 +176,12 @@ public class Misc {
     }
 
     public void enableCrc(boolean enable, Context context) {
-        run(Control.write(enable ? "1" : "0", CRC_FILE), CRC_FILE, context);
+        run(Control.write(CRC_USE_INTEGER ? enable ? "1" : "0" : enable ? "Y" : "N", CRC_FILE),
+                CRC_FILE, context);
     }
 
     public boolean isCrcEnabled() {
-        return Utils.readFile(CRC_FILE).equals("1");
+        return Utils.readFile(CRC_FILE).equals(CRC_USE_INTEGER ? "1" : "Y");
     }
 
     public boolean hasCrc() {
