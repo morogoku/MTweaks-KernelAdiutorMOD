@@ -411,6 +411,7 @@
   <string name="workload_summary">Adreno Idler tratará de reducir la frecuencia más activamente si éste se establece en un valor más alto.</string>
   <string name="gov_tunables">Ajustes de Gobernador</string>
   <string name="gpu_voltage">Control Voltaje GPU</string>
+  <string name="gpu_volts">Voltages GPU</string>
   <string name="gpu_power_policy_card">Control GPU Power Policy</string>
   <string name="gpu_power_policy">Control Mali Power Policy</string>
   <string name="gpu_power_policy_summary">COARSE DEMAND es para controlar solamente la energía externa (PMU para G3D). Es mejor en ahorro de energía y rendimiento. COARSE DEMAND apaga la GPU en caso de no haber trabajo durante 100ms y la enciende en cuanto entra un nuevo trabajo. Por defecto: COARSE DEMAND</string>

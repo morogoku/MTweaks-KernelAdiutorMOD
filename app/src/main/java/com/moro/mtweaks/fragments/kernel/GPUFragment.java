@@ -105,12 +105,8 @@ public class GPUFragment extends RecyclerViewFragment {
         aB.setSummary(getString(R.string.gpu_adreno_boost_summary));
         aB.setItems(Arrays.asList(getResources().getStringArray(R.array.gpu_adreno_boost)));
         aB.setItem(AdrenoBoost.getAdrenoBoost(getActivity()));
-        aB.setOnItemSelected(new SelectView.OnItemSelected() {
-            @Override
-            public void onItemSelected(SelectView selectView, int position, String item) {
-                AdrenoBoost.setAdrenoBoost(position, getActivity());
-            }
-        });
+        aB.setOnItemSelected((selectView, position, item)
+                -> AdrenoBoost.setAdrenoBoost(position, getActivity()));
 
         abCard.addItem(aB);
 
@@ -154,7 +150,7 @@ public class GPUFragment extends RecyclerViewFragment {
             maxFreq.setItems(GPUFreqExynos.getAdjustedFreqs(getActivity()));
             maxFreq.setItem((GPUFreqExynos.getMaxFreq() / GPUFreqExynos.getMaxFreqOffset()) + getString(R.string.mhz));
             maxFreq.setOnItemSelected((selectView, position, item)
-                    -> GPUFreqExynos.setMaxFreq(GPUFreqExynos.getAvailableFreqs().get(position), getActivity()));
+                    -> GPUFreqExynos.setMaxFreq(Objects.requireNonNull(GPUFreqExynos.getAvailableFreqs()).get(position), getActivity()));
 
             freqCard.addItem(maxFreq);
         }
@@ -166,7 +162,7 @@ public class GPUFragment extends RecyclerViewFragment {
             minFreq.setItems(GPUFreqExynos.getAdjustedFreqs(getActivity()));
             minFreq.setItem((GPUFreqExynos.getMinFreq() / GPUFreqExynos.getMinFreqOffset()) + getString(R.string.mhz));
             minFreq.setOnItemSelected((selectView, position, item)
-                    -> GPUFreqExynos.setMinFreq(GPUFreqExynos.getAvailableFreqs().get(position), getActivity()));
+                    -> GPUFreqExynos.setMinFreq(Objects.requireNonNull(GPUFreqExynos.getAvailableFreqs()).get(position), getActivity()));
 
             freqCard.addItem(minFreq);
         }
@@ -376,7 +372,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
 
             TitleView tunables = new TitleView();
-            tunables.setText(getString(R.string.cpuCl1_volt));
+            tunables.setText(getString(R.string.gpu_volts));
             items.add(tunables);
 
             for (int i = 0; i < freqs.size(); i++) {
@@ -419,12 +415,7 @@ public class GPUFragment extends RecyclerViewFragment {
                     GPUFreqExynos.setVoltage(freq, volt, getActivity());
                     AppSettings.saveInt("gpu_seekbarPref_value", position, getActivity());
                 }
-                getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        reload();
-                    }
-                }, 200);
+                getHandler().postDelayed(() -> reload(), 200);
             }
             @Override
             public void onMove(SeekBarView seekBarView, int position, String value) {
@@ -469,12 +460,7 @@ public class GPUFragment extends RecyclerViewFragment {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
                 GPUFreqExynos.setVoltage(freq, value, getActivity());
-            getHandler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    reload();
-                }
-            }, 200);
+            getHandler().postDelayed(() -> reload(), 200);
             }
 
             @Override
@@ -669,7 +655,9 @@ public class GPUFragment extends RecyclerViewFragment {
             }
 
             int freq = GPUFreqExynos.getCurFreq();
-            float maxFreq = GPUFreqExynos.getAvailableFreqsSort().get(GPUFreqExynos.getAvailableFreqsSort().size() - 1);
+            float maxFreq = Objects
+                    .requireNonNull(GPUFreqExynos.getAvailableFreqsSort())
+                    .get(Objects.requireNonNull(GPUFreqExynos.getAvailableFreqsSort()).size() - 1);
             text += freq / GPUFreqExynos.getCurFreqOffset() + getString(R.string.mhz);
             mCurFreq.setText(text);
             float per = (float) freq / maxFreq * 100f;
