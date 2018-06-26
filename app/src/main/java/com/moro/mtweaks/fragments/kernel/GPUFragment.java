@@ -318,7 +318,7 @@ public class GPUFragment extends RecyclerViewFragment {
             maxFreq.setTitle(getString(R.string.gpu_max_freq));
             maxFreq.setSummary(getString(R.string.gpu_max_freq_summary));
             maxFreq.setItems(GPUFreqExynos.getAdjustedFreqs(getActivity()));
-            maxFreq.setItem((GPUFreqExynos.getMaxFreq() / GPUFreqExynos.getMaxFreqOffset()) + getString(R.string.mhz));
+            maxFreq.setItem(GPUFreqExynos.getMaxFreq() + getString(R.string.mhz));
             maxFreq.setOnItemSelected((selectView, position, item)
                     -> GPUFreqExynos.setMaxFreq(Objects.requireNonNull(GPUFreqExynos.getAvailableFreqs()).get(position), getActivity()));
 
@@ -330,7 +330,7 @@ public class GPUFragment extends RecyclerViewFragment {
             minFreq.setTitle(getString(R.string.gpu_min_freq));
             minFreq.setSummary(getString(R.string.gpu_min_freq_summary));
             minFreq.setItems(GPUFreqExynos.getAdjustedFreqs(getActivity()));
-            minFreq.setItem((GPUFreqExynos.getMinFreq() / GPUFreqExynos.getMinFreqOffset()) + getString(R.string.mhz));
+            minFreq.setItem(GPUFreqExynos.getMinFreq() + getString(R.string.mhz));
             minFreq.setOnItemSelected((selectView, position, item)
                     -> GPUFreqExynos.setMinFreq(Objects.requireNonNull(GPUFreqExynos.getAvailableFreqs()).get(position), getActivity()));
 

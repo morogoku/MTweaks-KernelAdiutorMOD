@@ -47,6 +47,13 @@ public class GPUFreqTmu {
     private static final String THROTTLING4_S8 = "/sys/devices/platform/13900000.mali/throttling4";
     private static final String TRIPPING_S8 = "/sys/devices/platform/13900000.mali/tripping";
 
+    private static final String TMU_S9 = "/sys/devices/platform/17500000.mali/tmu";
+    private static final String THROTTLING1_S9 = "/sys/devices/platform/17500000.mali/throttling1";
+    private static final String THROTTLING2_S9 = "/sys/devices/platform/17500000.mali/throttling2";
+    private static final String THROTTLING3_S9 = "/sys/devices/platform/17500000.mali/throttling3";
+    private static final String THROTTLING4_S9 = "/sys/devices/platform/17500000.mali/throttling4";
+    private static final String TRIPPING_S9 = "/sys/devices/platform/17500000.mali/tripping";
+
     private static final List<String> sTmu = new ArrayList<>();
     private static final List<String> sThrottling1 = new ArrayList<>();
     private static final List<String> sThrottling2 = new ArrayList<>();
@@ -58,21 +65,27 @@ public class GPUFreqTmu {
     static {
         sTmu.add(TMU_S7);
         sTmu.add(TMU_S8);
+        sTmu.add(TMU_S9);
 
         sThrottling1.add(THROTTLING1_S7);
         sThrottling1.add(THROTTLING1_S8);
+        sThrottling1.add(THROTTLING1_S9);
 
         sThrottling2.add(THROTTLING2_S7);
         sThrottling2.add(THROTTLING2_S8);
+        sThrottling2.add(THROTTLING2_S9);
 
         sThrottling3.add(THROTTLING3_S7);
         sThrottling3.add(THROTTLING3_S8);
+        sThrottling3.add(THROTTLING3_S9);
 
         sThrottling4.add(THROTTLING4_S7);
         sThrottling4.add(THROTTLING4_S8);
+        sThrottling4.add(THROTTLING4_S9);
 
         sTripping.add(TRIPPING_S7);
         sTripping.add(TRIPPING_S8);
+        sTripping.add(TRIPPING_S9);
         }
 
     private static String TMU;
@@ -204,8 +217,7 @@ public class GPUFreqTmu {
     }
 
     public static boolean supported() {
-        return hasThrottling1() || hasThrottling2() || hasThrottling3() || hasThrottling4()
-                || hasTmu();
+        return hasThrottling1() || hasThrottling2() || hasThrottling3() || hasThrottling4();
     }
 
     private static void run(String command, String id, Context context) {

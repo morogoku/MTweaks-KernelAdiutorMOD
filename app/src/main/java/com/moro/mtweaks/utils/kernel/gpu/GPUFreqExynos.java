@@ -25,7 +25,6 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
-import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -39,13 +38,18 @@ public class GPUFreqExynos {
 
     public static final String BACKUP = "/data/.mtweaks/gpu_stock_voltage";
 
-    private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
+    private static final String MAX_FREQ_STOCK = "/sys/kernel/gpu/gpu_max_clock";
+    private static final String MIN_FREQ_STOCK = "/sys/kernel/gpu/gpu_min_clock";
+    private static final String AVAILABLE_FREQS_STOCK = "/sys/kernel/gpu/gpu_freq_table";
+
     private static final String MAX_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_max_clock";
-    private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String MIN_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_min_clock";
+    private static final String AVAILABLE_S7_FREQS_STOCK = "/sys/devices/platform/gpusysfs/gpu_freq_table";
+
+    private static final String MAX_S7_FREQ = "/sys/devices/14ac0000.mali/max_clock";
+    private static final String MIN_S7_FREQ = "/sys/devices/14ac0000.mali/min_clock";
     private static final String CUR_S7_FREQ = "/sys/devices/14ac0000.mali/clock";
     private static final String AVAILABLE_S7_FREQS = "/sys/devices/14ac0000.mali/volt_table";
-    private static final String AVAILABLE_S7_FREQS_STOCK = "/sys/devices/platform/gpusysfs/gpu_freq_table";
     private static final String AVAILABLE_S7_GOVERNORS = "/sys/devices/14ac0000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_S7_CLOCK = "/sys/devices/14ac0000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_S7_LOAD = "/sys/devices/14ac0000.mali/highspeed_load";
@@ -53,24 +57,31 @@ public class GPUFreqExynos {
     private static final String POWER_POLICY_S7 = "/sys/devices/14ac0000.mali/power_policy";
 
     private static final String MAX_S8_FREQ = "/sys/devices/platform/13900000.mali/max_clock";
-    private static final String MAX_S8_FREQ_STOCK = "/sys/kernel/gpu/gpu_max_clock";
     private static final String MIN_S8_FREQ = "/sys/devices/platform/13900000.mali/min_clock";
-    private static final String MIN_S8_FREQ_STOCK = "/sys/kernel/gpu/gpu_min_clock";
     private static final String CUR_S8_FREQ = "/sys/devices/platform/13900000.mali/clock";
     private static final String AVAILABLE_S8_FREQS = "/sys/devices/platform/13900000.mali/volt_table";
-    private static final String AVAILABLE_S8_FREQS_STOCK = "/sys/kernel/gpu/gpu_freq_table";
     private static final String AVAILABLE_S8_GOVERNORS = "/sys/devices/platform/13900000.mali/dvfs_governor";
     private static final String TUNABLE_HIGHSPEED_S8_CLOCK = "/sys/devices/platform/13900000.mali/highspeed_clock";
     private static final String TUNABLE_HIGHSPEED_S8_LOAD = "/sys/devices/platform/13900000.mali/highspeed_load";
     private static final String TUNABLE_HIGHSPEED_S8_DELAY = "/sys/devices/platform/13900000.mali/highspeed_delay";
     private static final String POWER_POLICY_S8 = "/sys/devices/platform/13900000.mali/power_policy";
 
+    private static final String MAX_S9_FREQ = "/sys/devices/platform/17500000.mali/max_clock";
+    private static final String MIN_S9_FREQ = "/sys/devices/platform/17500000.mali/min_clock";
+    private static final String CUR_S9_FREQ = "/sys/devices/platform/17500000.mali/clock";
+    private static final String AVAILABLE_S9_FREQS = "/sys/devices/platform/17500000.mali/volt_table";
+    private static final String AVAILABLE_S9_GOVERNORS = "/sys/devices/platform/17500000.mali/dvfs_governor";
+    private static final String TUNABLE_HIGHSPEED_S9_CLOCK = "/sys/devices/platform/17500000.mali/highspeed_clock";
+    private static final String TUNABLE_HIGHSPEED_S9_LOAD = "/sys/devices/platform/17500000.mali/highspeed_load";
+    private static final String TUNABLE_HIGHSPEED_S9_DELAY = "/sys/devices/platform/17500000.mali/highspeed_delay";
+    private static final String POWER_POLICY_S9 = "/sys/devices/platform/17500000.mali/power_policy";
+
 
     private static final HashMap<String, Integer> sAvailableVolts = new HashMap<>();
     private static final HashMap<String, Integer> sCurrentFreqs = new HashMap<>();
-    private static final HashMap<String, Integer> sMaxFreqs = new HashMap<>();
-    private static final HashMap<String, Integer> sMinFreqs = new HashMap<>();
-    private static final HashMap<String, Integer> sAvailableFreqs = new HashMap<>();
+    private static final List<String> sMaxFreqs = new ArrayList<>();
+    private static final List<String> sMinFreqs = new ArrayList<>();
+    private static final List<String> sAvailableFreqs = new ArrayList<>();
     private static final List<String> sScalingGovernors = new ArrayList<>();
     private static final HashMap<String, Integer> sTunableHighspeedClocks = new HashMap<>();
     private static final HashMap<String, Integer> sTunableHighspeedLoads = new HashMap<>();
@@ -80,48 +91,49 @@ public class GPUFreqExynos {
     static {
         sAvailableVolts.put(AVAILABLE_S7_FREQS, 1000);
         sAvailableVolts.put(AVAILABLE_S8_FREQS, 1000);
+        sAvailableVolts.put(AVAILABLE_S9_FREQS, 1000);
 
         sCurrentFreqs.put(CUR_S7_FREQ, 1);
         sCurrentFreqs.put(CUR_S8_FREQ, 1);
+        sCurrentFreqs.put(CUR_S9_FREQ, 1);
 
-        if (Utils.existFile(MAX_S7_FREQ) || Utils.existFile(MAX_S8_FREQ)) {
-            sMaxFreqs.put(MAX_S7_FREQ, 1);
-            sMaxFreqs.put(MAX_S8_FREQ, 1);
-        } else {
-            sMaxFreqs.put(MAX_S7_FREQ_STOCK, 1);
-            sMaxFreqs.put(MAX_S8_FREQ_STOCK, 1);
-        }
+        sMaxFreqs.add(MAX_S7_FREQ);
+        sMaxFreqs.add(MAX_S8_FREQ);
+        sMaxFreqs.add(MAX_S9_FREQ);
+        sMaxFreqs.add(MAX_S7_FREQ_STOCK);
+        sMaxFreqs.add(MAX_FREQ_STOCK);
 
-        if (Utils.existFile(MIN_S7_FREQ) || Utils.existFile(MIN_S8_FREQ)) {
-            sMinFreqs.put(MIN_S7_FREQ, 1);
-            sMinFreqs.put(MIN_S8_FREQ, 1);
-        } else {
-            sMinFreqs.put(MIN_S7_FREQ_STOCK, 1);
-            sMinFreqs.put(MIN_S8_FREQ_STOCK, 1);
-        }
+        sMinFreqs.add(MIN_S7_FREQ);
+        sMinFreqs.add(MIN_S8_FREQ);
+        sMinFreqs.add(MIN_S9_FREQ);
+        sMinFreqs.add(MIN_S7_FREQ_STOCK);
+        sMinFreqs.add(MIN_FREQ_STOCK);
 
-        if (Utils.existFile(AVAILABLE_S7_FREQS) || Utils.existFile(AVAILABLE_S8_FREQS)) {
-            sAvailableFreqs.put(AVAILABLE_S7_FREQS, 1);
-            sAvailableFreqs.put(AVAILABLE_S8_FREQS, 1);
-        } else {
-            sAvailableFreqs.put(AVAILABLE_S7_FREQS_STOCK, 1);
-            sAvailableFreqs.put(AVAILABLE_S8_FREQS_STOCK, 1);
-        }
+        sAvailableFreqs.add(AVAILABLE_S7_FREQS);
+        sAvailableFreqs.add(AVAILABLE_S8_FREQS);
+        sAvailableFreqs.add(AVAILABLE_S9_FREQS);
+        sAvailableFreqs.add(AVAILABLE_S7_FREQS_STOCK);
+        sAvailableFreqs.add(AVAILABLE_FREQS_STOCK);
 
         sScalingGovernors.add(AVAILABLE_S7_GOVERNORS);
         sScalingGovernors.add(AVAILABLE_S8_GOVERNORS);
+        sScalingGovernors.add(AVAILABLE_S9_GOVERNORS);
 
         sTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S7_CLOCK, 1);
         sTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S8_CLOCK, 1);
+        sTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S9_CLOCK, 1);
 
         sTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S7_LOAD, 1);
         sTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S8_LOAD, 1);
+        sTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S9_LOAD, 1);
 
         sTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S7_DELAY, 1);
         sTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S8_DELAY, 1);
+        sTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S9_DELAY, 1);
 
         sPowerPolicies.put(POWER_POLICY_S7, 1);
         sPowerPolicies.put(POWER_POLICY_S8, 1);
+        sPowerPolicies.put(POWER_POLICY_S9, 1);
     }
 
     public static String AVAILABLE_VOLTS;
@@ -131,19 +143,12 @@ public class GPUFreqExynos {
     private static List<Integer> AVAILABLE_FREQS;
     private static List<Integer> AVAILABLE_FREQS_SORT;
     private static String MAX_FREQ;
-    private static Integer MAX_FREQ_OFFSET;
     private static String MIN_FREQ;
-    private static Integer MIN_FREQ_OFFSET;
     private static String GOVERNOR;
-    private static Integer AVAILABLE_GOVERNORS_OFFSET;
     private static String TUNABLE_HIGHSPEED_CLOCK;
-    private static int TUNABLE_HIGHSPEED_CLOCK_OFFSET;
     private static String TUNABLE_HIGHSPEED_LOAD;
-    private static int TUNABLE_HIGHSPEED_LOAD_OFFSET;
     private static String TUNABLE_HIGHSPEED_DELAY;
-    private static int TUNABLE_HIGHSPEED_DELAY_OFFSET;
     private static String POWER_POLICY;
-    private static int POWER_POLICY_OFFSET;
 
     private static String SPLIT_NEW_LINE = "\\r?\\n";
     private static String SPLIT_LINE = " ";
@@ -212,20 +217,15 @@ public class GPUFreqExynos {
         run(Control.write(String.valueOf(value), MIN_FREQ), MIN_FREQ, context);
     }
 
-    public static int getMinFreqOffset() {
-        return MIN_FREQ_OFFSET;
-    }
-
     public static int getMinFreq() {
         return Utils.strToInt(Utils.readFile(MIN_FREQ));
     }
 
     public static boolean hasMinFreq() {
         if (MIN_FREQ == null) {
-            for (String file : sMinFreqs.keySet()) {
+            for (String file : sMinFreqs) {
                 if (Utils.existFile(file)) {
                     MIN_FREQ = file;
-                    MIN_FREQ_OFFSET = sMinFreqs.get(file);
                     return true;
                 }
             }
@@ -237,20 +237,15 @@ public class GPUFreqExynos {
         run(Control.write(String.valueOf(value), MAX_FREQ), MAX_FREQ, context);
     }
 
-    public static int getMaxFreqOffset() {
-        return MAX_FREQ_OFFSET;
-    }
-
     public static int getMaxFreq() {
         return Utils.strToInt(Utils.readFile(MAX_FREQ));
     }
 
     public static boolean hasMaxFreq() {
         if (MAX_FREQ == null) {
-            for (String file : sMaxFreqs.keySet()) {
+            for (String file : sMaxFreqs) {
                 if (Utils.existFile(file)) {
                     MAX_FREQ = file;
-                    MAX_FREQ_OFFSET = sMaxFreqs.get(file);
                     return true;
                 }
             }
@@ -262,7 +257,7 @@ public class GPUFreqExynos {
         List<String> list = new ArrayList<>();
         if (getAvailableFreqs() != null) {
             for (int freq : getAvailableFreqs()) {
-                list.add((freq / AVAILABLE_GOVERNORS_OFFSET) + context.getString(R.string.mhz));
+                list.add(freq + context.getString(R.string.mhz));
             }
         }
         return list;
@@ -272,7 +267,7 @@ public class GPUFreqExynos {
         List<String> list = new ArrayList<>();
         if (getAvailableFreqs() != null) {
             for (int freq : getAvailableFreqs()) {
-                list.add(String.valueOf(freq / AVAILABLE_GOVERNORS_OFFSET));
+                list.add(String.valueOf(freq));
             }
         }
         Collections.sort(list);
@@ -281,23 +276,22 @@ public class GPUFreqExynos {
 
     public static List<Integer> getAvailableFreqs() {
         if (AVAILABLE_FREQS == null) {
-            for (String file : sAvailableFreqs.keySet()) {
+            for (String file : sAvailableFreqs) {
                 if (Utils.existFile(file)) {
-                    if ((file.equals(AVAILABLE_S7_FREQS)) || (file.equals(AVAILABLE_S8_FREQS))) {
+                    if ((file.equals(AVAILABLE_S7_FREQS_STOCK)) || (file.equals(AVAILABLE_FREQS_STOCK))){
+                        String freqs[] = Utils.readFile(file).split(" ");
+                        AVAILABLE_FREQS = new ArrayList<>();
+                        for (String freq : freqs) {
+                            AVAILABLE_FREQS.add(Utils.strToInt(freq.trim()));
+                        }
+                    } else {
                         String freqs[] = Utils.readFile(file).split("\\r?\\n");
                         AVAILABLE_FREQS = new ArrayList<>();
                         for (String freq : freqs) {
                             String[] freqLine = freq.split(" ");
                             AVAILABLE_FREQS.add(Utils.strToInt(freqLine[0].trim()));
                         }
-                    } else if ((file.equals(AVAILABLE_S7_FREQS_STOCK)) || (file.equals(AVAILABLE_S8_FREQS_STOCK))){
-                        String freqs[] = Utils.readFile(file).split(" ");
-                        AVAILABLE_FREQS = new ArrayList<>();
-                        for (String freq : freqs) {
-                            AVAILABLE_FREQS.add(Utils.strToInt(freq.trim()));
-                        }
                     }
-                    AVAILABLE_GOVERNORS_OFFSET = sAvailableFreqs.get(file);
                     break;
                 }
             }
@@ -308,23 +302,22 @@ public class GPUFreqExynos {
 
     public static List<Integer> getAvailableFreqsSort() {
         if (AVAILABLE_FREQS_SORT == null) {
-            for (String file : sAvailableFreqs.keySet()) {
+            for (String file : sAvailableFreqs) {
                 if (Utils.existFile(file)) {
-                    if ((file.equals(AVAILABLE_S7_FREQS)) || (file.equals(AVAILABLE_S8_FREQS))) {
+                    if ((file.equals(AVAILABLE_S7_FREQS_STOCK)) || (file.equals(AVAILABLE_FREQS_STOCK))){
+                        String freqs[] = Utils.readFile(file).split(" ");
+                        AVAILABLE_FREQS_SORT = new ArrayList<>();
+                        for (String freq : freqs) {
+                            AVAILABLE_FREQS_SORT.add(Utils.strToInt(freq.trim()));
+                        }
+                    } else {
                         String freqs[] = Utils.readFile(file).split("\\r?\\n");
                         AVAILABLE_FREQS_SORT = new ArrayList<>();
                         for (String freq : freqs) {
                             String[] freqLine = freq.split(" ");
                             AVAILABLE_FREQS_SORT.add(Utils.strToInt(freqLine[0].trim()));
                         }
-                    } else if ((file.equals(AVAILABLE_S7_FREQS_STOCK)) || (file.equals(AVAILABLE_S8_FREQS_STOCK))){
-                        String freqs[] = Utils.readFile(file).split(" ");
-                        AVAILABLE_FREQS_SORT = new ArrayList<>();
-                        for (String freq : freqs) {
-                            AVAILABLE_FREQS_SORT.add(Utils.strToInt(freq.trim()));
-                        }
                     }
-                    AVAILABLE_GOVERNORS_OFFSET = sAvailableFreqs.get(file);
                     break;
                 }
             }
@@ -368,7 +361,6 @@ public class GPUFreqExynos {
             for (String file : sTunableHighspeedClocks.keySet()) {
                 if (Utils.existFile(file)) {
                     TUNABLE_HIGHSPEED_CLOCK = file;
-                    TUNABLE_HIGHSPEED_CLOCK_OFFSET = sTunableHighspeedClocks.get(file);
                     return true;
                 }
             }
@@ -389,7 +381,6 @@ public class GPUFreqExynos {
             for (String file : sTunableHighspeedLoads.keySet()) {
                 if (Utils.existFile(file)) {
                     TUNABLE_HIGHSPEED_LOAD = file;
-                    TUNABLE_HIGHSPEED_LOAD_OFFSET = sTunableHighspeedLoads.get(file);
                     return true;
                 }
             }
@@ -410,7 +401,6 @@ public class GPUFreqExynos {
             for (String file : sTunableHighspeedDelays.keySet()) {
                 if (Utils.existFile(file)) {
                     TUNABLE_HIGHSPEED_DELAY = file;
-                    TUNABLE_HIGHSPEED_DELAY_OFFSET = sTunableHighspeedDelays.get(file);
                     return true;
                 }
             }
@@ -498,7 +488,6 @@ public class GPUFreqExynos {
             for (String file : sPowerPolicies.keySet()) {
                 if (Utils.existFile(file)) {
                     POWER_POLICY = file;
-                    POWER_POLICY_OFFSET = sPowerPolicies.get(file);
                     return true;
                 }
             }
