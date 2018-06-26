@@ -268,6 +268,17 @@ public class GPUFreqExynos {
         return list;
     }
 
+    public static List<String> getFreqs() {
+        List<String> list = new ArrayList<>();
+        if (getAvailableFreqs() != null) {
+            for (int freq : getAvailableFreqs()) {
+                list.add(String.valueOf(freq / AVAILABLE_GOVERNORS_OFFSET));
+            }
+        }
+        Collections.sort(list);
+        return list;
+    }
+
     public static List<Integer> getAvailableFreqs() {
         if (AVAILABLE_FREQS == null) {
             for (String file : sAvailableFreqs.keySet()) {

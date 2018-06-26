@@ -29,6 +29,7 @@ import com.moro.mtweaks.utils.kernel.gpu.AdrenoIdler;
 import com.moro.mtweaks.utils.kernel.gpu.AdrenoBoost;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
+import com.moro.mtweaks.utils.kernel.gpu.GPUFreqTmu;
 import com.moro.mtweaks.utils.kernel.gpu.SimpleGPU;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
@@ -82,6 +83,9 @@ public class GPUFragment extends RecyclerViewFragment {
         if (GPUFreqExynos.hasGovernor()){
             governorInit(items);
         }
+        if (GPUFreqTmu.supported()){
+            throttlingInit(items);
+        }
         if (GPUFreqExynos.hasVoltage()){
             voltageInit(items);
         }
@@ -93,6 +97,172 @@ public class GPUFragment extends RecyclerViewFragment {
         }
         if (AdrenoBoost.hasAdrenoBoost()) {
             adrenoboostInit(items);
+        }
+    }
+
+    private void throttlingInit(List<RecyclerViewItem> items) {
+        CardView thrott = new CardView(getActivity());
+        thrott.setTitle(getString(R.string.gpu_throttling));
+
+        DescriptionView desc = new DescriptionView();
+        desc.setSummary(getString(R.string.gpu_throttling_summary));
+        thrott.addItem(desc);
+
+        if(GPUFreqTmu.hasTmu()) {
+            SwitchView tmu = new SwitchView();
+            tmu.setTitle(getString(R.string.gpu_tmu));
+            tmu.setSummary(getString(R.string.gpu_tmu_summary));
+            tmu.setChecked(GPUFreqTmu.isTmuEnabled());
+            tmu.addOnSwitchListener((switchView, isChecked)
+                    -> GPUFreqTmu.enableTmu(isChecked, getActivity()));
+
+            thrott.addItem(tmu);
+        }
+
+
+        int value = 0;
+        List<String> freqs = GPUFreqExynos.getFreqs();
+        List<Integer> list = GPUFreqExynos.getAvailableFreqsSort();
+        if(list != null) {
+
+            if(GPUFreqTmu.hasThrottling1()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i) == GPUFreqTmu.getThrottling1()) {
+                        value = i;
+                    }
+                }
+
+                SeekBarView th1 = new SeekBarView();
+                th1.setTitle(getString(R.string.gpu_throttling1));
+                th1.setSummary(getString(R.string.gpu_throttling1_summary));
+                th1.setUnit(getString(R.string.mhz));
+                th1.setItems(freqs);
+                th1.setProgress(value);
+                th1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreqTmu.setThrottling1(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                thrott.addItem(th1);
+            }
+
+            if(GPUFreqTmu.hasThrottling2()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i) == GPUFreqTmu.getThrottling2()) {
+                        value = i;
+                    }
+                }
+
+                SeekBarView th2 = new SeekBarView();
+                th2.setTitle(getString(R.string.gpu_throttling2));
+                th2.setSummary(getString(R.string.gpu_throttling2_summary));
+                th2.setUnit(getString(R.string.mhz));
+                th2.setItems(freqs);
+                th2.setProgress(value);
+                th2.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreqTmu.setThrottling2(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                thrott.addItem(th2);
+            }
+
+            if(GPUFreqTmu.hasThrottling3()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i) == GPUFreqTmu.getThrottling3()) {
+                        value = i;
+                    }
+                }
+
+                SeekBarView th3 = new SeekBarView();
+                th3.setTitle(getString(R.string.gpu_throttling3));
+                th3.setSummary(getString(R.string.gpu_throttling3_summary));
+                th3.setUnit(getString(R.string.mhz));
+                th3.setItems(freqs);
+                th3.setProgress(value);
+                th3.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreqTmu.setThrottling3(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                thrott.addItem(th3);
+            }
+
+            if(GPUFreqTmu.hasThrottling4()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i) == GPUFreqTmu.getThrottling4()) {
+                        value = i;
+                    }
+                }
+
+                SeekBarView th4 = new SeekBarView();
+                th4.setTitle(getString(R.string.gpu_throttling4));
+                th4.setSummary(getString(R.string.gpu_throttling4_summary));
+                th4.setUnit(getString(R.string.mhz));
+                th4.setItems(freqs);
+                th4.setProgress(value);
+                th4.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreqTmu.setThrottling4(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                thrott.addItem(th4);
+            }
+
+            if(GPUFreqTmu.hasTripping()) {
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i) == GPUFreqTmu.getTripping()) {
+                        value = i;
+                    }
+                }
+
+                SeekBarView trip = new SeekBarView();
+                trip.setTitle(getString(R.string.gpu_tripping));
+                trip.setSummary(getString(R.string.gpu_tripping_summary));
+                trip.setUnit(getString(R.string.mhz));
+                trip.setItems(freqs);
+                trip.setProgress(value);
+                trip.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        GPUFreqTmu.setTripping(value, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+
+                thrott.addItem(trip);
+            }
+        }
+
+        if (thrott.size() > 0) {
+            items.add(thrott);
         }
     }
 
