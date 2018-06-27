@@ -235,13 +235,14 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationRampUp.setTitle(getString(R.string.fade_in));
             notificationRampUp.setSummary(getString(R.string.fade_in_summary));
             notificationRampUp.setUnit(getString(R.string.ms));
-            notificationRampUp.setMax(1900);
+            notificationRampUp.setMax(4000);
+            notificationRampUp.setMin(100);
             notificationRampUp.setOffset(100);
-            notificationRampUp.setProgress(Sec.getNotificationRampUp() / 100);
+            notificationRampUp.setProgress((Sec.getNotificationRampUp() - 100) / 100);
             notificationRampUp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    Sec.setNotificationRampUp(position * 100, getActivity());
+                    Sec.setNotificationRampUp((position * 100) + 100, getActivity());
                 }
 
                 @Override
@@ -257,13 +258,14 @@ public class LEDFragment extends RecyclerViewFragment {
             notificationRampDown.setTitle(getString(R.string.fade_out));
             notificationRampDown.setSummary(getString(R.string.fade_out_summary));
             notificationRampDown.setUnit(getString(R.string.ms));
-            notificationRampDown.setMax(1900);
+            notificationRampDown.setMax(4000);
+            notificationRampDown.setMin(100);
             notificationRampDown.setOffset(100);
-            notificationRampDown.setProgress(Sec.getNotificationRampDown() / 100);
+            notificationRampDown.setProgress((Sec.getNotificationRampDown() - 100) / 100);
             notificationRampDown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    Sec.setNotificationRampDown(position * 100, getActivity());
+                    Sec.setNotificationRampDown((position * 100) + 100, getActivity());
                 }
 
                 @Override

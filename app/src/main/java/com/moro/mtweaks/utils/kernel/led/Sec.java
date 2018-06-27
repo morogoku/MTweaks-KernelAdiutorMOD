@@ -25,6 +25,9 @@ import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by willi on 13.08.16.
  */
@@ -35,10 +38,35 @@ public class Sec {
     private static final String LLC = "/sys/class/sec/led/led_lowpower_current";
     private static final String LNDO = "/sys/class/sec/led/led_notification_delay_on";
     private static final String LNDOFF = "/sys/class/sec/led/led_notification_delay_off";
-    private static final String LNRC = "/sys/class/sec/led/led_notification_ramp_control";
-    private static final String LNRU = "/sys/class/sec/led/led_notification_ramp_up";
-    private static final String LNRD = "/sys/class/sec/led/led_notification_ramp_down";
     private static final String LP = "/sys/class/sec/led/led_pattern";
+
+    private static final String LNRC1 = "/sys/class/sec/led/led_notification_ramp_control";
+    private static final String LNRU1 = "/sys/class/sec/led/led_notification_ramp_up";
+    private static final String LNRD1 = "/sys/class/sec/led/led_notification_ramp_down";
+
+    private static final String LNRC2 = "/sys/class/sec/led/led_fade";
+    private static final String LNRU2 = "/sys/class/sec/led/led_fade_time_up";
+    private static final String LNRD2 = "/sys/class/sec/led/led_fade_time_down";
+
+    private static final List<String> sLedFade = new ArrayList<>();
+    private static final List<String> sLedFadeTimeUp = new ArrayList<>();
+    private static final List<String> sLedFadeTimeDown = new ArrayList<>();
+
+    static {
+        sLedFade.add(LNRC1);
+        sLedFade.add(LNRC2);
+
+        sLedFadeTimeUp.add(LNRU1);
+        sLedFadeTimeUp.add(LNRU2);
+
+        sLedFadeTimeDown.add(LNRD1);
+        sLedFadeTimeDown.add(LNRD2);
+    }
+
+    private static String LNRC;
+    private static String LNRU;
+    private static String LNRD;
+
 
     public static void testPattern(boolean test) {
         run(Control.write(test ? "3" : "0", LP), null, null);
@@ -61,7 +89,15 @@ public class Sec {
     }
 
     public static boolean hasNotificationRampDown() {
-        return Utils.existFile(LNRD);
+        if (LNRD == null) {
+            for (String file : sLedFadeTimeDown) {
+                if (Utils.existFile(file)) {
+                    LNRD = file;
+                    return true;
+                }
+            }
+        }
+        return LNRD != null;
     }
 
     public static void setNotificationRampUp(int value, Context context) {
@@ -73,7 +109,15 @@ public class Sec {
     }
 
     public static boolean hasNotificationRampUp() {
-        return Utils.existFile(LNRU);
+        if (LNRU == null) {
+            for (String file : sLedFadeTimeUp) {
+                if (Utils.existFile(file)) {
+                    LNRU = file;
+                    return true;
+                }
+            }
+        }
+        return LNRU != null;
     }
 
     public static void enableNotificationRampControl(boolean enable, Context context) {
@@ -85,7 +129,15 @@ public class Sec {
     }
 
     public static boolean hasNotificationRampControl() {
-        return Utils.existFile(LNRC);
+        if (LNRC == null) {
+            for (String file : sLedFade) {
+                if (Utils.existFile(file)) {
+                    LNRC = file;
+                    return true;
+                }
+            }
+        }
+        return LNRC != null;
     }
 
     public static void setNotificationDelayOff(int value, Context context) {
