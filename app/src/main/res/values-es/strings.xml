@@ -652,8 +652,8 @@
   <string name="spec_title">SPECTRUM Profile Manager</string>
   <string name="spec_info">Adaptación del Gestor de Perfiles Spectrum de frap129.\nSeleccione uno de los 4 perfiles predefinidos.</string>
   <!-- LED -->
-  <string name="fade">Desvanecimiento</string>
-  <string name="fade_summary">Activar para desvanecerse, desactivar para parpadear.</string>
+  <string name="fade">Fade</string>
+  <string name="fade_summary">Activar para Led efecto Fade.</string>
   <string name="intensity">Intensidad</string>
   <string name="speed">Velocidad</string>
   <string name="stock">Por defecto</string>
@@ -665,12 +665,12 @@
   <string name="notification">Notificación</string>
   <string name="on">Encendido</string>
   <string name="off">Apagado</string>
-  <string name="fade_ramp_control">Control de rampa de desvanecimiento</string>
-  <string name="fade_ramp_control_summary">Habilitar o deshabilitar el control del LED de desvanecimiento (rampa).</string>
-  <string name="fade_in">Desvanecimiento de entrada</string>
-  <string name="fade_in_summary">Establece el intervalo de tiempo de la pendiente ascendente.</string>
+  <string name="fade_ramp_control">Control de Led Fade</string>
+  <string name="fade_ramp_control_summary">Habilitar o deshabilitar el control del LED Fade.</string>
+  <string name="fade_in">Fade de entrada</string>
+  <string name="fade_in_summary">Establece el intervalo de tiempo del efecto Fade ascendente.</string>
   <string name="fade_out">Desvanecimiento de salida</string>
-  <string name="fade_out_summary">Establece el intervalo de tiempo de la pendiente descendente.</string>
+  <string name="fade_out_summary">Establece el intervalo de tiempo del efecto Fade descendente.</string>
   <string name="test">Probar</string>
   <string name="led_test_summary">Prueba el led con tu configuración.</string>
   <!-- I/O Scheduler -->
