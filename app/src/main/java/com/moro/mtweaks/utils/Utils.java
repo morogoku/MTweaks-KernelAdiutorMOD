@@ -39,6 +39,7 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.StringRes;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.util.Base64;
 import android.view.Display;
@@ -48,6 +49,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.moro.mtweaks.BuildConfig;
+import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.StartActivity;
 import com.moro.mtweaks.activities.StartActivityMaterial;
 import com.moro.mtweaks.utils.root.RootFile;
@@ -69,6 +71,7 @@ import java.math.RoundingMode;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Random;
 
 /**
@@ -78,6 +81,24 @@ public class Utils {
 
     public static boolean DONATED = true;
     public static boolean DARK_THEME;
+
+    public static String appVersion(){
+        return BuildConfig.VERSION_NAME;
+    }
+
+    public static void changelogDialog(Context context) {
+
+        String versionName = appVersion();
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(String.format(context.getString(R.string.changelog), versionName ));
+        alert.setMessage(context.getString(R.string.changelog_message));
+        alert.setPositiveButton(context.getString(R.string.close), (dialog, id) -> {
+
+        });
+
+        alert.show();
+    }
 
     public static boolean isGooglePlayServicesAvailable(Context context) {
         return GoogleApiAvailability.getInstance()

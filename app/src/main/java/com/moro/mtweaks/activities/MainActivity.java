@@ -145,6 +145,17 @@ public class MainActivity extends BaseActivity {
             AppSettings.saveBoolean("s7_battery_saved", false, this);
         }
 
+        // Check if MTweaks version is changed
+        String appVersionOld = AppSettings.getString("app_version_old", "", this);
+        String appVersionNew = Utils.appVersion();
+        AppSettings.saveBoolean("show_changelog", true, this);
+
+        if (appVersionOld.equals(appVersionNew)){
+            AppSettings.saveBoolean("show_changelog", false, this);
+        } else {
+            AppSettings.saveString("app_version_old", appVersionNew, this);
+        }
+
         // save battery stock values
         if (!AppSettings.getBoolean("s7_battery_saved", false, this)){
             Battery.getInstance(this).saveS7StockValues(this);

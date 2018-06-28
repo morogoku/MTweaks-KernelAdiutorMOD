@@ -30,6 +30,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,6 +61,9 @@ import com.moro.mtweaks.views.recyclerview.overallstatistics.TemperatureView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import okhttp3.internal.Util;
 
 /**
  * Created by willi on 19.04.16.
@@ -364,15 +368,24 @@ public class OverallFragment extends RecyclerViewFragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+        Objects.requireNonNull(getActivity()).registerReceiver(mBatteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
     }
 
     @Override
     public void onPause() {
         super.onPause();
         try {
-            getActivity().unregisterReceiver(mBatteryReceiver);
+            Objects.requireNonNull(getActivity()).unregisterReceiver(mBatteryReceiver);
         } catch (IllegalArgumentException ignored) {
+        }
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+        if (AppSettings.getBoolean("show_changelog", true, getActivity())) {
+            Utils.changelogDialog(getActivity());
         }
     }
 

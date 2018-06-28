@@ -9,6 +9,10 @@
     <string name="no_busybox">No busybox</string>
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
+    <string name="changelog">MTweaks v%s</string>
+    <string name="changelog_message">\n* Changelog\n\n\n</string>
+    <string name="close">Close</string>
+
 
     <!-- Security -->
     <string name="password">Password</string>
