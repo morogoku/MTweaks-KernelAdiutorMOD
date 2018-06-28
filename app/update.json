@@ -1,11 +1,13 @@
 {
-  "latestVersion": "2.8.5",
-  "latestVersionCode": "285",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.8.5/MTweaks_v2.8.5.apk",
+  "latestVersion": "2.9",
+  "latestVersionCode": "290",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.9/MTweaks_v2.9.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Update gradle",
-    "- Update dependencies",
-    "- Add Adreno Boost"
+    "- Made from scratch with the latest Kernel Adiutor v0.9.10.6",
+    "- Add Battery Healt Percent value",
+    "- GPU Thermal control",
+    "- GPU controls for Galaxy S9",
+    "- Led Fade Control"
   ]
 }
