@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Hecho desde cero con el último Kernel Adiutor v0.9.10.6\n\n* Añadido valor en porcentaje de vida de bateria\n\n* Control de GPU Thermal\n\n* Control de GPU para Galaxy S9\n\n* Control Led Fade\n\n\n</string>
+  <string name="changelog_message">\n* Fix widget\n\n* Fix algunas traducciones de Alemán\n\n* Volver a los colores originales de gráficas de uso de CPU\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
