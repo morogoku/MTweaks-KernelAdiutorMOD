@@ -10,6 +10,7 @@ import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
+import com.moro.mtweaks.utils.kernel.boefflawakelock.WakeLockInfo;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
@@ -19,6 +20,7 @@ import com.moro.mtweaks.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -61,66 +63,72 @@ public class BoefflaWakelockFragment extends RecyclerViewFragment {
         bwOrder.setTitle(getString(R.string.wkl_order));
         bwOrder.setSummary(getString(R.string.wkl_order_summary));
         bwOrder.setItems(Arrays.asList(getResources().getStringArray(R.array.b_wakelocks_oder)));
-        bwOrder.setItem(getString(R.string.wkl_time));
+        bwOrder.setItem(BoefflaWakelock.getWakelockOrder());
         bwOrder.setOnItemSelected((selectView, position, item) -> {
             BoefflaWakelock.setWakelockOrder(position);
             bwCardReload();
         });
         items.add(bwOrder);
 
-        List<BoefflaWakelock.ListWake> wakelocksB = BoefflaWakelock.getWakelockListBlocked();
-        String titleB = getString(R.string.wkl_blocked);
-        CardView cardB = new CardView(getActivity());
-        bwCardInit(cardB, titleB, wakelocksB);
-        mWakeCard.add(cardB);
 
-        List<BoefflaWakelock.ListWake> wakelocksA = BoefflaWakelock.getWakelockListAllowed();
+        List<WakeLockInfo> wakelocksinfo = BoefflaWakelock.getWakelockInfo();
+
+        CardView cardViewB = new CardView(getActivity());
+        String titleB = getString(R.string.wkl_blocked);
+        grxbwCardInit(cardViewB, titleB, wakelocksinfo, false);
+        mWakeCard.add(cardViewB);
+
+        CardView cardViewA = new CardView(getActivity());
         String titleA = getString(R.string.wkl_allowed);
-        CardView cardA = new CardView(getActivity());
-        bwCardInit(cardA, titleA, wakelocksA);
-        mWakeCard.add(cardA);
+        grxbwCardInit(cardViewA, titleA, wakelocksinfo, true);
+        mWakeCard.add(cardViewA);
 
         items.addAll(mWakeCard);
     }
 
-    private void bwCardInit(CardView card, String title, List<BoefflaWakelock.ListWake> wakelocks){
+
+    private void grxbwCardInit(CardView card, String title, List<WakeLockInfo> wakelocksinfo, Boolean state){
         card.clearItems();
         card.setTitle(title);
 
-        for(BoefflaWakelock.ListWake wake : wakelocks){
+        for(WakeLockInfo wakeLockInfo : wakelocksinfo){
 
-            final String name = wake.getName();
-            String wakeup = String.valueOf(wake.getWakeup());
-            String time = String.valueOf(wake.getTime() / 1000);
-            time = Utils.sToString(Utils.strToLong(time));
+            if(wakeLockInfo.wState == state) {
 
-            SwitchView sw = new SwitchView();
-            sw.setTitle(name);
-            sw.setSummary(getString(R.string.wkl_total_time) + ": " + time + "\n" +
-                    getString(R.string.wkl_wakep_count) + ": " + wakeup);
-            sw.setChecked(!BoefflaWakelock.isWakelockBlocked(name));
-            sw.addOnSwitchListener((switchView, isChecked) -> {
-                if(isChecked) {
-                    BoefflaWakelock.setWakelockAllowed(name, getActivity());
-                }else{
-                    BoefflaWakelock.setWakelockBlocked(name, getActivity());
-                }
-                getHandler().postDelayed(this::bwCardReload, 250);
-            });
+                final String name = wakeLockInfo.wName;
+                String wakeup = String.valueOf(wakeLockInfo.wWakeups);
+                String time = String.valueOf(wakeLockInfo.wTime / 1000);
+                time = Utils.sToString(Utils.strToLong(time));
 
-            card.addItem(sw);
+                SwitchView sw = new SwitchView();
+                sw.setTitle(name);
+                sw.setSummary(getString(R.string.wkl_total_time) + ": " + time + "\n" +
+                        getString(R.string.wkl_wakep_count) + ": " + wakeup);
+                sw.setChecked(wakeLockInfo.wState);
+                sw.addOnSwitchListener((switchView, isChecked) -> {
+                    if (isChecked) {
+                        BoefflaWakelock.setWakelockAllowed(name, getActivity());
+                    } else {
+                        BoefflaWakelock.setWakelockBlocked(name, getActivity());
+                    }
+                    getHandler().postDelayed(this::bwCardReload, 250);
+                });
+
+                card.addItem(sw);
+            }
         }
     }
 
     private void bwCardReload() {
 
-        List<BoefflaWakelock.ListWake> wakelocksB = BoefflaWakelock.getWakelockListBlocked();
-        String titleB = getString(R.string.wkl_blocked);
-        bwCardInit(mWakeCard.get(0), titleB, wakelocksB);
+        List<WakeLockInfo> wakelocksinfo = BoefflaWakelock.getWakelockInfo();
 
-        List<BoefflaWakelock.ListWake> wakelocksA = BoefflaWakelock.getWakelockListAllowed();
+        String titleB = getString(R.string.wkl_blocked);
+        grxbwCardInit(mWakeCard.get(0), titleB, wakelocksinfo, false);
+
         String titleA = getString(R.string.wkl_allowed);
-        bwCardInit(mWakeCard.get(1), titleA, wakelocksA);
+        grxbwCardInit(mWakeCard.get(1), titleA, wakelocksinfo, true);
+
     }
 
     private void warningDialog() {

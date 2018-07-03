@@ -68,19 +68,6 @@ public class BoefflaWakelock {
         }
     }
 
-    public static boolean isWakelockBlocked(String wakelock){
-        try {
-            String[] wbs = Utils.readFile(WAKELOCK_BLOCKER).split(";");
-            for (String wb : wbs) {
-                if (wb.contentEquals(wakelock)) {
-                    return true;
-                }
-            }
-        }catch (Exception ignored){
-        }
-        return false;
-    }
-
     public static void setWakelockBlocked(String wakelock, Context context){
         String list = "";
         try {
@@ -115,145 +102,60 @@ public class BoefflaWakelock {
         run(Control.write(list.toString(), WAKELOCK_BLOCKER), WAKELOCK_BLOCKER, context);
     }
 
-    private static List<String> getWakelockNames(){
-        List<String> list = new ArrayList<>();
-        try {
-            String[] lines = Utils.readFile(WAKELOCK_SOURCES).split("\\r?\\n");
-            for (String line : lines) {
-                if (!line.startsWith("name")) {
-                    String[] wl = line.split("\\s+");
-                    list.add(wl[0]);
-                }
-            }
-        }catch (Exception ignored) {
-        }
-        return list;
-    }
-
-    private static List<Integer> getWakelockTimes(){
-        List<Integer> list = new ArrayList<>();
-        try {
-            String[] lines = Utils.readFile(WAKELOCK_SOURCES).split("\\r?\\n");
-            for (String line : lines) {
-                if (!line.startsWith("name")) {
-                    String[] wl = line.split("\\s+");
-                    list.add(Utils.strToInt(wl[6]));
-                }
-            }
-        }catch (Exception ignored) {
-        }
-        return list;
-    }
-
-    private static List<Integer> getWakelockWakeups(){
-        List<Integer> list = new ArrayList<>();
-        try {
-            String[] lines = Utils.readFile(WAKELOCK_SOURCES).split("\\r?\\n");
-            for (String line : lines) {
-                if (!line.startsWith("name")) {
-                    String[] wl = line.split("\\s+");
-                    list.add(Utils.strToInt(wl[3]));
-                }
-            }
-        }catch (Exception ignored) {
-        }
-        return list;
-    }
-
-    public static List<ListWake> getWakelockList(){
-
-        List<ListWake> list = new ArrayList<>();
-
-        try {
-            List<String> ListName = getWakelockNames();
-            List<Integer> ListTime = getWakelockTimes();
-            List<Integer> ListWakeup = getWakelockWakeups();
-
-            for (int i = 0; i < ListName.size(); i++) {
-                list.add(new ListWake(ListName.get(i), ListTime.get(i), ListWakeup.get(i)));
-            }
-
-            Collections.sort(list, (w2, w1) -> {
-                try{
-                    return Integer.compare(w1.getTime(), w2.getTime());
-                }catch (Exception ignored){
-                }
-                return 0;
-            });
-
-        }catch (Exception ignored){
-        }
-
-        return list;
+    public static int getWakelockOrder(){
+        return mWakelockOrder;
     }
 
     public static void setWakelockOrder(int order){
         mWakelockOrder = order;
     }
 
-    public static List<ListWake> getWakelockListBlocked(){
+    public static List<WakeLockInfo> getWakelockInfo(){
 
-        List<ListWake> list = new ArrayList<>();
+        List<WakeLockInfo> wakelocksinfo = new ArrayList<>();
 
         try {
-            List<String> ListName = getWakelockNames();
-            List<Integer> ListTime = getWakelockTimes();
-            List<Integer> ListWakeup = getWakelockWakeups();
-
-            for (int i = 0; i < ListName.size(); i++) {
-                if(isWakelockBlocked(ListName.get(i))) {
-                    list.add(new ListWake(ListName.get(i), ListTime.get(i), ListWakeup.get(i)));
+            String[] lines = Utils.readFile(WAKELOCK_SOURCES).split("\\r?\\n");
+            for (String line : lines) {
+                if (!line.startsWith("name")) {
+                    String[] wl = line.split("\\s+");
+                    wakelocksinfo.add(new WakeLockInfo(wl[0], Integer.valueOf(wl[6]), Integer.valueOf(wl[3])));
                 }
             }
+        }catch (Exception ignored) {
+        }
 
-            Collections.sort(list, (w2, w1) -> {
-                if(mWakelockOrder == 0) {
-                    return w1.getName().compareTo(w2.getName());
-                } else if ( mWakelockOrder == 1){
-                    return Integer.compare(w1.getTime(), w2.getTime());
-                } else if (mWakelockOrder == 2){
-                    return Integer.compare(w1.getWakeup(), w2.getWakeup());
-                }
 
-                return 0;
-            });
+        String[] blocked = null;
 
+        try {
+            blocked = Utils.readFile(WAKELOCK_BLOCKER).split(";");
         }catch (Exception ignored){
         }
 
-        return list;
-    }
-
-    public static List<ListWake> getWakelockListAllowed(){
-
-        List<ListWake> list = new ArrayList<>();
-
-        try {
-            List<String> ListName = getWakelockNames();
-            List<Integer> ListTime = getWakelockTimes();
-            List<Integer> ListWakeup = getWakelockWakeups();
-
-            for (int i = 0; i < ListName.size(); i++) {
-                if(!isWakelockBlocked(ListName.get(i))) {
-                    list.add(new ListWake(ListName.get(i), ListTime.get(i), ListWakeup.get(i)));
+        if( blocked != null){
+            for (String name_bloqued : blocked) {
+                for (WakeLockInfo wakeLockInfo : wakelocksinfo) {
+                    if (wakeLockInfo.wName.equals(name_bloqued)) {
+                        wakeLockInfo.wState = false;
+                        break;
+                    }
                 }
             }
-
-            Collections.sort(list, (w2, w1) -> {
-                if(mWakelockOrder == 0) {
-                    return w2.getName().compareTo(w1.getName());
-                } else if ( mWakelockOrder == 1){
-                    return Integer.compare(w1.getTime(), w2.getTime());
-                } else if (mWakelockOrder == 2){
-                    return Integer.compare(w1.getWakeup(), w2.getWakeup());
-                }
-                return 0;
-            });
-
-        }catch (Exception ignored){
         }
 
-        return list;
+        Collections.sort(wakelocksinfo, (w2, w1) -> {
+            if(mWakelockOrder == 0) {
+                return w2.wName.compareTo(w1.wName);
+            } else if ( mWakelockOrder == 1){
+                return Integer.compare(w1.wTime, w2.wTime);
+            } else if (mWakelockOrder == 2){
+                return Integer.compare(w1.wWakeups, w2.wWakeups);
+            }
+            return 0;
+        });
+
+        return wakelocksinfo;
     }
 
     private static void run(String command, String id, Context context) {
@@ -262,30 +164,5 @@ public class BoefflaWakelock {
 
     public static boolean supported() {
         return Utils.existFile(PARENT);
-    }
-
-    public static class ListWake {
-
-        private String mName;
-        private int mTime;
-        private int mWakeup;
-
-        ListWake(String name, int time, int wakeup){
-            mName = name;
-            mTime = time;
-            mWakeup = wakeup;
-        }
-
-        public String getName(){
-            return mName;
-        }
-
-        public int getTime(){
-            return mTime;
-        }
-
-        public int getWakeup() {
-            return mWakeup;
-        }
     }
 }
