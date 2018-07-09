@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Fix widget\n\n* Fix some German Translations\n\n* Revert to original cpu usage graphs colors\n\n\n</string>
+    <string name="changelog_message">\n* Fixed Boeffla Wakelock, now works much faster, thanks @Grouxho\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->
