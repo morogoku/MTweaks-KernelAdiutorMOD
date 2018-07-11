@@ -33,6 +33,15 @@ import java.util.List;
  */
 public class GPUFreqTmu {
 
+    private static GPUFreqTmu sIOInstance;
+
+    public static GPUFreqTmu getInstance() {
+        if (sIOInstance == null) {
+            sIOInstance = new GPUFreqTmu();
+        }
+        return sIOInstance;
+    }
+
     private static final String TMU_S7 = "/sys/devices/14ac0000.mali/tmu";
     private static final String THROTTLING1_S7 = "/sys/devices/14ac0000.mali/throttling1";
     private static final String THROTTLING2_S7 = "/sys/devices/14ac0000.mali/throttling2";
@@ -54,174 +63,169 @@ public class GPUFreqTmu {
     private static final String THROTTLING4_S9 = "/sys/devices/platform/17500000.mali/throttling4";
     private static final String TRIPPING_S9 = "/sys/devices/platform/17500000.mali/tripping";
 
-    private static final List<String> sTmu = new ArrayList<>();
-    private static final List<String> sThrottling1 = new ArrayList<>();
-    private static final List<String> sThrottling2 = new ArrayList<>();
-    private static final List<String> sThrottling3 = new ArrayList<>();
-    private static final List<String> sThrottling4 = new ArrayList<>();
-    private static final List<String> sTripping = new ArrayList<>();
+    private final List<String> mTmu = new ArrayList<>();
+    private final List<String> mThrottling1 = new ArrayList<>();
+    private final List<String> mThrottling2 = new ArrayList<>();
+    private final List<String> mThrottling3 = new ArrayList<>();
+    private final List<String> mThrottling4 = new ArrayList<>();
+    private final List<String> mTripping = new ArrayList<>();
 
 
-    static {
-        sTmu.add(TMU_S7);
-        sTmu.add(TMU_S8);
-        sTmu.add(TMU_S9);
+    {
+        mTmu.add(TMU_S7);
+        mTmu.add(TMU_S8);
+        mTmu.add(TMU_S9);
 
-        sThrottling1.add(THROTTLING1_S7);
-        sThrottling1.add(THROTTLING1_S8);
-        sThrottling1.add(THROTTLING1_S9);
+        mThrottling1.add(THROTTLING1_S7);
+        mThrottling1.add(THROTTLING1_S8);
+        mThrottling1.add(THROTTLING1_S9);
 
-        sThrottling2.add(THROTTLING2_S7);
-        sThrottling2.add(THROTTLING2_S8);
-        sThrottling2.add(THROTTLING2_S9);
+        mThrottling2.add(THROTTLING2_S7);
+        mThrottling2.add(THROTTLING2_S8);
+        mThrottling2.add(THROTTLING2_S9);
 
-        sThrottling3.add(THROTTLING3_S7);
-        sThrottling3.add(THROTTLING3_S8);
-        sThrottling3.add(THROTTLING3_S9);
+        mThrottling3.add(THROTTLING3_S7);
+        mThrottling3.add(THROTTLING3_S8);
+        mThrottling3.add(THROTTLING3_S9);
 
-        sThrottling4.add(THROTTLING4_S7);
-        sThrottling4.add(THROTTLING4_S8);
-        sThrottling4.add(THROTTLING4_S9);
+        mThrottling4.add(THROTTLING4_S7);
+        mThrottling4.add(THROTTLING4_S8);
+        mThrottling4.add(THROTTLING4_S9);
 
-        sTripping.add(TRIPPING_S7);
-        sTripping.add(TRIPPING_S8);
-        sTripping.add(TRIPPING_S9);
+        mTripping.add(TRIPPING_S7);
+        mTripping.add(TRIPPING_S8);
+        mTripping.add(TRIPPING_S9);
+    }
+
+    private String TMU;
+    private String THROTTLING1;
+    private String THROTTLING2;
+    private String THROTTLING3;
+    private String THROTTLING4;
+    private String TRIPPING;
+
+    private GPUFreqTmu() {
+        for (String file : mTmu) {
+            if (Utils.existFile(file)) {
+                TMU = file;
+                break;
+            }
         }
 
-    private static String TMU;
-    private static String THROTTLING1;
-    private static String THROTTLING2;
-    private static String THROTTLING3;
-    private static String THROTTLING4;
-    private static String TRIPPING;
+        for (String file : mThrottling1) {
+            if (Utils.existFile(file)) {
+                THROTTLING1 = file;
+                break;
+            }
+        }
 
+        for (String file : mThrottling2) {
+            if (Utils.existFile(file)) {
+                THROTTLING2 = file;
+                break;
+            }
+        }
 
-    public static void enableTmu(boolean enable, Context context) {
+        for (String file : mThrottling3) {
+            if (Utils.existFile(file)) {
+                THROTTLING3 = file;
+                break;
+            }
+        }
+
+        for (String file : mThrottling4) {
+            if (Utils.existFile(file)) {
+                THROTTLING4 = file;
+                break;
+            }
+        }
+
+        for (String file : mTripping) {
+            if (Utils.existFile(file)) {
+                TRIPPING = file;
+                break;
+            }
+        }
+    }
+
+    public void enableTmu(boolean enable, Context context) {
         run(Control.write(enable ? "1" : "0", TMU), TMU, context);
     }
 
-    public static boolean isTmuEnabled() {
+    public boolean isTmuEnabled() {
         return Utils.readFile(TMU).equals("1");
     }
 
-    public static boolean hasTmu() {
-        if (TMU == null) {
-            for (String file : sTmu) {
-                if (Utils.existFile(file)) {
-                    TMU = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasTmu() {
         return TMU != null;
     }
 
-    public static void setThrottling1(String value, Context context) {
+    public void setThrottling1(String value, Context context) {
         run(Control.write(value, THROTTLING1), THROTTLING1, context);
     }
 
-    public static int getThrottling1() {
+    public int getThrottling1() {
         return Utils.strToInt(Utils.readFile(THROTTLING1));
     }
 
-    public static boolean hasThrottling1() {
-        if (THROTTLING1 == null) {
-            for (String file : sThrottling1) {
-                if (Utils.existFile(file)) {
-                    THROTTLING1 = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasThrottling1() {
         return THROTTLING1 != null;
     }
 
-    public static void setThrottling2(String value, Context context) {
+    public void setThrottling2(String value, Context context) {
         run(Control.write(value, THROTTLING2), THROTTLING2, context);
     }
 
-    public static int getThrottling2() {
+    public int getThrottling2() {
         return Utils.strToInt(Utils.readFile(THROTTLING2));
     }
 
-    public static boolean hasThrottling2() {
-        if (THROTTLING2 == null) {
-            for (String file : sThrottling2) {
-                if (Utils.existFile(file)) {
-                    THROTTLING2 = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasThrottling2() {
         return THROTTLING2 != null;
     }
 
-    public static void setThrottling3(String value, Context context) {
+    public void setThrottling3(String value, Context context) {
         run(Control.write(value, THROTTLING3), THROTTLING3, context);
     }
 
-    public static int getThrottling3() {
+    public int getThrottling3() {
         return Utils.strToInt(Utils.readFile(THROTTLING3));
     }
 
-    public static boolean hasThrottling3() {
-        if (THROTTLING3 == null) {
-            for (String file : sThrottling3) {
-                if (Utils.existFile(file)) {
-                    THROTTLING3 = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasThrottling3() {
         return THROTTLING3 != null;
     }
 
-    public static void setThrottling4(String value, Context context) {
+    public void setThrottling4(String value, Context context) {
         run(Control.write(value, THROTTLING4), THROTTLING4, context);
     }
 
-    public static int getThrottling4() {
+    public int getThrottling4() {
         return Utils.strToInt(Utils.readFile(THROTTLING4));
     }
 
-    public static boolean hasThrottling4() {
-        if (THROTTLING4 == null) {
-            for (String file : sThrottling4) {
-                if (Utils.existFile(file)) {
-                    THROTTLING4 = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasThrottling4() {
         return THROTTLING4 != null;
     }
 
-    public static void setTripping(String value, Context context) {
+    public void setTripping(String value, Context context) {
         run(Control.write(value, TRIPPING), TRIPPING, context);
     }
 
-    public static int getTripping() {
+    public int getTripping() {
         return Utils.strToInt(Utils.readFile(TRIPPING));
     }
 
-    public static boolean hasTripping() {
-        if (TRIPPING == null) {
-            for (String file : sTripping) {
-                if (Utils.existFile(file)) {
-                    TRIPPING = file;
-                    return true;
-                }
-            }
-        }
+    public boolean hasTripping() {
         return TRIPPING != null;
     }
 
-    public static boolean supported() {
-        return hasThrottling1() || hasThrottling2() || hasThrottling3() || hasThrottling4();
+    public boolean supported() {
+        return hasThrottling1() || hasThrottling2() || hasThrottling3() || hasThrottling4()
+                || hasTripping();
     }
 
-    private static void run(String command, String id, Context context) {
+    private void run(String command, String id, Context context) {
         Control.runSetting(command, ApplyOnBootFragment.GPU, id, context);
     }
-
 }

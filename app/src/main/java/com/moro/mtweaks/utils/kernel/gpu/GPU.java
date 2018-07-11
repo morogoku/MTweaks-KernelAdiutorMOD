@@ -26,7 +26,7 @@ public class GPU {
 
     public static boolean supported() {
         return GPUFreq.getInstance().supported() || SimpleGPU.supported() || AdrenoIdler.supported()
-                || GPUFreqExynos.supported();
+                || GPUFreqExynos.getInstance().supported() || GPUFreqTmu.getInstance().supported();
     }
 
 }

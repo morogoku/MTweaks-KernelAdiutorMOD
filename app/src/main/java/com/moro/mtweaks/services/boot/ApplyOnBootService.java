@@ -105,8 +105,8 @@ public class ApplyOnBootService extends Service {
                 AppSettings.saveBoolean("cl1_voltage_saved", true, this);
             }
             // Save backup of GPU stock voltages
-            if (GPUFreqExynos.supported() && GPUFreqExynos.hasVoltage()) {
-                RootUtils.runCommand("cp " + GPUFreqExynos.AVAILABLE_VOLTS + " " + GPUFreqExynos.BACKUP);
+            if (GPUFreqExynos.getInstance().supported() && GPUFreqExynos.getInstance().hasVoltage()) {
+                RootUtils.runCommand("cp " + GPUFreqExynos.getInstance().AVAILABLE_VOLTS + " " + GPUFreqExynos.BACKUP);
                 AppSettings.saveBoolean("gpu_voltage_saved", true, this);
             }
             RootUtils.runCommand("setprop mtweaks.voltage_saved 1");
