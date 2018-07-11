@@ -1,11 +1,9 @@
 {
-  "latestVersion": "2.9.1",
-  "latestVersionCode": "291",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.9.1/MTweaks_v2.9.1.apk",
+  "latestVersion": "2.9.2",
+  "latestVersionCode": "292",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.9.2/MTweaks_v2.9.2.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Fix widget",
-    "- Fix some German Translations",
-    "- Revert to original cpu usage graphs colors"
+    "- Fixed Boeffla Wakelock, now works much faster, thanks @Grouxho"
   ]
 }
