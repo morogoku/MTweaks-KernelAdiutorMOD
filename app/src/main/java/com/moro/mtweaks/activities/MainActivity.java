@@ -41,6 +41,7 @@ import com.google.android.gms.security.ProviderInstaller;
 import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.database.tools.profiles.Profiles;
+import com.moro.mtweaks.fragments.kernel.GPUFragment;
 import com.moro.mtweaks.services.profile.Tile;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Device;
@@ -104,13 +105,13 @@ public class MainActivity extends BaseActivity {
         if (mIsBooted) {
             // reset the Global voltages seekbar
             if (!AppSettings.getBoolean("cpucl1voltage_onboot", false, this)) {
-                AppSettings.saveInt("CpuCl1_seekbarPref_value", 16, this);
+                AppSettings.saveInt("CpuCl1_seekbarPref_value", GPUFragment.mDefZeroPosition, this);
             }
             if (!AppSettings.getBoolean("cpucl0voltage_onboot", false, this)) {
-                AppSettings.saveInt("CpuCl0_seekbarPref_value", 16, this);
+                AppSettings.saveInt("CpuCl0_seekbarPref_value", GPUFragment.mDefZeroPosition, this);
             }
             if (!AppSettings.getBoolean("gpu_onboot", false, this)) {
-                AppSettings.saveInt("gpu_seekbarPref_value", 16, this);
+                AppSettings.saveInt("gpu_seekbarPref_value", GPUFragment.mDefZeroPosition, this);
             }
         }
         AppSettings.saveBoolean("is_booted", false, this);

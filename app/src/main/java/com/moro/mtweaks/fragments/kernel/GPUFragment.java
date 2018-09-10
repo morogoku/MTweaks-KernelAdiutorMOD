@@ -61,6 +61,11 @@ public class GPUFragment extends RecyclerViewFragment {
 
     private PathReaderFragment mGPUGovernorTunableFragment;
 
+    private static float mVoltMinValue = -100000f;
+    private static float mVoltMaxValue = 25000f;
+    private static int mVoltStep = 6250;
+    public static int mDefZeroPosition = (Math.round(mVoltMaxValue - mVoltMinValue) / mVoltStep) - (Math.round(mVoltMaxValue) / mVoltStep);
+
     @Override
     protected BaseFragment getForegroundFragment() {
         return mGPUGovernorTunableFragment = new PathReaderFragment();
@@ -504,7 +509,7 @@ public class GPUFragment extends RecyclerViewFragment {
             voltCard.setTitle(getString(R.string.gpu_voltage));
 
             List<String> progress = new ArrayList<>();
-            for (float i = -100000f; i < 31250f; i += 6250) {
+            for (float i = mVoltMinValue; i < (mVoltMaxValue + mVoltStep); i += mVoltStep) {
                 String global = String.valueOf(i / mGPUFreqExynos.getVoltageOffset());
                 progress.add(global);
             }
@@ -528,7 +533,7 @@ public class GPUFragment extends RecyclerViewFragment {
                     } else {
                         AppSettings.saveBoolean("gpu_global_volts", false, getActivity());
                         AppSettings.saveBoolean("gpu_individual_volts", true, getActivity());
-                        AppSettings.saveInt("gpu_seekbarPref_value", 16, getActivity());
+                        AppSettings.saveInt("gpu_seekbarPref_value", mDefZeroPosition, getActivity());
                         reload();
                     }
             });
@@ -557,7 +562,7 @@ public class GPUFragment extends RecyclerViewFragment {
                                  final List<String> voltagesStock, List<String> progress) {
 
         Boolean enableSeekbar = AppSettings.getBoolean("gpu_global_volts", true, getActivity());
-        int global = AppSettings.getInt("gpu_seekbarPref_value", 16, getActivity());
+        int global = AppSettings.getInt("gpu_seekbarPref_value", mDefZeroPosition, getActivity());
 
         int value = 0;
         for (int i = 0; i < progress.size(); i++) {
@@ -595,13 +600,12 @@ public class GPUFragment extends RecyclerViewFragment {
     private void seekbarInit(SeekBarView seekbar, final Integer freq, String voltage,
             String voltageStock) {
 
-        int mStep = 6250;
         int mOffset = mGPUFreqExynos.getVoltageOffset();
-        float mMin = (Utils.strToFloat(voltageStock) - 100) * mOffset;
-        float mMax = ((Utils.strToFloat(voltageStock) + 25) * mOffset) + mStep;
+        float mMin = (Utils.strToFloat(voltageStock) - (- mVoltMinValue / 1000)) * mOffset;
+        float mMax = ((Utils.strToFloat(voltageStock) + (mVoltMaxValue / 1000)) * mOffset) + mVoltStep;
 
         List<String> progress = new ArrayList<>();
-        for(float i = mMin ; i < mMax; i += mStep){
+        for(float i = mMin ; i < mMax; i += mVoltStep){
             String string = String.valueOf(i / mOffset);
             progress.add(string);
         }
@@ -794,7 +798,7 @@ public class GPUFragment extends RecyclerViewFragment {
             }
 
             List<String> progress = new ArrayList<>();
-            for (float i = -100000f; i < 31250f; i += 6250) {
+            for (float i = mVoltMinValue; i < (mVoltMaxValue + mVoltStep); i += mVoltStep) {
                 String global = String.valueOf(i / mGPUFreqExynos.getVoltageOffset());
                 progress.add(global);
             }
