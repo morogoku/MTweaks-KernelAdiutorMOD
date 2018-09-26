@@ -101,11 +101,6 @@ public class DataSharingFragment extends RecyclerViewFragment {
         items.add(mDataSharingSwitch);
     }
 
-    @Override
-    protected boolean showAd() {
-        return true;
-    }
-
     private BroadcastReceiver mDisableReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
