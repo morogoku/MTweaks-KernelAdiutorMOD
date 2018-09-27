@@ -21,7 +21,7 @@ package com.moro.mtweaks.views.recyclerview.overallstatistics;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.support.v7.widget.AppCompatImageButton;
+import androidx.appcompat.widget.AppCompatImageButton;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
 

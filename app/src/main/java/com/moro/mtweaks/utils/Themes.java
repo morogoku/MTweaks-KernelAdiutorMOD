@@ -20,8 +20,8 @@
 package com.moro.mtweaks.utils;
 
 import android.content.Context;
-import android.support.annotation.ColorRes;
-import android.support.annotation.StyleRes;
+import androidx.annotation.ColorRes;
+import androidx.annotation.StyleRes;
 
 import com.moro.mtweaks.R;
 

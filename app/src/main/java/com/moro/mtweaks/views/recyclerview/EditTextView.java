@@ -19,7 +19,7 @@
  */
 package com.moro.mtweaks.views.recyclerview;
 
-import android.support.v7.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;

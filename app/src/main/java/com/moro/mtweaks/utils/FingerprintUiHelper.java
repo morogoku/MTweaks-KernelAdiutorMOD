@@ -15,8 +15,8 @@
  */
 package com.moro.mtweaks.utils;
 
-import android.support.v4.hardware.fingerprint.FingerprintManagerCompat;
-import android.support.v4.os.CancellationSignal;
+import androidx.core.hardware.fingerprint.FingerprintManagerCompat;
+import androidx.core.os.CancellationSignal;
 
 import com.mattprecious.swirl.SwirlView;
 

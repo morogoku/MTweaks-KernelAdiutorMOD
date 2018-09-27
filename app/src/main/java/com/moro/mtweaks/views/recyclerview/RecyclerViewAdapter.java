@@ -19,8 +19,9 @@
  */
 package com.moro.mtweaks.views.recyclerview;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,8 +88,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             viewGroup.removeView(view);
         }
         if (item.cardCompatible() && AppSettings.isForceCards(parent.getContext())) {
-            android.support.v7.widget.CardView cardView =
-                    new android.support.v7.widget.CardView(view.getContext());
+            CardView cardView =
+                    new CardView(view.getContext());
             cardView.setRadius(view.getResources().getDimension(R.dimen.cardview_radius));
             cardView.setCardElevation(view.getResources().getDimension(R.dimen.cardview_elevation));
             cardView.setUseCompatPadding(true);

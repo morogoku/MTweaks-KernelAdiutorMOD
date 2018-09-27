@@ -2,7 +2,7 @@ package com.moro.mtweaks.fragments.kernel;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.DescriptionFragment;

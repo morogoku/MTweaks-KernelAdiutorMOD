@@ -19,7 +19,6 @@
  */
 package com.moro.mtweaks.services.monitor;
 
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -33,7 +32,7 @@ import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
 import android.os.SystemClock;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
@@ -43,7 +42,6 @@ import com.moro.mtweaks.database.Settings;
 import com.moro.mtweaks.fragments.tools.DataSharingFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Device;
-import com.moro.mtweaks.utils.NotificationId;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.server.ServerCreateDevice;
 

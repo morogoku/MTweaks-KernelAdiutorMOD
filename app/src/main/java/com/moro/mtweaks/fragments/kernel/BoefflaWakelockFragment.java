@@ -1,6 +1,6 @@
 package com.moro.mtweaks.fragments.kernel;
 
-import android.support.v7.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.view.View;
 import android.widget.CheckBox;
 
@@ -20,7 +20,6 @@ import com.moro.mtweaks.views.recyclerview.TitleView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 

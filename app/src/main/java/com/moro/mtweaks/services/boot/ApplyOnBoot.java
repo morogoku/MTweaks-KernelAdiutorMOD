@@ -27,7 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Handler;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.activities.MainActivity;

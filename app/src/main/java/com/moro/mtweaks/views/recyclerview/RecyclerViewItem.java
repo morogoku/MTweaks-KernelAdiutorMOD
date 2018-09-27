@@ -20,8 +20,8 @@
 package com.moro.mtweaks.views.recyclerview;
 
 import android.app.Activity;
-import android.support.annotation.LayoutRes;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+import androidx.annotation.LayoutRes;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 
