@@ -19,6 +19,7 @@
  */
 package com.moro.mtweaks.fragments.other;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -36,9 +37,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceGroupAdapter;
+import androidx.preference.PreferenceScreen;
+import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreferenceCompat;
 import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -549,6 +555,39 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                     startActivity(intent);
                 })
                 .setOnDismissListener(dialog -> mColorSelection = -1).show();
+    }
+
+    @Override
+    protected RecyclerView.Adapter onCreateAdapter(PreferenceScreen preferenceScreen) {
+        return new PreferenceGroupAdapter(preferenceScreen) {
+            @SuppressLint("RestrictedApi")
+            @Override
+            public void onBindViewHolder(PreferenceViewHolder holder, int position) {
+                super.onBindViewHolder(holder, position);
+                Preference preference = getItem(position);
+                if (preference instanceof PreferenceCategory)
+                    setZeroPaddingToLayoutChildren(holder.itemView);
+                else {
+                    View iconFrame = holder.itemView.findViewById(R.id.icon_frame);
+                    if (iconFrame != null) {
+                        iconFrame.setVisibility(preference.getIcon() == null ? View.GONE : View.VISIBLE);
+                    }
+                }
+            }
+        };
+    }
+    private void setZeroPaddingToLayoutChildren(View view) {
+        if (!(view instanceof ViewGroup))
+            return;
+        ViewGroup viewGroup = (ViewGroup) view;
+        int childCount = viewGroup.getChildCount();
+        for (int i = 0; i < childCount; i++) {
+            setZeroPaddingToLayoutChildren(viewGroup.getChildAt(i));
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1)
+                viewGroup.setPaddingRelative(0, viewGroup.getPaddingTop(), viewGroup.getPaddingEnd(), viewGroup.getPaddingBottom());
+            else
+                viewGroup.setPadding(0, viewGroup.getPaddingTop(), viewGroup.getPaddingRight(), viewGroup.getPaddingBottom());
+        }
     }
 
 }
