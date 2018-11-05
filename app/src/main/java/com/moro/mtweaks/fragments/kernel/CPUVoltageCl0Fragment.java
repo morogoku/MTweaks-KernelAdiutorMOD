@@ -43,6 +43,11 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
     private List<SeekBarView> mVoltages = new ArrayList<>();
     private SeekBarView mSeekbarProf = new SeekBarView();
 
+    private static float mVoltMinValue = -100000f;
+    private static float mVoltMaxValue = 25000f;
+    private static int mVoltStep = 6250;
+    public static int mDefZeroPosition = (Math.round(mVoltMaxValue - mVoltMinValue) / mVoltStep) - (Math.round(mVoltMaxValue) / mVoltStep);
+
     @Override
     protected void init() {
         super.init();
@@ -64,7 +69,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             freqCard.setTitle(getString(R.string.cpuCl0_volt_control));
 
             List<String> progress = new ArrayList<>();
-            for (float i = -100000f; i < 31250f; i += 6250) {
+            for (float i = mVoltMinValue; i < (mVoltMaxValue + mVoltStep); i += mVoltStep) {
                 String global = String.valueOf(i / VoltageCl0.getOffset());
                 progress.add(global);
             }
@@ -80,19 +85,16 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             voltControl.setSummaryOn(getString(R.string.cpu_manual_volt_summaryOn));
             voltControl.setSummaryOff(getString(R.string.cpu_manual_volt_summaryOff));
             voltControl.setChecked(enableGlobal);
-            voltControl.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, boolean isChecked) {
-                    if(isChecked) {
-                        AppSettings.saveBoolean("CpuCl0_global_volts", true, getActivity());
-                        AppSettings.saveBoolean("CpuCl0_individual_volts", false, getActivity());
-                        reload();
-                    }else{
-                        AppSettings.saveBoolean("CpuCl0_global_volts", false, getActivity());
-                        AppSettings.saveBoolean("CpuCl0_individual_volts", true, getActivity());
-                        AppSettings.saveInt("CpuCl0_seekbarPref_value", 16, getActivity());
-                        reload();
-                    }
+            voltControl.addOnSwitchListener((switchView, isChecked) -> {
+                if(isChecked) {
+                    AppSettings.saveBoolean("CpuCl0_global_volts", true, getActivity());
+                    AppSettings.saveBoolean("CpuCl0_individual_volts", false, getActivity());
+                    reload();
+                }else{
+                    AppSettings.saveBoolean("CpuCl0_global_volts", false, getActivity());
+                    AppSettings.saveBoolean("CpuCl0_individual_volts", true, getActivity());
+                    AppSettings.saveInt("CpuCl0_seekbarPref_value", mDefZeroPosition, getActivity());
+                    reload();
                 }
             });
 
@@ -119,7 +121,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                                  final List<String> voltagesStock, List<String> progress) {
 
         Boolean enableSeekbar = AppSettings.getBoolean("CpuCl0_global_volts", true, getActivity());
-        int global = AppSettings.getInt("CpuCl0_seekbarPref_value", 16, getActivity());
+        int global = AppSettings.getInt("CpuCl0_seekbarPref_value", mDefZeroPosition, getActivity());
 
         int value = 0;
         for (int i = 0; i < progress.size(); i++) {
@@ -146,12 +148,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                     VoltageCl0.setVoltage(freq, volt, getActivity());
                     AppSettings.saveInt("CpuCl0_seekbarPref_value", position, getActivity());
                 }
-                getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        reload();
-                    }
-                }, 200);
+                getHandler().postDelayed(CPUVoltageCl0Fragment.this::reload, 200);
             }
             @Override
             public void onMove(SeekBarView seekBarView, int position, String value) {
@@ -162,13 +159,12 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
     private void seekbarInit(SeekBarView seekbar, final String freq, String voltage,
                              String voltageStock) {
 
-        int mStep = 6250;
         int mOffset = VoltageCl0.getOffset();
-        float mMin = (Utils.strToFloat(voltageStock) - 100) * mOffset;
-        float mMax = ((Utils.strToFloat(voltageStock) + 25) * mOffset) + mStep;
+        float mMin = (Utils.strToFloat(voltageStock) - (- mVoltMinValue / 1000)) * mOffset;
+        float mMax = ((Utils.strToFloat(voltageStock) + (mVoltMaxValue / 1000)) * mOffset) + mVoltStep;
 
         List<String> progress = new ArrayList<>();
-        for(float i = mMin ; i < mMax; i += mStep){
+        for(float i = mMin ; i < mMax; i += mVoltStep){
             String string = String.valueOf(i / mOffset);
             progress.add(string);
         }
@@ -196,12 +192,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
                 VoltageCl0.setVoltage(freq, value, getActivity());
-                getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        reload();
-                    }
-                }, 200);
+                getHandler().postDelayed(() -> reload(), 200);
             }
 
             @Override
@@ -220,7 +211,7 @@ public class CPUVoltageCl0Fragment extends RecyclerViewFragment {
                 seekbarInit(mVoltages.get(i), freqs.get(i), voltages.get(i), voltagesStock.get(i));
             }
             List<String> progress = new ArrayList<>();
-            for (float i = -100000f; i < 31250f; i += 6250) {
+            for (float i = mVoltMinValue; i < (mVoltMaxValue + mVoltStep); i += mVoltStep) {
                 String global = String.valueOf(i / VoltageCl0.getOffset());
                 progress.add(global);
             }
