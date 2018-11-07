@@ -204,7 +204,7 @@
     <string name="override_vmin">Outrepasser la tension minimum</string>
     <string name="override_vmin_summary">Désactiver pour supprimer les limites de sous-tension établies par le constructeur</string>
     <string name="cpu_volt_profile">Profil de tension</string>
-    <string name="cpu_volt_profile_summary">Modifier la globalité des tension du CPU</string>
+    <string name="cpu_volt_profile_summary">Modifier la globalité des tension</string>
     <string name="cpuCl1_volt_control">Contrôle de la haute tension du CPU</string>
     <string name="cpuCl0_volt_control">Contrôle de la basse tension du CPU</string>
     <string name="cpuCl1_volt">Haute tension du CPU</string>

@@ -95,6 +95,7 @@
     <string name="cpu_voltage">CPU Voltage</string>
     <string name="cpucl1_voltage">CPU big Voltage</string>
     <string name="cpucl0_voltage">CPU LITTLE Voltage</string>
+    <string name="bus_voltage">Bus Voltages</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="thermal">Thermal</string>
     <string name="gpu">GPU</string>
@@ -225,7 +226,7 @@
     <string name="override_vmin">Override Minimum Voltage</string>
     <string name="override_vmin_summary">Disable to remove manufacturer limits on undervolting</string>
     <string name="cpu_volt_profile">Voltage Profile</string>
-    <string name="cpu_volt_profile_summary">Modify the global CPU voltage</string>
+    <string name="cpu_volt_profile_summary">Modify the global voltage</string>
     <string name="cpuCl1_volt_control">CPU big Voltage Control</string>
     <string name="cpuCl0_volt_control">CPU LITTLE Voltage Control</string>
     <string name="cpuCl1_volt">CPU big Voltages</string>
@@ -233,6 +234,16 @@
     <string name="cpu_manual_volt">Individual or Global voltage</string>
     <string name="cpu_manual_volt_summaryOn">When you activate Individual Control, the Global Control bar will return to its initial position and you can freely vary the individual bars\n\nGlobal Control Enabled</string>
     <string name="cpu_manual_volt_summaryOff">When you activate Individual Control, the Global Control bar will return to its initial position and you can freely vary the individual bars\n\nIndividual Control Enabled</string>
+
+    <!-- BUS -->
+    <string name="busMif_volt_control">Bus MIF Voltage Control</string>
+    <string name="busMif_volt">Bus MIF Voltages</string>
+    <string name="busInt_volt_control">Bus INT Voltage Control</string>
+    <string name="busInt_volt">Bus INT Voltages</string>
+    <string name="busDisp_volt_control">Bus DISP Voltage Control</string>
+    <string name="busDisp_volt">Bus DISP Voltages</string>
+    <string name="busCam_volt_control">Bus CAM Voltage Control</string>
+    <string name="busCam_volt">Bus CAM Voltages</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>

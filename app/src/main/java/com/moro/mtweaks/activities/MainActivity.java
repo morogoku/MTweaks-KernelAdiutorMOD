@@ -33,6 +33,10 @@ import com.crashlytics.android.answers.CustomEvent;
 import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.database.tools.profiles.Profiles;
+import com.moro.mtweaks.fragments.kernel.BusCamFragment;
+import com.moro.mtweaks.fragments.kernel.BusDispFragment;
+import com.moro.mtweaks.fragments.kernel.BusIntFragment;
+import com.moro.mtweaks.fragments.kernel.BusMifFragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl0Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.GPUFragment;
@@ -42,6 +46,10 @@ import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Log;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.battery.Battery;
+import com.moro.mtweaks.utils.kernel.bus.VoltageCam;
+import com.moro.mtweaks.utils.kernel.bus.VoltageDisp;
+import com.moro.mtweaks.utils.kernel.bus.VoltageInt;
+import com.moro.mtweaks.utils.kernel.bus.VoltageMif;
 import com.moro.mtweaks.utils.kernel.cpu.CPUBoost;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
 import com.moro.mtweaks.utils.kernel.cpu.MSMPerformance;
@@ -100,6 +108,18 @@ public class MainActivity extends BaseActivity {
             if (!AppSettings.getBoolean("cpucl0voltage_onboot", false, this)) {
                 AppSettings.saveInt("CpuCl0_seekbarPref_value", CPUVoltageCl0Fragment.mDefZeroPosition, this);
             }
+            if (!AppSettings.getBoolean("busMif_onboot", false, this)) {
+                AppSettings.saveInt("busMif_seekbarPref_value", BusMifFragment.mDefZeroPosition, this);
+            }
+            if (!AppSettings.getBoolean("busInt_onboot", false, this)) {
+                AppSettings.saveInt("busInt_seekbarPref_value", BusIntFragment.mDefZeroPosition, this);
+            }
+            if (!AppSettings.getBoolean("busDisp_onboot", false, this)) {
+                AppSettings.saveInt("busDisp_seekbarPref_value", BusDispFragment.mDefZeroPosition, this);
+            }
+            if (!AppSettings.getBoolean("busCam_onboot", false, this)) {
+                AppSettings.saveInt("busCam_seekbarPref_value", BusCamFragment.mDefZeroPosition, this);
+            }
             if (!AppSettings.getBoolean("gpu_onboot", false, this)) {
                 AppSettings.saveInt("gpu_seekbarPref_value", GPUFragment.mDefZeroPosition, this);
             }
@@ -129,6 +149,10 @@ public class MainActivity extends BaseActivity {
                 // Reset voltage_saved to recopy voltage stock files
                 AppSettings.saveBoolean("cl0_voltage_saved", false, this);
                 AppSettings.saveBoolean("cl1_voltage_saved", false, this);
+                AppSettings.saveBoolean("busMif_voltage_saved", false, this);
+                AppSettings.saveBoolean("busInt_voltage_saved", false, this);
+                AppSettings.saveBoolean("busDisp_voltage_saved", false, this);
+                AppSettings.saveBoolean("busCam_voltage_saved", false, this);
                 AppSettings.saveBoolean("gpu_voltage_saved", false, this);
             }
 
@@ -165,6 +189,38 @@ public class MainActivity extends BaseActivity {
             if (VoltageCl1.supported()){
                 RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
                 AppSettings.saveBoolean("cl1_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of Bus Mif stock voltages
+        if (!Utils.existFile(VoltageMif.BACKUP) || !AppSettings.getBoolean("busMif_voltage_saved", false, this)){
+            if (VoltageMif.supported()){
+                RootUtils.runCommand("cp " + VoltageMif.VOLTAGE + " " + VoltageMif.BACKUP);
+                AppSettings.saveBoolean("busMif_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of Bus Int stock voltages
+        if (!Utils.existFile(VoltageInt.BACKUP) || !AppSettings.getBoolean("busInt_voltage_saved", false, this)){
+            if (VoltageInt.supported()){
+                RootUtils.runCommand("cp " + VoltageInt.VOLTAGE + " " + VoltageInt.BACKUP);
+                AppSettings.saveBoolean("busInt_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of Bus Disp stock voltages
+        if (!Utils.existFile(VoltageDisp.BACKUP) || !AppSettings.getBoolean("busDisp_voltage_saved", false, this)){
+            if (VoltageDisp.supported()){
+                RootUtils.runCommand("cp " + VoltageDisp.VOLTAGE + " " + VoltageDisp.BACKUP);
+                AppSettings.saveBoolean("busDisp_voltage_saved", true, this);
+            }
+        }
+
+        // Save backup of Bus Cam stock voltages
+        if (!Utils.existFile(VoltageCam.BACKUP) || !AppSettings.getBoolean("busCam_voltage_saved", false, this)){
+            if (VoltageCam.supported()){
+                RootUtils.runCommand("cp " + VoltageCam.VOLTAGE + " " + VoltageCam.BACKUP);
+                AppSettings.saveBoolean("busCam_voltage_saved", true, this);
             }
         }
 

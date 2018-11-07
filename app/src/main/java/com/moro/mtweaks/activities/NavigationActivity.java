@@ -48,6 +48,10 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.BaseFragment;
 import com.moro.mtweaks.fragments.kernel.BatteryFragment;
 import com.moro.mtweaks.fragments.kernel.BoefflaWakelockFragment;
+import com.moro.mtweaks.fragments.kernel.BusCamFragment;
+import com.moro.mtweaks.fragments.kernel.BusDispFragment;
+import com.moro.mtweaks.fragments.kernel.BusIntFragment;
+import com.moro.mtweaks.fragments.kernel.BusMifFragment;
 import com.moro.mtweaks.fragments.kernel.CPUVoltageCl1Fragment;
 import com.moro.mtweaks.fragments.kernel.CPUFragment;
 import com.moro.mtweaks.fragments.kernel.CPUHotplugFragment;
@@ -89,6 +93,10 @@ import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.Log;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.battery.Battery;
+import com.moro.mtweaks.utils.kernel.bus.VoltageCam;
+import com.moro.mtweaks.utils.kernel.bus.VoltageDisp;
+import com.moro.mtweaks.utils.kernel.bus.VoltageInt;
+import com.moro.mtweaks.utils.kernel.bus.VoltageMif;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.Hotplug;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
@@ -193,6 +201,18 @@ public class NavigationActivity extends BaseActivity
         }
         if (VoltageCl0.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, CPUVoltageCl0Fragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageMif.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busMif_volt, BusMifFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageInt.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busInt_volt, BusIntFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageDisp.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busDisp_volt, BusDispFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageCam.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busCam_volt, BusCamFragment.class, R.drawable.ic_bolt));
         }
         if (Hotplug.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, CPUHotplugFragment.class, R.drawable.ic_switch));

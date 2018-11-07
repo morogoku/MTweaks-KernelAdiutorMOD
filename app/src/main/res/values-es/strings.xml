@@ -187,7 +187,7 @@
   <string name="override_vmin">Sobrescribir voltaje mínimo</string>
   <string name="override_vmin_summary">Desactivar para eliminar los límites del fabricante en undervolting</string>
   <string name="cpu_volt_profile">Perfil de Voltaje</string>
-  <string name="cpu_volt_profile_summary">Modifique el voltaje global de CPU</string>
+  <string name="cpu_volt_profile_summary">Modifique el voltaje global</string>
   <string name="cpuCl1_volt_control">Control de Voltaje CPU big</string>
   <string name="cpuCl0_volt_control">Control de Voltaje CPU LITTLE</string>
   <string name="cpuCl1_volt">Voltajes CPU big</string>
