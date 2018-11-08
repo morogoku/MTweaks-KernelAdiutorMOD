@@ -63,6 +63,7 @@
   <!-- Headers -->
   <string name="statistics">Estadísticas</string>
   <string name="kernel">Kernel</string>
+  <string name="voltage_control">Control de Voltaje</string>
   <string name="tools">Herramientas</string>
   <string name="other">Otros</string>
   <!-- Menus -->
@@ -195,6 +196,16 @@
   <string name="cpu_manual_volt">Control Global o Individual</string>
   <string name="cpu_manual_volt_summaryOn">Al activar Control Individual, la barra de Control Global volverá a su posición inicial y así podrá variar libremente las barras individuales\n\nControl Global Activado.</string>
   <string name="cpu_manual_volt_summaryOff">Al activar Control Individual, la barra de Control Global volverá a su posición inicial y así podrá variar libremente las barras individuales\n\nControl Individual Activado</string>
+  <!-- BUS -->
+  <string name="voltages">Voltajes</string>
+  <string name="busMif_volt_title">Memory Bus Voltage Control</string>
+  <string name="busMif_volt_summary">Voltage supplied to the CCI and memory controllers</string>
+  <string name="busInt_volt_title">Internal Bus Voltage Control</string>
+  <string name="busInt_volt_summary">Voltage supplied to the internal auxiliary IP blocks, such as the hardware video decoders, the scaling blocks, the display controllers, and the MMC controllers</string>
+  <string name="busDisp_volt_title">Image Signal Processor Voltage</string>
+  <string name="busDisp_volt_summary">Voltage supplied to the Display power plane</string>
+  <string name="busCam_volt_title">Display Voltage Control</string>
+  <string name="busCam_volt_summary">Voltage supplied to the ISP power plane</string>
   <!-- CPU Hotplug -->
   <string name="hotplug_warning">Más de un sistema de hotplugging activado!\nPor favor solo use uno.</string>
   <string name="mpdecision">MPDecision</string>

@@ -26,6 +26,7 @@ import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.bus.VoltageMif;
 import com.moro.mtweaks.views.recyclerview.CardView;
+import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
@@ -66,7 +67,11 @@ public class BusMifFragment extends RecyclerViewFragment {
         if (freqs != null && voltages != null && voltagesStock != null && freqs.size() == voltages.size()) {
 
             CardView freqCard = new CardView(getActivity());
-            freqCard.setTitle(getString(R.string.busMif_volt_control));
+            freqCard.setTitle(getString(R.string.busMif_volt_title));
+
+            DescriptionView mif = new DescriptionView();
+            mif.setSummary(getString(R.string.busMif_volt_summary));
+            freqCard.addItem(mif);
 
             List<String> progress = new ArrayList<>();
             for (float i = mVoltMinValue; i < (mVoltMaxValue + mVoltStep); i += mVoltStep) {
@@ -105,7 +110,7 @@ public class BusMifFragment extends RecyclerViewFragment {
             }
 
             TitleView tunables = new TitleView();
-            tunables.setText(getString(R.string.busMif_volt));
+            tunables.setText(getString(R.string.voltages));
             items.add(tunables);
 
             for (int i = 0; i < freqs.size(); i++) {

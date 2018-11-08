@@ -196,24 +196,6 @@ public class NavigationActivity extends BaseActivity
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.kernel));
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu, CPUFragment.class, R.drawable.ic_cpu));
-        if (VoltageCl1.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl1_voltage, CPUVoltageCl1Fragment.class, R.drawable.ic_bolt));
-        }
-        if (VoltageCl0.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, CPUVoltageCl0Fragment.class, R.drawable.ic_bolt));
-        }
-        if (VoltageMif.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busMif_volt, BusMifFragment.class, R.drawable.ic_bolt));
-        }
-        if (VoltageInt.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busInt_volt, BusIntFragment.class, R.drawable.ic_bolt));
-        }
-        if (VoltageDisp.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busDisp_volt, BusDispFragment.class, R.drawable.ic_bolt));
-        }
-        if (VoltageCam.supported()) {
-            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busCam_volt, BusCamFragment.class, R.drawable.ic_bolt));
-        }
         if (Hotplug.supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpu_hotplug, CPUHotplugFragment.class, R.drawable.ic_switch));
         }
@@ -271,6 +253,25 @@ public class NavigationActivity extends BaseActivity
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.entropy, EntropyFragment.class, R.drawable.ic_numbers));
         }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.misc, MiscFragment.class, R.drawable.ic_clear));
+        mFragments.add(new NavigationActivity.NavigationFragment(R.string.voltage_control));
+        if (VoltageCl1.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl1_voltage, CPUVoltageCl1Fragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageCl0.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.cpucl0_voltage, CPUVoltageCl0Fragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageMif.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busMif_voltage, BusMifFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageInt.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busInt_voltage, BusIntFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageDisp.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busDisp_voltage, BusDispFragment.class, R.drawable.ic_bolt));
+        }
+        if (VoltageCam.supported()) {
+            mFragments.add(new NavigationActivity.NavigationFragment(R.string.busCam_voltage, BusCamFragment.class, R.drawable.ic_bolt));
+        }
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.tools));
         //mFragments.add(new NavigationActivity.NavigationFragment(R.string.data_sharing, DataSharingFragment.class, R.drawable.ic_database));
         mFragments.add(new NavigationActivity.NavigationFragment(R.string.custom_controls, CustomControlsFragment.class, R.drawable.ic_console));

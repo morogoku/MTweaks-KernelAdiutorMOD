@@ -83,6 +83,7 @@
     <!-- Headers -->
     <string name="statistics">Statistics</string>
     <string name="kernel">Kernel</string>
+    <string name="voltage_control">Voltage Control</string>
     <string name="tools">Tools</string>
     <string name="other">Other</string>
 
@@ -93,9 +94,6 @@
     <string name="inputs">Inputs</string>
     <string name="cpu">CPU</string>
     <string name="cpu_voltage">CPU Voltage</string>
-    <string name="cpucl1_voltage">CPU big Voltage</string>
-    <string name="cpucl0_voltage">CPU LITTLE Voltage</string>
-    <string name="bus_voltage">Bus Voltages</string>
     <string name="cpu_hotplug">CPU Hotplug</string>
     <string name="thermal">Thermal</string>
     <string name="gpu">GPU</string>
@@ -110,6 +108,12 @@
     <string name="virtual_memory">Virtual Memory</string>
     <string name="entropy">Entropy</string>
     <string name="misc">Misc</string>
+    <string name="cpucl1_voltage">CPU big Voltage</string>
+    <string name="cpucl0_voltage">CPU LITTLE Voltage</string>
+    <string name="busMif_voltage">Bus MIF Voltages</string>
+    <string name="busInt_voltage">Bus INT Voltages</string>
+    <string name="busDisp_voltage">Bus DISP Voltages</string>
+    <string name="busCam_voltage">Bus CAM Voltages</string>
     <string name="data_sharing">Data Sharing</string>
     <string name="custom_controls">Custom Controls</string>
     <string name="downloads">Downloads</string>
@@ -236,14 +240,15 @@
     <string name="cpu_manual_volt_summaryOff">When you activate Individual Control, the Global Control bar will return to its initial position and you can freely vary the individual bars\n\nIndividual Control Enabled</string>
 
     <!-- BUS -->
-    <string name="busMif_volt_control">Bus MIF Voltage Control</string>
-    <string name="busMif_volt">Bus MIF Voltages</string>
-    <string name="busInt_volt_control">Bus INT Voltage Control</string>
-    <string name="busInt_volt">Bus INT Voltages</string>
-    <string name="busDisp_volt_control">Bus DISP Voltage Control</string>
-    <string name="busDisp_volt">Bus DISP Voltages</string>
-    <string name="busCam_volt_control">Bus CAM Voltage Control</string>
-    <string name="busCam_volt">Bus CAM Voltages</string>
+    <string name="voltages">Voltages</string>
+    <string name="busMif_volt_title">Memory Bus Voltage Control</string>
+    <string name="busMif_volt_summary">Voltage supplied to the CCI and memory controllers</string>
+    <string name="busInt_volt_title">Internal Bus Voltage Control</string>
+    <string name="busInt_volt_summary">Voltage supplied to the internal auxiliary IP blocks, such as the hardware video decoders, the scaling blocks, the display controllers, and the MMC controllers</string>
+    <string name="busDisp_volt_title">Image Signal Processor Voltage</string>
+    <string name="busDisp_volt_summary">Voltage supplied to the Display power plane</string>
+    <string name="busCam_volt_title">Display Voltage Control</string>
+    <string name="busCam_volt_summary">Voltage supplied to the ISP power plane</string>
 
     <!-- CPU Hotplug -->
     <string name="hotplug_warning">More than one hotplugging system is enabled!\nPlease only use one.</string>
