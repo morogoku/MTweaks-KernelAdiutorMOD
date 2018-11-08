@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Corregido Boeffla Wakelock, ahora va mucho más rápido, gracias @Grouxho\n\n\n</string>
+  <string name="changelog_message">\n* Optimizadas Opciones GPU\n* Actualizado a SDK 28\n* Actualizado idioma Francés\n* Nuevo control de voltage Mif, Int, Disp, Cam\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>

@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Fixed Boeffla Wakelock, now works much faster, thanks @Grouxho\n\n\n</string>
+    <string name="changelog_message">\n* Optimzie GPU Options\n* Updated to SDK 28\n* Updated French language\n* New Mif, Int, Disp, Cam Voltage Control\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->
