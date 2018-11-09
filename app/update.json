@@ -1,9 +1,12 @@
 {
-  "latestVersion": "2.9.2",
-  "latestVersionCode": "292",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.9.2/MTweaks_v2.9.2.apk",
+  "latestVersion": "2.10.0",
+  "latestVersionCode": "2100",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.10.0/MTweaks_v2.10.0.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Fixed Boeffla Wakelock, now works much faster, thanks @Grouxho"
+    "- Optimzie GPU Options",
+    "- Updated to latest libs and SDK 28",
+    "- Updated French language",
+    "- New Mif, Int, Disp, Cam Voltage Control"
   ]
 }
