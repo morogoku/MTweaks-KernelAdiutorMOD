@@ -99,6 +99,20 @@
     "gpu-offset": 1000
   },
   {
+    "board": "universal7870",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone3/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
+    "board": "universal7880",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
     "board": "universal8890",
     "cpu": "/sys/class/thermal/thermal_zone1/temp",
     "gpu": "/sys/class/thermal/thermal_zone3/temp",
