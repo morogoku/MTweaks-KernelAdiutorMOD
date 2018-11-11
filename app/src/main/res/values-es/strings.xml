@@ -151,7 +151,7 @@
   <string name="manual">Manual</string>
   <string name="mc_power_saving">Ahorro de Energía Multinúcleo</string>
   <string name="mc_power_saving_summary">Intenta agrupar tareas en el menor número de núcleos posible.</string>
-  <string name="disabled">Desabilitado</string>
+  <string name="disabled">Deshabilitado</string>
   <string name="enabled">Activo</string>
   <string name="aggressive">Agresivo</string>
   <string name="power_saving_wq">Planificar colas de trabajo en CPUs activos para ahorrar energía.</string>
@@ -532,12 +532,12 @@
   <string name="dt2w_charging">DoubleTap2Wake mientras se está cargando</string>
   <string name="dt2w_s2w">DobleToqueParaDespertar + DeslizarParaDespertar</string>
   <string name="dt2w_s2w_charging">DoubleTap2Wake + Sweep2Wake mientras se está cargando</string>
-  <string name="s2s_summary">Bloquea tu dispositivo deslizando en la pantalla.</string>
+  <string name="s2s_summary">Bloquea tu dispositivo deslizando por el borde inferior de la pantalla.</string>
   <string name="s2s_disabled">Desactivado</string>
-  <string name="s2s_right">Deslizar hacía la derecha</string>
-  <string name="s2s_left">Deslizar hacía la izquierda</string>
-  <string name="s2s_any">Deslizar hacía la derecha o izquierda</string>
-  <string name="slide_up">Deslizar hacia arriba</string>
+  <string name="s2s_right">Deslizar a la derecha</string>
+  <string name="s2s_left">Deslizar a la izquierda</string>
+  <string name="s2s_any">Deslizar a la derecha o izquierda</string>
+  <string name="slide_up">Deslizar a arriba</string>
   <string name="slide_down">Deslizar hacia abajo</string>
   <string name="slide_left">Deslizar a la izquierda</string>
   <string name="slide_right">Deslizar a la derecha</string>
@@ -559,6 +559,11 @@
   <string name="height">Altura</string>
   <string name="vibration">Vibración</string>
   <string name="vibration_strength">Intensidad de vibración</string>
+  <string name="up">Arriba</string>
+  <string name="down">Abajo</string>
+  <string name="left">Izquierda</string>
+  <string name="right">Derecha</string>
+  <string name="gesVib_title">Vibración de Gesto</string>
   <!-- Sound -->
   <string name="sound_control">Control de sonido</string>
   <string name="headset_highperf_mode">Modo de Alto Rendimiento del Auricular</string>

@@ -553,7 +553,7 @@
     <string name="dt2w_charging">DoubleTap2Wake durant la charge</string>
     <string name="dt2w_s2w">DoubleTap2Wake + Sweep2Wake</string>
     <string name="dt2w_s2w_charging">DoubleTap2Wake + Sweep2Wake durant la charge</string>
-    <string name="s2s_summary">Verrouiller votre appareil en balayant l\'écran.</string>
+    <string name="s2s_summary">Verrouiller votre téléphone en glissant sur le bord inférieur de l\'écran.</string>
     <string name="s2s_disabled">Désactivé</string>
     <string name="s2s_right">Glisser vers la droite</string>
     <string name="s2s_left">Glisser vers la gauche</string>
@@ -586,6 +586,11 @@
     <string name="key_power_mode_summary">Les commandes de réveil ne sont actives que lorsque vous mettez votre appareil en veille avec la touche marche/arrêt.</string>
     <string name="charging_mode">Mode de chargements</string>
     <string name="charging_mode_summary">Les commandes de réveil ne seront actives que lorsque l\'appareil est en cours de chargement.</string>
+    <string name="up">Haut</string>
+    <string name="down">Bas</string>
+    <string name="left">Gauche</string>
+    <string name="right">Droite</string>
+    <string name="gesVib_title">Vibration de Gestes</string>
     <!-- Sound -->
     <string name="sound_control">Contrôle Audio</string>
     <string name="headset_highperf_mode">Mode casque haute performance</string>

@@ -53,6 +53,7 @@ public class S2w {
     private final HashMap<String, List<Integer>> mFiles = new HashMap<>();
     private final List<Integer> mS2wMenu = new ArrayList<>();
     private final List<Integer> mS2w2Menu = new ArrayList<>();
+    private final List<Integer> mS2w3Menu = new ArrayList<>();
     private final List<Integer> mGenericMenu = new ArrayList<>();
 
     {
@@ -67,11 +68,16 @@ public class S2w {
         mS2w2Menu.add(R.string.s2w_down);
         mS2w2Menu.add(R.string.s2w_any);
 
+        mS2w3Menu.add(R.string.slide_right);
+        mS2w3Menu.add(R.string.slide_left);
+        mS2w3Menu.add(R.string.slide_up);
+        mS2w3Menu.add(R.string.slide_down);
+
         mGenericMenu.add(R.string.disabled);
         mGenericMenu.add(R.string.enabled);
 
         mFiles.put(S2W_ONLY, mGenericMenu);
-        mFiles.put(SW2, mS2wMenu);
+        mFiles.put(SW2, mS2w3Menu);
         mFiles.put(SW2_2, mS2w2Menu);
     }
 
@@ -104,6 +110,61 @@ public class S2w {
 
     public int get() {
         return Utils.strToInt(Utils.readFile(FILE));
+    }
+
+    public String getStringValue(Context context, int value) {
+        switch (value) {
+            case 0:
+                return context.getResources().getString(R.string.disabled);
+            case 1:
+                return context.getResources().getString(R.string.right);
+            case 2:
+                return context.getResources().getString(R.string.left);
+            case 3:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.left);
+            case 4:
+                return context.getResources().getString(R.string.up);
+            case 5:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.up);
+            case 6:
+                return context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.up);
+            case 7:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.up);
+            case 8:
+                return context.getResources().getString(R.string.down);
+            case 9:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 10:
+                return context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 11:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 12:
+                return context.getResources().getString(R.string.up) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 13:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.up) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 14:
+                return context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.up) + ", " +
+                        context.getResources().getString(R.string.down);
+            case 15:
+                return context.getResources().getString(R.string.right) + ", " +
+                        context.getResources().getString(R.string.left) + ", " +
+                        context.getResources().getString(R.string.up) + ", " +
+                        context.getResources().getString(R.string.down);
+        }
+        return context.getResources().getString(R.string.not_in_range);
     }
 
     public List<String> getMenu(Context context) {

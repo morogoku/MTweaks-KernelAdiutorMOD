@@ -596,7 +596,7 @@
     <string name="dt2w_charging">DoubleTap2Wake while charging</string>
     <string name="dt2w_s2w">DoubleTap2Wake + Sweep2Wake</string>
     <string name="dt2w_s2w_charging">DoubleTap2Wake + Sweep2Wake while charging</string>
-    <string name="s2s_summary">Lock you device by swiping on the screen.</string>
+    <string name="s2s_summary">Lock your device by swiping by the bottom edge of the screen.</string>
     <string name="s2s_disabled">Disabled</string>
     <string name="s2s_right">Sweep Right</string>
     <string name="s2s_left">Sweep Left</string>
@@ -629,6 +629,11 @@
     <string name="key_power_mode_summary">Wake controls will only be active when you put your device into sleep with the power key.</string>
     <string name="charging_mode">Charging Mode</string>
     <string name="charging_mode_summary">Wake controls will only be active when device is charging.</string>
+    <string name="up">Up</string>
+    <string name="down">Down</string>
+    <string name="left">Left</string>
+    <string name="right">Right</string>
+    <string name="gesVib_title">Gesture Vibration</string>
 
     <!-- Sound -->
     <string name="sound_control">Sound Control</string>

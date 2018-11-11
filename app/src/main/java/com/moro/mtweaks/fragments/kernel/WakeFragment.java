@@ -24,6 +24,7 @@ import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.wake.Dt2s;
 import com.moro.mtweaks.utils.kernel.wake.Dt2w;
+import com.moro.mtweaks.utils.kernel.wake.GestureVibration;
 import com.moro.mtweaks.utils.kernel.wake.Gestures;
 import com.moro.mtweaks.utils.kernel.wake.Misc;
 import com.moro.mtweaks.utils.kernel.wake.S2s;
@@ -33,11 +34,12 @@ import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
+import com.moro.mtweaks.views.recyclerview.SelectViewCheckbox;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
-import com.moro.mtweaks.views.recyclerview.ValueView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by willi on 23.06.16.
@@ -78,6 +80,9 @@ public class WakeFragment extends RecyclerViewFragment {
         }
         if (mS2s.supported()) {
             s2sInit(items);
+        }
+        if (GestureVibration.supported()) {
+            gesVibInit(items);
         }
         if (mMisc.hasWake()) {
             wakeMiscInit(items);
@@ -130,14 +135,14 @@ public class WakeFragment extends RecyclerViewFragment {
         CardView s2wCard = new CardView(getActivity());
         s2wCard.setTitle(getString(R.string.s2w));
 
+        int n = mS2w.get();
+
         if (mS2w.supported()) {
-            SelectView s2w = new SelectView();
+            SelectViewCheckbox s2w = new SelectViewCheckbox();
             s2w.setTitle(getString(R.string.s2w));
             s2w.setSummary(getString(R.string.s2w_summary));
             s2w.setItems(mS2w.getMenu(getActivity()));
-            s2w.setItem(mS2w.get());
-            s2w.setOnItemSelected((selectView, position, item)
-                    -> mS2w.set(position, getActivity()));
+            s2w.setItem(mS2w.getStringValue(getActivity(), n));
 
             s2wCard.addItem(s2w);
         }
@@ -206,6 +211,30 @@ public class WakeFragment extends RecyclerViewFragment {
         items.add(s2sCard);
     }
 
+    private void gesVibInit(List<RecyclerViewItem> items){
+        CardView gesVibCard = new CardView(getActivity());
+        gesVibCard.setTitle(getString(R.string.gesVib_title));
+
+        SeekBarView gesVib = new SeekBarView();
+        gesVib.setTitle(getString(R.string.gesVib_title));
+        gesVib.setMax(90);
+        gesVib.setMin(0);
+        gesVib.setProgress(GestureVibration.get());
+        gesVib.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+            @Override
+            public void onStop(SeekBarView seekBarView, int position, String value) {
+                GestureVibration.set(position, getActivity());
+            }
+
+            @Override
+            public void onMove(SeekBarView seekBarView, int position, String value) {
+            }
+        });
+
+        gesVibCard.addItem(gesVib);
+        items.add(gesVibCard);
+    }
+
     private void wakeMiscInit(List<RecyclerViewItem> items) {
         SelectView wake = new SelectView();
         wake.setSummary(getString(R.string.wake));
@@ -218,7 +247,7 @@ public class WakeFragment extends RecyclerViewFragment {
     }
 
     private void gestureInit(List<RecyclerViewItem> items) {
-        List<String> gestures = Gestures.getMenu(getActivity());
+        List<String> gestures = Gestures.getMenu(Objects.requireNonNull(getActivity()));
         for (int i = 0; i < gestures.size(); i++) {
             SwitchView gesture = new SwitchView();
             gesture.setSummary(gestures.get(i));

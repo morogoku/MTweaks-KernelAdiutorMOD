@@ -66,7 +66,7 @@ public class S2s {
         mGenericMenu.add(R.string.disabled);
         mGenericMenu.add(R.string.enabled);
 
-        mFiles.put(S2S, mGenericMenu);
+        mFiles.put(S2S, mS2s3Menu);
         mFiles.put(S2S_2, mS2s2Menu);
         mFiles.put(S2S_3, mS2s3Menu);
     }

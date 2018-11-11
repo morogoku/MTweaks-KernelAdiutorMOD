@@ -81,7 +81,7 @@ public class Dt2w {
         mFiles.put(LGE_TOUCH_DT2W, mGenericMenu);
         mFiles.put(LGE_TOUCH_CORE_DT2W, mLgeTouchCoreMenu);
         mFiles.put(LGE_TOUCH_GESTURE, mGenericMenu);
-        mFiles.put(ANDROID_TOUCH_DT2W, mAndroidTouchMenu);
+        mFiles.put(ANDROID_TOUCH_DT2W, mGenericMenu);
         mFiles.put(ANDROID_TOUCH2_DT2W, mGenericMenu);
         mFiles.put(TOUCH_PANEL_DT2W, mGenericMenu);
         mFiles.put(DT2W_WAKEUP_GESTURE, mGenericMenu);
