@@ -276,6 +276,25 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*
+         * 1: Password check result
+         */
+        if (requestCode == 1) {
+            /*
+             * 0: Password is wrong
+             * 1: Password is correct
+             */
+            if (resultCode == 1) {
+                new CheckingTask(this).execute();
+            } else {
+                finish();
+            }
+        }
+    }
+
     private void launch() {
         Intent intent = new Intent(this, NavigationActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
