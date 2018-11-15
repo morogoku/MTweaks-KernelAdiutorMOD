@@ -94,17 +94,12 @@ public class CustomControlsFragment extends RecyclerViewFragment {
                             showControls();
                             break;
                         case 1:
-                            if (Utils.DONATED) {
-                                Intent intent = new Intent(getActivity(), FilePickerActivity.class);
-                                intent.putExtra(FilePickerActivity.PATH_INTENT,
-                                        Environment.getExternalStorageDirectory().toString());
-                                intent.putExtra(FilePickerActivity.EXTENSION_INTENT, ".json");
-                                startActivityForResult(intent, 1);
-                            } else {
-                                mDonateDialog = ViewUtils.dialogDonate(getActivity())
-                                        .setOnDismissListener(dialog1 -> mDonateDialog = null);
-                                mDonateDialog.show();
-                            }
+                            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+                            intent.putExtra(FilePickerActivity.PATH_INTENT,
+                                    Environment.getExternalStorageDirectory().toString());
+                            intent.putExtra(FilePickerActivity.EXTENSION_INTENT, ".json");
+                            startActivityForResult(intent, 1);
+
                             break;
                     }
                 })

@@ -223,16 +223,8 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 return true;
 */
             case KEY_HIDE_BANNER:
-                if (!Utils.DONATED) {
-                    ViewUtils.dialogDonate(getActivity()).show();
-                    return false;
-                }
                 return true;
             case KEY_SECTIONS_ICON:
-                if (!Utils.DONATED) {
-                    ViewUtils.dialogDonate(getActivity()).show();
-                    return false;
-                }
                 ((NavigationActivity) getActivity()).appendFragments();
                 return true;
             default:
@@ -273,35 +265,23 @@ public class SettingsFragment extends PreferenceFragmentCompat implements
                 AppUpdaterTask.appCheckDialogAllways(getActivity());
                 return true;
             case KEY_BANNER_RESIZER:
-                if (Utils.DONATED) {
-                    Intent intent = new Intent(getActivity(), BannerResizerActivity.class);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                } else {
-                    ViewUtils.dialogDonate(getActivity()).show();
-                }
+                Intent intent = new Intent(getActivity(), BannerResizerActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 return true;
             case KEY_PRIMARY_COLOR:
-                if (Utils.DONATED) {
-                    colorDialog(true);
-                } else {
-                    ViewUtils.dialogDonate(getActivity()).show();
-                }
+                colorDialog(true);
                 return true;
             case KEY_ACCENT_COLOR:
-                if (Utils.DONATED) {
-                    colorDialog(false);
-                } else {
-                    ViewUtils.dialogDonate(getActivity()).show();
-                }
+                colorDialog(false);
                 return true;
             case KEY_APPLY_ON_BOOT_TEST:
                 if (Utils.isServiceRunning(ApplyOnBootService.class, getActivity())) {
                     Utils.toast(R.string.apply_on_boot_running, getActivity());
                 } else {
-                    Intent intent = new Intent(getActivity(), ApplyOnBootService.class);
-                    intent.putExtra("messenger", new Messenger(new MessengerHandler(getActivity())));
-                    Utils.startService(getActivity(), intent);
+                    Intent intent2 = new Intent(getActivity(), ApplyOnBootService.class);
+                    intent2.putExtra("messenger", new Messenger(new MessengerHandler(getActivity())));
+                    Utils.startService(getActivity(), intent2);
                 }
                 return true;
             case KEY_LOGCAT:

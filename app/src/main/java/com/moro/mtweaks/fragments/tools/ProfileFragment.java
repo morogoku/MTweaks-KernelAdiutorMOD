@@ -225,24 +225,14 @@ public class ProfileFragment extends RecyclerViewFragment {
                     List<Profiles.ProfileItem> items1 = mProfiles.getAllProfiles();
                     switch (item.getItemId()) {
                         case 0:
-                            if (Utils.DONATED) {
-                                Intent intent = createProfileActivityIntent();
-                                intent.putExtra(ProfileActivity.POSITION_INTENT, position);
-                                startActivityForResult(intent, 2);
-                            } else {
-                                mDonateDialog = ViewUtils.dialogDonate(getActivity());
-                                mDonateDialog.show();
-                            }
+                            Intent intent = createProfileActivityIntent();
+                            intent.putExtra(ProfileActivity.POSITION_INTENT, position);
+                            startActivityForResult(intent, 2);
                             break;
                         case 1:
-                            if (Utils.DONATED) {
-                                Intent intent = new Intent(getActivity(), ProfileEditActivity.class);
-                                intent.putExtra(ProfileEditActivity.POSITION_INTENT, position);
-                                startActivityForResult(intent, 3);
-                            } else {
-                                mDonateDialog = ViewUtils.dialogDonate(getActivity());
-                                mDonateDialog.show();
-                            }
+                            Intent intent2 = new Intent(getActivity(), ProfileEditActivity.class);
+                            intent2.putExtra(ProfileEditActivity.POSITION_INTENT, position);
+                            startActivityForResult(intent2, 3);
                             break;
                         case 2:
                             if (items1.get(position).getName() != null) {
@@ -354,17 +344,11 @@ public class ProfileFragment extends RecyclerViewFragment {
                             startActivityForResult(createProfileActivityIntent(), 0);
                             break;
                         case 1:
-                            if (Utils.DONATED) {
-                                Intent intent = new Intent(getActivity(), FilePickerActivity.class);
-                                intent.putExtra(FilePickerActivity.PATH_INTENT,
-                                        Environment.getExternalStorageDirectory().toString());
-                                intent.putExtra(FilePickerActivity.EXTENSION_INTENT, ".json");
-                                startActivityForResult(intent, 1);
-                            } else {
-                                mDonateDialog = ViewUtils.dialogDonate(getActivity())
-                                        .setOnDismissListener(dialog -> mDonateDialog = null);
-                                mDonateDialog.show();
-                            }
+                            Intent intent = new Intent(getActivity(), FilePickerActivity.class);
+                            intent.putExtra(FilePickerActivity.PATH_INTENT,
+                                    Environment.getExternalStorageDirectory().toString());
+                            intent.putExtra(FilePickerActivity.EXTENSION_INTENT, ".json");
+                            startActivityForResult(intent, 1);
                             break;
                     }
                 })

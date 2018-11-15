@@ -65,10 +65,6 @@ public class DataSharingFragment extends RecyclerViewFragment {
     @Override
     protected void onBottomFabClick() {
         super.onBottomFabClick();
-        if (!Utils.DONATED) {
-            ViewUtils.dialogDonate(getActivity()).show();
-            return;
-        }
 
         startActivity(new Intent(getActivity(), DataSharingSearchActivity.class));
     }

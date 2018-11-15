@@ -45,10 +45,7 @@ public class BannerResizerActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (!Utils.DONATED) {
-            Utils.toast("nice try", this);
-            return;
-        }
+
         setContentView(R.layout.activity_fragments);
 
         initToolBar();

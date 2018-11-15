@@ -156,7 +156,7 @@ public class AppSettings {
     }
 
     public static boolean isHideBanner(Context context) {
-        return Prefs.getBoolean(HIDE_BANNER, false, context) && Utils.DONATED;
+        return Prefs.getBoolean(HIDE_BANNER, false, context);
     }
 
     public static boolean isForceCards(Context context) {
