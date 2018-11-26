@@ -87,11 +87,11 @@ public class Sound {
             mFrancoLimits.add(String.valueOf(i));
         }
 
-        for (int i = -10; i < 21; i++) {
+        for (int i = -84; i < 41; i++) {
             mFlarLimits.add(String.valueOf(i));
         }
 
-        for (int i = -40; i < 21; i++) {
+        for (int i = -84; i < 41; i++) {
             mFlarHpLimits.add(String.valueOf(i));
         }
     }
@@ -412,7 +412,7 @@ public class Sound {
 
     public void setHeadphoneFlar(String value, Context context) {
         int newGain = Utils.strToInt(value);
-        if (newGain >= -40 && newGain <= 20) {
+        if (newGain >= -84 && newGain <= 40) {
             fauxRun(value + " " + value, HEADPHONE_FLAR, HEADPHONE_FLAR, context);
         }
     }
@@ -420,7 +420,7 @@ public class Sound {
     public String getHeadphoneFlar() {
         String value = Utils.readFile(HEADPHONE_FLAR);
         int gain = Utils.strToInt(value.contains(" ") ? value.split(" ")[0] : value);
-        if (gain >= 0 && gain <= 20) {
+        if (gain >= 0 && gain <= 40) {
             return String.valueOf(gain);
         } else if (gain >= 216 && gain <= 255) {
             return String.valueOf(gain - 256);
