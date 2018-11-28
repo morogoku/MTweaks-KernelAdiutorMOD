@@ -32,6 +32,9 @@ import com.moro.mtweaks.utils.kernel.misc.Pwm;
 import com.moro.mtweaks.utils.kernel.misc.Selinux;
 import com.moro.mtweaks.utils.kernel.misc.Vibration;
 import com.moro.mtweaks.utils.kernel.misc.Wakelocks;
+import com.moro.mtweaks.utils.root.RootUtils;
+import com.moro.mtweaks.views.recyclerview.ButtonView;
+import com.moro.mtweaks.views.recyclerview.ButtonView2;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView;
@@ -44,6 +47,7 @@ import com.moro.mtweaks.views.recyclerview.TitleView;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by willi on 29.06.16.
@@ -80,6 +84,9 @@ public class MiscFragment extends RecyclerViewFragment {
         if (mMisc.hasArchPower()) {
             archPowerInit(items);
         }
+        if (mMisc.hasMagiskBin()) {
+            secureKernel(items);
+        }
         if (Selinux.supported()){
             selinuxInit(items);
         }
@@ -93,6 +100,53 @@ public class MiscFragment extends RecyclerViewFragment {
         wakelockInit(items);
     }
 
+    private void secureKernel(List<RecyclerViewItem> items){
+        CardView skCard = new CardView(getActivity());
+        skCard.setTitle(getString(R.string.secure_kernel_tit));
+
+        SwitchView sk = new SwitchView();
+        sk.setTitle(getString(R.string.secure_kernel_on));
+        sk.setSummaryOn(getString(R.string.secure_kernel_on));
+        sk.setSummaryOff(getString(R.string.secure_kernel_off));
+        sk.setChecked(RootUtils.getProp("ro.secure").equals("1"));
+        sk.addOnSwitchListener(((switchView, isChecked) ->
+                mMisc.setProp("ro.secure", isChecked, getActivity())));
+        skCard.addItem(sk);
+
+        SwitchView adb = new SwitchView();
+        adb.setTitle(getString(R.string.adb_secure_on));
+        adb.setSummaryOn(getString(R.string.adb_secure_on));
+        adb.setSummaryOff(getString(R.string.adb_secure_off));
+        adb.setChecked(RootUtils.getProp("ro.adb.secure").equals("1"));
+        adb.addOnSwitchListener(((switchView, isChecked) -> {
+                mMisc.setProp("ro.adb.secure", isChecked, getActivity());
+                mMisc.setProp("persist.service.adb.enable", isChecked, getActivity());
+                Utils.toast(getString(R.string.restart_usb_toast), getActivity());
+                RootUtils.runCommand("stop adbd");
+                RootUtils.runCommand("start adbd");
+        }));
+
+        skCard.addItem(adb);
+
+        SwitchView debug = new SwitchView();
+        debug.setTitle(getString(R.string.debug_on));
+        debug.setSummaryOn(getString(R.string.debug_on));
+        debug.setSummaryOff(getString(R.string.debug_off));
+        debug.setChecked(RootUtils.getProp("ro.debuggable").equals("1"));
+        debug.addOnSwitchListener(((switchView, isChecked) -> {
+                mMisc.setProp("ro.debuggable", isChecked, getActivity());
+                mMisc.setProp("persist.service.debuggable", isChecked, getActivity());
+                Utils.toast(getString(R.string.restart_usb_toast), getActivity());
+                RootUtils.runCommand("stop adbd");
+                RootUtils.runCommand("start adbd");
+        }));
+        skCard.addItem(debug);
+
+        if (skCard.size() > 0) {
+            items.add(skCard);
+        }
+    }
+
     private void selinuxInit(List<RecyclerViewItem> items){
         CardView sl = new CardView(getActivity());
         sl.setTitle(getString(R.string.selinux));
@@ -102,19 +156,13 @@ public class MiscFragment extends RecyclerViewFragment {
         mode.setSummary(getString(R.string.selinux_summary));
         mode.setItems(Arrays.asList(getResources().getStringArray(R.array.selinux_states)));
         mode.setItem(Selinux.getStringEnforceMode());
-        mode.setOnItemSelected(new SelectView.OnItemSelected() {
-            @Override
-            public void onItemSelected(SelectView selectView, final int position, String item) {
-                Selinux.setEnforceMode(position, getActivity());
-                getHandler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mode.setItem(Selinux.getStringEnforceMode());
-                        if (position != Selinux.getEnforceMode())
-                            Utils.toast(getString(R.string.selinux_no_kernel_toast), getActivity());
-                    }
-                }, 500);
-            }
+        mode.setOnItemSelected((selectView, position, item) -> {
+            Selinux.setEnforceMode(position, getActivity());
+            getHandler().postDelayed(() -> {
+                mode.setItem(Selinux.getStringEnforceMode());
+                if (position != Selinux.getEnforceMode())
+                    Utils.toast(getString(R.string.selinux_no_kernel_toast), getActivity());
+            }, 500);
         });
 
         sl.addItem(mode);
@@ -125,7 +173,7 @@ public class MiscFragment extends RecyclerViewFragment {
     }
 
     private void vibrationInit(List<RecyclerViewItem> items) {
-        final Vibrator vibrator = (Vibrator) getActivity()
+        final Vibrator vibrator = (Vibrator) Objects.requireNonNull(getActivity())
                 .getSystemService(Context.VIBRATOR_SERVICE);
 
         final int min = mVibration.getMin();
@@ -230,12 +278,7 @@ public class MiscFragment extends RecyclerViewFragment {
         enable.setTitle(getString(R.string.pwm));
         enable.setSummary(getString(R.string.pwm_summary));
         enable.setChecked(Pwm.isPwmEnabled());
-        enable.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-            @Override
-            public void onChanged(SwitchView switchView, boolean isChecked) {
-                Pwm.enablePwm(isChecked, getActivity());
-            }
-        });
+        enable.addOnSwitchListener((switchView, isChecked) -> Pwm.enablePwm(isChecked, getActivity()));
 
         pwmCard.addItem(enable);
 
@@ -267,19 +310,13 @@ public class MiscFragment extends RecyclerViewFragment {
             state.setTitle(getString(R.string.power_suspend_state));
             state.setSummary(getString(R.string.power_suspend_state_summary));
             state.setChecked(PowerSuspend.isStateEnabled());
-            state.addOnSwitchListener(new SwitchView.OnSwitchListener() {
-                @Override
-                public void onChanged(SwitchView switchView, final boolean isChecked) {
-                    PowerSuspend.enableState(isChecked, getActivity());
-                    getHandler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            state.setChecked(PowerSuspend.isStateEnabled());
-                            if (isChecked != PowerSuspend.isStateEnabled())
-                                Utils.toast(getString(R.string.power_suspend_state_toast), getActivity());
-                        }
-                    }, 500);
-                }
+            state.addOnSwitchListener((switchView, isChecked) -> {
+                PowerSuspend.enableState(isChecked, getActivity());
+                getHandler().postDelayed(() -> {
+                    state.setChecked(PowerSuspend.isStateEnabled());
+                    if (isChecked != PowerSuspend.isStateEnabled())
+                        Utils.toast(getString(R.string.power_suspend_state_toast), getActivity());
+                }, 500);
             });
 
             ps.addItem(state);

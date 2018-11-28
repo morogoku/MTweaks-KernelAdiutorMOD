@@ -50,6 +50,8 @@ public class Misc {
     private static final String TCP_AVAILABLE_CONGESTIONS = "/proc/sys/net/ipv4/tcp_available_congestion_control";
     private static final String HOSTNAME_KEY = "net.hostname";
     private static final String WIREGUARD = "/sys/module/wireguard/version";
+    private static final String MAGISK_BIN = "/res/magisk";
+    private static final String RESETPROP = MAGISK_BIN + " resetprop -v -n ";
 
     private final List<String> mLoggers = new ArrayList<>();
     private final List<String> mCrcs = new ArrayList<>();
@@ -96,6 +98,14 @@ public class Misc {
                 break;
             }
         }
+    }
+
+    public boolean hasMagiskBin(){
+        return Utils.existFile(MAGISK_BIN);
+    }
+
+    public void setProp(String prop, boolean value, Context context){
+        run(RESETPROP + prop + " " + (value ? 1 : 0), prop, context);
     }
 
     public static boolean hasWireguard() {

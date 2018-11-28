@@ -803,6 +803,14 @@
   <string name="read">Lectura</string>
   <string name="write">Escritura</string>
   <!-- Misc -->
+  <string name="secure_kernel_tit">Seguridad</string>
+  <string name="secure_kernel_on">Kernel Seguro</string>
+  <string name="secure_kernel_off">Kernel Inseguro</string>
+  <string name="adb_secure_on">ADB Seguro</string>
+  <string name="adb_secure_off">ADB Inseguro</string>
+  <string name="debug_on">Debuggable</string>
+  <string name="debug_off">No Debuggable</string>
+  <string name="restart_usb_toast">Reiniciando USB …</string>
   <string name="selinux">Estado SELinux</string>
   <string name="selinux_no_kernel_toast">Estado SELinux: Kernel no soportado</string>
   <string name="selinux_summary">Seleccione el estado de SELinux, Permissive/Enforcing.\n(Requiere kernel que lo soporte.)</string>

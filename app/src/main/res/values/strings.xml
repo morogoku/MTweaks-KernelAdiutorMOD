@@ -898,6 +898,14 @@
     <string name="write">Write</string>
 
     <!-- Misc -->
+    <string name="secure_kernel_tit">Security</string>
+    <string name="secure_kernel_on">Secure Kernel</string>
+    <string name="secure_kernel_off">Insecure Kernel</string>
+    <string name="adb_secure_on">Secure ADB</string>
+    <string name="adb_secure_off">Insecure ADB</string>
+    <string name="debug_on">Debuggable</string>
+    <string name="debug_off">Not Debuggable</string>
+    <string name="restart_usb_toast">Restarting USB …</string>
     <string name="selinux">SELinux State</string>
     <string name="selinux_no_kernel_toast">SELinux state: Kernel not supported</string>
     <string name="selinux_summary">Select the SELinux state, Permissive/Enforcing.\n(Required a kernel with support.)</string>
