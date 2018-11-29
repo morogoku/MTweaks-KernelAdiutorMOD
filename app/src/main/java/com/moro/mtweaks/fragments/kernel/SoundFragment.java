@@ -23,6 +23,8 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
+import com.moro.mtweaks.views.recyclerview.CardView;
+import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
@@ -64,6 +66,9 @@ public class SoundFragment extends RecyclerViewFragment {
         }
         if (mSound.hasHeadphoneFlar()) {
             headphoneFlarInit(items);
+        }
+        if (mSound.hasHeadphoneMoro()) {
+            moroSoundControlInit(items);
         }
         if (mSound.hasSpeakerGain()) {
             speakerGainInit(items);
@@ -328,6 +333,58 @@ public class SoundFragment extends RecyclerViewFragment {
         });
 
         items.add(microphoneFlar);
+    }
+
+    private void moroSoundControlInit(List<RecyclerViewItem> items) {
+
+        CardView moroCard = new CardView(getActivity());
+        moroCard.setTitle(getString(R.string.moro_sound_control));
+
+        DescriptionView moroDesc = new DescriptionView();
+        moroDesc.setSummary(getString(R.string.moro_sound_summary));
+        moroCard.addItem(moroDesc);
+
+        if (mSound.hasHeadphoneMoro()) {
+            SeekBarView headphoneMoro = new SeekBarView();
+            headphoneMoro.setTitle(getString(R.string.headphone_gain));
+            headphoneMoro.setSummary(getString(R.string.def) + ": 640");
+            headphoneMoro.setItems(mSound.getHeadphoneMoroLimits());
+            headphoneMoro.setProgress(mSound.getHeadphoneMoroLimits().indexOf(mSound.getHeadphoneMoro()));
+            headphoneMoro.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mSound.setHeadphoneMoro(value, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            moroCard.addItem(headphoneMoro);
+        }
+
+        if (mSound.hasMoroSpeakerGain()) {
+            SeekBarView speakerMoro = new SeekBarView();
+            speakerMoro.setTitle(getString(R.string.speaker_gain));
+            speakerMoro.setSummary(getString(R.string.def) + ": 20");
+            speakerMoro.setItems(mSound.getSpeakerGainLimits());
+            speakerMoro.setProgress(mSound.getSpeakerGainLimits().indexOf(mSound.getSpeakerGain()));
+            speakerMoro.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mSound.setSpeakerGain(value, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            moroCard.addItem(speakerMoro);
+        }
+
+        if (moroCard.size() > 0){
+            items.add(moroCard);
+        }
     }
 
 }

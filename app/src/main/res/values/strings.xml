@@ -650,6 +650,8 @@
     <string name="lock_mic_gain_summary">Prevent modifications to microphone gains</string>
     <string name="microphone_gain">Microphone Gain</string>
     <string name="volume_gain">Volume Gain</string>
+    <string name="moro_sound_control">MoRo Sound Control</string>
+    <string name="moro_sound_summary">You can adjust the headphone and speaker gain.\nDO IT WITH CAUTION!, excessive volume could damage your ears or the speaker.</string>
 
     <!-- Battery -->
     <string name="store_mode">Store Mode</string>

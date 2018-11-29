@@ -579,6 +579,8 @@
   <string name="lock_mic_gain_summary">Evitar modificaciones en ganancias de micrófono</string>
   <string name="microphone_gain">Ganancia del Micrófono</string>
   <string name="volume_gain">Ganancia de Volumen</string>
+  <string name="moro_sound_control">MoRo Sound Control</string>
+  <string name="moro_sound_summary">Puede ajustar la ganancia de auriculares y altavoz.\nHAGALO CON PRECAUCION!, un volumen excesivo puede dañar sus oidos o el altavoz.</string>
   <!-- Battery -->
   <string name="store_mode">Store Mode</string>
   <string name="store_mode_summary">Establezca los límites MAX y MIN para la carga de bateía.</string>

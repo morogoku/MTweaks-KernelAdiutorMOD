@@ -65,17 +65,25 @@ public class Sound {
     private static final String MICROPHONE_FLAR = "/sys/kernel/sound_control/mic_gain";
     private static final String SPEAKER_FLAR = "/sys/kernel/sound_control/speaker_gain";
 
+    private static final String HEADPHONE_MORO = "/sys/kernel/moro_sound_control/headphone_gain";
+    //private static final String MICROPHONE_MORO = "/sys/kernel/moro_sound_control/mic_gain";
+    //private static final String EARPIECE_MORO = "/sys/kernel/moro_sound_control/earpiece_gain";
+    private static final String SPEAKER_MORO = "/sys/kernel/moro_sound_control/speaker_gain";
+
     private final List<String> mSpeakerGainFiles = new ArrayList<>();
 
     private final List<String> mFauxLimits = new ArrayList<>();
     private final List<String> mFrancoLimits = new ArrayList<>();
     private final List<String> mFlarLimits = new ArrayList<>();
     private final List<String> mFlarHpLimits = new ArrayList<>();
+    private final List<String> mMoroHPLimits = new ArrayList<>();
+    private final List<String> mMoroSPKLimits = new ArrayList<>();
 
     {
         mSpeakerGainFiles.add(SPEAKER_GAIN);
         mSpeakerGainFiles.add(SPEAKER_BOOST);
         mSpeakerGainFiles.add(SPEAKER_FLAR);
+        mSpeakerGainFiles.add(SPEAKER_MORO);
     }
 
     {
@@ -93,6 +101,13 @@ public class Sound {
 
         for (int i = -84; i < 41; i++) {
             mFlarHpLimits.add(String.valueOf(i));
+        }
+
+        for (int i = 512; i < 768; i++) {
+            mMoroHPLimits.add(String.valueOf(i));
+        }
+        for (int i = 0; i < 32; i++) {
+            mMoroSPKLimits.add(String.valueOf(i));
         }
     }
 
@@ -234,6 +249,9 @@ public class Sound {
             case SPEAKER_FLAR:
                 run(Control.write(value, SPEAKER_FLAR), SPEAKER_FLAR, context);
                 break;
+            case SPEAKER_MORO:
+                run(Control.write(value, SPEAKER_MORO), SPEAKER_MORO, context);
+                break;
         }
     }
 
@@ -251,6 +269,8 @@ public class Sound {
                 return Utils.readFile(SPEAKER_BOOST);
             case SPEAKER_FLAR:
                 return Utils.readFile(SPEAKER_FLAR);
+            case SPEAKER_MORO:
+                return Utils.readFile(SPEAKER_MORO);
         }
         return "";
     }
@@ -263,12 +283,22 @@ public class Sound {
                 return mFrancoLimits;
             case SPEAKER_FLAR:
                 return mFlarLimits;
+            case SPEAKER_MORO:
+                return mMoroSPKLimits;
         }
         return new ArrayList<>();
     }
 
     public boolean hasSpeakerGain() {
-        return SPEAKER_GAIN_FILE != null;
+        if (hasMoroSpeakerGain()) {
+            return false;
+        } else {
+            return SPEAKER_GAIN_FILE != null;
+        }
+    }
+
+    public boolean hasMoroSpeakerGain(){
+        return Utils.existFile(SPEAKER_MORO);
     }
 
     public void setCamMicrophoneGain(String value, Context context) {
@@ -386,7 +416,7 @@ public class Sound {
                 || hasHandsetMicrophoneGain() || hasCamMicrophoneGain() || hasSpeakerGain()
                 || hasHeadphonePowerAmpGain() || hasLockOutputGain() || hasLockMicGain()
                 || hasMicrophoneGain() || hasVolumeGain() || hasHeadphoneFlar()
-                || hasMicrophoneFlar();
+                || hasMicrophoneFlar() || hasHeadphoneMoro() || hasMoroSpeakerGain();
     }
 
     private long getChecksum(int a, int b) {
@@ -404,6 +434,17 @@ public class Sound {
         long checksum = getChecksum(left, right);
         run(Control.write(value + " " + checksum, path), id, context);
         run(Control.write(value, path), id + "nochecksum", context);
+    }
+
+    private void moroRun(String value, String path, String id, Context context) {
+        String[] values = value.split(" ");
+        int left = Utils.strToInt(values[0]);
+        int right = 0;
+        if (values.length > 1) {
+            right = Utils.strToInt(values[1]);
+        }
+
+        run(Control.write(value, path), id, context);
     }
 
     private void run(String command, String id, Context context) {
@@ -450,6 +491,24 @@ public class Sound {
 
     public boolean hasMicrophoneFlar() {
         return Utils.existFile(MICROPHONE_FLAR);
+    }
+
+    public void setHeadphoneMoro(String value, Context context) {
+        moroRun(value + " " + value, HEADPHONE_MORO, HEADPHONE_MORO, context);
+    }
+
+    public String getHeadphoneMoro() {
+        String value = Utils.readFile(HEADPHONE_MORO);
+        int gain = Utils.strToInt(value.contains(" ") ? value.split(" ")[0] : value);
+        return String.valueOf(gain);
+    }
+
+    public List<String> getHeadphoneMoroLimits() {
+        return mMoroHPLimits;
+    }
+
+    public boolean hasHeadphoneMoro() {
+        return Utils.existFile(HEADPHONE_MORO);
     }
 
 }
