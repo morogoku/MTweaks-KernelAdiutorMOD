@@ -1,12 +1,9 @@
 {
-  "latestVersion": "2.12.0",
-  "latestVersionCode": "2120",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.12.0/MTweaks_v2.12.0.apk",
+  "latestVersion": "2.12.1",
+  "latestVersionCode": "2121",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.12.1/MTweaks_v2.12.1.apk",
   "releaseNotes": [
     "Changelog:",
-    "- If no spectrum support, disable tile",
-    "- Update max-min values for flar2 sound ",
-    "- Secure kernel, adb, debuggable options",
-    "- MoRo Sound Control for S7 support"
+    "- MoRo Sound Control: Add earpiece volume setting"
   ]
 }
