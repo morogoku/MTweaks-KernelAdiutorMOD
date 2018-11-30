@@ -1,11 +1,12 @@
 {
-  "latestVersion": "2.11.0",
-  "latestVersionCode": "2110",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.11.0/MTweaks_v2.11.0.apk",
+  "latestVersion": "2.12.0",
+  "latestVersionCode": "2120",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.12.0/MTweaks_v2.12.0.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Fix issues with Android 9 Pie",
-    "- Fix password issue",
-    "- Add Flar2's gestures support"
+    "- If no spectrum support, disable tile",
+    "- Update max-min values for flar2 sound ",
+    "- Secure kernel, adb, debuggable options",
+    "- MoRo Sound Control for S7 support"
   ]
 }
