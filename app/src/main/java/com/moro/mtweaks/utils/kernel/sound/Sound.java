@@ -29,6 +29,8 @@ import com.moro.mtweaks.utils.root.RootUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.internal.Util;
+
 /**
  * Created by willi on 25.06.16.
  */
@@ -67,7 +69,7 @@ public class Sound {
 
     private static final String HEADPHONE_MORO = "/sys/kernel/moro_sound_control/headphone_gain";
     //private static final String MICROPHONE_MORO = "/sys/kernel/moro_sound_control/mic_gain";
-    //private static final String EARPIECE_MORO = "/sys/kernel/moro_sound_control/earpiece_gain";
+    private static final String EARPIECE_MORO = "/sys/kernel/moro_sound_control/earpiece_gain";
     private static final String SPEAKER_MORO = "/sys/kernel/moro_sound_control/speaker_gain";
 
     private final List<String> mSpeakerGainFiles = new ArrayList<>();
@@ -103,7 +105,7 @@ public class Sound {
             mFlarHpLimits.add(String.valueOf(i));
         }
 
-        for (int i = 512; i < 768; i++) {
+        for (int i = 512; i < 701; i++) {
             mMoroHPLimits.add(String.valueOf(i));
         }
         for (int i = 0; i < 32; i++) {
@@ -509,6 +511,20 @@ public class Sound {
 
     public boolean hasHeadphoneMoro() {
         return Utils.existFile(HEADPHONE_MORO);
+    }
+
+    public void setEarpieceMoro(String value, Context context) {
+        moroRun(value + " " + value, EARPIECE_MORO, EARPIECE_MORO, context);
+    }
+
+    public String getEarpieceMoro() {
+        String value = Utils.readFile(EARPIECE_MORO);
+        int gain = Utils.strToInt(value.contains(" ") ? value.split(" ")[0] : value);
+        return String.valueOf(gain);
+    }
+
+    public boolean hasEarpieceMoro() {
+        return Utils.existFile(EARPIECE_MORO);
     }
 
 }

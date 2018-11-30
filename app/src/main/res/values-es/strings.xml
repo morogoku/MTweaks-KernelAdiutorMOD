@@ -581,6 +581,8 @@
   <string name="volume_gain">Ganancia de Volumen</string>
   <string name="moro_sound_control">MoRo Sound Control</string>
   <string name="moro_sound_summary">Puede ajustar la ganancia de auriculares y altavoz.\nHAGALO CON PRECAUCION!, un volumen excesivo puede dañar sus oidos o el altavoz.</string>
+  <string name="earpiece_gain">Ganancia Auricular/Altavoz llamadas</string>
+  <string name="earpiece_gain_summary">Necesita el mod DualSpeaker</string>
   <!-- Battery -->
   <string name="store_mode">Store Mode</string>
   <string name="store_mode_summary">Establezca los límites MAX y MIN para la carga de bateía.</string>

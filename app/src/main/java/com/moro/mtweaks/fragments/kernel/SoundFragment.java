@@ -363,6 +363,25 @@ public class SoundFragment extends RecyclerViewFragment {
             moroCard.addItem(headphoneMoro);
         }
 
+        if (mSound.hasEarpieceMoro()) {
+            SeekBarView earpieceMoro = new SeekBarView();
+            earpieceMoro.setTitle(getString(R.string.earpiece_gain));
+            earpieceMoro.setSummary(getString(R.string.earpiece_gain_summary) + "\n\n" + getString(R.string.def) + ": 640");
+            earpieceMoro.setItems(mSound.getHeadphoneMoroLimits());
+            earpieceMoro.setProgress(mSound.getHeadphoneMoroLimits().indexOf(mSound.getEarpieceMoro()));
+            earpieceMoro.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    mSound.setEarpieceMoro(value, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            moroCard.addItem(earpieceMoro);
+        }
+
         if (mSound.hasMoroSpeakerGain()) {
             SeekBarView speakerMoro = new SeekBarView();
             speakerMoro.setTitle(getString(R.string.speaker_gain));

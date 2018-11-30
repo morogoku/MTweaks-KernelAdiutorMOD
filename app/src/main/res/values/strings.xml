@@ -652,6 +652,8 @@
     <string name="volume_gain">Volume Gain</string>
     <string name="moro_sound_control">MoRo Sound Control</string>
     <string name="moro_sound_summary">You can adjust the headphone and speaker gain.\nDO IT WITH CAUTION!, excessive volume could damage your ears or the speaker.</string>
+    <string name="earpiece_gain">Earpiece Gain</string>
+    <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
 
     <!-- Battery -->
     <string name="store_mode">Store Mode</string>
