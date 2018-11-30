@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Update max-min values for flar2 sound\n* Add Secure props options\n* MoRo Sound Settings, for S7\n\n\n</string>
+    <string name="changelog_message">\n* MoRo Sound Control: Add earpiece volume setting\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->

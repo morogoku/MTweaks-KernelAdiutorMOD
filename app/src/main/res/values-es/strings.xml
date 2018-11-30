@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Actualizados valores max-min de Flar2 Sound\n* Opciones de Secure props\n* MoRo Sound Ajustes, para S7\n\n\n</string>
+  <string name="changelog_message">\n* MoRo Sound Control: Añadido ajuste para Auricular/altavoz llamadas.\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
