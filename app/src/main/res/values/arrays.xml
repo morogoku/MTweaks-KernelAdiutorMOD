@@ -39,6 +39,29 @@
         <item>@string/blue</item>
     </string-array>
 
+    <!-- Sound -->
+    <string-array name="eq_names">
+        <item>@string/arizona_eql1</item>
+        <item>@string/arizona_eql2</item>
+        <item>@string/arizona_eql3</item>
+        <item>@string/arizona_eql4</item>
+        <item>@string/arizona_eql5</item>
+        <item>@string/arizona_eql6</item>
+        <item>@string/arizona_eql7</item>
+        <item>@string/arizona_eql8</item>
+    </string-array>
+
+    <string-array name="eq_summary">
+        <item>@string/arizona_eql1_summary</item>
+        <item>@string/arizona_eql2_summary</item>
+        <item>@string/arizona_eql3_summary</item>
+        <item>@string/arizona_eql4_summary</item>
+        <item>@string/arizona_eql5_summary</item>
+        <item>@string/arizona_eql6_summary</item>
+        <item>@string/arizona_eql7_summary</item>
+        <item>@string/arizona_eql8_summary</item>
+    </string-array>
+
     <!-- Low Memory Killer -->
     <string-array name="lmk_names">
         <item>@string/foreground_app</item>

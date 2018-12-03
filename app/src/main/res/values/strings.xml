@@ -75,6 +75,7 @@
     <string name="px">px</string>
     <string name="percent">%</string>
     <string name="gb">GB</string>
+    <string name="db">db</string>
 
     <!-- Special signs -->
     <string name="minus" translatable="false">-</string>
@@ -654,6 +655,35 @@
     <string name="moro_sound_summary">You can adjust the headphone and speaker gain.\nDO IT WITH CAUTION!, excessive volume could damage your ears or the speaker.</string>
     <string name="earpiece_gain">Earpiece Gain</string>
     <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
+    <string name="arizona_title">Arizona Sound Mod</string>
+    <string name="arizona_hp_l">Left Headphone Gain</string>
+    <string name="arizona_hp_r">Right Headphone Gain</string>
+    <string name="arizona_eq_title">Equalizer</string>
+    <string name="arizona_eq_sw">Enable Equalizer</string>
+    <string name="arizona_eql1">Band 1 Gain</string>
+    <string name="arizona_eql1_summary">Cutoff-frequency: 25 Hz</string>
+    <string name="arizona_eql2">Band 2 Gain</string>
+    <string name="arizona_eql2_summary">Center-frequency: 200 Hz, bandwidth: 100 Hz</string>
+    <string name="arizona_eql3">Band 3 Gain</string>
+    <string name="arizona_eql3_summary">Center-frequency: 500 Hz, bandwidth: 250 Hz</string>
+    <string name="arizona_eql4">Band 4 Gain</string>
+    <string name="arizona_eql4_summary">Center-frequency: 1000 Hz, bandwidth: 500 Hz</string>
+    <string name="arizona_eql5">Band 5 Gain</string>
+    <string name="arizona_eql5_summary">Center-frequency: 2000 Hz, bandwidth: 1000 Hz</string>
+    <string name="arizona_eql6">Band 6 Gain</string>
+    <string name="arizona_eql6_summary">Center-frequency: 4000 Hz, bandwidth: 2000 Hz</string>
+    <string name="arizona_eql7">Band 7 Gain</string>
+    <string name="arizona_eql7_summary">Center-frequency: 8000 Hz, bandwidth: 4000 Hz</string>
+    <string name="arizona_eql8">Band 8 Gain</string>
+    <string name="arizona_eql8_summary">Cutoff-frequency: 16000 Hz</string>
+    <string name="arizona_eqprofile_tit">EQ Profiles</string>
+    <string name="arizona_eqprofile_desc">Select an equalizer profile</string>
+    <string name="arizona_eq_prof1">Extreme Bass</string>
+    <string name="arizona_eq_prof2">Bass-Treble Balance</string>
+    <string name="arizona_eq_prof3">Treble Gain</string>
+    <string name="arizona_eq_prof4">Eargasm</string>
+    <string name="arizona_mono_tit">Mono Mixer</string>
+    <string name="arizona_mono_desc">Mixes together left and right channels</string>
 
     <!-- Battery -->
     <string name="store_mode">Store Mode</string>
