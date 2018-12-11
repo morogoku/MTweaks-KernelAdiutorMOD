@@ -42,6 +42,7 @@ public class SelectView extends ValueView {
     private OnItemSelected mOnItemSelected;
     private Dialog mDialog;
     private List<String> mItems = new ArrayList<>();
+    private boolean mEnabled = true;
 
     @Override
     public void onRecyclerViewCreate(Activity activity) {
@@ -79,6 +80,11 @@ public class SelectView extends ValueView {
         mOnItemSelected = onItemSelected;
     }
 
+    public void setEnabled(boolean enable) {
+        mEnabled = enable;
+        refresh();
+    }
+
     private void showDialog(Context context) {
         String[] items = mItems.toArray(new String[mItems.size()]);
 
@@ -102,6 +108,7 @@ public class SelectView extends ValueView {
 
         if (mView != null && getValue() != null) {
             mView.setOnClickListener(v -> showDialog(v.getContext()));
+            mView.setEnabled(mEnabled);
         }
     }
 }

@@ -420,16 +420,78 @@ public class SoundFragment extends RecyclerViewFragment {
     private void arizonaSoundInit(List<RecyclerViewItem> items) {
 
         mEqGain.clear();
+        Boolean isSoundEnabled = ArizonaSound.isSoundSwEnabled();
+
+        SeekBarView hp = new SeekBarView();
+        SeekBarView ep = new SeekBarView();
+        SeekBarView spk = new SeekBarView();
+        CheckBoxView mono = new CheckBoxView();
+        SwitchView eqsw = new SwitchView();
+        SelectView eqprofile = new SelectView();
 
         CardView asCard = new CardView(getActivity());
         asCard.setTitle(getString(R.string.arizona_title));
 
+        if(ArizonaSound.hasSoundSw()){
+            SwitchView es = new SwitchView();
+            es.setTitle(getString(R.string.arizona_sound_sw));
+            es.setSummaryOn(getString(R.string.enabled));
+            es.setSummaryOff(getString(R.string.disabled));
+            es.setChecked(ArizonaSound.isSoundSwEnabled());
+            es.addOnSwitchListener(((switchView, isChecked) -> {
+                    ArizonaSound.enableSoundSw(isChecked, getActivity());
+                    getHandler().postDelayed(() -> {
+                            // Refresh HP
+                            hp.setEnabled(isChecked);
+                            hp.setProgress(Utils.strToInt(ArizonaSound.getHeadphone()));
+
+                            // Refresh EP
+                            ep.setEnabled(isChecked);
+                            ep.setProgress(Utils.strToInt(ArizonaSound.getEarpiece()));
+
+                            // Refresh Speaker
+                            spk.setEnabled(isChecked);
+                            spk.setProgress(Utils.strToInt(ArizonaSound.getSpeaker()));
+
+                            // Refresh Mono Switch
+                            mono.setEnabled(isChecked);
+                            mono.setChecked(ArizonaSound.isMonoSwEnabled());
+
+                            // Refresh EQ Switch
+                            eqsw.setEnabled(isChecked);
+                            eqsw.setChecked(ArizonaSound.isEqSwEnabled());
+
+                            // Reset EQ
+                            if(!isChecked){
+                                eqprofile.setItem(0);
+                                AppSettings.saveInt("arizona_eq_profile", 0, getActivity());
+
+                                List<String> limit = ArizonaSound.getEqLimit();
+                                List<String> values = ArizonaSound.getEqValues();
+                                for (int i = 0; i < 8; i++) {
+                                    mEqGain.get(i).setProgress(limit.indexOf(values.get(i)));
+                                }
+                            }
+                    }
+                    , 100);
+            }
+            ));
+            asCard.addItem(es);
+        }
+
+        if(asCard.size() > 0){
+            items.add(asCard);
+        }
+
+        CardView gainCard = new CardView(getActivity());
+        gainCard.setTitle(getString(R.string.arizona_volume_title));
+
         if(ArizonaSound.hasHeadphone()) {
-            SeekBarView hp = new SeekBarView();
             hp.setTitle(getString(R.string.headphone_gain));
             hp.setMin(0);
             hp.setMax(190);
             hp.setUnit(getString(R.string.db));
+            hp.setEnabled(isSoundEnabled);
             hp.setProgress(Utils.strToInt(ArizonaSound.getHeadphone()));
             hp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
@@ -441,16 +503,16 @@ public class SoundFragment extends RecyclerViewFragment {
                 public void onMove(SeekBarView seekBarView, int position, String value) {
                 }
             });
-            asCard.addItem(hp);
+            gainCard.addItem(hp);
         }
 
         if(ArizonaSound.hasEarpiece()) {
-            SeekBarView ep = new SeekBarView();
             ep.setTitle(getString(R.string.earpiece_gain));
             ep.setSummary(getString(R.string.earpiece_gain_summary));
             ep.setMin(0);
             ep.setMax(30);
             ep.setUnit(getString(R.string.db));
+            ep.setEnabled(isSoundEnabled);
             ep.setProgress(Utils.strToInt(ArizonaSound.getEarpiece()));
             ep.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
@@ -462,15 +524,15 @@ public class SoundFragment extends RecyclerViewFragment {
                 public void onMove(SeekBarView seekBarView, int position, String value) {
                 }
             });
-            asCard.addItem(ep);
+            gainCard.addItem(ep);
         }
 
         if(ArizonaSound.hasSpeaker()){
-            SeekBarView spk = new SeekBarView();
             spk.setTitle(getString(R.string.speaker_gain));
             spk.setMin(0);
             spk.setMax(30);
             spk.setUnit(getString(R.string.db));
+            spk.setEnabled(isSoundEnabled);
             spk.setProgress(Utils.strToInt(ArizonaSound.getSpeaker()));
             spk.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
@@ -482,39 +544,46 @@ public class SoundFragment extends RecyclerViewFragment {
                 public void onMove(SeekBarView seekBarView, int position, String value) {
                 }
             });
-            asCard.addItem(spk);
+            gainCard.addItem(spk);
         }
 
         if(ArizonaSound.hasMonoSw()) {
-            CheckBoxView mono = new CheckBoxView();
             mono.setTitle(getString(R.string.arizona_mono_tit));
             mono.setSummary(getString(R.string.arizona_mono_desc));
+            mono.setEnabled(isSoundEnabled);
             mono.setChecked(ArizonaSound.isMonoSwEnabled());
             mono.addOnCheckboxListener(((checkboxView, isChecked)
                     -> ArizonaSound.enableMonoSw(isChecked, getActivity())));
-            asCard.addItem(mono);
+            gainCard.addItem(mono);
         }
 
-
-        if(asCard.size() > 0){
-            items.add(asCard);
+        if(gainCard.size() > 0){
+            items.add(gainCard);
         }
 
         CardView eqCard = new CardView(getActivity());
         eqCard.setTitle(getString(R.string.arizona_eq_title));
 
         if(ArizonaSound.hasEqSw()) {
-            SwitchView eqsw = new SwitchView();
             eqsw.setTitle(getString(R.string.arizona_eq_sw));
+            eqsw.setSummaryOn(getString(R.string.enabled));
+            eqsw.setSummaryOff(getString(R.string.disabled));
+            eqsw.setEnabled(isSoundEnabled);
             eqsw.setChecked(ArizonaSound.isEqSwEnabled());
-            eqsw.addOnSwitchListener(((switchView, isChecked)
-                    -> ArizonaSound.enableEqSw(isChecked, getActivity())
+            eqsw.addOnSwitchListener(((switchView, isChecked) -> {
+                    ArizonaSound.enableEqSw(isChecked, getActivity());
+                    eqprofile.setEnabled(isChecked);
+                    for (int i = 0; i < 8; i++) {
+                        mEqGain.get(i).setEnabled(isChecked);
+                    }
+            }
+
             ));
             eqCard.addItem(eqsw);
 
-            SelectView eqprofile = new SelectView();
             eqprofile.setTitle(getString(R.string.arizona_eqprofile_tit));
             eqprofile.setSummary(getString(R.string.arizona_eqprofile_desc));
+            eqprofile.setEnabled(isSoundEnabled);
             eqprofile.setItems(ArizonaSound.getEqProfileList());
             eqprofile.setItem(AppSettings.getInt("arizona_eq_profile", 0, getActivity()));
             eqprofile.setOnItemSelected((selectView, position, item) -> {
@@ -531,13 +600,15 @@ public class SoundFragment extends RecyclerViewFragment {
             String[] names = getResources().getStringArray(R.array.eq_names);
             String[] descriptions = getResources().getStringArray(R.array.eq_summary);
             List<String> values = ArizonaSound.getEqValues();
+            List<String> eqLimit = ArizonaSound.getEqLimit();
 
             for (int i = 0; i < 8; i++) {
                 final int id = i;
                 SeekBarView eqgain = new SeekBarView();
                 eqgain.setTitle(names[i]);
                 eqgain.setSummary(descriptions[i]);
-                eqgain.setItems(ArizonaSound.getEqLimit());
+                eqgain.setEnabled(ArizonaSound.isEqSwEnabled());
+                eqgain.setItems(eqLimit);
                 eqgain.setProgress(ArizonaSound.getEqLimit().indexOf(values.get(i)));
                 eqgain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                     @Override

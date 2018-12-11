@@ -222,6 +222,11 @@ public class SeekBarView extends RecyclerViewItem {
                     mValue.setText(mValue.getResources().getString(R.string.not_in_range));
                 }
             }
+            if(mEnabled){
+                mSeekBar.setAlpha(1f);
+            } else {
+                mSeekBar.setAlpha(0.4f);
+            }
         }
     }
 }

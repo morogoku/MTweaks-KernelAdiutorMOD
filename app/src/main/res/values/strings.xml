@@ -655,11 +655,15 @@
     <string name="moro_sound_summary">You can adjust the headphone and speaker gain.\nDO IT WITH CAUTION!, excessive volume could damage your ears or the speaker.</string>
     <string name="earpiece_gain">Earpiece Gain</string>
     <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
-    <string name="arizona_title">Arizona Sound Mod</string>
+    <string name="arizona_title">Arizona Control Sound</string>
+    <string name="arizona_sound_sw">Arizona Control</string>
+    <string name="arizona_sound_sw_summary_on">Enable or Disable the sound control\nEnabled</string>
+    <string name="arizona_sound_sw_summary_off">Enable or Disable the sound control\nDisabled</string>
+    <string name="arizona_volume_title">Volume</string>
     <string name="arizona_hp_l">Left Headphone Gain</string>
     <string name="arizona_hp_r">Right Headphone Gain</string>
     <string name="arizona_eq_title">Equalizer</string>
-    <string name="arizona_eq_sw">Enable Equalizer</string>
+    <string name="arizona_eq_sw">Equalizer Control</string>
     <string name="arizona_eql1">Band 1 Gain</string>
     <string name="arizona_eql1_summary">Cutoff-frequency: 25 Hz</string>
     <string name="arizona_eql2">Band 2 Gain</string>

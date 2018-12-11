@@ -46,6 +46,9 @@ public class SwitchView extends RecyclerViewItem {
     private CharSequence mSummaryOnText;
     private CharSequence mSummaryOffText;
     private boolean mChecked;
+    private boolean mEnabled = true;
+    private float mAlpha = 1f;
+    private View mView;
 
     private List<OnSwitchListener> mOnSwitchListeners = new ArrayList<>();
 
@@ -56,13 +59,16 @@ public class SwitchView extends RecyclerViewItem {
 
     @Override
     public void onCreateView(View view) {
-        mTitle = view.findViewById(R.id.title);
-        mSummary = view.findViewById(R.id.summary);
-        mSwitcher = view.findViewById(R.id.switcher);
+        mView = view;
+        mTitle = mView.findViewById(R.id.title);
+        mSummary = mView.findViewById(R.id.summary);
+        mSwitcher = mView.findViewById(R.id.switcher);
 
-        super.onCreateView(view);
+        super.onCreateView(mView);
 
-        view.setOnClickListener(v -> {
+        mView.setEnabled(mEnabled);
+
+        mView.setOnClickListener(v -> {
             mSwitcher.setChecked(!mChecked);
             if (mSummary != null && mSummaryOnText != null && mSummaryOffText != null) {
                 refresh();
@@ -105,6 +111,16 @@ public class SwitchView extends RecyclerViewItem {
         refresh();
     }
 
+    public void setEnabled(boolean enable) {
+        mEnabled = enable;
+        refresh();
+    }
+
+    public void setAlpha(float alpha) {
+        mAlpha = alpha;
+        refresh();
+    }
+
     public CharSequence getTitle() {
         return mTitleText;
     }
@@ -142,8 +158,11 @@ public class SwitchView extends RecyclerViewItem {
                 mSummary.setText(mSummaryOffText);
             }
         }
+        if (mView != null) mView.setEnabled(mEnabled);
         if (mSwitcher != null) {
             mSwitcher.setChecked(mChecked);
+            mSwitcher.setEnabled(mEnabled);
+            mSwitcher.setAlpha(mAlpha);
         }
     }
 }

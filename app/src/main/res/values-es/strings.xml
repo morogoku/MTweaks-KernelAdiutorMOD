@@ -151,8 +151,8 @@
   <string name="manual">Manual</string>
   <string name="mc_power_saving">Ahorro de Energía Multinúcleo</string>
   <string name="mc_power_saving_summary">Intenta agrupar tareas en el menor número de núcleos posible.</string>
-  <string name="disabled">Deshabilitado</string>
-  <string name="enabled">Activo</string>
+  <string name="disabled">Desactivado</string>
+  <string name="enabled">Activado</string>
   <string name="aggressive">Agresivo</string>
   <string name="power_saving_wq">Planificar colas de trabajo en CPUs activos para ahorrar energía.</string>
   <string name="cfs_scheduler_policy">Política del Regulador CFS</string>

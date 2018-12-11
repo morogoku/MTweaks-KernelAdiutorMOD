@@ -12,8 +12,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Objects;
 
-import okhttp3.internal.Util;
-
 public class ArizonaSound {
 
     private static final String ARIZONA_SOUND = "/sys/devices/virtual/misc/arizona_control/";
@@ -23,6 +21,7 @@ public class ArizonaSound {
     private static final String ARIZONA_EP = ARIZONA_SOUND + "ep_dvol";
     private static final String ARIZONA_SPK = ARIZONA_SOUND + "speaker_dvol";
 
+    private static final String ARIZONA_SW_SOUND = ARIZONA_SOUND + "switch_enable_sound";
     private static final String ARIZONA_SW_MONO = ARIZONA_SOUND + "switch_hp_mono";
     //private static final String ARIZONA_SW_EQ_CH = ARIZONA_SOUND + "switch_eq_hp_per_ch";
     private static final String ARIZONA_SW_EQ = ARIZONA_SOUND + "switch_eq_hp";
@@ -135,6 +134,20 @@ public class ArizonaSound {
 
     public static void setEarpiece(String value, Context context){
         run(Control.write(value, ARIZONA_EP), ARIZONA_EP, context);
+    }
+
+
+    // ENABLE SOUND SWITCH
+    public static boolean hasSoundSw(){
+        return Utils.existFile(ARIZONA_SW_SOUND);
+    }
+
+    public static Boolean isSoundSwEnabled(){
+        return Utils.readFile(ARIZONA_SW_SOUND).equals("1");
+    }
+
+    public static void enableSoundSw(Boolean enable, Context context){
+        run(Control.write(enable ? "1" : "0", ARIZONA_SW_SOUND), ARIZONA_SW_SOUND, context);
     }
 
 
