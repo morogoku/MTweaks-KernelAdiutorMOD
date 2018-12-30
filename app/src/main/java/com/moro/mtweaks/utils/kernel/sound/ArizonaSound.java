@@ -82,7 +82,7 @@ public class ArizonaSound {
         run(Control.write(value, ARIZONA_HP_R), ARIZONA_HP_R, context);
     }
 
-/*
+
     public static boolean hasHeadphoneL(){
         return Utils.existFile(ARIZONA_HP_L);
     }
@@ -106,7 +106,7 @@ public class ArizonaSound {
     public static void setHeadphoneR(String value, Context context){
         run(Control.write(value, ARIZONA_HP_R), ARIZONA_HP_R, context);
     }
-*/
+
 
 
     // SPEAKER

@@ -420,7 +420,14 @@ public class SoundFragment extends RecyclerViewFragment {
     private void arizonaSoundInit(List<RecyclerViewItem> items) {
 
         mEqGain.clear();
-        Boolean isSoundEnabled = ArizonaSound.isSoundSwEnabled();
+        Boolean isSoundEnabled;
+        Boolean hasSound = ArizonaSound.hasSoundSw();
+
+        if(hasSound){
+            isSoundEnabled = ArizonaSound.isSoundSwEnabled();
+        }else{
+            isSoundEnabled = true;
+        }
 
         SeekBarView hp = new SeekBarView();
         SeekBarView ep = new SeekBarView();
@@ -429,10 +436,12 @@ public class SoundFragment extends RecyclerViewFragment {
         SwitchView eqsw = new SwitchView();
         SelectView eqprofile = new SelectView();
 
-        CardView asCard = new CardView(getActivity());
-        asCard.setTitle(getString(R.string.arizona_title));
+
 
         if(ArizonaSound.hasSoundSw()){
+            CardView asCard = new CardView(getActivity());
+            asCard.setTitle(getString(R.string.arizona_title));
+
             SwitchView es = new SwitchView();
             es.setTitle(getString(R.string.arizona_sound_sw));
             es.setSummaryOn(getString(R.string.enabled));
@@ -477,14 +486,16 @@ public class SoundFragment extends RecyclerViewFragment {
             }
             ));
             asCard.addItem(es);
+            if(asCard.size() > 0) items.add(asCard);
         }
 
-        if(asCard.size() > 0){
-            items.add(asCard);
-        }
 
         CardView gainCard = new CardView(getActivity());
-        gainCard.setTitle(getString(R.string.arizona_volume_title));
+        if(hasSound){
+            gainCard.setTitle(getString(R.string.arizona_volume_title));
+        }else {
+            gainCard.setTitle(getString(R.string.arizona_title));
+        }
 
         if(ArizonaSound.hasHeadphone()) {
             hp.setTitle(getString(R.string.headphone_gain));
