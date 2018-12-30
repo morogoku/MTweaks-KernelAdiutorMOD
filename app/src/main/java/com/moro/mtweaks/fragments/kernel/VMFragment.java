@@ -166,13 +166,14 @@ public class VMFragment extends RecyclerViewFragment {
         zram.setTitle(getString(R.string.disksize));
         zram.setSummary(getString(R.string.disksize_summary));
         zram.setUnit(getString(R.string.mb));
-        zram.setMax(2048);
-        zram.setOffset(10);
-        zram.setProgress(ZRAM.getDisksize() / 10);
+        zram.setMax(2560);
+        zram.setOffset(32);
+        zram.setProgress(ZRAM.getDisksize() / 32);
         zram.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
-                ZRAM.setDisksize(position * 10, getActivity());
+                ZRAM.setDisksize(position * 32, getActivity());
+                getHandler().postDelayed(() -> refreshBars(), 500);
             }
 
             @Override
@@ -278,9 +279,8 @@ public class VMFragment extends RecyclerViewFragment {
             }
         }, 250);
     }
-/*
-    protected void refresh() {
-        super.refresh();
+
+    protected void refreshBars() {
 
         if (swap != null) {
             long total = mMemInfo.getItemMb("SwapTotal");
@@ -293,5 +293,5 @@ public class VMFragment extends RecyclerViewFragment {
             mem.setItems(total, progress);
         }
     }
-*/
+
 }
