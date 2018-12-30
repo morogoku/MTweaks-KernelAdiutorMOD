@@ -1,9 +1,10 @@
 {
-  "latestVersion": "2.12.1",
-  "latestVersionCode": "2121",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.12.1/MTweaks_v2.12.1.apk",
+  "latestVersion": "2.12.6",
+  "latestVersionCode": "2126",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.12.6/MTweaks_v2.12.6.apk",
   "releaseNotes": [
     "Changelog:",
-    "- MoRo Sound Control: Add earpiece volume setting"
+    "- Arizona Sound Control Settings",
+    "- Fix ZRam max values"
   ]
 }
