@@ -31,6 +31,7 @@ import com.moro.mtweaks.utils.kernel.vm.VM;
 import com.moro.mtweaks.utils.kernel.vm.ZRAM;
 import com.moro.mtweaks.utils.kernel.vm.ZSwap;
 import com.moro.mtweaks.views.recyclerview.CardView;
+import com.moro.mtweaks.views.recyclerview.DescriptionView;
 import com.moro.mtweaks.views.recyclerview.GenericSelectView2;
 import com.moro.mtweaks.views.recyclerview.ProgressBarView;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
@@ -159,12 +160,33 @@ public class VMFragment extends RecyclerViewFragment {
     }
 
     private void zramInit(List<RecyclerViewItem> items) {
+        boolean isZramEnabled = ZRAM.isEnabled();
+
+        SeekBarView zram = new SeekBarView();
+
+
         CardView zramCard = new CardView(getActivity());
         zramCard.setTitle(getString(R.string.zram));
 
-        SeekBarView zram = new SeekBarView();
+        DescriptionView zramDesc = new DescriptionView();
+        zramDesc.setTitle(getString(R.string.disksize_summary));
+        zramCard.addItem(zramDesc);
+
+        SwitchView zramSw = new SwitchView();
+        zramSw.setTitle(getString(R.string.zram));
+        zramSw.setSummary(getString(R.string.zramsw_summary));
+        zramSw.setChecked(isZramEnabled);
+        zramSw.addOnSwitchListener((switchView, isChecked) -> {
+            ZRAM.enable(isChecked, getActivity());
+            zram.setEnabled(!isChecked);
+        });
+
+        zramCard.addItem(zramSw);
+
+
+        zram.setEnabled(!isZramEnabled);
         zram.setTitle(getString(R.string.disksize));
-        zram.setSummary(getString(R.string.disksize_summary));
+        zram.setSummary(getString(R.string.disksize_summary2));
         zram.setUnit(getString(R.string.mb));
         zram.setMax(2560);
         zram.setOffset(32);
@@ -173,7 +195,6 @@ public class VMFragment extends RecyclerViewFragment {
             @Override
             public void onStop(SeekBarView seekBarView, int position, String value) {
                 ZRAM.setDisksize(position * 32, getActivity());
-                getHandler().postDelayed(() -> refreshBars(), 500);
             }
 
             @Override
@@ -280,7 +301,8 @@ public class VMFragment extends RecyclerViewFragment {
         }, 250);
     }
 
-    protected void refreshBars() {
+    protected void refresh() {
+        super.refresh();
 
         if (swap != null) {
             long total = mMemInfo.getItemMb("SwapTotal");

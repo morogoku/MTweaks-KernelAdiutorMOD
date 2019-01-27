@@ -793,8 +793,10 @@
   <string name="vm_tun_tit_common">Ajustes más comunes</string>
   <string name="vm_tunnables">VM Ajustables</string>
   <string name="zram">Z-RAM</string>
+  <string name="zramsw_summary">Ative o desactive ZRAM.\n</string>
   <string name="disksize">Tamaño del disco</string>
   <string name="disksize_summary">Intenta aumentar el rendimiento evitando la paginación de almacenamiento físico, en su lugar usa un dispositivo de compresión virtual en la RAM. La paginación toma un lugar en la RAM hasta que sea necesario de usar el intercambio de espacio en el almacenamiento físico.</string>
+  <string name="disksize_summary2">Desactive primero ZRAM para poder ajustar el tamaño.</string>
   <string name="zswap">ZSWAP</string>
   <string name="zswap_summary">ZSwap es un caché ligeramente comprimido para páginas de intercambio. Toma páginas que están en proceso de ser intercambiadas hacia fuera e intenta comprimirlas en un espacio de la memoria asignado dinámicamente basado en RAM. Zswap intercambia básicamente ciclos de CPU por un espacio de intercambio de E/S reducido potencialmente.</string>
   <string name="memory_pool">Piscina de Memoria</string>

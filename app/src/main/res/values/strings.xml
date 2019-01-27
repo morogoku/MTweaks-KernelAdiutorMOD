@@ -920,8 +920,10 @@
     <string name="vm_tun_tit_common">Common settings</string>
     <string name="vm_tunnables">VM Tunnables</string>
     <string name="zram">Z-RAM</string>
+    <string name="zramsw_summary">Enable or disable ZRAM</string>
     <string name="disksize">Disksize</string>
     <string name="disksize_summary">Attempts to increase performance by avoiding paging on physical storage, instead using a compressed virtual device in RAM. Paging takes place in RAM until it is necessary to use the swap space on physical storage.</string>
+    <string name="disksize_summary2">First disable ZRAM to be able to adjust the size.</string>
     <string name="zswap">ZSWAP</string>
     <string name="zswap_summary">ZSwap is a lightweight compressed cache for swap pages. It takes pages that are in the process of being swapped out and attempts to compress them into a dynamically allocated RAM-based memory pool. Zswap basically trades CPU cycles for potentially reduced swap I/O.</string>
     <string name="memory_pool">Memory pool</string>
