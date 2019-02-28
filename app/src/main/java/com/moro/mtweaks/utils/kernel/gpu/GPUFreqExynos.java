@@ -88,6 +88,17 @@ public class GPUFreqExynos {
     private static final String POWER_POLICY_S9 = "/sys/devices/platform/17500000.mali/power_policy";
     private static final String UTILIZATION_S9 = "/sys/devices/platform/17500000.mali/utilization";
 
+    private static final String MAX_S10_FREQ = "/sys/devices/platform/18500000.mali/max_clock";
+    private static final String MIN_S10_FREQ = "/sys/devices/platform/18500000.mali/min_clock";
+    private static final String CUR_S10_FREQ = "/sys/devices/platform/18500000.mali/clock";
+    private static final String AVAILABLE_S10_FREQS = "/sys/devices/platform/18500000.mali/volt_table";
+    private static final String AVAILABLE_S10_GOVERNORS = "/sys/devices/platform/18500000.mali/dvfs_governor";
+    private static final String TUNABLE_HIGHSPEED_S10_CLOCK = "/sys/devices/platform/18500000.mali/highspeed_clock";
+    private static final String TUNABLE_HIGHSPEED_S10_LOAD = "/sys/devices/platform/18500000.mali/highspeed_load";
+    private static final String TUNABLE_HIGHSPEED_S10_DELAY = "/sys/devices/platform/18500000.mali/highspeed_delay";
+    private static final String POWER_POLICY_S10 = "/sys/devices/platform/18500000.mali/power_policy";
+    private static final String UTILIZATION_S10 = "/sys/devices/platform/18500000.mali/utilization";
+
 
     private final HashMap<String, Integer> mAvailableVolts = new HashMap<>();
     private final HashMap<String, Integer> mCurrentFreqs = new HashMap<>();
@@ -105,52 +116,63 @@ public class GPUFreqExynos {
         mAvailableVolts.put(AVAILABLE_S7_FREQS, 1000);
         mAvailableVolts.put(AVAILABLE_S8_FREQS, 1000);
         mAvailableVolts.put(AVAILABLE_S9_FREQS, 1000);
+        mAvailableVolts.put(AVAILABLE_S10_FREQS, 1000);
 
         mCurrentFreqs.put(CUR_S7_FREQ, 1);
         mCurrentFreqs.put(CUR_S8_FREQ, 1);
         mCurrentFreqs.put(CUR_S9_FREQ, 1);
+        mCurrentFreqs.put(CUR_S10_FREQ, 1);
 
         mMaxFreqs.add(MAX_S7_FREQ);
         mMaxFreqs.add(MAX_S8_FREQ);
         mMaxFreqs.add(MAX_S9_FREQ);
+        mMaxFreqs.add(MAX_S10_FREQ);
         mMaxFreqs.add(MAX_S7_FREQ_STOCK);
         mMaxFreqs.add(MAX_FREQ_STOCK);
 
         mMinFreqs.add(MIN_S7_FREQ);
         mMinFreqs.add(MIN_S8_FREQ);
         mMinFreqs.add(MIN_S9_FREQ);
+        mMinFreqs.add(MIN_S10_FREQ);
         mMinFreqs.add(MIN_S7_FREQ_STOCK);
         mMinFreqs.add(MIN_FREQ_STOCK);
 
         mAvailableFreqs.add(AVAILABLE_S7_FREQS);
         mAvailableFreqs.add(AVAILABLE_S8_FREQS);
         mAvailableFreqs.add(AVAILABLE_S9_FREQS);
+        mAvailableFreqs.add(AVAILABLE_S10_FREQS);
         mAvailableFreqs.add(AVAILABLE_S7_FREQS_STOCK);
         mAvailableFreqs.add(AVAILABLE_FREQS_STOCK);
 
         mScalingGovernors.add(AVAILABLE_S7_GOVERNORS);
         mScalingGovernors.add(AVAILABLE_S8_GOVERNORS);
         mScalingGovernors.add(AVAILABLE_S9_GOVERNORS);
+        mScalingGovernors.add(AVAILABLE_S10_GOVERNORS);
 
         mTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S7_CLOCK, 1);
         mTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S8_CLOCK, 1);
         mTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S9_CLOCK, 1);
+        mTunableHighspeedClocks.put(TUNABLE_HIGHSPEED_S10_CLOCK, 1);
 
         mTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S7_LOAD, 1);
         mTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S8_LOAD, 1);
         mTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S9_LOAD, 1);
+        mTunableHighspeedLoads.put(TUNABLE_HIGHSPEED_S10_LOAD, 1);
 
         mTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S7_DELAY, 1);
         mTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S8_DELAY, 1);
         mTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S9_DELAY, 1);
+        mTunableHighspeedDelays.put(TUNABLE_HIGHSPEED_S10_DELAY, 1);
 
         mPowerPolicies.put(POWER_POLICY_S7, 1);
         mPowerPolicies.put(POWER_POLICY_S8, 1);
         mPowerPolicies.put(POWER_POLICY_S9, 1);
+        mPowerPolicies.put(POWER_POLICY_S10, 1);
 
         mUtilization.put(UTILIZATION_S7, 1);
         mUtilization.put(UTILIZATION_S8, 1);
         mUtilization.put(UTILIZATION_S9, 1);
+        mUtilization.put(UTILIZATION_S10, 1);
     }
 
     public String AVAILABLE_VOLTS;
