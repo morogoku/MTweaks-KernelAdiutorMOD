@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Actualizado gradle 4.10.1 y Studio 3.3.0.\n* Actualizado ajuste de ZRAM.\n\n\n</string>
+  <string name="changelog_message">\n* Actualizado gradle 4.10.1 y Studio 3.3.1.\n* Actualizado ajuste de ZRAM.\n* Corregido soporte Spectrum\n* Agregado grafico de utiización de GPU\n* Soporte GPU S10 (sin testear)\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>

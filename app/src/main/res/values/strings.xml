@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Updated Gradle to 4.10.1 and Studio 3.3.0.\n* Updated ZRAM settings\n\n\n</string>
+    <string name="changelog_message">\n* Updated Gradle to 4.10.1 and Studio 3.3.1.\n* Updated ZRAM settings\n* Fix Spectrum Support\n* Add GPU utilization graph\n* S10 GPU support (without testing)\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->
