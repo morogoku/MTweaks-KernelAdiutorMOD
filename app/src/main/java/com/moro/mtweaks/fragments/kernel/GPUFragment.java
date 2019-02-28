@@ -56,6 +56,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
     private XYGraphView m2dCurFreq;
     private XYGraphView mCurFreq;
+    private XYGraphView mUtilization;
     private List<SeekBarView> mVoltages = new ArrayList<>();
     private SeekBarView mSeekbarProf = new SeekBarView();
 
@@ -303,6 +304,12 @@ public class GPUFragment extends RecyclerViewFragment {
             mCurFreq = new XYGraphView();
             mCurFreq.setTitle(getString(R.string.gpu_freq));
             freqCard.addItem(mCurFreq);
+        }
+
+        if (mGPUFreqExynos.hasUtilization()) {
+            mUtilization = new XYGraphView();
+            mUtilization.setTitle(getString(R.string.gpu_utilization));
+            freqCard.addItem(mUtilization);
         }
 
         if (mGPUFreq.has2dMaxFreq() && mGPUFreq.get2dAvailableFreqs() != null) {
@@ -828,13 +835,19 @@ public class GPUFragment extends RecyclerViewFragment {
             }
 
             int freq = mGPUFreqExynos.getCurFreq();
-            float maxFreq = Objects
-                    .requireNonNull(mGPUFreqExynos.getAvailableFreqsSort())
-                    .get(Objects.requireNonNull(mGPUFreqExynos.getAvailableFreqsSort()).size() - 1);
-            text += freq / mGPUFreqExynos.getCurFreqOffset() + getString(R.string.mhz);
-            mCurFreq.setText(text);
+            float maxFreq = mGPUFreqExynos.getAvailableFreqsSort()
+                    .get(mGPUFreqExynos.getAvailableFreqsSort().size() - 1);
+            mCurFreq.setText(freq / mGPUFreqExynos.getCurFreqOffset() + getString(R.string.mhz));
             float per = (float) freq / maxFreq * 100f;
             mCurFreq.addPercentage(load >= 0 ? load : Math.round(per > 100 ? 100 : per < 0 ? 0 : per));
+        }
+
+        if (mCurFreq != null) {
+            int val = mGPUFreqExynos.getUtilization();
+            float maxVal = 100;
+            mUtilization.setText(val + getString(R.string.percent));
+            float per = (float) val / maxVal * 100f;
+            mUtilization.addPercentage(Math.round(per > 100 ? 100 : per < 0 ? 0 : per));
         }
     }
 }

@@ -111,6 +111,7 @@
   <string name="uptime">Tiempo de actividad</string>
   <string name="error_frequencies">Falla al cargar las frecuencias</string>
   <string name="unused_frequencies">Frecuencias no utilizadas</string>
+  <string name="gpu_utilization">Utilización de GPU</string>
   <!-- Device -->
   <string name="processor">Procesador</string>
   <string name="vendor">Proveedor</string>

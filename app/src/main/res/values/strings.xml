@@ -142,6 +142,7 @@
     <string name="uptime">Uptime</string>
     <string name="error_frequencies">Failed to load frequencies</string>
     <string name="unused_frequencies">Unused Frequencies</string>
+    <string name="gpu_utilization">GPU Utilization</string>
 
     <!-- Device -->
     <string name="processor">Processor</string>
