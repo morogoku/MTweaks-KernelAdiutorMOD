@@ -657,7 +657,7 @@
     <string name="earpiece_gain">Earpiece Gain</string>
     <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
     <string name="arizona_title">Arizona Control Sound</string>
-    <string name="arizona_sound_sw">Arizona Control</string>
+    <string name="arizona_sound_sw">Main Control</string>
     <string name="arizona_sound_sw_summary_on">Enable or Disable the sound control\nEnabled</string>
     <string name="arizona_sound_sw_summary_off">Enable or Disable the sound control\nDisabled</string>
     <string name="arizona_volume_title">Volume</string>

@@ -25,6 +25,7 @@ import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.sound.ArizonaSound;
+import com.moro.mtweaks.utils.kernel.sound.MoroSound;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.CheckBoxView;
@@ -104,6 +105,9 @@ public class SoundFragment extends RecyclerViewFragment {
         }
         if (mSound.hasVolumeGain()) {
             volumeGainInit(items);
+        }
+        if (MoroSound.supported()) {
+            moroSoundInit(items);
         }
     }
 
@@ -625,6 +629,196 @@ public class SoundFragment extends RecyclerViewFragment {
                     @Override
                     public void onStop(SeekBarView seekBarView, int position, String value) {
                         ArizonaSound.setEqValues(value, id, getActivity());
+                    }
+
+                    @Override
+                    public void onMove(SeekBarView seekBarView, int position, String value) {
+                    }
+                });
+                eqCard.addItem(eqgain);
+                mEqGain.add(eqgain);
+            }
+        }
+
+        if(eqCard.size() > 0){
+            items.add(eqCard);
+        }
+    }
+
+    private void moroSoundInit(List<RecyclerViewItem> items) {
+
+        mEqGain.clear();
+        boolean isSoundEnabled = MoroSound.isSoundSwEnabled();
+        boolean isEqEnabled = MoroSound.isEqSwEnabled();
+
+        List<String> eqValues = MoroSound.getEqValues();
+        List<String> eqLimit = MoroSound.getEqLimit();
+
+        SeekBarView hp = new SeekBarView();
+        SeekBarView ep = new SeekBarView();
+        SeekBarView spk = new SeekBarView();
+        SwitchView eqsw = new SwitchView();
+        SelectView eqprofile = new SelectView();
+
+
+        if(MoroSound.hasSoundSw()){
+            CardView asCard = new CardView(getActivity());
+            asCard.setTitle(getString(R.string.moro_sound_control) + " v" + MoroSound.getVersion());
+
+            SwitchView es = new SwitchView();
+            es.setTitle(getString(R.string.arizona_sound_sw));
+            es.setSummaryOn(getString(R.string.enabled));
+            es.setSummaryOff(getString(R.string.disabled));
+            es.setChecked(isSoundEnabled);
+            es.addOnSwitchListener((switchView, isChecked) -> {
+                MoroSound.enableSoundSw(isChecked, getActivity());
+                getHandler().postDelayed(() -> {
+                            // Refresh HP
+                            hp.setEnabled(isChecked);
+                            hp.setProgress(Utils.strToInt(MoroSound.getHeadphone()));
+
+                            // Refresh EP
+                            ep.setEnabled(isChecked);
+                            ep.setProgress(Utils.strToInt(MoroSound.getEarpiece()));
+
+                            // Refresh Speaker
+                            spk.setEnabled(isChecked);
+                            spk.setProgress(Utils.strToInt(MoroSound.getSpeaker()));
+
+                            // Refresh EQ Switch, profile and bands
+                            eqsw.setEnabled(isChecked);
+                            eqsw.setChecked(MoroSound.isEqSwEnabled());
+
+                            eqprofile.setEnabled(isChecked);
+
+                            for (int i = 0; i < 5; i++) {
+                                mEqGain.get(i).setEnabled(isChecked);
+                            }
+                        }
+                        , 100);
+            });
+            asCard.addItem(es);
+            if(asCard.size() > 0) items.add(asCard);
+        }
+
+
+        CardView gainCard = new CardView(getActivity());
+        gainCard.setTitle(getString(R.string.arizona_volume_title));
+
+        if(MoroSound.hasHeadphone()) {
+            hp.setTitle(getString(R.string.headphone_gain));
+            hp.setMin(0);
+            hp.setMax(190);
+            hp.setUnit(getString(R.string.db));
+            hp.setEnabled(isSoundEnabled);
+            hp.setProgress(Utils.strToInt(MoroSound.getHeadphone()));
+            hp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    MoroSound.setHeadphone(value, getContext());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            gainCard.addItem(hp);
+        }
+
+        if(MoroSound.hasEarpiece()) {
+            ep.setTitle(getString(R.string.earpiece_gain));
+            ep.setSummary(getString(R.string.earpiece_gain_summary));
+            ep.setMin(0);
+            ep.setMax(190);
+            ep.setUnit(getString(R.string.db));
+            ep.setEnabled(isSoundEnabled);
+            ep.setProgress(Utils.strToInt(MoroSound.getEarpiece()));
+            ep.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    MoroSound.setEarpiece(value, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            gainCard.addItem(ep);
+        }
+
+        if(MoroSound.hasSpeaker()){
+            spk.setTitle(getString(R.string.speaker_gain));
+            spk.setMin(0);
+            spk.setMax(31);
+            spk.setUnit(getString(R.string.db));
+            spk.setEnabled(isSoundEnabled);
+            spk.setProgress(Utils.strToInt(MoroSound.getSpeaker()));
+            spk.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    MoroSound.setSpeaker(value, getActivity());
+                }
+
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+            });
+            gainCard.addItem(spk);
+        }
+
+        if(gainCard.size() > 0){
+            items.add(gainCard);
+        }
+
+        CardView eqCard = new CardView(getActivity());
+        eqCard.setTitle(getString(R.string.arizona_eq_title));
+
+        if(MoroSound.hasEqSw()) {
+            eqsw.setTitle(getString(R.string.arizona_eq_sw));
+            eqsw.setSummaryOn(getString(R.string.enabled));
+            eqsw.setSummaryOff(getString(R.string.disabled));
+            eqsw.setEnabled(isSoundEnabled);
+            eqsw.setChecked(MoroSound.isEqSwEnabled());
+            eqsw.addOnSwitchListener((switchView, isChecked) -> {
+                MoroSound.enableEqSw(isChecked, getActivity());
+                eqprofile.setEnabled(isChecked);
+                for (int i = 0; i < 5; i++) {
+                    mEqGain.get(i).setEnabled(isChecked);
+                }
+            });
+            eqCard.addItem(eqsw);
+
+            eqprofile.setTitle(getString(R.string.arizona_eqprofile_tit));
+            eqprofile.setSummary(getString(R.string.arizona_eqprofile_desc));
+            eqprofile.setEnabled(isSoundEnabled & isEqEnabled);
+            eqprofile.setItems(MoroSound.getEqProfileList());
+            eqprofile.setItem(AppSettings.getInt("moro_eq_profile", 0, getActivity()));
+            eqprofile.setOnItemSelected((selectView, position, item) -> {
+                AppSettings.saveInt("moro_eq_profile", position, getActivity());
+                List<String> values = MoroSound.getEqProfileValues(item);
+                for (int i = 0; i < 5; i++) {
+                    MoroSound.setEqValues(values.get(i), i, getActivity());
+                    mEqGain.get(i).setProgress(eqLimit.indexOf(values.get(i)));
+                }
+            });
+            eqCard.addItem(eqprofile);
+
+
+            String[] names = getResources().getStringArray(R.array.eq_names);
+            String[] descriptions = getResources().getStringArray(R.array.eq_summary);
+
+            for (int i = 0; i < 5; i++) {
+                final int id = i;
+                SeekBarView eqgain = new SeekBarView();
+                eqgain.setTitle(names[i]);
+                eqgain.setSummary(descriptions[i]);
+                eqgain.setEnabled(isSoundEnabled & isEqEnabled);
+                eqgain.setItems(eqLimit);
+                eqgain.setProgress(eqLimit.indexOf(eqValues.get(i)));
+                eqgain.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                    @Override
+                    public void onStop(SeekBarView seekBarView, int position, String value) {
+                        MoroSound.setEqValues(value, id, getActivity());
                     }
 
                     @Override
