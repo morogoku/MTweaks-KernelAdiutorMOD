@@ -87,167 +87,6 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //Initialize Boeffla Wakelock Blocker Files
-        if(BoefflaWakelock.supported()) {
-            BoefflaWakelock.CopyWakelockBlockerDefault();
-        }
-
-        // If setting is applied on boot, mAppliedOnBoot = 1
-        int mAppliedOnboot = Utils.strToInt(RootUtils.getProp("mtweaks.applied_onboot"));
-
-        // If voltages are saved on Service.java, mVoltageSaved = 1
-        int mVoltageSaved = Utils.strToInt(RootUtils.getProp("mtweaks.voltage_saved"));
-
-        // Check if system is rebooted
-        Boolean mIsBooted = AppSettings.getBoolean("is_booted", true, this);
-        if (mIsBooted) {
-            // reset the Global voltages seekbar
-            if (!AppSettings.getBoolean("cpucl1voltage_onboot", false, this)) {
-                AppSettings.saveInt("CpuCl1_seekbarPref_value", CPUVoltageCl1Fragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("cpucl0voltage_onboot", false, this)) {
-                AppSettings.saveInt("CpuCl0_seekbarPref_value", CPUVoltageCl0Fragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("busMif_onboot", false, this)) {
-                AppSettings.saveInt("busMif_seekbarPref_value", BusMifFragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("busInt_onboot", false, this)) {
-                AppSettings.saveInt("busInt_seekbarPref_value", BusIntFragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("busDisp_onboot", false, this)) {
-                AppSettings.saveInt("busDisp_seekbarPref_value", BusDispFragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("busCam_onboot", false, this)) {
-                AppSettings.saveInt("busCam_seekbarPref_value", BusCamFragment.mDefZeroPosition, this);
-            }
-            if (!AppSettings.getBoolean("gpu_onboot", false, this)) {
-                AppSettings.saveInt("gpu_seekbarPref_value", GPUFragment.mDefZeroPosition, this);
-            }
-        }
-        AppSettings.saveBoolean("is_booted", false, this);
-
-        // Check if exist /data/.mtweaks folder
-        if (!Utils.existFile("/data/.mtweaks")) {
-            RootUtils.runCommand("mkdir /data/.mtweaks");
-        }
-
-        // Initialice profile Sharedpreference
-        int prof = Utils.strToInt(Spectrum.getProfile());
-        AppSettings.saveInt("spectrum_profile", prof, this);
-
-        // Check if kernel is changed
-        String kernel_old = AppSettings.getString("kernel_version_old", "", this);
-        String kernel_new = Device.getKernelVersion(true);
-
-        if (!kernel_old.equals(kernel_new)){
-            // Reset max limit of max_poll_percent
-            AppSettings.saveBoolean("max_pool_percent_saved", false, this);
-            AppSettings.saveBoolean("memory_pool_percent_saved", false, this);
-            AppSettings.saveString("kernel_version_old", kernel_new, this);
-
-            if (mVoltageSaved != 1) {
-                // Reset voltage_saved to recopy voltage stock files
-                AppSettings.saveBoolean("cl0_voltage_saved", false, this);
-                AppSettings.saveBoolean("cl1_voltage_saved", false, this);
-                AppSettings.saveBoolean("busMif_voltage_saved", false, this);
-                AppSettings.saveBoolean("busInt_voltage_saved", false, this);
-                AppSettings.saveBoolean("busDisp_voltage_saved", false, this);
-                AppSettings.saveBoolean("busCam_voltage_saved", false, this);
-                AppSettings.saveBoolean("gpu_voltage_saved", false, this);
-            }
-
-            // Reset battery_saved to recopy battery stock values
-            AppSettings.saveBoolean("s7_battery_saved", false, this);
-        }
-
-        // Check if MTweaks version is changed
-        String appVersionOld = AppSettings.getString("app_version_old", "", this);
-        String appVersionNew = Utils.appVersion();
-        AppSettings.saveBoolean("show_changelog", true, this);
-
-        if (appVersionOld.equals(appVersionNew)){
-            AppSettings.saveBoolean("show_changelog", false, this);
-        } else {
-            AppSettings.saveString("app_version_old", appVersionNew, this);
-        }
-
-        // save battery stock values
-        if (!AppSettings.getBoolean("s7_battery_saved", false, this)){
-            Battery.getInstance(this).saveS7StockValues(this);
-        }
-
-        // Save backup of Cluster0 stock voltages
-        if (!Utils.existFile(VoltageCl0.BACKUP) || !AppSettings.getBoolean("cl0_voltage_saved", false, this) ){
-            if (VoltageCl0.supported()){
-                RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP);
-                AppSettings.saveBoolean("cl0_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of Cluster1 stock voltages
-        if (!Utils.existFile(VoltageCl1.BACKUP) || !AppSettings.getBoolean("cl1_voltage_saved", false, this)){
-            if (VoltageCl1.supported()){
-                RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
-                AppSettings.saveBoolean("cl1_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of Bus Mif stock voltages
-        if (!Utils.existFile(VoltageMif.BACKUP) || !AppSettings.getBoolean("busMif_voltage_saved", false, this)){
-            if (VoltageMif.supported()){
-                RootUtils.runCommand("cp " + VoltageMif.VOLTAGE + " " + VoltageMif.BACKUP);
-                AppSettings.saveBoolean("busMif_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of Bus Int stock voltages
-        if (!Utils.existFile(VoltageInt.BACKUP) || !AppSettings.getBoolean("busInt_voltage_saved", false, this)){
-            if (VoltageInt.supported()){
-                RootUtils.runCommand("cp " + VoltageInt.VOLTAGE + " " + VoltageInt.BACKUP);
-                AppSettings.saveBoolean("busInt_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of Bus Disp stock voltages
-        if (!Utils.existFile(VoltageDisp.BACKUP) || !AppSettings.getBoolean("busDisp_voltage_saved", false, this)){
-            if (VoltageDisp.supported()){
-                RootUtils.runCommand("cp " + VoltageDisp.VOLTAGE + " " + VoltageDisp.BACKUP);
-                AppSettings.saveBoolean("busDisp_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of Bus Cam stock voltages
-        if (!Utils.existFile(VoltageCam.BACKUP) || !AppSettings.getBoolean("busCam_voltage_saved", false, this)){
-            if (VoltageCam.supported()){
-                RootUtils.runCommand("cp " + VoltageCam.VOLTAGE + " " + VoltageCam.BACKUP);
-                AppSettings.saveBoolean("busCam_voltage_saved", true, this);
-            }
-        }
-
-        // Save backup of GPU stock voltages
-        if (!Utils.existFile(GPUFreqExynos.BACKUP) || !AppSettings.getBoolean("gpu_voltage_saved", false, this)){
-            if (GPUFreqExynos.getInstance().supported() && GPUFreqExynos.getInstance().hasVoltage()){
-                RootUtils.runCommand("cp " + GPUFreqExynos.getInstance().AVAILABLE_VOLTS + " " + GPUFreqExynos.BACKUP);
-                AppSettings.saveBoolean("gpu_voltage_saved", true, this);
-            }
-        }
-
-        // If has MaxPoolPercent save file
-        if (!AppSettings.getBoolean("max_pool_percent_saved", false, this)) {
-            if (ZSwap.hasMaxPoolPercent()) {
-                RootUtils.runCommand("cp /sys/module/zswap/parameters/max_pool_percent /data/.mtweaks/max_pool_percent");
-                AppSettings.saveBoolean("max_pool_percent_saved", true, this);
-            }
-        }
-
-        //Check memory pool percent unit
-        if (!AppSettings.getBoolean("memory_pool_percent_saved", false, this)){
-        int pool = ZSwap.getMaxPoolPercent();
-        if (pool >= 100) AppSettings.saveBoolean("memory_pool_percent", false, this);
-        if (pool < 100) AppSettings.saveBoolean("memory_pool_percent", true, this);
-            AppSettings.saveBoolean("memory_pool_percent_saved", true, this);
-        }
-
         setContentView(R.layout.activity_main);
 
         View splashBackground = findViewById(R.id.splash_background);
@@ -317,6 +156,170 @@ public class MainActivity extends BaseActivity {
             mRefActivity = new WeakReference<>(activity);
         }
 
+        private void checkInitVariables(){
+
+            //Initialize Boeffla Wakelock Blocker Files
+            if(BoefflaWakelock.supported()) {
+                BoefflaWakelock.CopyWakelockBlockerDefault();
+            }
+
+            // If setting is applied on boot, mAppliedOnBoot = 1
+            int mAppliedOnboot = Utils.strToInt(RootUtils.getProp("mtweaks.applied_onboot"));
+
+            // If voltages are saved on Service.java, mVoltageSaved = 1
+            int mVoltageSaved = Utils.strToInt(RootUtils.getProp("mtweaks.voltage_saved"));
+
+            // Check if system is rebooted
+            Boolean mIsBooted = AppSettings.getBoolean("is_booted", true, mRefActivity.get());
+            if (mIsBooted) {
+                // reset the Global voltages seekbar
+                if (!AppSettings.getBoolean("cpucl1voltage_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("CpuCl1_seekbarPref_value", CPUVoltageCl1Fragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("cpucl0voltage_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("CpuCl0_seekbarPref_value", CPUVoltageCl0Fragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("busMif_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("busMif_seekbarPref_value", BusMifFragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("busInt_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("busInt_seekbarPref_value", BusIntFragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("busDisp_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("busDisp_seekbarPref_value", BusDispFragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("busCam_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("busCam_seekbarPref_value", BusCamFragment.mDefZeroPosition, mRefActivity.get());
+                }
+                if (!AppSettings.getBoolean("gpu_onboot", false, mRefActivity.get())) {
+                    AppSettings.saveInt("gpu_seekbarPref_value", GPUFragment.mDefZeroPosition, mRefActivity.get());
+                }
+            }
+            AppSettings.saveBoolean("is_booted", false, mRefActivity.get());
+
+            // Check if exist /data/.mtweaks folder
+            if (!Utils.existFile("/data/.mtweaks")) {
+                RootUtils.runCommand("mkdir /data/.mtweaks");
+            }
+
+            // Initialice profile Sharedpreference
+            int prof = Utils.strToInt(Spectrum.getProfile());
+            AppSettings.saveInt("spectrum_profile", prof, mRefActivity.get());
+
+            // Check if kernel is changed
+            String kernel_old = AppSettings.getString("kernel_version_old", "", mRefActivity.get());
+            String kernel_new = Device.getKernelVersion(true);
+
+            if (!kernel_old.equals(kernel_new)){
+                // Reset max limit of max_poll_percent
+                AppSettings.saveBoolean("max_pool_percent_saved", false, mRefActivity.get());
+                AppSettings.saveBoolean("memory_pool_percent_saved", false, mRefActivity.get());
+                AppSettings.saveString("kernel_version_old", kernel_new, mRefActivity.get());
+
+                if (mVoltageSaved != 1) {
+                    // Reset voltage_saved to recopy voltage stock files
+                    AppSettings.saveBoolean("cl0_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("cl1_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("busMif_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("busInt_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("busDisp_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("busCam_voltage_saved", false, mRefActivity.get());
+                    AppSettings.saveBoolean("gpu_voltage_saved", false, mRefActivity.get());
+                }
+
+                // Reset battery_saved to recopy battery stock values
+                AppSettings.saveBoolean("s7_battery_saved", false, mRefActivity.get());
+            }
+
+            // Check if MTweaks version is changed
+            String appVersionOld = AppSettings.getString("app_version_old", "", mRefActivity.get());
+            String appVersionNew = Utils.appVersion();
+            AppSettings.saveBoolean("show_changelog", true, mRefActivity.get());
+
+            if (appVersionOld.equals(appVersionNew)){
+                AppSettings.saveBoolean("show_changelog", false, mRefActivity.get());
+            } else {
+                AppSettings.saveString("app_version_old", appVersionNew, mRefActivity.get());
+            }
+
+            // save battery stock values
+            if (!AppSettings.getBoolean("s7_battery_saved", false, mRefActivity.get())){
+                Battery.getInstance(mRefActivity.get()).saveS7StockValues(mRefActivity.get());
+            }
+
+            // Save backup of Cluster0 stock voltages
+            if (!Utils.existFile(VoltageCl0.BACKUP) || !AppSettings.getBoolean("cl0_voltage_saved", false, mRefActivity.get()) ){
+                if (VoltageCl0.supported()){
+                    RootUtils.runCommand("cp " + VoltageCl0.CL0_VOLTAGE + " " + VoltageCl0.BACKUP);
+                    AppSettings.saveBoolean("cl0_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // Save backup of Cluster1 stock voltages
+            if (!Utils.existFile(VoltageCl1.BACKUP) || !AppSettings.getBoolean("cl1_voltage_saved", false, mRefActivity.get())){
+                if (VoltageCl1.supported()){
+                    RootUtils.runCommand("cp " + VoltageCl1.CL1_VOLTAGE + " " + VoltageCl1.BACKUP);
+                    AppSettings.saveBoolean("cl1_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // Save backup of Bus Mif stock voltages
+            if (!Utils.existFile(VoltageMif.BACKUP) || !AppSettings.getBoolean("busMif_voltage_saved", false, mRefActivity.get())){
+                if (VoltageMif.supported()){
+                    RootUtils.runCommand("cp " + VoltageMif.VOLTAGE + " " + VoltageMif.BACKUP);
+                    AppSettings.saveBoolean("busMif_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // Save backup of Bus Int stock voltages
+            if (!Utils.existFile(VoltageInt.BACKUP) || !AppSettings.getBoolean("busInt_voltage_saved", false, mRefActivity.get())){
+                if (VoltageInt.supported()){
+                    RootUtils.runCommand("cp " + VoltageInt.VOLTAGE + " " + VoltageInt.BACKUP);
+                    AppSettings.saveBoolean("busInt_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // Save backup of Bus Disp stock voltages
+            if (!Utils.existFile(VoltageDisp.BACKUP) || !AppSettings.getBoolean("busDisp_voltage_saved", false, mRefActivity.get())){
+                if (VoltageDisp.supported()){
+                    RootUtils.runCommand("cp " + VoltageDisp.VOLTAGE + " " + VoltageDisp.BACKUP);
+                    AppSettings.saveBoolean("busDisp_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // Save backup of Bus Cam stock voltages
+            if (!Utils.existFile(VoltageCam.BACKUP) || !AppSettings.getBoolean("busCam_voltage_saved", false, mRefActivity.get())){
+                if (VoltageCam.supported()){
+                    RootUtils.runCommand("cp " + VoltageCam.VOLTAGE + " " + VoltageCam.BACKUP);
+                    AppSettings.saveBoolean("busCam_voltage_saved", true,mRefActivity.get() );
+                }
+            }
+
+            // Save backup of GPU stock voltages
+            if (!Utils.existFile(GPUFreqExynos.BACKUP) || !AppSettings.getBoolean("gpu_voltage_saved", false, mRefActivity.get())){
+                if (GPUFreqExynos.getInstance().supported() && GPUFreqExynos.getInstance().hasVoltage()){
+                    RootUtils.runCommand("cp " + GPUFreqExynos.getInstance().AVAILABLE_VOLTS + " " + GPUFreqExynos.BACKUP);
+                    AppSettings.saveBoolean("gpu_voltage_saved", true, mRefActivity.get());
+                }
+            }
+
+            // If has MaxPoolPercent save file
+            if (!AppSettings.getBoolean("max_pool_percent_saved", false, mRefActivity.get())) {
+                if (ZSwap.hasMaxPoolPercent()) {
+                    RootUtils.runCommand("cp /sys/module/zswap/parameters/max_pool_percent /data/.mtweaks/max_pool_percent");
+                    AppSettings.saveBoolean("max_pool_percent_saved", true, mRefActivity.get());
+                }
+            }
+
+            //Check memory pool percent unit
+            if (!AppSettings.getBoolean("memory_pool_percent_saved", false, mRefActivity.get())){
+                int pool = ZSwap.getMaxPoolPercent();
+                if (pool >= 100) AppSettings.saveBoolean("memory_pool_percent", false, mRefActivity.get());
+                if (pool < 100) AppSettings.saveBoolean("memory_pool_percent", true, mRefActivity.get());
+                AppSettings.saveBoolean("memory_pool_percent_saved", true, mRefActivity.get());
+            }
+        }
+
         @Override
         protected Void doInBackground(Void... params) {
             mHasRoot = RootUtils.rootAccess();
@@ -330,6 +333,8 @@ public class MainActivity extends BaseActivity {
                     collectData();
                     publishProgress(2);
                 }
+
+                checkInitVariables();
             }
             return null;
         }
