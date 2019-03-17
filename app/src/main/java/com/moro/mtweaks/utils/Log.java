@@ -19,7 +19,6 @@
  */
 package com.moro.mtweaks.utils;
 
-import com.crashlytics.android.Crashlytics;
 import com.moro.mtweaks.BuildConfig;
 
 /**
@@ -36,22 +35,6 @@ public class Log {
 
     public static void e(String message) {
         android.util.Log.e(TAG, getMessage(message));
-    }
-
-    public static void crashlyticsI(String message) {
-        if (BuildConfig.DEBUG) {
-            android.util.Log.i(TAG, getMessage(message));
-        } else {
-            Crashlytics.log(android.util.Log.INFO, TAG, getMessage(message));
-        }
-    }
-
-    public static void crashlyticsE(String message) {
-        if (BuildConfig.DEBUG) {
-            android.util.Log.e(TAG, getMessage(message));
-        } else {
-            Crashlytics.log(android.util.Log.ERROR, TAG, getMessage(message));
-        }
     }
 
     private static String getMessage(String message) {

@@ -100,30 +100,23 @@ public class CPUFragment extends RecyclerViewFragment {
     protected void addItems(List<RecyclerViewItem> items) {
         mInput.clear();
 
-        Log.crashlyticsI("freqInit");
         freqInit(items);
         if (mCPUBoost.supported()) {
-            Log.crashlyticsI("cpuBoostInit");
             cpuBoostInit(items);
         }
         if (Misc.hasMcPowerSaving()) {
-            Log.crashlyticsI("mcPowerSavingInit");
             mcPowerSavingInit(items);
         }
         if (Misc.hasPowerSavingWq()) {
-            Log.crashlyticsI("powerSavingWqInit");
             powerSavingWqInit(items);
         }
         if (Misc.hasCFSScheduler()) {
-            Log.crashlyticsI("cfsSchedulerInit");
             cfsSchedulerInit(items);
         }
         if (Misc.hasCpuQuiet()) {
-            Log.crashlyticsI("cpuQuietInit");
             cpuQuietInit(items);
         }
         if (Misc.hasCpuTouchBoost()) {
-            Log.crashlyticsI("cpuTouchBoostInit");
             cpuTouchBoostInit(items);
         }
     }

@@ -28,9 +28,6 @@ import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.widget.TextView;
 
-import com.crashlytics.android.answers.Answers;
-import com.crashlytics.android.answers.CustomEvent;
-import com.moro.mtweaks.BuildConfig;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.database.tools.profiles.Profiles;
 import com.moro.mtweaks.fragments.kernel.BusCamFragment;
@@ -373,20 +370,6 @@ public class MainActivity extends BaseActivity {
             VoltageCl1.supported();
             Wake.supported();
 
-            if (!BuildConfig.DEBUG) {
-                // Send SoC type to analytics to collect stats
-                Answers.getInstance().logCustom(new CustomEvent("SoC")
-                        .putCustomAttribute("type", Device.getBoard()));
-            }
-
-            Log.crashlyticsI("Build Display ID: "
-                    + Device.getBuildDisplayId());
-            Log.crashlyticsI("ROM: "
-                    + Device.ROMInfo.getInstance().getVersion());
-            Log.crashlyticsI("Kernel version: "
-                    + Device.getKernelVersion(true));
-            Log.crashlyticsI("Board: " +
-                    Device.getBoard());
         }
 
         /**
@@ -440,11 +423,6 @@ public class MainActivity extends BaseActivity {
                 activity.startActivity(intent);
                 activity.finish();
 
-                if (!BuildConfig.DEBUG) {
-                    // Send problem to analytics to collect stats
-                    Answers.getInstance().logCustom(new CustomEvent("Can't access")
-                            .putCustomAttribute("no_found", mHasRoot ? "no busybox" : "no root"));
-                }
                 return;
             }
 

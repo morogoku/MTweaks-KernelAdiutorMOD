@@ -115,8 +115,7 @@ public class SeekBarView extends RecyclerViewItem {
                         mOnSeekBarListener.onStop(
                                 SeekBarView.this, mProgress, mItems.get(mProgress));
                     }
-                } catch (Exception e) {
-                    Log.crashlyticsE(e.getMessage());
+                } catch (Exception ignored) {
                 }
             }
         });
