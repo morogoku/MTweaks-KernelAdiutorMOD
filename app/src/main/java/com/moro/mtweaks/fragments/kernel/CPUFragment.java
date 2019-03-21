@@ -34,6 +34,7 @@ import com.moro.mtweaks.utils.ViewUtils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUBoost;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
 import com.moro.mtweaks.utils.kernel.cpu.Misc;
+import com.moro.mtweaks.utils.kernel.gpu.GPUFreq;
 import com.moro.mtweaks.views.dialog.Dialog;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.DescriptionView;
@@ -169,6 +170,22 @@ public class CPUFragment extends RecyclerViewFragment {
                 -> mCPUFreq.setMinFreq(mCPUFreq.getFreqs().get(position), bigCores.get(0),
                 bigCores.get(bigCores.size() - 1), getActivity()));
         bigFrequenciesCard.addItem(mCPUMinBig);
+
+        if(mCPUFreq.hasBigAllCoresMaxFreq()) {
+            SwitchView bigAll = new SwitchView();
+            bigAll.setTitle(getString(R.string.big_cores_max_title));
+            bigAll.setSummary(getString(R.string.big_cores_max_summary));
+            bigAll.setChecked(mCPUFreq.isBigAllCoresMaxFreq());
+            bigAll.addOnSwitchListener((switchView, isChecked) -> {
+                if (!isChecked) {
+                    mCPUFreq.setMaxFreq(2288000, bigCores.get(0),
+                            bigCores.get(bigCores.size() - 1), getActivity());
+                }
+                mCPUFreq.enableBigAllCoresMaxFreq(isChecked, getActivity());
+            });
+            bigFrequenciesCard.addItem(bigAll);
+        }
+
 
         if (mCPUFreq.hasMaxScreenOffFreq()) {
             mCPUMaxScreenOffBig = new SelectView();

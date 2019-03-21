@@ -226,6 +226,8 @@
     <string name="hotplug_boost_summary">Hotplug Boost is similar to input boost but it occurs when CPUs go online.</string>
     <string name="touch_boost">Touch Boost</string>
     <string name="touch_boost_summary">This will boost your minimum CPU speed if you touch the screen or press a button.</string>
+    <string name="big_cores_max_title">Allow 4 Cores to máx freq.</string>
+    <string name="big_cores_max_summary">Allows the 4 BIG Cores to go to the maximum frequency, increases the performance, but will consume more battery</string>
 
     <!-- CPU Voltage -->
     <string name="global_offset">Global Offset</string>

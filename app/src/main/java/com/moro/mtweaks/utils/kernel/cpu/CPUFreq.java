@@ -80,6 +80,7 @@ public class CPUFreq {
     private static final String CPU_AVAILABLE_GOVERNORS = "/sys/devices/system/cpu/cpu%d/cpufreq/scaling_available_governors";
     private static final String CPU_GOVERNOR_TUNABLES = "/sys/devices/system/cpu/cpufreq/%s";
     private static final String CPU_GOVERNOR_TUNABLES_CORE = "/sys/devices/system/cpu/cpu%d/cpufreq/%s";
+    private static final String CPU_BIG_ALL_CORES_FULL = "/sys/devices/system/cpu/cpufreq/mp-cpufreq/cluster1_all_cores_max_freq";
 
     private int mCpuCount;
     private int mBigCpu = -1;
@@ -92,6 +93,18 @@ public class CPUFreq {
         if (context != null) {
             mCoreCtlMinCpu = AppSettings.getCoreCtlMinCpusBig(context);
         }
+    }
+
+    public boolean hasBigAllCoresMaxFreq(){
+        return Utils.existFile(CPU_BIG_ALL_CORES_FULL);
+    }
+
+    public boolean isBigAllCoresMaxFreq(){
+        return Utils.readFile(CPU_BIG_ALL_CORES_FULL).equals("1");
+    }
+
+    public void enableBigAllCoresMaxFreq(Boolean enable, Context context){
+        run(Control.write(enable ? "1" : "0", CPU_BIG_ALL_CORES_FULL), CPU_BIG_ALL_CORES_FULL, context);
     }
 
     public String getGovernorTunablesPath(int cpu, String governor) {
