@@ -670,7 +670,9 @@ public abstract class RecyclerViewFragment extends BaseFragment {
     }
 
     private void showViewAnimation(View view) {
-        if (mSlideInOutAnimation != null) return;
+        if (mSlideInOutAnimation != null) {
+            mSlideInOutAnimation.cancel();
+        }
 
         view.setVisibility(View.VISIBLE);
         mSlideInOutAnimation = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_in);
@@ -681,7 +683,6 @@ public abstract class RecyclerViewFragment extends BaseFragment {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                mSlideInOutAnimation = null;
             }
 
             @Override
@@ -693,7 +694,9 @@ public abstract class RecyclerViewFragment extends BaseFragment {
     }
 
     public void hideViewAnimation(View view) {
-        if (mSlideInOutAnimation != null) return;
+        if (mSlideInOutAnimation != null) {
+            mSlideInOutAnimation.cancel();
+        }
 
         mSlideInOutAnimation = AnimationUtils.loadAnimation(getActivity(), android.R.anim.fade_out);
         mSlideInOutAnimation.setAnimationListener(new Animation.AnimationListener() {
@@ -704,7 +707,6 @@ public abstract class RecyclerViewFragment extends BaseFragment {
             @Override
             public void onAnimationEnd(Animation animation) {
                 view.setVisibility(View.GONE);
-                mSlideInOutAnimation = null;
             }
 
             @Override
@@ -926,7 +928,9 @@ public abstract class RecyclerViewFragment extends BaseFragment {
     private Runnable mScheduler = () -> {
         refreshThread();
 
-        getHandler().post(() -> {
+        Activity activity = getActivity();
+        if (activity == null) return;
+        activity.runOnUiThread(() -> {
             if (isAdded()) {
                 refresh();
             }
