@@ -584,20 +584,6 @@
   <string name="moro_sound_summary">Puede ajustar la ganancia de auriculares y altavoz.\nHAGALO CON PRECAUCION!, un volumen excesivo puede dañar sus oidos o el altavoz.</string>
   <string name="earpiece_gain">Ganancia Auricular/Altavoz llamadas</string>
   <string name="earpiece_gain_summary">Necesita el mod DualSpeaker</string>
-  <string name="arizona_sound_sw">Control Principal</string>
-  <string name="arizona_volume_title">Volumen</string>
-  <string name="arizona_eq_title">Ecualizador</string>
-  <string name="arizona_eq_sw">Ecualizador</string>
-  <string name="arizona_eqprofile_tit">Perfiles EQ</string>
-  <string name="arizona_eqprofile_desc">Selecciona un perfil de ecualizador</string>
-  <string name="arizona_eql1">Banda 1</string>
-  <string name="arizona_eql2">Banda 2</string>
-  <string name="arizona_eql3">Banda 3</string>
-  <string name="arizona_eql4">Banda 4</string>
-  <string name="arizona_eql5">Banda 5</string>
-  <string name="arizona_eql6">Banda 6</string>
-  <string name="arizona_eql7">Banda 7</string>
-  <string name="arizona_eql8">Banda 8</string>
   <!-- Battery -->
   <string name="store_mode">Store Mode</string>
   <string name="store_mode_summary">Establezca los límites MAX y MIN para la carga de bateía.</string>
