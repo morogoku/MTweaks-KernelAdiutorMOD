@@ -419,7 +419,7 @@ public class Sound {
                 || hasHeadphonePowerAmpGain() || hasLockOutputGain() || hasLockMicGain()
                 || hasMicrophoneGain() || hasVolumeGain() || hasHeadphoneFlar()
                 || hasMicrophoneFlar() || hasHeadphoneMoro() || hasMoroSpeakerGain()
-                || ArizonaSound.supported();
+                || ArizonaSound.supported() || MoroSound.supported();
     }
 
     private long getChecksum(int a, int b) {

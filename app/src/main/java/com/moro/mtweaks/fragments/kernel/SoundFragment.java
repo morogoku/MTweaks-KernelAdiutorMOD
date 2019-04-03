@@ -25,6 +25,7 @@ import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.sound.ArizonaSound;
+import com.moro.mtweaks.utils.kernel.sound.MoroSound;
 import com.moro.mtweaks.utils.kernel.sound.Sound;
 import com.moro.mtweaks.views.recyclerview.CardView;
 import com.moro.mtweaks.views.recyclerview.CheckBoxView;
@@ -34,6 +35,9 @@ import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 import com.moro.mtweaks.views.recyclerview.TitleView;
+
+import com.grx.soundcontrol.GrxEqualizerManager;
+import com.grx.soundcontrol.GrxVolumeManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +108,9 @@ public class SoundFragment extends RecyclerViewFragment {
         }
         if (mSound.hasVolumeGain()) {
             volumeGainInit(items);
+        }
+        if (MoroSound.supported()) {
+            moroSoundInit(items);
         }
     }
 
@@ -638,6 +645,59 @@ public class SoundFragment extends RecyclerViewFragment {
 
         if(eqCard.size() > 0){
             items.add(eqCard);
+        }
+    }
+
+    private void moroSoundInit(List<RecyclerViewItem> items) {
+
+        GrxVolumeManager volumeManager = new GrxVolumeManager();
+        GrxEqualizerManager equalizerManager = new GrxEqualizerManager();
+
+
+        if(MoroSound.hasSoundSw()){
+            CardView asCard = new CardView(getActivity());
+            asCard.setTitle(getString(R.string.moro_sound_control) + " v" + MoroSound.getVersion());
+
+            SwitchView es = new SwitchView();
+            es.setTitle(getString(R.string.arizona_sound_sw));
+            es.setSummaryOn(getString(R.string.enabled));
+            es.setSummaryOff(getString(R.string.disabled));
+            es.setChecked(MoroSound.isSoundSwEnabled());
+            es.addOnSwitchListener(((switchView, isChecked) -> {
+                MoroSound.enableSoundSw(isChecked, getActivity());
+                getHandler().postDelayed(() -> {
+
+                            volumeManager.setMainSwitchEnabled(isChecked);
+                            equalizerManager.setMainSwitchEnabled(isChecked);
+
+                        }
+                        , 100);
+            }
+            ));
+
+            asCard.addItem(es);
+            if(asCard.size() > 0){
+                items.add(asCard);
+            }
+        }
+
+
+        /** grx - volume card recycleritemview */
+
+        CardView volumecard = new CardView(getActivity());
+        volumecard.setTitle("Volume Control"); //bbbb - to do : add string
+        volumecard.addItem(volumeManager);items.add(volumecard);
+
+
+        if(MoroSound.hasEqSw()) {
+
+            CardView eqCard = new CardView(getActivity());
+            eqCard.setTitle(getString(R.string.arizona_eq_title));
+            eqCard.addItem(equalizerManager);
+
+            if(eqCard.size() > 0){
+                items.add(eqCard);
+            }
         }
     }
 }

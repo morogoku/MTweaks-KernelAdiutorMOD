@@ -185,5 +185,47 @@
         <item>20</item>
         <item>50</item>
     </string-array>
+	
+	<!-- Grx sound Control -->
+    <string-array name="equalizerbands">
+        <item>25</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+        <item>1K</item>
+        <item>2K</item>
+        <item>4K</item>
+        <item>16K</item>
+    </string-array>
+
+    <string-array name="moro_eq_profiles_names">
+        <item>Flat</item>
+        <item>Extreme Bass</item>
+        <item>Bass-Treble Balance</item>
+        <item>Treble Gain</item>
+        <item>Classical</item>
+        <item>Pleasant</item>
+        <item>Eargasm</item>
+        <item>BeatsBass</item>
+        <item>Enhanced-Sound</item>
+        <item>DeepBass</item>
+        <item>Detonation</item>
+        <item>BeastCream</item>
+
+    </string-array>
+    <string-array name="moro_eq_profiles_values">
+        <item>0,0,0,0,0</item>
+        <item>12,8,3,-1,1</item>
+        <item>10,7,0,2,5</item>
+        <item>-5,1,0,4,3</item>
+        <item>0,0,0,-3,-5</item>
+        <item>4,3,2,2,3</item>
+        <item>12,8,4,2,3</item>
+        <item>10,8,6,5,7</item>
+        <item>9,-3,9,7,8</item>
+        <item>10,-1,8,4,8</item>
+        <item>9,4,-2,7,11</item>
+        <item>9,4,10,4,7</item>
+    </string-array>
 
 </resources>

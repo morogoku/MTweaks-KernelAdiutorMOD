@@ -75,7 +75,7 @@
     <string name="px">px</string>
     <string name="percent">%</string>
     <string name="gb">GB</string>
-    <string name="db">db</string>
+    <string name="db">dB</string>
 
     <!-- Special signs -->
     <string name="minus" translatable="false">-</string>
@@ -657,7 +657,7 @@
     <string name="earpiece_gain">Earpiece Gain</string>
     <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
     <string name="arizona_title">Arizona Control Sound</string>
-    <string name="arizona_sound_sw">Arizona Control</string>
+    <string name="arizona_sound_sw">Main Control</string>
     <string name="arizona_sound_sw_summary_on">Enable or Disable the sound control\nEnabled</string>
     <string name="arizona_sound_sw_summary_off">Enable or Disable the sound control\nDisabled</string>
     <string name="arizona_volume_title">Volume</string>
@@ -689,6 +689,20 @@
     <string name="arizona_eq_prof4">Eargasm</string>
     <string name="arizona_mono_tit">Mono Mixer</string>
     <string name="arizona_mono_desc">Mixes together left and right channels</string>
+
+    <!-- Grx Sound Control -->
+    <string name="headphones_volume">HeadPhones</string>
+    <string name="left_headphone">Left</string>
+    <string name="right_headphone">Right</string>
+    <string name="eq_profile">Active Profile / Manage Profiles</string>
+    <string name="eq_profile_custom">Custom</string>
+    <string name="eq_profile_delete">Delete Profile</string>
+    <string name="eq_profile_save">Save Eq Profile</string>
+    <string name="eq_profile_name">Profile Name</string>
+    <string name="eq_profile_invalid_name">Invalid profile name</string>
+    <string name="eq_profile_saved">Profile saved</string>
+    <string name="eq_profile_deleted">deleted</string>
+    <string name="eq_profile_delete_confirm">Are you sure you want to delete this equalizer profile?</string>
 
     <!-- Battery -->
     <string name="store_mode">Store Mode</string>

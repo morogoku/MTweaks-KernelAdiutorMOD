@@ -5,7 +5,7 @@ android {
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId 'com.moro.mtweaks'
-        minSdkVersion 19
+        minSdkVersion 23
         targetSdkVersion 28
         versionCode 2133
         versionName "2.13.3"

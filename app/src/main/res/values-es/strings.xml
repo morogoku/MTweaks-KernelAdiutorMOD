@@ -582,8 +582,25 @@
   <string name="volume_gain">Ganancia de Volumen</string>
   <string name="moro_sound_control">MoRo Sound Control</string>
   <string name="moro_sound_summary">Puede ajustar la ganancia de auriculares y altavoz.\nHAGALO CON PRECAUCION!, un volumen excesivo puede dañar sus oidos o el altavoz.</string>
-  <string name="earpiece_gain">Ganancia Auricular/Altavoz llamadas</string>
+  <string name="earpiece_gain">Ganancia Auricular</string>
   <string name="earpiece_gain_summary">Necesita el mod DualSpeaker</string>
+  <string name="arizona_sound_sw">Control Principal</string>
+  <string name="arizona_volume_title">Volumen</string>
+  <string name="arizona_eq_title">Ecualizador</string>
+  <string name="arizona_eq_sw">Ecualizador</string>
+  <!-- Grx Sound Control -->
+  <string name="headphones_volume">Auriculares externos</string>
+  <string name="left_headphone">Izquierdo</string>
+  <string name="right_headphone">Derecho</string>
+  <string name="eq_profile">Perfil Activo / Gestión Perfiles</string>
+  <string name="eq_profile_custom">Personalizado</string>
+  <string name="eq_profile_delete">Borrar Perfil</string>
+  <string name="eq_profile_save">Salvar Perfil de Ecu.</string>
+  <string name="eq_profile_name">Nombre de Perfil</string>
+  <string name="eq_profile_invalid_name">Nombre perfil no válido</string>
+  <string name="eq_profile_saved">Perfil guardado</string>
+  <string name="eq_profile_deleted">borrado</string>
+  <string name="eq_profile_delete_confirm">Seguro que quieres borrar este perfil de ecualizador?</string>
   <!-- Battery -->
   <string name="store_mode">Store Mode</string>
   <string name="store_mode_summary">Establezca los límites MAX y MIN para la carga de bateía.</string>
@@ -785,7 +802,6 @@
   <string name="wkl_alert_title">ADVERTENCIA</string>
   <string name="wkl_alert_message">Los Wakelocks normalmente están ahí por una razón. Los programadores de controladores y aplicaciones seguramente tenían sus razones para incluir wakelocks en el código en ciertas áreas. Esto significa que, al bloquear algunos de ellos, puede presentarse problemas, y puede desencadenar extraños efectos secundarios y, en el peor de los casos, hacer que el sistema sea completamente inutilizable.\n\nBloquear wakelocks es responsabilidad exclusiva de usted.</string>
   <string name="wkl_alert_checkbox">MOSTRAR LA PROXIMA VEZ</string>
-
   <!-- Virtual Memory -->
   <string name="vm_tunables">VM Ajustables</string>
   <string name="vm_tun_switch_title">Lista de VM ajustables</string>

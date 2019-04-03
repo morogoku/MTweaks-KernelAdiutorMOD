@@ -20,5 +20,33 @@
     <attr name="native_express_id" format="string" />
     <attr name="dim_dialog_background" format="color" />
     <attr name="rcBackgroundColor" format="color"/>
+	
+	<!-- Grx Sound Control -->
+    <declare-styleable name="VolumeItemController">
+        <attr name="wheelsize" format="dimension|reference"></attr>
+        <attr name="refVal" format="integer|reference"></attr>
+        <attr name="valStep" format="integer|reference"></attr>
+        <attr name="refValposition" format="integer|reference"/>
+        <attr name="label" format="string|reference"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="VerticalSeekBar">
+        <attr name="seekBarRotation">
+            <!-- Clock wise - 90 deg; top = min, bottom = max -->
+            <enum name="CW90" value="90" />
+            <!-- Clock wise - 270 deg; bottom = min, top = max -->
+            <enum name="CW270" value="270" />
+        </attr>
+
+        <!-- attributes added by grx to vereticalseekbar -->
+        <attr name="zeroOffset" format="integer|reference"/> <!-- where is the reference/default/zero value -->
+        <attr name="dividerStep" format="integer|reference"/>  <!-- Every how many postions we draw a divider. 0 means no dividers  -->
+        <attr name="dividerThickness" format="dimension|reference"/> <!-- divider thickness, use a dimension -->
+        <attr name="dividerLength" format="dimension|reference"/> <!-- divider length, use a dimension -->
+        <attr name="showBackgroundTrack" format="boolean|reference"/> <!--show - hide background track - use a dimension!! -->
+        <attr name="progressThickness" format="dimension|reference"/>  <!-- progressbar  thickness - usea a dimension!!-->
+        <attr name="zeroOffsetCircleRadius" format="dimension|reference"/> <!-- background track thickness - usea a dimension!!-->
+        <attr name="min" format="integer|reference"/>
+    </declare-styleable>
 
 </resources>
