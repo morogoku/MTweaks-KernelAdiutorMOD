@@ -1,13 +1,14 @@
 {
-  "latestVersion": "2.13.0",
-  "latestVersionCode": "2130",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.13.0/MTweaks_v2.13.0.apk",
+  "latestVersion": "2.14.0",
+  "latestVersionCode": "2140",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.14.0/MTweaks_v2.14.0.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Updated Gradle to 4.10.1 and Studio 3.3.1",
-    "- Updated ZRAM settings",
-    "- Fix Spectrum Support",
-    "- Add GPU utilization graph (for exynos)",
-    "- S10 GPU support (without testing)"
+    "- Update to gradle plugin 3.3.2",
+    "- InitVariables after root check",
+    "- Remove crashlytics",
+    "- MoroSound Control, by Grouxho",
+    "- CPU: Allow Big cores to max freq (need kernel support)",
+    "- Fix init.d setting"
   ]
 }
