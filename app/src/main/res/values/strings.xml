@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Updated Gradle plugin to 3.3.2.\n* MoroSound v2 support.\n\n\n</string>
+    <string name="changelog_message">\n* MoroSound v2 Control by Grouxho.\n* CPU: Allow 4 BIG cores to max freq.\n* Fix init.d\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->

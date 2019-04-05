@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Actualizado gradle plugin a 3.3.2.\n* Soporte MoroSound v2.\n\n\n</string>
+  <string name="changelog_message">\n* Control MoroSound v2 por Grouxho\n* CPU: Permitir 4 BIG cores a max Freq.\n* Corregido init.d\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
