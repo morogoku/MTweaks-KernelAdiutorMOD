@@ -91,8 +91,15 @@ public class Battery {
 
     public String getHealthValue() {
         float cap = Utils.strToInt(Utils.readFile(S7_FG_FULLCAPNOM));
-        float value = ((cap * 2) / getCapacity()) * 100;
-        return String.format("%.2f", value);
+        if (cap != 0) {
+            float value = ((cap * 2) / getCapacity()) * 100;
+            if (value > 100) {
+                value = value / 2;
+            }
+            return String.format("%.2f", value);
+        } else {
+            return null;
+        }
     }
 
     public void saveS7StockValues(Context context) {

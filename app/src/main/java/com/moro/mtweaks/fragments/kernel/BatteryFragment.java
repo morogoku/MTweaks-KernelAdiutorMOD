@@ -712,7 +712,11 @@ public class BatteryFragment extends RecyclerViewFragment {
             mStatus.setStat(mBatteryStatus);
         }
         if (mHealth != null) {
-            mHealth.setStat(mBatteryHealth + " / " + mBatteryHealthValue + getString(R.string.percent));
+            if (mBatteryHealthValue != null) {
+                mHealth.setStat(mBatteryHealth + " / " + mBatteryHealthValue + getString(R.string.percent));
+            } else {
+                mHealth.setStat(mBatteryHealth);
+            }
         }
     }
 
