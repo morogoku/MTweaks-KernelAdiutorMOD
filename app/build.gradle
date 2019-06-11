@@ -1,12 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.0'
     defaultConfig {
         applicationId 'com.moro.mtweaks'
         minSdkVersion 23
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 2140
         versionName "2.14.0"
         vectorDrawables.useSupportLibrary = true
