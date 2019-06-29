@@ -111,5 +111,12 @@
     "gpu": "/sys/class/thermal/thermal_zone2/temp",
     "cpu-offset": 1000,
     "gpu-offset": 1000
+  },
+  {
+    "board": "universal9810",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
   }
 ]
