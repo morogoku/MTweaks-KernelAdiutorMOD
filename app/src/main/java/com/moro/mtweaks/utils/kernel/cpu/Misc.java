@@ -46,6 +46,7 @@ public class Misc {
     private static final String CPU_QUIET_CURRENT_GOVERNOR = CPU_QUIET + "/current_governor";
 
     private static final String CPU_TOUCH_BOOST = "/sys/module/msm_performance/parameters/touchboost";
+    private static final String CPU_FINGERPRINT_BOOST = "/sys/kernel/fp_boost/enabled";
 
     private static String[] sAvailableCFSSchedulers;
     private static String[] sCpuQuietAvailableGovernors;
@@ -145,6 +146,17 @@ public class Misc {
 
     public static boolean hasMcPowerSaving() {
         return Utils.existFile(CPU_MC_POWER_SAVING);
+    }
+
+    public static void enableCpuFingerprintBoost(boolean enabled, Context context) {
+        run(Control.write(enabled ? "1" : "0", CPU_FINGERPRINT_BOOST), CPU_FINGERPRINT_BOOST, context);
+    }
+
+    public static boolean isCpuFingerprintBoostEnabled() {
+        return Utils.readFile(CPU_FINGERPRINT_BOOST).equals("1");
+    }
+    public static boolean hasCpuFingerprintBoost() {
+        return Utils.existFile(CPU_FINGERPRINT_BOOST);
     }
 
     private static void run(String command, String id, Context context) {

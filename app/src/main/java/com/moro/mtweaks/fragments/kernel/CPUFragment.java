@@ -105,6 +105,9 @@ public class CPUFragment extends RecyclerViewFragment {
         if (mCPUBoost.supported()) {
             cpuBoostInit(items);
         }
+        if (Misc.hasCpuFingerprintBoost()) {
+            cpuFingerprintBoostInit(items);
+        }
         if (Misc.hasMcPowerSaving()) {
             mcPowerSavingInit(items);
         }
@@ -345,6 +348,26 @@ public class CPUFragment extends RecyclerViewFragment {
                 -> Misc.enablePowerSavingWq(isChecked, getActivity()));
 
         items.add(powerSavingWq);
+    }
+
+    private void cpuFingerprintBoostInit(List<RecyclerViewItem> items) {
+        CardView fpbCard= new CardView(getActivity());
+        fpbCard.setTitle(getString(R.string.fingerprint_boost));
+
+        DescriptionView fpbDesc = new DescriptionView();
+        fpbDesc.setSummary(getString(R.string.fingerprint_boost_summary));
+        fpbCard.addItem(fpbDesc);
+
+        SwitchView fp = new SwitchView();
+        fp.setTitle(getString(R.string.fingerprint_boost));
+        fp.setSummaryOn(getString(R.string.enabled));
+        fp.setSummaryOff(getString(R.string.disabled));
+        fp.setChecked(Misc.isCpuFingerprintBoostEnabled());
+        fp.addOnSwitchListener((switchView, isChecked)
+                -> Misc.enableCpuFingerprintBoost(isChecked, getActivity()));
+
+        fpbCard.addItem(fp);
+        items.add(fpbCard);
     }
 
     private void cfsSchedulerInit(List<RecyclerViewItem> items) {
