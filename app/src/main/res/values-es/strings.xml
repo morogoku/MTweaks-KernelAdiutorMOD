@@ -822,6 +822,12 @@
   <string name="memory_pool_summary">Porcentaje de piscina de memoria de la memoria principal que puede ser usada como cache de página comprimido.</string>
   <string name="maximum_compression_ratio">Relación de compresión máxima</string>
   <string name="maximum_compression_ratio_summary">Relación de compresión máxima, expresada en porcentaje, de una página comprimida aceptable. Se rechazará cualquier página no comprimida al menos en esta relación.</string>
+  <string name="zram_comp_algorithm">Compresión ZRAM</string>
+  <string name="zram_comp_algorithm_summary">Desactive primero ZRAM para poder ajustar la compresión.</string>
+  <string name="zram_lzo">lzo</string>
+  <string name="zram_lz4">lz4</string>
+  <string name="zram_deflate">deflate</string>
+  <string name="zram_none">Algoritmo de compresión desconocido o ZRAM no soportada!</string>
   <!-- Entropy -->
   <string name="available">Disponible</string>
   <string name="poolsize">Tamaño del Pool</string>

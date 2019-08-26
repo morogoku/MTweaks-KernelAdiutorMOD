@@ -25,6 +25,9 @@ import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by willi on 03.08.16.
  */
@@ -34,6 +37,7 @@ public class ZRAM {
     private static final String BLOCK = "/dev/block/zram0";
     private static final String DISKSIZE = "/sys/block/zram0/disksize";
     private static final String RESET = "/sys/block/zram0/reset";
+    private static final String COMPRESSION = "/sys/block/zram0/comp_algorithm";
 
     public static void setDisksize(final long value, final Context context) {
         long size = value * 1024 * 1024;
@@ -46,6 +50,29 @@ public class ZRAM {
         long value = Utils.strToLong(Utils.readFile(DISKSIZE)) / 1024 / 1024;
 
         return (int) value;
+    }
+
+    public static void setCompAlgorithm(String value, Context context) {
+        run(Control.write(value, COMPRESSION), COMPRESSION, context);
+    }
+
+    public static String getCompAlgorithm() {
+        String[] algorithms = Utils.readFile(COMPRESSION).split(" ");
+        for (String algorithm : algorithms) {
+            if (algorithm.startsWith("[") && algorithm.endsWith("]")) {
+                return algorithm.replace("[", "").replace("]", "");
+            }
+        }
+        return "";
+    }
+
+    public static List<String> getCompAlgorithms() {
+        String[] algorithms = Utils.readFile(COMPRESSION).split(" ");
+        List<String> list = new ArrayList<>();
+        for (String algorithm : algorithms) {
+            list.add(algorithm.replace("[", "").replace("]", ""));
+        }
+        return list;
     }
 
     public static void enable(boolean enable, Context context) {

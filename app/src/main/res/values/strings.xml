@@ -947,6 +947,12 @@
     <string name="memory_pool_summary">Memory pool percentage of main memory that may be used as compressed page cache.</string>
     <string name="maximum_compression_ratio">Maximum compression ratio</string>
     <string name="maximum_compression_ratio_summary">Maximum compression ratio, as percentage, for an acceptable compressed page. Any page that does not compress by at least this ratio will be rejected.</string>
+    <string name="zram_comp_algorithm">ZRAM compression algorithm</string>
+    <string name="zram_comp_algorithm_summary">First disable ZRAM to be able to adjust this setting.</string>
+    <string name="zram_lzo">lzo</string>
+    <string name="zram_lz4">lz4</string>
+    <string name="zram_deflate">deflate</string>
+    <string name="zram_none">Unknown compression algorithm or zram not supported!</string>
 
     <!-- Entropy -->
     <string name="available">Available</string>
