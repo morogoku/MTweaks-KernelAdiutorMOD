@@ -424,6 +424,10 @@ public class CPUFragment extends RecyclerViewFragment {
         CardView cpuBoostCard = new CardView(getActivity());
         cpuBoostCard.setTitle(getString(R.string.ib_enabled));
 
+        DescriptionView cpuBoostDesc = new DescriptionView();
+        cpuBoostDesc.setSummary(getString(R.string.ib_summary));
+        cpuBoostCard.addItem(cpuBoostDesc);
+
         if (mCPUBoost.hasEnable()) {
             SwitchView enable = new SwitchView();
             enable.setTitle(getString(R.string.ib_enabled));

@@ -170,6 +170,7 @@
   <string name="interval_summary">Intervalo mínimo que se aplica el potenciado de la CPU.</string>
   <string name="sync_threshold">Umbral de sincronización</string>
   <string name="sync_threshold_summary">Cuando la carga de CPU cruza el límite prefijado, la frecuencia actual aumenta a esta.</string>
+  <string name="ib_summary">Aumenta la CPU al pulsar la pantalla táctil. Las frecuencias y duraciones del aumento se calculan automáticamente.</string>
   <string name="ib_duration_ms">Duración ms</string>
   <string name="ib_freq_little">Boost Freq. LITTLE A53</string>
   <string name="ib_freq_big">Boost Freq. big A72</string>

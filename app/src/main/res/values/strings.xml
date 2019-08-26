@@ -212,6 +212,7 @@
     <string name="sync_threshold">Sync Threshold</string>
     <string name="sync_threshold_summary">When CPU loading crosses the preset threshold, the current CPU is raised to this frequency.</string>
     <string name="ib_enabled">CPU Input Boost</string>
+    <string name="ib_summary">Boosts the CPU on touchscreen input. Boost frequencies and durations are calculated automatically.</string>
     <string name="ib_duration_ms">Duration ms</string>
     <string name="ib_freq_little">Boost Freq. LITTLE</string>
     <string name="ib_freq_big">Boost Freq. big</string>
