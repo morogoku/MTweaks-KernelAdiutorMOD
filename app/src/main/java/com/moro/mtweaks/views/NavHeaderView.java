@@ -19,14 +19,8 @@
  */
 package com.moro.mtweaks.views;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
+import android.graphics.drawable.Drawable;
 import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -34,30 +28,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.moro.mtweaks.R;
-import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.Device;
+import com.moro.mtweaks.utils.Log;
 import com.moro.mtweaks.utils.Utils;
-import com.moro.mtweaks.utils.ViewUtils;
-import com.moro.mtweaks.views.dialog.Dialog;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by willi on 28.12.15.
  */
 public class NavHeaderView extends LinearLayout {
 
-    private interface Callback {
-        void setImage(Uri uri) throws IOException;
-
-        void animate();
-    }
-
-    private static Callback sCallback;
-    private ImageView mImage;
+    private String mKernelImage;
 
     public NavHeaderView(Context context) {
         this(context, null);
@@ -69,133 +53,32 @@ public class NavHeaderView extends LinearLayout {
 
     public NavHeaderView(final Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        sCallback = new Callback() {
-            @Override
-            public void setImage(Uri uri) throws IOException {
-                NavHeaderView.this.setImage(uri);
-            }
 
-            @Override
-            public void animate() {
-                animateBg();
+        String kernelVersion = Device.getKernelVersion(false);
+        // Read kernel.json
+        try {
+            JSONArray tempArray = new JSONArray(Utils.readAssetFile(context, "kernel.json"));
+            for (int i = 0; i < tempArray.length(); i++) {
+                JSONObject kernel = tempArray.getJSONObject(i);
+                if (kernelVersion.contains(kernel.getString("name"))) {
+                    mKernelImage = kernel.getString("image");
+                    break;
+                }
             }
-        };
+        } catch (JSONException ignored) {
+            Log.e("Can't read kernel.json");
+        }
+
 
         LayoutInflater.from(context).inflate(R.layout.nav_header_view, this);
-        mImage = findViewById(R.id.nav_header_pic);
+        ImageView navPic = findViewById(R.id.nav_header_pic);
 
-        boolean noPic;
-        try {
-            String uri = AppSettings.getPreviewPicture(getContext());
-            if (uri == null) noPic = true;
-            else {
-                setImage(Uri.parse(uri));
-                noPic = false;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            noPic = true;
-        }
-
-        if (noPic) {
-            AppSettings.resetPreviewPicture(getContext());
-        }
-
-        findViewById(R.id.nav_header_fab).setOnClickListener(v
-                -> new Dialog(context).setItems(v.getResources()
-                        .getStringArray(R.array.main_header_picture_items),
-                (dialog, which) -> {
-                    switch (which) {
-                        case 0:
-                            v.getContext().startActivity(new Intent(v.getContext(),
-                                    MainHeaderActivity.class));
-                            break;
-                        case 1:
-                            AppSettings.resetPreviewPicture(getContext());
-                            mImage.setImageDrawable(null);
-                            animateBg();
-                            break;
-                    }
-                }).show());
-    }
-
-    public static class MainHeaderActivity extends Activity {
-        @Override
-        protected void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            Intent intent;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            } else {
-                intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-            }
-            intent.setType("image/*");
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.select_picture)), 0);
-        }
-
-        @Override
-        protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
-            super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == RESULT_OK && requestCode == 0)
-                try {
-                    Uri selectedImageUri = data.getData();
-                    sCallback.setImage(selectedImageUri);
-                    AppSettings.savePreviewPicture(selectedImageUri.toString(), this);
-                    sCallback.animate();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Utils.toast(R.string.went_wrong, MainHeaderActivity.this);
-                }
-            finish();
-        }
-    }
-
-    public void animateBg() {
-        mImage.setVisibility(INVISIBLE);
-
-        int cx = mImage.getWidth();
-        int cy = mImage.getHeight();
-
-        SupportAnimator animator = ViewAnimationUtils.createCircularReveal(mImage, cx, cy, 0, Math.max(cx, cy));
-        animator.addListener(new SupportAnimator.SimpleAnimatorListener() {
-            @Override
-            public void onAnimationStart() {
-                super.onAnimationStart();
-                mImage.setVisibility(VISIBLE);
-            }
-        });
-        animator.setStartDelay(500);
-        animator.start();
-    }
-
-    public void setImage(Uri uri) throws IOException, NullPointerException {
-        String selectedImagePath = null;
-        try {
-            selectedImagePath = Utils.getPath(uri, mImage.getContext());
-        } catch (Exception ignored) {
-        }
-        Bitmap bitmap;
-        if ((bitmap = selectedImagePath != null ? BitmapFactory.decodeFile(selectedImagePath) :
-                uriToBitmap(uri, mImage.getContext())) != null) {
-            mImage.setImageBitmap(ViewUtils.scaleDownBitmap(bitmap, 1024, 1024));
+        if (mKernelImage != null){
+            int id = getResources().getIdentifier(mKernelImage, "drawable", context.getPackageName());
+            Drawable drawable = context.getDrawable(id);
+            navPic.setImageDrawable(drawable);
         } else {
-            throw new NullPointerException("Getting Bitmap failed");
+            navPic.setImageResource(R.drawable.logo);
         }
     }
-
-    private static Bitmap uriToBitmap(Uri uri, Context context) throws IOException {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
-            context.getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        InputStream inputStream = context.getContentResolver().openInputStream(uri);
-        if (inputStream != null) {
-            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-            inputStream.close();
-            return bitmap;
-        }
-        throw new IOException();
-    }
-
 }
