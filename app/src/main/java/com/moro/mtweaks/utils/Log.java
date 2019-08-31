@@ -27,7 +27,7 @@ import com.moro.mtweaks.BuildConfig;
 
 public class Log {
 
-    private static final String TAG = "KernelAdiutor";
+    private static final String TAG = "MTweaks";
 
     public static void i(String message) {
         android.util.Log.i(TAG, getMessage(message));
