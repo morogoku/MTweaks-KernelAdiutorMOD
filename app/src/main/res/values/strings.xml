@@ -956,6 +956,7 @@
     <string name="zram_lz4">lz4</string>
     <string name="zram_deflate">deflate</string>
     <string name="zram_none">Unknown compression algorithm or zram not supported!</string>
+    <string name="zram_dialog">If the swap is very full it will take several minutes to empty and disable and it will block the app, for this reason the application will be closed.\n\nDo you want to disable the Swap and close the app?</string>
 
     <!-- Entropy -->
     <string name="available">Available</string>

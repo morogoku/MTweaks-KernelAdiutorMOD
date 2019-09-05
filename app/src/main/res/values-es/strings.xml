@@ -830,6 +830,7 @@
   <string name="zram_lz4">lz4</string>
   <string name="zram_deflate">deflate</string>
   <string name="zram_none">Algoritmo de compresión desconocido o ZRAM no soportada!</string>
+  <string name="zram_dialog">Si la swap esta muy llena tardará varios minutos en vaciarse y desactivarse y bloqueará la app, por esta razón se cerrará la aplicación.\n\nQuieres desactivar la Swap y cerrar la app?</string>
   <!-- Entropy -->
   <string name="available">Disponible</string>
   <string name="poolsize">Tamaño del Pool</string>
