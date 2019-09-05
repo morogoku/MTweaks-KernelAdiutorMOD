@@ -1,14 +1,14 @@
 {
-  "latestVersion": "2.14.0",
-  "latestVersionCode": "2140",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.14.0/MTweaks_v2.14.0.apk",
+  "latestVersion": "2.15.0",
+  "latestVersionCode": "2150",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.15.0/MTweaks_v2.15.0.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Update to gradle plugin 3.3.2",
-    "- InitVariables after root check",
-    "- Remove crashlytics",
-    "- MoroSound Control, by Grouxho",
-    "- CPU: Allow Big cores to max freq (need kernel support)",
-    "- Fix init.d setting"
+    "- Compiled with SDK29",
+    "- Add temp. nodes for exynos 7870/7880/7885, S9 and S10",
+    "- Zram: increase max size to 4GB",
+    "- Zram: add compression algorithm",
+    "- Custom images for some custom kernels in Navigation panel",
+    "- Add Fingerprint Boost setting"
   ]
 }
