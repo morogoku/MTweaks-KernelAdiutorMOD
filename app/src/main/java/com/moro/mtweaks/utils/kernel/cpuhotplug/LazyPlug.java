@@ -44,6 +44,11 @@ public class LazyPlug {
     private static final String CPU_NR_THRESHOLD = PARENT + "/cpu_nr_run_threshold";
     private static final String POSSIBLE_CORES = PARENT + "/nr_possible_cores";
 
+    private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
+
+    public static void enableStateNotifier(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
+    }
     public static void setPossibleCores(int value, Context context) {
         run(Control.write(String.valueOf(value), POSSIBLE_CORES), POSSIBLE_CORES, context);
     }

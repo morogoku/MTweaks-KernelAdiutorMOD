@@ -42,7 +42,7 @@ public class AlucardHotplug {
     private static final String ALUCARD_HOTPLUG_MAX_CORES_LIMIT_SLEEP = ALUCARD_HOTPLUG + "/maxcoreslimit_sleep";
     private static final String ALUCARD_HOTPLUG_CPU_DOWN_RATE = ALUCARD_HOTPLUG + "/cpu_down_rate";
     private static final String ALUCARD_HOTPLUG_CPU_UP_RATE = ALUCARD_HOTPLUG + "/cpu_up_rate";
-	// added by @nalas
+
 	private static final String ALUCARD_HOTPLUG_FREQ_1_1 = ALUCARD_HOTPLUG + "/hotplug_freq_1_1";
 	private static final String ALUCARD_HOTPLUG_FREQ_2_0 = ALUCARD_HOTPLUG + "/hotplug_freq_2_0";
 	private static final String ALUCARD_HOTPLUG_FREQ_2_1 = ALUCARD_HOTPLUG + "/hotplug_freq_2_1";
@@ -67,14 +67,7 @@ public class AlucardHotplug {
 	private static final String ALUCARD_HOTPLUG_RQ_3_0 = ALUCARD_HOTPLUG + "/hotplug_rq_3_0";
 	private static final String ALUCARD_HOTPLUG_RQ_3_1 = ALUCARD_HOTPLUG + "/hotplug_rq_3_1";
 	private static final String ALUCARD_HOTPLUG_RQ_4_0 = ALUCARD_HOTPLUG + "/hotplug_rq_4_0";
-	
-	private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
 
-    public static void enableStateNotifier(boolean enable, Context context) {
-        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
-    }
-	// end
-		
     public static void setAlucardHotplugCpuUpRate(int value, Context context) {
         run(Control.write(String.valueOf(value), ALUCARD_HOTPLUG_CPU_UP_RATE),
                 ALUCARD_HOTPLUG_CPU_UP_RATE, context);

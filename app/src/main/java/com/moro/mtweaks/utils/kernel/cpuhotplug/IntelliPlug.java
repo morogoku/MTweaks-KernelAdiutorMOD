@@ -73,6 +73,8 @@ public class IntelliPlug {
     private static final String HOTPLUG_INTELLI_PLUG_5_FSHIFT = HOTPLUG_INTELLI_PLUG_5 + "/nr_fshift";
     private static final String HOTPLUG_INTELLI_PLUG_5_SCREEN_OFF_MAX = HOTPLUG_INTELLI_PLUG_5 + "/screen_off_max";
 
+    private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
+
     private Boolean mUseVersion5;
     private boolean mHasInsanity;
 
@@ -82,6 +84,10 @@ public class IntelliPlug {
         if (mUseVersion5 != null) {
             mHasInsanity = Utils.existFile(HOTPLUG_INTELLI_PLUG_INSANITY);
         }
+    }
+
+    public void enableStateNotifier(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
     }
 
     public void setIntelliPlugFShift(int value, Context context) {

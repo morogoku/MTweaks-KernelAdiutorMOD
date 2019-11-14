@@ -31,8 +31,7 @@ import com.moro.mtweaks.utils.root.Control;
  */
 public class BluPlug {
 
-    private static final String HOTPLUG_BLU_PLUG = "/sys/module/blu_hotplug/parameters";
-    // private static final String HOTPLUG_BLU_PLUG = "/sys/module/blu_plug/parameters";
+    private static final String HOTPLUG_BLU_PLUG = "/sys/module/blu_plug/parameters";
     private static final String HOTPLUG_BLU_PLUG_ENABLE = HOTPLUG_BLU_PLUG + "/enabled";
     private static final String HOTPLUG_BLU_PLUG_POWERSAVER_MODE = HOTPLUG_BLU_PLUG + "/powersaver_mode";
     private static final String HOTPLUG_BLU_PLUG_MIN_ONLINE = HOTPLUG_BLU_PLUG + "/min_online";
@@ -43,6 +42,12 @@ public class BluPlug {
     private static final String HOTPLUG_BLU_PLUG_UP_TIMER_CNT = HOTPLUG_BLU_PLUG + "/up_timer_cnt";
     private static final String HOTPLUG_BLU_PLUG_DOWN_TIMER_CNT = HOTPLUG_BLU_PLUG + "/down_timer_cnt";
     private static final String HOTPLUG_BLU_PLUG_PLUG_THRESHOLD = HOTPLUG_BLU_PLUG + "/plug_threshold";
+
+    private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
+
+    public static void enableStateNotifier(boolean enable, Context context) {
+        run(Control.write(enable ? "Y" : "N", STATE_NOTIFIER), STATE_NOTIFIER, context);
+    }
 
     public static void setBluPlugDownTimerCnt(int value, Context context) {
         run(Control.write(String.valueOf(value), HOTPLUG_BLU_PLUG_DOWN_TIMER_CNT),
