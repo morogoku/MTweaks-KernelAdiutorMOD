@@ -40,6 +40,8 @@ public class ThunderPlug {
     private static final String HOTPLUG_THUNDER_PLUG_CPUS_BOOSTED = HOTPLUG_THUNDER_PLUG + "/cpus_boosted";
     private static final String HOTPLUG_THUNDER_PLUG_MAX_CORE_ONLINE = HOTPLUG_THUNDER_PLUG + "/max_core_online";
     private static final String HOTPLUG_THUNDER_PLUG_MIN_CORE_ONLINE = HOTPLUG_THUNDER_PLUG + "/min_core_online";
+    private static final String HOTPLUG_THUNDER_PLUG_BOOST_LOCK_DURATION = HOTPLUG_THUNDER_PLUG + "/boost_lock_duration";
+    private static final String HOTPLUG_THUNDER_PLUG_SUSPEND = HOTPLUG_THUNDER_PLUG + "/hotplug_suspend";
     private static final String HOTPLUG_THUNDER_PLUG_VERSION = HOTPLUG_THUNDER_PLUG + "/version";
 
     private static final String STATE_NOTIFIER = "/sys/module/state_notifier/parameters/enabled";
@@ -134,6 +136,19 @@ public class ThunderPlug {
         return Utils.existFile(HOTPLUG_THUNDER_PLUG_SAMPLING_RATE);
     }
 
+    public static void setThunderPlugBoostLockDuration(int value, Context context) {
+        run(Control.write(String.valueOf(value), HOTPLUG_THUNDER_PLUG_BOOST_LOCK_DURATION),
+                HOTPLUG_THUNDER_PLUG_BOOST_LOCK_DURATION, context);
+    }
+
+    public static int getThunderPlugBoostLockDuration() {
+        return Utils.strToInt(Utils.readFile(HOTPLUG_THUNDER_PLUG_BOOST_LOCK_DURATION));
+    }
+
+    public static boolean hasThunderPlugBoostLockDuration() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_BOOST_LOCK_DURATION);
+    }
+
     public static void setThunderPlugEnduranceLevel(int value, Context context) {
         run(Control.write(String.valueOf(value), HOTPLUG_THUNDER_PLUG_ENDURANCE_LEVEL),
                 HOTPLUG_THUNDER_PLUG_ENDURANCE_LEVEL, context);
@@ -158,6 +173,18 @@ public class ThunderPlug {
 
     public static boolean hasThunderPlugSuspendCpus() {
         return Utils.existFile(HOTPLUG_THUNDER_PLUG_SUSPEND_CPUS);
+    }
+	
+    public static void enableThunderPlugSuspend(boolean enable, Context context) {
+        run(Control.write(enable ? "1" : "0", HOTPLUG_THUNDER_PLUG_SUSPEND), HOTPLUG_THUNDER_PLUG_SUSPEND, context);
+    }
+
+    public static boolean isThunderPlugSuspendEnable() {
+        return Utils.readFile(HOTPLUG_THUNDER_PLUG_SUSPEND).equals("1");
+    }
+
+    public static boolean hasThunderPlugSuspend() {
+        return Utils.existFile(HOTPLUG_THUNDER_PLUG_SUSPEND);
     }
 
     public static void enableThunderPlug(boolean enable, Context context) {

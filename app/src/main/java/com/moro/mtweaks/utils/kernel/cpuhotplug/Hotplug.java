@@ -30,6 +30,7 @@ public class Hotplug {
         AlucardHotplug.enableAlucardHotplug(false, context);
         AutoSmp.enableAutoSmp(false, context);
         BluPlug.enableBluPlug(false, context);
+        ClusterHotplug.enableClusterHotplug(false, context);
         CoreCtl.getInstance().enable(false, context);
         IntelliPlug.getInstance().enableIntelliPlug(false, context);
         LazyPlug.enable(false, context);
@@ -47,7 +48,7 @@ public class Hotplug {
                 || BluPlug.supported() || MSMHotplug.getInstance().supported() || MakoHotplug.supported()
                 || MBHotplug.getInstance().supported() || AlucardHotplug.supported() || ThunderPlug.supported()
                 || ZenDecision.supported() || AutoSmp.supported() || CoreCtl.getInstance().supported()
-                || AiOHotplug.supported() || SamsungPlug.supported();
+                || AiOHotplug.supported() || SamsungPlug.supported() || ClusterHotplug.supported();
     }
 
 }

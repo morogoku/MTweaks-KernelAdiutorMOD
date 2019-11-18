@@ -22,13 +22,13 @@ package com.moro.mtweaks.fragments.kernel;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
-import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.cpu.CPUFreq;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.AiOHotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.AlucardHotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.AutoSmp;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.BluPlug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.CoreCtl;
+import com.moro.mtweaks.utils.kernel.cpuhotplug.ClusterHotplug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.IntelliPlug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.LazyPlug;
 import com.moro.mtweaks.utils.kernel.cpuhotplug.MBHotplug;
@@ -45,6 +45,8 @@ import com.moro.mtweaks.views.recyclerview.SeekBarView;
 import com.moro.mtweaks.views.recyclerview.SelectView;
 import com.moro.mtweaks.views.recyclerview.SwitchView;
 import com.moro.mtweaks.views.recyclerview.TitleView;
+import com.moro.mtweaks.utils.Utils;
+/* import com.moro.mtweaks.utils.root.Control; */
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -118,6 +120,9 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         if (mCoreCtl.supported()) {
             coreCtlInit(items);
         }
+        if (ClusterHotplug.supported()) {
+            ClusterHotplugInit(items);
+        }
         if (AiOHotplug.supported()) {
             aioHotplugInit(items);
         }
@@ -152,8 +157,9 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
         samsungPlug.addItem(enable);
         mEnableViews.add(enable);
-/*
-        SeekBarView max = new SeekBarView();
+/* older */
+
+		SeekBarView max = new SeekBarView();
         max.setTitle(getString(R.string.samsungPlug_max_cpu));
         max.setMax(8);
         max.setMin(1);
@@ -188,7 +194,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         });
 
         samsungPlug.addItem(min);
-*/
+/* older */
         if (samsungPlug.size() > 0) {
             items.add(samsungPlug);
         }
@@ -775,6 +781,27 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
             bluplug.add(upThreshold);
         }
+		
+        if (BluPlug.hasBluPlugPlugThreshold()) {
+            SeekBarView PlugThreshold = new SeekBarView();
+            PlugThreshold.setTitle(getString(R.string.plug_threshold));
+            PlugThreshold.setSummary(getString(R.string.plug_threshold_summary));
+            PlugThreshold.setUnit("%");
+            PlugThreshold.setMax(100);
+            PlugThreshold.setProgress(BluPlug.getBluPlugPlugThreshold());
+            PlugThreshold.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    BluPlug.setBluPlugPlugThreshold(position, getActivity());
+                }
+            });
+
+            bluplug.add(PlugThreshold);
+        }
 
         if (BluPlug.hasBluPlugUpTimerCnt()) {
             List<String> list = new ArrayList<>();
@@ -1352,6 +1379,143 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         }
     }
 
+// added CLUSTER HOTPLUG by @nalas XDA
+    private void ClusterHotplugInit(List<RecyclerViewItem> items) {
+        List<RecyclerViewItem> clusterHotplug = new ArrayList<>();
+        TitleView title = new TitleView();
+        title.setText(getString(R.string.cluster_hotplug));
+
+        if (ClusterHotplug.hasClusterHotplugEnable()) {
+            SwitchView enable = new SwitchView();
+            enable.setTitle(getString(R.string.cluster_hotplug));
+            enable.setSummary(getString(R.string.cluster_hotplug_summary));
+            enable.setChecked(ClusterHotplug.isClusterHotplugEnabled());
+            enable.addOnSwitchListener((switchView, isChecked)
+                    -> ClusterHotplug.enableClusterHotplug(isChecked, getActivity()));
+
+            clusterHotplug.add(enable);
+            mEnableViews.add(enable);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugLowPowerMode()) {
+            SwitchView lowPowerMode = new SwitchView();
+            lowPowerMode.setTitle(getString(R.string.low_power_mode));
+            lowPowerMode.setSummary(getString(R.string.low_power_mode_summary));
+            lowPowerMode.setChecked(ClusterHotplug.isClusterHotplugLowPowerMode());
+            lowPowerMode.addOnSwitchListener((switchView, isChecked)
+                    -> ClusterHotplug.enableClusterHotplugLowPowerMode(isChecked, getActivity()));
+
+            clusterHotplug.add(lowPowerMode);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugLoadThresholdDown()) {
+            SeekBarView loadThresholdDown = new SeekBarView();
+            loadThresholdDown.setTitle(getString(R.string.cl_load_threshold_down));
+            loadThresholdDown.setSummary(getString(R.string.cl_load_threshold_down_summary));
+            loadThresholdDown.setUnit("%");
+            loadThresholdDown.setProgress(ClusterHotplug.getClusterHotplugLoadThresholdDown());
+            loadThresholdDown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ClusterHotplug.setClusterHotplugLoadThresholdDown(position, getActivity());
+                }
+            });
+
+            clusterHotplug.add(loadThresholdDown);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugLoadThresholdUp()) {
+            SeekBarView loadThresholdUp = new SeekBarView();
+            loadThresholdUp.setTitle(getString(R.string.cl_load_threshold_up));
+            loadThresholdUp.setSummary(getString(R.string.cl_load_threshold_up_summary));
+            loadThresholdUp.setUnit("%");
+            loadThresholdUp.setProgress(ClusterHotplug.getClusterHotplugLoadThresholdUp());
+            loadThresholdUp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ClusterHotplug.setClusterHotplugLoadThresholdUp(position, getActivity());
+                }
+            });
+
+            clusterHotplug.add(loadThresholdUp);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugVoteThresholdDown()) {
+            SeekBarView voteThresholdDown = new SeekBarView();
+            voteThresholdDown.setTitle(getString(R.string.cl_vote_threshold_down));
+            voteThresholdDown.setSummary(getString(R.string.cl_vote_threshold_down_summary));
+            voteThresholdDown.setUnit("%");
+            voteThresholdDown.setProgress(ClusterHotplug.getClusterHotplugVoteThresholdDown());
+            voteThresholdDown.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ClusterHotplug.setClusterHotplugVoteThresholdDown(position, getActivity());
+                }
+            });
+
+            clusterHotplug.add(voteThresholdDown);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugVoteThresholdUp()) {
+            SeekBarView voteThresholdUp = new SeekBarView();
+            voteThresholdUp.setTitle(getString(R.string.cl_vote_threshold_up));
+            voteThresholdUp.setSummary(getString(R.string.cl_vote_threshold_up_summary));
+            voteThresholdUp.setUnit("%");
+            voteThresholdUp.setProgress(ClusterHotplug.getClusterHotplugVoteThresholdUp());
+            voteThresholdUp.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ClusterHotplug.setClusterHotplugVoteThresholdUp(position, getActivity());
+                }
+            });
+
+            clusterHotplug.add(voteThresholdUp);
+        }
+
+        if (ClusterHotplug.hasClusterHotplugSamplingTime()) {
+            SeekBarView SamplingTime = new SeekBarView();
+            SamplingTime.setTitle(getString(R.string.cl_sampling_time));
+            SamplingTime.setProgress(ClusterHotplug.getClusterHotplugSamplingTime());
+			SamplingTime.setMax(500);
+            SamplingTime.setMin(1);
+            SamplingTime.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ClusterHotplug.setClusterHotplugSamplingTime(position, getActivity());
+                }
+            });
+
+            clusterHotplug.add(SamplingTime);
+        }
+
+        if (clusterHotplug.size() > 0) {
+            items.add(title);
+            items.addAll(clusterHotplug);
+        }
+
+    }
+// ------------------------------------------------------------------------------	
+
     private void mbHotplugInit(List<RecyclerViewItem> items) {
         List<RecyclerViewItem> mbHotplug = new ArrayList<>();
         TitleView title = new TitleView();
@@ -1608,9 +1772,22 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enable.setTitle(getString(R.string.alucard_hotplug));
             enable.setSummary(getString(R.string.alucard_hotplug_summary));
             enable.setChecked(AlucardHotplug.isAlucardHotplugEnable());
-            enable.addOnSwitchListener((switchView, isChecked)
-                    -> AlucardHotplug.enableAlucardHotplug(isChecked, getActivity()));
-
+			enable.addOnSwitchListener((switchView, isChecked)
+			           -> AlucardHotplug.enableAlucardHotplug(isChecked, getActivity()));
+		/*
+			enable.addOnSwitchListener((switchView, isChecked) -> {
+                if (isChecked) {
+                    SamsungPlug.enableSamsungPlug(true, getActivity());
+                    AlucardHotplug.enableStateNotifier(true, getActivity());
+                    AlucardHotplug.enableAlucardHotplug(true, getActivity()); // was true
+                } else {
+                    AlucardHotplug.enableAlucardHotplug(true, getActivity()); // was false
+                    AlucardHotplug.enableStateNotifier(false, getActivity());
+                    SamsungPlug.enableSamsungPlug(true, getActivity());
+                }
+                refreshHotPlugs();
+            });	*/
+				
             alucardHotplug.add(enable);
             mEnableViews.add(enable);
         }
@@ -1760,6 +1937,493 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             alucardHotplug.add(cpuUpRate);
         }
 
+		// added by @nalas XDA | 2019-07-12 | support for all Alucard features
+		if (AlucardHotplug.hasAlucardHotplugFreq_1_1() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_1_1 = new SelectView();
+            freq_1_1.setTitle("Freq_1_1");
+            freq_1_1.setSummary(getString(R.string.freq_1_1));
+            freq_1_1.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_1_1.setItem((AlucardHotplug.getAlucardHotplugFreq_1_1() / 1000)
+                    + getString(R.string.mhz));
+            freq_1_1.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_1_1);
+        }
+
+		if (AlucardHotplug.hasAlucardHotplugFreq_2_0() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_2_0 = new SelectView();
+            freq_2_0.setTitle("Freq_2_0");
+            freq_2_0.setSummary(getString(R.string.freq_2_0));
+            freq_2_0.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_2_0.setItem((AlucardHotplug.getAlucardHotplugFreq_2_0() / 1000)
+                    + getString(R.string.mhz));
+            freq_2_0.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_2_0);
+        }
+
+		if (AlucardHotplug.hasAlucardHotplugFreq_2_1() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_2_1 = new SelectView();
+            freq_2_1.setTitle("Freq_2_1");
+            freq_2_1.setSummary(getString(R.string.freq_2_1));
+            freq_2_1.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_2_1.setItem((AlucardHotplug.getAlucardHotplugFreq_2_1() / 1000)
+                    + getString(R.string.mhz));
+            freq_2_1.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_2_1);
+        }
+
+		if (AlucardHotplug.hasAlucardHotplugFreq_3_0() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_3_0 = new SelectView();
+            freq_3_0.setTitle("Freq_3_0");
+            freq_3_0.setSummary(getString(R.string.freq_3_0));
+            freq_3_0.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_3_0.setItem((AlucardHotplug.getAlucardHotplugFreq_3_0() / 1000)
+                    + getString(R.string.mhz));
+            freq_3_0.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_3_0);
+        }
+
+		if (AlucardHotplug.hasAlucardHotplugFreq_3_1() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_3_1 = new SelectView();
+            freq_3_1.setTitle("Freq_3_1");
+            freq_3_1.setSummary(getString(R.string.freq_3_1));
+            freq_3_1.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_3_1.setItem((AlucardHotplug.getAlucardHotplugFreq_3_1() / 1000)
+                    + getString(R.string.mhz));
+            freq_3_1.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_3_1);
+        }
+
+		if (AlucardHotplug.hasAlucardHotplugFreq_4_0() && mCPUFreq.getFreqs() != null) {
+            SelectView freq_4_0 = new SelectView();
+            freq_4_0.setTitle("Freq_4_0");
+            freq_4_0.setSummary(getString(R.string.freq_4_0));
+            freq_4_0.setItems(mCPUFreq.getAdjustedFreq(getActivity()));
+            freq_4_0.setItem((AlucardHotplug.getAlucardHotplugFreq_4_0() / 1000)
+                    + getString(R.string.mhz));
+            freq_4_0.setOnItemSelected((selectView, position, item)
+                    -> AlucardHotplug.setAlucardHotplugFreq_1_1(
+                    mCPUFreq.getFreqs().get(position), getActivity()));
+
+            alucardHotplug.add(freq_4_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_1_1()) {
+            SeekBarView load_1_1 = new SeekBarView();
+            load_1_1.setTitle("Load_1_1");
+            load_1_1.setSummary(getString(R.string.load_1_1));
+            load_1_1.setUnit("%");
+            load_1_1.setMin(0);
+            load_1_1.setMax(100);
+            load_1_1.setProgress(AlucardHotplug.getAlucardHotplugLoad_1_1());
+            load_1_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_1_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_1_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_2_0()) {
+            SeekBarView load_2_0 = new SeekBarView();
+            load_2_0.setTitle("Load_2_0");
+            load_2_0.setSummary(getString(R.string.load_2_0));
+            load_2_0.setUnit("%");
+            load_2_0.setMin(0);
+            load_2_0.setMax(100);
+            load_2_0.setProgress(AlucardHotplug.getAlucardHotplugLoad_2_0());
+            load_2_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_2_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_2_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_2_1()) {
+            SeekBarView load_2_1 = new SeekBarView();
+            load_2_1.setTitle("Load_2_1");
+            load_2_1.setSummary(getString(R.string.load_2_1));
+            load_2_1.setUnit("%");
+            load_2_1.setMin(0);
+            load_2_1.setMax(100);
+            load_2_1.setProgress(AlucardHotplug.getAlucardHotplugLoad_2_1());
+            load_2_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_2_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_2_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_3_0()) {
+            SeekBarView load_3_0 = new SeekBarView();
+            load_3_0.setTitle("Load_3_0");
+            load_3_0.setSummary(getString(R.string.load_3_0));
+            load_3_0.setUnit("%");
+            load_3_0.setMin(0);
+            load_3_0.setMax(100);
+            load_3_0.setProgress(AlucardHotplug.getAlucardHotplugLoad_3_0());
+            load_3_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_3_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_3_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_3_1()) {
+            SeekBarView load_3_1 = new SeekBarView();
+            load_3_1.setTitle("Load_3_1");
+            load_3_1.setSummary(getString(R.string.load_3_1));
+            load_3_1.setUnit("%");
+            load_3_1.setMin(0);
+            load_3_1.setMax(100);
+            load_3_1.setProgress(AlucardHotplug.getAlucardHotplugLoad_3_1());
+            load_3_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_3_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_3_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugLoad_4_0()) {
+            SeekBarView load_4_0 = new SeekBarView();
+            load_4_0.setTitle("Load_4_0");
+            load_4_0.setSummary(getString(R.string.load_4_0));
+            load_4_0.setUnit("%");
+            load_4_0.setMin(0);
+            load_4_0.setMax(100);
+            load_4_0.setProgress(AlucardHotplug.getAlucardHotplugLoad_4_0());
+            load_4_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugLoad_4_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(load_4_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_1_1()) {
+            SeekBarView rate_1_1 = new SeekBarView();
+            rate_1_1.setTitle("Rate_1_1");
+            rate_1_1.setSummary(getString(R.string.rate_1_1));
+            rate_1_1.setUnit("");
+            rate_1_1.setMin(0);
+            rate_1_1.setMax(10);
+            rate_1_1.setProgress(AlucardHotplug.getAlucardHotplugRate_1_1());
+            rate_1_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_1_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_1_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_2_0()) {
+            SeekBarView rate_2_0 = new SeekBarView();
+            rate_2_0.setTitle("Rate_2_0");
+            rate_2_0.setSummary(getString(R.string.rate_2_0));
+            rate_2_0.setUnit("");
+            rate_2_0.setMin(0);
+            rate_2_0.setMax(10);
+            rate_2_0.setProgress(AlucardHotplug.getAlucardHotplugRate_2_0());
+            rate_2_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_2_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_2_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_2_1()) {
+            SeekBarView rate_2_1 = new SeekBarView();
+            rate_2_1.setTitle("Rate_2_1");
+            rate_2_1.setSummary(getString(R.string.rate_2_1));
+            rate_2_1.setUnit("");
+            rate_2_1.setMin(0);
+            rate_2_1.setMax(10);
+            rate_2_1.setProgress(AlucardHotplug.getAlucardHotplugRate_2_1());
+            rate_2_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_2_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_2_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_3_0()) {
+            SeekBarView rate_3_0 = new SeekBarView();
+            rate_3_0.setTitle("Rate_3_0");
+            rate_3_0.setSummary(getString(R.string.rate_3_0));
+            rate_3_0.setUnit("");
+            rate_3_0.setMin(0);
+            rate_3_0.setMax(10);
+            rate_3_0.setProgress(AlucardHotplug.getAlucardHotplugRate_3_0());
+            rate_3_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_3_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_3_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_3_1()) {
+            SeekBarView rate_3_1 = new SeekBarView();
+            rate_3_1.setTitle("Rate_3_1");
+            rate_3_1.setSummary(getString(R.string.rate_3_1));
+            rate_3_1.setUnit("");
+            rate_3_1.setMin(0);
+            rate_3_1.setMax(10);
+            rate_3_1.setProgress(AlucardHotplug.getAlucardHotplugRate_3_1());
+            rate_3_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_3_1(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_3_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRate_4_0()) {
+            SeekBarView rate_4_0 = new SeekBarView();
+            rate_4_0.setTitle("Rate_4_0");
+            rate_4_0.setSummary(getString(R.string.rate_4_0));
+            rate_4_0.setUnit("");
+            rate_4_0.setMin(0);
+            rate_4_0.setMax(10);
+            rate_4_0.setProgress(AlucardHotplug.getAlucardHotplugRate_4_0());
+            rate_4_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_4_0(position, getActivity());
+                }
+            });
+
+            alucardHotplug.add(rate_4_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_1_1()) {
+            SeekBarView RQ_1_1 = new SeekBarView();
+            RQ_1_1.setTitle("Run Queue_1_1");
+            RQ_1_1.setSummary(getString(R.string.rq_1_1));
+            RQ_1_1.setUnit("mS");
+            RQ_1_1.setMin(0);
+			RQ_1_1.setOffset(50);
+            RQ_1_1.setMax(2000);
+            RQ_1_1.setProgress(AlucardHotplug.getAlucardHotplugRQ_1_1() - 50);
+            RQ_1_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRate_1_1(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_1_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_2_0()) {
+            SeekBarView RQ_2_0 = new SeekBarView();
+            RQ_2_0.setTitle("Run Queue_2_0");
+            RQ_2_0.setSummary(getString(R.string.rq_2_0));
+            RQ_2_0.setUnit("mS");
+            RQ_2_0.setMin(0);
+			RQ_2_0.setOffset(50);
+            RQ_2_0.setMax(2000);
+            RQ_2_0.setProgress(AlucardHotplug.getAlucardHotplugRQ_2_0() - 50);
+            RQ_2_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRQ_2_0(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_2_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_2_1()) {
+            SeekBarView RQ_2_1 = new SeekBarView();
+            RQ_2_1.setTitle("Run Queue_2_1");
+            RQ_2_1.setSummary(getString(R.string.rq_2_1));
+            RQ_2_1.setUnit("mS");
+            RQ_2_1.setMin(0);
+			RQ_2_1.setOffset(50);
+            RQ_2_1.setMax(2000);
+            RQ_2_1.setProgress(AlucardHotplug.getAlucardHotplugRQ_2_1() - 50);
+            RQ_2_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRQ_2_1(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_2_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_3_0()) {
+            SeekBarView RQ_3_0 = new SeekBarView();
+            RQ_3_0.setTitle("Run Queue_3_0");
+            RQ_3_0.setSummary(getString(R.string.rq_3_0));
+            RQ_3_0.setUnit("mS");
+            RQ_3_0.setMin(0);
+			RQ_3_0.setOffset(50);
+            RQ_3_0.setMax(2000);
+            RQ_3_0.setProgress(AlucardHotplug.getAlucardHotplugRQ_3_0() - 50);
+            RQ_3_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRQ_3_0(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_3_0);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_3_1()) {
+            SeekBarView RQ_3_1 = new SeekBarView();
+            RQ_3_1.setTitle("Run Queue_3_1");
+            RQ_3_1.setSummary(getString(R.string.rq_3_1));
+            RQ_3_1.setUnit("mS");
+            RQ_3_1.setMin(0);
+			RQ_3_1.setOffset(50);
+            RQ_3_1.setMax(2000);
+            RQ_3_1.setProgress(AlucardHotplug.getAlucardHotplugRQ_3_1() - 50);
+            RQ_3_1.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRQ_3_1(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_3_1);
+        }
+
+        if (AlucardHotplug.hasAlucardHotplugRQ_4_0()) {
+            SeekBarView RQ_4_0 = new SeekBarView();
+            RQ_4_0.setTitle("Run Queue_4_0");
+            RQ_4_0.setSummary(getString(R.string.rq_4_0));
+            RQ_4_0.setUnit("mS");
+            RQ_4_0.setMin(0);
+			RQ_4_0.setOffset(50);
+            RQ_4_0.setMax(2000);
+            RQ_4_0.setProgress(AlucardHotplug.getAlucardHotplugRQ_4_0() - 50);
+            RQ_4_0.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AlucardHotplug.setAlucardHotplugRQ_4_0(position + 50, getActivity());
+                }
+            });
+
+            alucardHotplug.add(RQ_4_0);
+        }
+
         if (alucardHotplug.size() > 0) {
             items.add(title);
             items.addAll(alucardHotplug);
@@ -1779,18 +2443,21 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             enable.setTitle(getString(R.string.thunderplug));
             enable.setSummary(getString(R.string.thunderplug_summary));
             enable.setChecked(ThunderPlug.isThunderPlugEnabled());
+			enable.addOnSwitchListener((switchView, isChecked)			
+						    -> ThunderPlug.enableThunderPlug(isChecked, getActivity()));
+			/*
             enable.addOnSwitchListener((switchView, isChecked) -> {
                 if (isChecked) {
-                    SamsungPlug.enableSamsungPlug(false, getActivity());
+                    SamsungPlug.enableSamsungPlug(true, getActivity()); //was false
                     ThunderPlug.enableStateNotifier(true, getActivity());
                     ThunderPlug.enableThunderPlug(true, getActivity());
                 } else {
-                    ThunderPlug.enableThunderPlug(false, getActivity());
+                    ThunderPlug.enableThunderPlug(true, getActivity());
                     ThunderPlug.enableStateNotifier(false, getActivity());
                     SamsungPlug.enableSamsungPlug(true, getActivity());
                 }
                 refreshHotPlugs();
-            });
+            }); */
 
             thunderPlug.addItem(enable);
             mEnableViews.add(enable);
@@ -1832,7 +2499,7 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
         if (ThunderPlug.hasThunderPlugSamplingRate()) {
             SeekBarView samplingRate = new SeekBarView();
             samplingRate.setTitle(getString(R.string.sampling_rate));
-            samplingRate.setMax(500);
+            samplingRate.setMax(800); // was 500
             samplingRate.setMin(10);
             samplingRate.setOffset(10);
             samplingRate.setProgress(ThunderPlug.getThunderPlugSamplingRate() / 10 - 1);
@@ -1880,6 +2547,17 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
 
             thunderPlug.addItem(touchBoost);
         }
+		
+        if (ThunderPlug.hasThunderPlugSuspend()) {
+            SwitchView h_suspend = new SwitchView();
+            h_suspend.setTitle(getString(R.string.thunder_plug_suspend));
+            h_suspend.setSummary(getString(R.string.thunder_plug_suspend_summary));
+            h_suspend.setChecked(ThunderPlug.isThunderPlugSuspendEnable());
+            h_suspend.addOnSwitchListener((switchView, isChecked)
+                    -> ThunderPlug.enableThunderPlugSuspend(isChecked, getActivity()));
+
+            thunderPlug.addItem(h_suspend);
+        }
 
         if (ThunderPlug.hasThunderPlugCpusBoosted()) {
             SeekBarView cpusBoosted = new SeekBarView();
@@ -1902,25 +2580,69 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             thunderPlug.addItem(cpusBoosted);
         }
 
-        if (ThunderPlug.hasThunderPlugCpusBoosted()) {
-            SeekBarView cpusBoosted = new SeekBarView();
-            cpusBoosted.setTitle(getString(R.string.cpus_boosted));
-            cpusBoosted.setSummary(getString(R.string.cpus_boosted_summary));
-            cpusBoosted.setMax(8);
-            cpusBoosted.setMin(1);
-            cpusBoosted.setProgress(ThunderPlug.getThunderPlugCpusBoosted() - 1);
-            cpusBoosted.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+        if (ThunderPlug.hasThunderPlugBoostLockDuration()) {
+            SeekBarView lockDuration = new SeekBarView();
+            lockDuration.setTitle(getString(R.string.lock_duration));
+            lockDuration.setSummary(getString(R.string.lock_duration_summary));
+            lockDuration.setUnit(getString(R.string.ms));
+            lockDuration.setMax(5000);
+            lockDuration.setOffset(50);
+			lockDuration.setMin(100);
+            lockDuration.setProgress(ThunderPlug.getThunderPlugBoostLockDuration() / 1000);
+            lockDuration.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
                 @Override
                 public void onMove(SeekBarView seekBarView, int position, String value) {
                 }
 
                 @Override
                 public void onStop(SeekBarView seekBarView, int position, String value) {
-                    ThunderPlug.setThunderPlugLoadCpusBoosted(position + 1, getActivity());
+                    ThunderPlug.setThunderPlugBoostLockDuration(position * 1000, getActivity());
                 }
             });
 
-            thunderPlug.addItem(cpusBoosted);
+            thunderPlug.addItem(lockDuration);
+        }
+
+        if (ThunderPlug.hasThunderPlugMaxCoreOnline()) {
+            SeekBarView maxCoreOnLine = new SeekBarView();
+            maxCoreOnLine.setTitle(getString(R.string.cpus_max_core_online));
+            maxCoreOnLine.setSummary(getString(R.string.cpus_max_core_online_summary));
+            maxCoreOnLine.setMax(8);
+            maxCoreOnLine.setMin(1);
+            maxCoreOnLine.setProgress(ThunderPlug.getThunderPlugMaxCoreOnline() - 1);
+            maxCoreOnLine.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ThunderPlug.setThunderPlugMaxCoreOnline(position + 1, getActivity());
+                }
+            });
+
+            thunderPlug.addItem(maxCoreOnLine);
+        }
+		
+        if (ThunderPlug.hasThunderPlugMinCoreOnline()) {
+            SeekBarView minCoreOnLine = new SeekBarView();
+            minCoreOnLine.setTitle(getString(R.string.cpus_min_core_online));
+            minCoreOnLine.setSummary(getString(R.string.cpus_min_core_online_summary));
+            minCoreOnLine.setMax(8);
+            minCoreOnLine.setMin(1);
+            minCoreOnLine.setProgress(ThunderPlug.getThunderPlugMinCoreOnline() - 1);
+            minCoreOnLine.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    ThunderPlug.setThunderPlugMinCoreOnline(position + 1, getActivity());
+                }
+            });
+
+            thunderPlug.addItem(minCoreOnLine);
         }
 
         if (thunderPlug.size() > 0) {
@@ -2049,6 +2771,82 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             autoSmp.add(cpuFreqUp);
         }
 
+        if (AutoSmp.hasAutoSmpCpufreqDown_bc()) {
+            SeekBarView cpuFreqDown_bc = new SeekBarView();
+            cpuFreqDown_bc.setTitle(getString(R.string.downrate_limits_bc));
+            cpuFreqDown_bc.setUnit("%");
+            cpuFreqDown_bc.setProgress(AutoSmp.getAutoSmpCpufreqDown_bc());
+            cpuFreqDown_bc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpCpufreqDown_bc(position, getActivity());
+                }
+            });
+
+            autoSmp.add(cpuFreqDown_bc);
+        }
+
+        if (AutoSmp.hasAutoSmpCpufreqDown_lc()) {
+            SeekBarView cpuFreqDown_lc = new SeekBarView();
+            cpuFreqDown_lc.setTitle(getString(R.string.downrate_limits_lc));
+            cpuFreqDown_lc.setUnit("%");
+            cpuFreqDown_lc.setProgress(AutoSmp.getAutoSmpCpufreqDown_lc());
+            cpuFreqDown_lc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpCpufreqDown_lc(position, getActivity());
+                }
+            });
+
+            autoSmp.add(cpuFreqDown_lc);
+        }
+
+        if (AutoSmp.hasAutoSmpCpufreqUp_bc()) {
+            SeekBarView cpuFreqUp_bc = new SeekBarView();
+            cpuFreqUp_bc.setTitle(getString(R.string.uprate_limits_bc));
+            cpuFreqUp_bc.setUnit("%");
+            cpuFreqUp_bc.setProgress(AutoSmp.getAutoSmpCpufreqUp_bc());
+            cpuFreqUp_bc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpCpufreqUp_bc(position, getActivity());
+                }
+            });
+
+            autoSmp.add(cpuFreqUp_bc);
+        }
+
+        if (AutoSmp.hasAutoSmpCpufreqUp_lc()) {
+            SeekBarView cpuFreqUp_lc = new SeekBarView();
+            cpuFreqUp_lc.setTitle(getString(R.string.uprate_limits_lc));
+            cpuFreqUp_lc.setUnit("%");
+            cpuFreqUp_lc.setProgress(AutoSmp.getAutoSmpCpufreqUp_lc());
+            cpuFreqUp_lc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpCpufreqUp_lc(position, getActivity());
+                }
+            });
+
+            autoSmp.add(cpuFreqUp_lc);
+        }
+
         if (AutoSmp.hasAutoSmpCycleDown()) {
             SeekBarView cycleDown = new SeekBarView();
             cycleDown.setTitle(getString(R.string.cycle_down));
@@ -2150,6 +2948,90 @@ public class CPUHotplugFragment extends RecyclerViewFragment {
             });
 
             autoSmp.add(minCpus);
+        }
+
+        if (AutoSmp.hasAutoSmpMaxCpus_bc()) {
+            SeekBarView maxCpus_bc = new SeekBarView();
+            maxCpus_bc.setTitle(getString(R.string.max_cpu_online_bc));
+            maxCpus_bc.setSummary(getString(R.string.max_cpu_online_bc_summary));
+            maxCpus_bc.setMax(mCPUFreq.getCpuCount());
+            maxCpus_bc.setMin(1);
+            maxCpus_bc.setProgress(AutoSmp.getAutoSmpMaxCpus_bc() - 1);
+            maxCpus_bc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpMaxCpus_bc(position + 1, getActivity());
+                }
+            });
+
+            autoSmp.add(maxCpus_bc);
+        }
+
+        if (AutoSmp.hasAutoSmpMaxCpus_lc()) {
+            SeekBarView maxCpus_lc = new SeekBarView();
+            maxCpus_lc.setTitle(getString(R.string.max_cpu_online_lc));
+            maxCpus_lc.setSummary(getString(R.string.max_cpu_online_lc_summary));
+            maxCpus_lc.setMax(mCPUFreq.getCpuCount());
+            maxCpus_lc.setMin(1);
+            maxCpus_lc.setProgress(AutoSmp.getAutoSmpMaxCpus_lc() - 1);
+            maxCpus_lc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpMaxCpus_lc(position + 1, getActivity());
+                }
+            });
+
+            autoSmp.add(maxCpus_lc);
+        }
+
+        if (AutoSmp.hasAutoSmpMinCpus_bc()) {
+            SeekBarView minCpus_bc = new SeekBarView();
+            minCpus_bc.setTitle(getString(R.string.min_cpu_online_bc));
+            minCpus_bc.setSummary(getString(R.string.min_cpu_online_bc_summary));
+            minCpus_bc.setMax(mCPUFreq.getCpuCount());
+            minCpus_bc.setMin(1);
+            minCpus_bc.setProgress(AutoSmp.getAutoSmpMinCpus_bc() - 1);
+            minCpus_bc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpMinCpus_bc(position + 1, getActivity());
+                }
+            });
+
+            autoSmp.add(minCpus_bc);
+        }
+
+        if (AutoSmp.hasAutoSmpMinCpus_lc()) {
+            SeekBarView minCpus_lc = new SeekBarView();
+            minCpus_lc.setTitle(getString(R.string.min_cpu_online_lc));
+            minCpus_lc.setSummary(getString(R.string.min_cpu_online_lc_summary));
+            minCpus_lc.setMax(mCPUFreq.getCpuCount());
+            minCpus_lc.setMin(1);
+            minCpus_lc.setProgress(AutoSmp.getAutoSmpMinCpus_lc() - 1);
+            minCpus_lc.setOnSeekBarListener(new SeekBarView.OnSeekBarListener() {
+                @Override
+                public void onMove(SeekBarView seekBarView, int position, String value) {
+                }
+
+                @Override
+                public void onStop(SeekBarView seekBarView, int position, String value) {
+                    AutoSmp.setAutoSmpMinCpus_lc(position + 1, getActivity());
+                }
+            });
+
+            autoSmp.add(minCpus_lc);
         }
 
         if (AutoSmp.hasAutoSmpScroffSingleCore()) {
