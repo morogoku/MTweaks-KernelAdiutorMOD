@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Compiled with SDK29.\n* Add temp. nodes for exynos 7870/7880/7885, S9 and S10\n* Zram: increase max size to 4GB\n* Zram: add compression algorithm\n* Custom images for some custom kernels in Navigation panel\n\n\n</string>
+    <string name="changelog_message">\n* Updated CPU Hotplug settings.\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->

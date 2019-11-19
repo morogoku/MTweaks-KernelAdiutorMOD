@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Compilado con SDK29.\n* Añadida temp. para exynos 7870/7880/7885, S9 y S10\n* Zram: aumentado tamaño max. a 4GB\n* Zram: ajuste de algoritmo compression\n* Imágenes personalizadas para algunos kernels en el Panel de Navegación</string>
+  <string name="changelog_message">\n* Ajustes CPU Hotplugs actualizados.\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
