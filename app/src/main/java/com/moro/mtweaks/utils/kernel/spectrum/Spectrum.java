@@ -1,7 +1,10 @@
 package com.moro.mtweaks.utils.kernel.spectrum;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
+import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.RootUtils;
 
 /**
@@ -10,32 +13,39 @@ import com.moro.mtweaks.utils.root.RootUtils;
 
 public class Spectrum {
 
-    public static String getProfile(){
-        return RootUtils.runCommand("getprop persist.spectrum.profile");
+    public static int getSuProfile(){
+        return Utils.strToInt(RootUtils.runCommand("getprop persist.spectrum.profile"));
+    }
+
+    static int getProfile(Context context){
+        return AppSettings.getInt("spectrum_profile", 0 , context);
     }
 
     // Method that interprets a profile and sets it
-    public static void setProfile(int profile) {
+    public static void setProfile(int profile, Context context) {
         int numProfiles = 3;
-        if (profile > numProfiles || profile < 0) {
-            setProp(0);
-        } else {
-            setProp(profile);
-        }
+        if (profile > numProfiles || profile < 0) profile = 0;
+
+        setProp(profile, context);
     }
 
     // Method that sets system property
-    private static void setProp(final int profile) {
+    private static void setProp(final int profile, Context context) {
         new AsyncTask<Object, Object, Void>() {
             @Override
             protected Void doInBackground(Object... params) {
+                AppSettings.saveInt("spectrum_profile", profile, context);
                 RootUtils.runCommand("setprop persist.spectrum.profile " + profile);
                 return null;
             }
         }.execute();
     }
 
-    public static boolean supported() {
-        return RootUtils.getProp("spectrum.support").equals("1");
+    public static boolean suSupported(){
+        return RootUtils.runCommand("getprop spectrum.support").equals("1");
+    }
+
+    public static boolean supported(Context context){
+        return AppSettings.getBoolean("spectrum_supported", false, context);
     }
 }

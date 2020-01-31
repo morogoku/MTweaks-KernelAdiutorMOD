@@ -8,7 +8,6 @@ import android.service.quicksettings.TileService;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.utils.AppSettings;
-import com.moro.mtweaks.utils.Utils;
 
 /**
  * Created by Morogoku on 01/08/2017.
@@ -19,7 +18,6 @@ public class ProfileTile extends TileService {
 
     private static final String SERVICE_STATUS_FLAG = "serviceStatus";
     private boolean click = false;
-    private boolean mIsSupported = Spectrum.supported();
 
     @Override
     public void onStartListening() {
@@ -39,7 +37,7 @@ public class ProfileTile extends TileService {
         int newState;
 
         // Update tile and set profile
-        if (!mIsSupported){
+        if (!Spectrum.supported(getApplicationContext())){
             newLabel = "No Spectrum support";
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_logo);
             newState = Tile.STATE_INACTIVE;
@@ -49,29 +47,25 @@ public class ProfileTile extends TileService {
                 newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_game);
                 newState = Tile.STATE_ACTIVE;
                 click = false;
-                Spectrum.setProfile(3);
-                AppSettings.saveInt("spectrum_profile", 3, getApplicationContext());
+                Spectrum.setProfile(3, getApplicationContext());
             } else if (!isActive && click) {
                 newLabel = "Spectrum Battery";
                 newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_battery);
                 newState = Tile.STATE_ACTIVE;
                 click = true;
-                Spectrum.setProfile(2);
-                AppSettings.saveInt("spectrum_profile", 2, getApplicationContext());
+                Spectrum.setProfile(2, getApplicationContext());
             } else if (isActive && !click) {
                 newLabel = "Spectrum Performance";
                 newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_performance);
                 newState = Tile.STATE_ACTIVE;
                 click = true;
-                Spectrum.setProfile(1);
-                AppSettings.saveInt("spectrum_profile", 1, getApplicationContext());
+                Spectrum.setProfile(1, getApplicationContext());
             } else {
                 newLabel = "Spectrum Balance";
                 newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_balanced);
                 newState = Tile.STATE_ACTIVE;
                 click = false;
-                Spectrum.setProfile(0);
-                AppSettings.saveInt("spectrum_profile", 0, getApplicationContext());
+                Spectrum.setProfile(0, getApplicationContext());
             }
         }
 
@@ -93,14 +87,14 @@ public class ProfileTile extends TileService {
     }
 
     private void resetTileStatus() {
-        int profile = Utils.strToInt(Spectrum.getProfile());
+        int profile = Spectrum.getProfile(getApplicationContext());
         Tile tile = this.getQsTile();
         Icon newIcon;
         String newLabel;
         int newState;
 
         // Update tile
-        if (!mIsSupported){
+        if (!Spectrum.supported(getApplicationContext())){
             newLabel = "No Spectrum support";
             newIcon = Icon.createWithResource(getApplicationContext(), R.drawable.ic_spectrum_tile_logo);
             newState = Tile.STATE_INACTIVE;

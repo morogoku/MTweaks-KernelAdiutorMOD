@@ -191,6 +191,9 @@ public class MainActivity extends BaseActivity {
                 if (!AppSettings.getBoolean("gpu_onboot", false, mRefActivity.get())) {
                     AppSettings.saveInt("gpu_seekbarPref_value", GPUFragment.mDefZeroPosition, mRefActivity.get());
                 }
+                // update spectrum support and profile
+                AppSettings.saveBoolean("spectrum_supported", Spectrum.suSupported(), mRefActivity.get());
+                AppSettings.saveInt("spectrum_profile", Spectrum.getSuProfile(), mRefActivity.get());
             }
             AppSettings.saveBoolean("is_booted", false, mRefActivity.get());
 
@@ -198,10 +201,6 @@ public class MainActivity extends BaseActivity {
             if (!Utils.existFile("/data/.mtweaks")) {
                 RootUtils.runCommand("mkdir /data/.mtweaks");
             }
-
-            // Initialice profile Sharedpreference
-            int prof = Utils.strToInt(Spectrum.getProfile());
-            AppSettings.saveInt("spectrum_profile", prof, mRefActivity.get());
 
             // Check if kernel is changed
             String kernel_old = AppSettings.getString("kernel_version_old", "", mRefActivity.get());

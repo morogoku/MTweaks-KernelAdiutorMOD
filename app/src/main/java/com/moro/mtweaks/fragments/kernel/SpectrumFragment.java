@@ -161,10 +161,9 @@ public class SpectrumFragment extends RecyclerViewFragment {
             desc.setTextColor(Color.WHITE);
             if(oldCard != null) oldCard.setCardBackgroundColor(ogColor);
             if(oldDesc != null) oldDesc.setTextColor(odColor);
-            Spectrum.setProfile(prof);
+            Spectrum.setProfile(prof, getActivity());
             oldCard = card;
             oldDesc = desc;
-            AppSettings.saveInt("spectrum_profile", prof, getActivity());
         }
     }
 }

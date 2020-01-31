@@ -43,6 +43,7 @@ import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl0;
 import com.moro.mtweaks.utils.kernel.cpuvoltage.VoltageCl1;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
 import com.moro.mtweaks.utils.kernel.boefflawakelock.BoefflaWakelock;
+import com.moro.mtweaks.utils.kernel.spectrum.Spectrum;
 import com.moro.mtweaks.utils.root.RootUtils;
 
 /**
@@ -88,6 +89,10 @@ public class ApplyOnBootService extends Service {
         if(BoefflaWakelock.supported()) {
             BoefflaWakelock.CopyWakelockBlockerDefault();
         }
+
+        // update spectrum support and profile
+        AppSettings.saveBoolean("spectrum_supported", Spectrum.suSupported(), this);
+        AppSettings.saveInt("spectrum_profile", Spectrum.getSuProfile(), this);
 
         // Check if kernel is changed
         String kernel_old = AppSettings.getString("kernel_version_old", "", this);

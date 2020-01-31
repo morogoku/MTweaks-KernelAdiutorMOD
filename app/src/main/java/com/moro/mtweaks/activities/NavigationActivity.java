@@ -90,7 +90,6 @@ import com.moro.mtweaks.fragments.tools.downloads.DownloadsFragment;
 import com.moro.mtweaks.services.monitor.Monitor;
 import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Device;
-import com.moro.mtweaks.utils.Log;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.battery.Battery;
 import com.moro.mtweaks.utils.kernel.bus.VoltageCam;
@@ -220,7 +219,7 @@ public class NavigationActivity extends BaseActivity
         if (Sound.getInstance().supported()) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.sound, SoundFragment.class, R.drawable.ic_music));
         }
-        if (Spectrum.supported()) {
+        if (Spectrum.supported(this)) {
             mFragments.add(new NavigationActivity.NavigationFragment(R.string.spectrum, SpectrumFragment.class, R.drawable.ic_spectrum_logo));
         }
         if (Battery.getInstance(this).supported()) {
