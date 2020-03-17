@@ -74,8 +74,10 @@ public class OverallFragment extends RecyclerViewFragment {
     private TemperatureView mTemperature;
 
     private CardView mFreqBig;
+    private CardView mFreqMid;
     private CardView mFreqLITTLE;
     private CpuSpyApp mCpuSpyBig;
+    private CpuSpyApp mCpuSpyMid;
     private CpuSpyApp mCpuSpyLITTLE;
 
     private double mBatteryRaw;
@@ -127,43 +129,69 @@ public class OverallFragment extends RecyclerViewFragment {
         frequencyButtonView.setResetListener(v -> {
             CpuStateMonitor cpuStateMonitor = mCpuSpyBig.getCpuStateMonitor();
             CpuStateMonitor cpuStateMonitorLITTLE = null;
+            CpuStateMonitor cpuStateMonitorMid = null;
             if (mCpuSpyLITTLE != null) {
                 cpuStateMonitorLITTLE = mCpuSpyLITTLE.getCpuStateMonitor();
+                if (mCpuSpyMid != null){
+                    cpuStateMonitorMid = mCpuSpyMid.getCpuStateMonitor();
+                }
             }
             try {
                 cpuStateMonitor.setOffsets();
                 if (cpuStateMonitorLITTLE != null) {
                     cpuStateMonitorLITTLE.setOffsets();
+                    if (cpuStateMonitorMid != null){
+                        cpuStateMonitorMid.setOffsets();
+                    }
                 }
             } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
             }
             mCpuSpyBig.saveOffsets();
             if (mCpuSpyLITTLE != null) {
                 mCpuSpyLITTLE.saveOffsets();
+                if (mCpuSpyMid != null) {
+                    mCpuSpyMid.saveOffsets();
+                }
             }
             updateView(cpuStateMonitor, mFreqBig);
             if (cpuStateMonitorLITTLE != null) {
                 updateView(cpuStateMonitorLITTLE, mFreqLITTLE);
+                if (cpuStateMonitorMid != null) {
+                    updateView(cpuStateMonitorMid, mFreqMid);
+                }
             }
             adjustScrollPosition();
         });
         frequencyButtonView.setRestoreListener(v -> {
             CpuStateMonitor cpuStateMonitor = mCpuSpyBig.getCpuStateMonitor();
             CpuStateMonitor cpuStateMonitorLITTLE = null;
+            CpuStateMonitor cpuStateMonitorMid = null;
             if (mCpuSpyLITTLE != null) {
                 cpuStateMonitorLITTLE = mCpuSpyLITTLE.getCpuStateMonitor();
+                if (mCpuSpyMid != null) {
+                    cpuStateMonitorMid = mCpuSpyMid.getCpuStateMonitor();
+                }
             }
             cpuStateMonitor.removeOffsets();
             if (cpuStateMonitorLITTLE != null) {
                 cpuStateMonitorLITTLE.removeOffsets();
+                if (cpuStateMonitorMid != null) {
+                    cpuStateMonitorMid.removeOffsets();
+                }
             }
             mCpuSpyBig.saveOffsets();
             if (mCpuSpyLITTLE != null) {
                 mCpuSpyLITTLE.saveOffsets();
+                if (mCpuSpyMid != null) {
+                    mCpuSpyMid.saveOffsets();
+                }
             }
             updateView(cpuStateMonitor, mFreqBig);
             if (mCpuSpyLITTLE != null) {
                 updateView(cpuStateMonitorLITTLE, mFreqLITTLE);
+                if (mCpuSpyMid != null) {
+                    updateView(cpuStateMonitorMid, mFreqMid);
+                }
             }
             adjustScrollPosition();
         });
@@ -177,6 +205,12 @@ public class OverallFragment extends RecyclerViewFragment {
         }
         items.add(mFreqBig);
 
+        if (mCPUFreq.isBigLITTLE() && mCPUFreq.hasMidCpu()) {
+            mFreqMid = new CardView(getActivity());
+            mFreqMid.setTitle(getString(R.string.cluster_middle));
+            items.add(mFreqMid);
+        }
+
         if (mCPUFreq.isBigLITTLE()) {
             mFreqLITTLE = new CardView(getActivity());
             mFreqLITTLE.setTitle(getString(R.string.cluster_little));
@@ -186,6 +220,9 @@ public class OverallFragment extends RecyclerViewFragment {
         mCpuSpyBig = new CpuSpyApp(mCPUFreq.getBigCpu(), getActivity());
         if (mCPUFreq.isBigLITTLE()) {
             mCpuSpyLITTLE = new CpuSpyApp(mCPUFreq.getLITTLECpu(), getActivity());
+            if (mCPUFreq.hasMidCpu()) {
+                mCpuSpyMid = new CpuSpyApp(mCPUFreq.getMidCpu(), getActivity());
+            }
         }
 
         updateFrequency();
@@ -201,6 +238,7 @@ public class OverallFragment extends RecyclerViewFragment {
     private static class FrequencyTask extends AsyncTask<OverallFragment, Void, OverallFragment> {
 
         private CpuStateMonitor mBigMonitor;
+        private CpuStateMonitor mMidMonitor;
         private CpuStateMonitor mLITTLEMonitor;
 
         @Override
@@ -209,6 +247,9 @@ public class OverallFragment extends RecyclerViewFragment {
             mBigMonitor = fragment.mCpuSpyBig.getCpuStateMonitor();
             if (fragment.mCPUFreq.isBigLITTLE()) {
                 mLITTLEMonitor = fragment.mCpuSpyLITTLE.getCpuStateMonitor();
+                if (fragment.mCPUFreq.hasMidCpu()) {
+                    mMidMonitor = fragment.mCpuSpyMid.getCpuStateMonitor();
+                }
             }
             try {
                 mBigMonitor.updateStates();
@@ -218,6 +259,9 @@ public class OverallFragment extends RecyclerViewFragment {
             if (fragment.mCPUFreq.isBigLITTLE()) {
                 try {
                     mLITTLEMonitor.updateStates();
+                    if (fragment.mCPUFreq.hasMidCpu()) {
+                        mMidMonitor.updateStates();
+                    }
                 } catch (CpuStateMonitor.CpuStateMonitorException ignored) {
                     Log.e("Problem getting CPU states");
                 }
@@ -231,6 +275,9 @@ public class OverallFragment extends RecyclerViewFragment {
             fragment.updateView(mBigMonitor, fragment.mFreqBig);
             if (fragment.mCPUFreq.isBigLITTLE()) {
                 fragment.updateView(mLITTLEMonitor, fragment.mFreqLITTLE);
+                if (fragment.mCPUFreq.hasMidCpu()) {
+                    fragment.updateView(mMidMonitor, fragment.mFreqMid);
+                }
             }
             fragment.adjustScrollPosition();
             fragment.mFrequencyTask = null;
