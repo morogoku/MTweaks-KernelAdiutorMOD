@@ -141,9 +141,37 @@
     "gpu-offset": 1000
   },
   {
-    "board": "universal9820",
+    "board": "exynos9820",
     "cpu": "/sys/class/thermal/thermal_zone0/temp",
-    "gpu": "/sys/class/thermal/thermal_zone3/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
+    "board": "exynos9825",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
+    "board": "exynos990",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
+    "board": "msmnile",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
+    "cpu-offset": 1000,
+    "gpu-offset": 1000
+  },
+  {
+    "board": "kona",
+    "cpu": "/sys/class/thermal/thermal_zone0/temp",
+    "gpu": "/sys/class/thermal/thermal_zone2/temp",
     "cpu-offset": 1000,
     "gpu-offset": 1000
   }
