@@ -1,9 +1,12 @@
 {
-  "latestVersion": "2.16.0",
-  "latestVersionCode": "2160",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.16.0/MTweaks_v2.16.0.apk",
+  "latestVersion": "2.17.0",
+  "latestVersionCode": "2170",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.0/MTweaks_v2.17.0.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Updated CPU Hotplug settings"
+    "- Updated Spectrum Tile to request less root access.",
+    "- Added support for CPUs of 3 clusters: S10, Note 10 and S20.",
+    "- Updated CpuSpy for 3 clusters.",
+    "- Temperatures for S10, Note10 and S20."
   ]
 }
