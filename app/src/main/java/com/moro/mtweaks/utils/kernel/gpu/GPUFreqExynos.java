@@ -50,6 +50,7 @@ public class GPUFreqExynos {
     private static final String MAX_FREQ_STOCK = "/sys/kernel/gpu/gpu_max_clock";
     private static final String MIN_FREQ_STOCK = "/sys/kernel/gpu/gpu_min_clock";
     private static final String AVAILABLE_FREQS_STOCK = "/sys/kernel/gpu/gpu_freq_table";
+    private static final String DRIVER_VERSION = "/sys/kernel/gpu/gpu_driver_version";
 
     private static final String MAX_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_max_clock";
     private static final String MIN_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_min_clock";
@@ -528,6 +529,14 @@ public class GPUFreqExynos {
 
     public int getVoltageOffset () {
         return AVAILABLE_VOLTS_OFFSET;
+    }
+
+    public boolean hasDriverVersion() {
+        return Utils.existFile(DRIVER_VERSION);
+    }
+
+    public String getDriverVersion() {
+        return Utils.readFile(DRIVER_VERSION);
     }
 
     public boolean supported() {

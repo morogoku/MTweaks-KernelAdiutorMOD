@@ -291,6 +291,21 @@ public class GPUFragment extends RecyclerViewFragment {
     }
 
     private void freqInit(List<RecyclerViewItem> items) {
+
+        CardView driverCard = new CardView(getActivity());
+        driverCard.setTitle(getString(R.string.gpu_driver_title));
+
+        if (mGPUFreqExynos.hasDriverVersion()) {
+            DescriptionView driver = new DescriptionView();
+            driver.setTitle(getString((R.string.gpu_driver_version)));
+            driver.setSummary(mGPUFreqExynos.getDriverVersion());
+            driverCard.addItem(driver);
+        }
+
+        if (driverCard.size() > 0) {
+            items.add(driverCard);
+        }
+
         CardView freqCard = new CardView(getActivity());
         freqCard.setTitle(getString(R.string.frequencies));
 
@@ -525,7 +540,7 @@ public class GPUFragment extends RecyclerViewFragment {
 
             voltCard.addItem(mSeekbarProf);
 
-            Boolean enableGlobal = AppSettings.getBoolean("gpu_global_volts", true, getActivity());
+            boolean enableGlobal = AppSettings.getBoolean("gpu_global_volts", true, getActivity());
 
             SwitchView voltControl = new SwitchView();
             voltControl.setTitle(getString(R.string.cpu_manual_volt));
@@ -568,7 +583,7 @@ public class GPUFragment extends RecyclerViewFragment {
     private void seekbarProfInit(SeekBarView seekbar, final List<Integer> freqs, final List<String> voltages,
                                  final List<String> voltagesStock, List<String> progress) {
 
-        Boolean enableSeekbar = AppSettings.getBoolean("gpu_global_volts", true, getActivity());
+        boolean enableSeekbar = AppSettings.getBoolean("gpu_global_volts", true, getActivity());
         int global = AppSettings.getInt("gpu_seekbarPref_value", mDefZeroPosition, getActivity());
 
         int value = 0;
@@ -625,7 +640,7 @@ public class GPUFragment extends RecyclerViewFragment {
             }
         }
 
-        Boolean enableSeekbar = AppSettings.getBoolean("gpu_individual_volts", false, getActivity());
+        boolean enableSeekbar = AppSettings.getBoolean("gpu_individual_volts", false, getActivity());
 
         seekbar.setTitle(freq + " " + getString(R.string.mhz));
         seekbar.setSummary(getString(R.string.def) + ": " + voltageStock + " " + getString(R.string.mv));
