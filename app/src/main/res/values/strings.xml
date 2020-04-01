@@ -579,8 +579,9 @@
     <string name="gpu_adreno_boost_low">1 Low</string>
     <string name="gpu_adreno_boost_medium">2 Medium</string>
     <string name="gpu_adreno_boost_high">3 High</string>
-    <string name="gpu_driver_version">GPU Driver Version</string>
-    <string name="gpu_driver_title">Driver</string>
+    <string name="gpu_driver_version">Kernel Driver</string>
+    <string name="gpu_lib_version">System Libs</string>
+    <string name="gpu_driver_title">GPU Driver Info</string>
 
     <!-- Screen -->
     <string name="screen_color">Screen Color</string>

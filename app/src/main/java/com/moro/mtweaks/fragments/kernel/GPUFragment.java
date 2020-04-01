@@ -297,10 +297,15 @@ public class GPUFragment extends RecyclerViewFragment {
 
         if (mGPUFreqExynos.hasDriverVersion()) {
             DescriptionView driver = new DescriptionView();
-            driver.setTitle(getString((R.string.gpu_driver_version)));
+            driver.setTitle(getString(R.string.gpu_driver_version));
             driver.setSummary(mGPUFreqExynos.getDriverVersion());
             driverCard.addItem(driver);
         }
+
+        DescriptionView lib = new DescriptionView();
+        lib.setTitle(getString(R.string.gpu_lib_version));
+        lib.setSummary(AppSettings.getString("gpu_lib_version", "", getActivity()));
+        driverCard.addItem(lib);
 
         if (driverCard.size() > 0) {
             items.add(driverCard);

@@ -22,6 +22,7 @@ package com.moro.mtweaks.fragments.statistics;
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.DescriptionFragment;
 import com.moro.mtweaks.fragments.recyclerview.RecyclerViewFragment;
+import com.moro.mtweaks.utils.AppSettings;
 import com.moro.mtweaks.utils.Device;
 import com.moro.mtweaks.utils.kernel.gpu.GPUFreqExynos;
 import com.moro.mtweaks.views.recyclerview.CardView;
@@ -71,7 +72,8 @@ public class DeviceFragment extends RecyclerViewFragment {
                 {getString(R.string.bootloader), Device.getBootloader()},
                 {getString(R.string.rom), Device.ROMInfo.getInstance().getVersion()},
                 {getString(R.string.trustzone), Device.TrustZone.getInstance().getVersion()},
-                {getString(R.string.gpu_driver_version), GPUFreqExynos.getInstance().getDriverVersion()},
+                {"GPU " + getString(R.string.gpu_driver_version), GPUFreqExynos.getInstance().getDriverVersion()},
+                {"GPU " + getString(R.string.gpu_lib_version), AppSettings.getString("gpu_lib_version", "", getActivity())},
                 {getString(R.string.asv), Device.getAsv()}
         };
 

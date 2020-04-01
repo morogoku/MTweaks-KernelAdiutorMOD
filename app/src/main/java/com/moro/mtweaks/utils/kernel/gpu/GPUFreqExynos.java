@@ -25,6 +25,7 @@ import com.moro.mtweaks.R;
 import com.moro.mtweaks.fragments.ApplyOnBootFragment;
 import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.root.Control;
+import com.moro.mtweaks.utils.root.RootUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +51,7 @@ public class GPUFreqExynos {
     private static final String MAX_FREQ_STOCK = "/sys/kernel/gpu/gpu_max_clock";
     private static final String MIN_FREQ_STOCK = "/sys/kernel/gpu/gpu_min_clock";
     private static final String AVAILABLE_FREQS_STOCK = "/sys/kernel/gpu/gpu_freq_table";
-    private static final String DRIVER_VERSION = "/sys/kernel/gpu/gpu_driver_version";
+    private static final String DRIVER_VERSION = "/sys/module/mali_kbase/version";
 
     private static final String MAX_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_max_clock";
     private static final String MIN_S7_FREQ_STOCK = "/sys/devices/platform/gpusysfs/gpu_min_clock";
