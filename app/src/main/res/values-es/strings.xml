@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Actualizado Tile Spectrum para que pida menos accesos root.\n* Añadido soporte para ajustes CPU 3 clusters: S10, Note10 y S20.\n* Actualizado CpuSpy para 3 clusters.\n* Temperaturas para S10, Note10 y S20.\n\n\n</string>
+  <string name="changelog_message">\n* Añadido Info de GPU driver y libs.\n* Imagen para kernel E7EK\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>

@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Updated Spectrum Tile to request less root access.\n* Added support for CPUs of 3 clusters: S10, Note 10 and S20.\n* Updated CpuSpy for 3 clusters.\n* Temperatures for S10, Note10 and S20.\n\n\n</string>
+    <string name="changelog_message">\n* Added Mali GPU driver info.\n* E7EK Kernel Nav Image\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->
