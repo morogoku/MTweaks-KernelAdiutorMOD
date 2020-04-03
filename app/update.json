@@ -1,12 +1,10 @@
 {
-  "latestVersion": "2.17.0",
-  "latestVersionCode": "2170",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.0/MTweaks_v2.17.0.apk",
+  "latestVersion": "2.17.1",
+  "latestVersionCode": "2171",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.1/MTweaks_v2.17.1.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Updated Spectrum Tile to request less root access.",
-    "- Added support for CPUs of 3 clusters: S10, Note 10 and S20.",
-    "- Updated CpuSpy for 3 clusters.",
-    "- Temperatures for S10, Note10 and S20."
+    "- Mali GPU driver and System Libs info.",
+    "- E7EK Kernel Nav picture."
   ]
 }
