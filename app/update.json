@@ -1,10 +1,9 @@
 {
-  "latestVersion": "2.17.1",
-  "latestVersionCode": "2171",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.1/MTweaks_v2.17.1.apk",
+  "latestVersion": "2.17.2",
+  "latestVersionCode": "2172",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.2/MTweaks_v2.17.2.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Mali GPU driver and System Libs info.",
-    "- E7EK Kernel Nav picture."
+    "- Fixed GPU libs detection."
   ]
 }
