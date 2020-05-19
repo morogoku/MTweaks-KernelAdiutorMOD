@@ -10,7 +10,7 @@
     <string name="open">Open %s</string>
     <string name="disable">Disable</string>
     <string name="changelog">MTweaks v%s</string>
-    <string name="changelog_message">\n* Fixed GPU libs detection after reboot\n\n\n</string>
+    <string name="changelog_message">\n* Fixed Force English language\n\n\n</string>
     <string name="close">Close</string>
 
     <!-- Security -->
