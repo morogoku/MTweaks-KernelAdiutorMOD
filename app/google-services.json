@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1092447114830",
+    "firebase_url": "https://mtweaks-kernel-app.firebaseio.com",
+    "project_id": "mtweaks-kernel-app",
+    "storage_bucket": "mtweaks-kernel-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1092447114830:android:620cfca0b9ef37249e951f",
+        "android_client_info": {
+          "package_name": "com.moro.mtweaks"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1092447114830-dd3ag2hra3i9dmuqghmtqf8oqln0g1tm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQTpWLuFsLRpouH__VnGFL5wzunDpmNl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1092447114830-dd3ag2hra3i9dmuqghmtqf8oqln0g1tm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
