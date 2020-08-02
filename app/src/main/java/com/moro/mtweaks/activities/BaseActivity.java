@@ -74,8 +74,19 @@ public abstract class BaseActivity extends AppCompatActivity {
         if (AppSettings.isForceEnglish(newBase)) {
             super.attachBaseContext(wrap(newBase, new Locale("en_US")));
         } else {
-            super.attachBaseContext(newBase);
+            String local = Resources.getSystem().getConfiguration().locale.getLanguage();
+            super.attachBaseContext(wrap(newBase, new Locale(local)));
         }
+    }
+
+    @Override
+    public void applyOverrideConfiguration(Configuration overrideConfiguration) {
+        if (overrideConfiguration != null) {
+            int uiMode = overrideConfiguration.uiMode;
+            overrideConfiguration.setTo(getBaseContext().getResources().getConfiguration());
+            overrideConfiguration.uiMode = uiMode;
+        }
+        super.applyOverrideConfiguration(overrideConfiguration);
     }
 
     public static ContextWrapper wrap(Context context, Locale newLocale) {
