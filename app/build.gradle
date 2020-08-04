@@ -4,7 +4,7 @@ apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 30
-    buildToolsVersion '30.0.0'
+    buildToolsVersion '30.0.1'
     defaultConfig {
         applicationId 'com.moro.mtweaks'
         minSdkVersion 23
