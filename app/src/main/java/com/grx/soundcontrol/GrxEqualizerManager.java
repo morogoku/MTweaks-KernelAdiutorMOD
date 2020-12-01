@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.moro.mtweaks.R;
 import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.sound.MoroSound;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 
@@ -29,7 +30,7 @@ import static android.view.View.VISIBLE;
 public class GrxEqualizerManager extends RecyclerViewItem
         implements GrxEqualizerBandController.EqBandValueChange {
 
-    private boolean mMainSwitchEnabled=false;
+    private boolean mMainSwitchEnabled = false;
 
     private int mAccentColor;
 
@@ -51,7 +52,7 @@ public class GrxEqualizerManager extends RecyclerViewItem
     private Context mContext;
 
     private static final int NUMBANDS = 5;
-    private boolean mSwitchEnabled=false;
+    private boolean mSwitchEnabled = false;
 
 
     @Override
@@ -65,19 +66,15 @@ public class GrxEqualizerManager extends RecyclerViewItem
         setAccentColor();
         initEqProfilesList();
 
-
         mSwitchContainer = view.findViewById(R.id.switchcontainer);
         mSwitchContainer.setEnabled(true);
         mEqSwitch = mSwitchContainer.findViewById(R.id.switcher);
         mEqSwitchSummary = mSwitchContainer.findViewById(R.id.summary);
         mSwitchContainer.setOnClickListener(v -> {
-            if(!mMainSwitchEnabled) {
-                return;
-            }
-            mSwitchEnabled=!mSwitchEnabled;
+            if (!mMainSwitchEnabled) return;
+            mSwitchEnabled = !mSwitchEnabled;
             MoroSound.enableEqSw(mSwitchEnabled, mContext);
             updateEqSwitch();
-
         });
         mSwitchEnabled = MoroSound.isEqSwEnabled();
 
@@ -88,14 +85,19 @@ public class GrxEqualizerManager extends RecyclerViewItem
         mButtonCurrentProfile = view.findViewById(R.id.button_eq_profile);
         mButtonCurrentProfile.setAllCaps(false);
         mButtonCurrentProfile.setTextColor(mAccentColor);
-
-        mButtonCurrentProfile.setOnClickListener(v -> showProfileSelectionDialog());
+        mButtonCurrentProfile.setOnClickListener(v -> {
+            if (!mMainSwitchEnabled | !mSwitchEnabled) return;
+            showProfileSelectionDialog();
+        });
 
         mButtonSaveEqProfile = view.findViewById(R.id.button_eq_save);
         mButtonSaveEqProfile.setColorFilter(mAccentColor);
-        mButtonSaveEqProfile.setOnClickListener(v -> showSaveProfileDialog());
+        mButtonSaveEqProfile.setOnClickListener(v -> {
+            if (!mMainSwitchEnabled | !mSwitchEnabled) return;
+            showSaveProfileDialog();
+        });
 
-        if(mSelectedEqProfile == -1) {
+        if (mSelectedEqProfile == -1) {
             mButtonCurrentProfile.setText(R.string.eq_profile_custom);
             mButtonSaveEqProfile.setVisibility(VISIBLE);
         }
@@ -107,19 +109,18 @@ public class GrxEqualizerManager extends RecyclerViewItem
         updateEqSwitch();
     }
 
-    private void setAccentColor(){
+    private void setAccentColor() {
         TypedValue typedValue = new TypedValue();
         TypedArray b = mContext.obtainStyledAttributes(typedValue.data, new int[] { android.R.attr.colorAccent });
         mAccentColor = b.getColor(0, 0);
         b.recycle();
     }
 
-    private void fireStateToSeekBars(){
-        for(int i = 0; i < NUMBANDS; i++) {
+    private void fireStateToSeekBars() {
+        for (int i = 0; i < NUMBANDS; i++) {
             View view = mBandsContainer.findViewWithTag(String.valueOf(i));
-            if(view!=null){
+            if (view != null) {
                 ((GrxEqualizerBandController)view).mVerticalSeekBar.grxSetEnabled(mSwitchEnabled & mMainSwitchEnabled); //bbb
-
             }
         }
     }
@@ -128,16 +129,17 @@ public class GrxEqualizerManager extends RecyclerViewItem
         boolean alpha = mSwitchEnabled & mMainSwitchEnabled;
         mEqSwitch.setChecked(mSwitchEnabled);
         mSwitchContainer.setAlpha(mMainSwitchEnabled ? 1.0f : 0.5f);
-          mEqSwitchSummary.setText( alpha ? R.string.enabled : R.string.disabled   );
-         mProfilesContainer.setAlpha(alpha ? 1.0f : 0.5f);
+        mEqSwitchSummary.setText(alpha ? R.string.enabled : R.string.disabled);
+        mProfilesContainer.setAlpha(alpha ? 1.0f : 0.5f);
         mBandsContainer.setAlpha(alpha ? 1.0f: 0.5f);
+        fireStateToSeekBars();
     }
 
     @Override
-    public void EqValueChanged(int id, String value){
+    public void EqValueChanged(int id, String value) {
         String currentprofilestring = MoroSound.getCurrentProfileString();
-        for(int i = 0 ; i < mEquProfiles.size(); i++) {
-            if(mEquProfiles.get(i).getProfileValue().equals(currentprofilestring)) {
+        for (int i = 0 ; i < mEquProfiles.size(); i++) {
+            if (mEquProfiles.get(i).getProfileValue().equals(currentprofilestring)) {
                 mSelectedEqProfile = i;
                 mOldSelectedEqProfile = i;
                 mCurrentProfile=mEquProfiles.get(i).getProfileName();
@@ -146,12 +148,12 @@ public class GrxEqualizerManager extends RecyclerViewItem
             }
         }
 
-        if(mSelectedEqProfile == -1) return;
+        if (mSelectedEqProfile == -1) return;
         mSelectedEqProfile = -1;
         checkSelectedProfile();
     }
 
-    private void setCallBacks(){
+    private void setCallBacks() {
         int childs = mBandsContainer.getChildCount();
         for(int i = 0; i < childs; i++){
             View view = mBandsContainer.getChildAt(i);
@@ -164,8 +166,7 @@ public class GrxEqualizerManager extends RecyclerViewItem
     private boolean mDismissControl = false;
     private boolean mDeleteProfileControl = false;
 
-
-    private void showProfileSelectionDialog(){
+    private void showProfileSelectionDialog() {
 
         mOldSelectedEqProfile=mSelectedEqProfile;
         mDismissControl=false;
@@ -174,32 +175,32 @@ public class GrxEqualizerManager extends RecyclerViewItem
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.arizona_eqprofile_tit);
         builder.setSingleChoiceItems(getProfileNamesArray(), mSelectedEqProfile, (dialogInterface, i) -> {
-            mSelectedEqProfile=i;
-            if(mSelectedEqProfile<mNumOfMoroProfiles)
+            mSelectedEqProfile = i;
+            if (mSelectedEqProfile < mNumOfMoroProfiles)
                 ((AlertDialog)dialogInterface).getButton(DialogInterface.BUTTON_NEUTRAL).setVisibility(INVISIBLE);
             else
-                 ((AlertDialog)dialogInterface).getButton(DialogInterface.BUTTON_NEUTRAL).setVisibility(VISIBLE);
+                ((AlertDialog)dialogInterface).getButton(DialogInterface.BUTTON_NEUTRAL).setVisibility(VISIBLE);
         });
-        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> mDismissControl=true);
+        builder.setPositiveButton(android.R.string.ok, (dialog, which) -> mDismissControl = true);
         builder.setNeutralButton(R.string.eq_profile_delete, (dialogInterface, i) -> {
-            mDeleteProfileControl=true;
-            mDismissControl=true;
+            mDeleteProfileControl = true;
+            mDismissControl = true;
         });
         builder.setOnDismissListener(dialog -> {
-            if(mDismissControl) {
-                if(!mDeleteProfileControl) {
-                    if(mSelectedEqProfile!=mOldSelectedEqProfile) {
+            if (mDismissControl) {
+                if (!mDeleteProfileControl) {
+                    if (mSelectedEqProfile != mOldSelectedEqProfile) {
                         checkSelectedProfile();
                         fireSelectedProfile();
                     }
                 }
                 else delteSelectedProfile();
             }
-            else mSelectedEqProfile=mOldSelectedEqProfile;
+            else mSelectedEqProfile = mOldSelectedEqProfile;
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.setOnShowListener(dialogInterface -> {
-            if(mSelectedEqProfile<mNumOfMoroProfiles)
+            if (mSelectedEqProfile < mNumOfMoroProfiles)
                 ((AlertDialog)dialogInterface).getButton(DialogInterface.BUTTON_NEUTRAL).setVisibility(INVISIBLE);
             else
                 ((AlertDialog)dialogInterface).getButton(DialogInterface.BUTTON_NEUTRAL).setVisibility(VISIBLE);
@@ -207,10 +208,10 @@ public class GrxEqualizerManager extends RecyclerViewItem
         alertDialog.show();
     }
 
-    private void fireSelectedProfile(){
-        for(int i = 0; i < NUMBANDS; i++) {
+    private void fireSelectedProfile() {
+        for (int i = 0; i < NUMBANDS; i++) {
             View view = mBandsContainer.findViewWithTag(String.valueOf(i));
-            if(view != null){
+            if (view != null) {
                 String value = mEquProfiles.get(mSelectedEqProfile).getBandValue(i);
                 MoroSound.setEqValues(value, i, mContext);
                 ((GrxEqualizerBandController)view).mVerticalSeekBar.grxSetSeekBarProgress(value);
@@ -218,26 +219,26 @@ public class GrxEqualizerManager extends RecyclerViewItem
         }
     }
 
-    private void delteSelectedProfile(){
+    private void delteSelectedProfile() {
         String removedprofilename = mEquProfiles.get(mSelectedEqProfile).getProfileName();
         mEquProfiles.remove(mSelectedEqProfile);
         saveCustomProfiles();
-        if(mOldSelectedEqProfile == mSelectedEqProfile) {  // we are deleting current profile
+        if (mOldSelectedEqProfile == mSelectedEqProfile) {  // we are deleting current profile
             mSelectedEqProfile = -1;
             mOldSelectedEqProfile = -1;
-        }else {
+        } else {
             mSelectedEqProfile=mOldSelectedEqProfile;
         }
         checkSelectedProfile();
         Toast.makeText(mContext,removedprofilename + " - " + mContext.getString(R.string.eq_profile_deleted),Toast.LENGTH_SHORT).show();
     }
 
-    private void checkSelectedProfile(){
-        if(mSelectedEqProfile == -1) {
+    private void checkSelectedProfile() {
+        if (mSelectedEqProfile == -1) {
             mButtonSaveEqProfile.setVisibility(VISIBLE);
             mCurrentProfile = "custom";
             mButtonCurrentProfile.setText(R.string.eq_profile_custom);
-        }else {
+        } else {
             mCurrentProfile = mEquProfiles.get(mSelectedEqProfile).getProfileName();
             mButtonCurrentProfile.setText(mCurrentProfile);
             mButtonSaveEqProfile.setVisibility(INVISIBLE);
@@ -246,10 +247,10 @@ public class GrxEqualizerManager extends RecyclerViewItem
 
     }
 
-    private String[] getProfileNamesArray(){
+    private String[] getProfileNamesArray() {
         int elements = mEquProfiles.size();
         String[] array = new String[elements];
-        for(int i=0; i < mEquProfiles.size(); i++) array[i] = mEquProfiles.get(i).getProfileName();
+        for (int i = 0; i < mEquProfiles.size(); i++) array[i] = mEquProfiles.get(i).getProfileName();
         return array;
     }
 
@@ -265,23 +266,21 @@ public class GrxEqualizerManager extends RecyclerViewItem
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(R.string.eq_profile_save);
         builder.setMessage(R.string.eq_profile_name);
-
         builder.setView(editText);
-
         builder.setPositiveButton(android.R.string.ok, (dialogInterface, i)
                 -> saveCurrentProfile(editText.getText().toString()));
         builder.create().show();
     }
 
     private void saveCurrentProfile(String profilename){
-        if(profilename == null || profilename.isEmpty()) {
+        if (profilename == null || profilename.isEmpty()) {
             Toast.makeText(mContext, R.string.eq_profile_invalid_name, Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
             String value = "";
             List<String> eqvalues = MoroSound.getEqValues();
-            for(int i = 0; i < eqvalues.size(); i++) {
+            for (int i = 0; i < eqvalues.size(); i++) {
                 value += eqvalues.get(i);
-                if(i < eqvalues.size() -1) value += ",";
+                if (i < eqvalues.size() -1) value += ",";
             }
 
             mEquProfiles.add(new ProfileInfo(profilename, value));
@@ -297,14 +296,14 @@ public class GrxEqualizerManager extends RecyclerViewItem
 
     private void saveCustomProfiles() {
         String profiles = "";
-        if(mEquProfiles.size() > mNumOfMoroProfiles) {
-            for(int i = mNumOfMoroProfiles; i < mEquProfiles.size(); i++)
+        if (mEquProfiles.size() > mNumOfMoroProfiles) {
+            for (int i = mNumOfMoroProfiles; i < mEquProfiles.size(); i++)
                 profiles += mEquProfiles.get(i).getStringValue();
         }
         AppSettings.saveString("moro_eq_custom_profiles", profiles, mContext);
     }
 
-    private void initEqProfilesList(){
+    private void initEqProfilesList() {
 
         mEquProfiles.clear();
 
@@ -316,44 +315,54 @@ public class GrxEqualizerManager extends RecyclerViewItem
         if (moroProfilesTitles==null || moroProfilesTitles.length == 0) mNumOfMoroProfiles = 0;
         else {
             mNumOfMoroProfiles = moroProfilesTitles.length;
-            for(int i = 0 ; i < moroProfilesTitles.length; i++) {
+            for (int i = 0 ; i < moroProfilesTitles.length; i++) {
                 mEquProfiles.add(new ProfileInfo(moroProfilesTitles[i], moroProfilesValues[i]));
             }
         }
 
         String customprofiles = AppSettings.getString("moro_eq_custom_profiles", "", mContext );
-        if(customprofiles!=null && !customprofiles.isEmpty()) {
+        if (customprofiles != null && !customprofiles.isEmpty()) {
             String[] profiles = customprofiles.split(Pattern.quote("|"));
-            if(profiles!=null && profiles.length>0){
-                for(int i = 0 ; i < profiles.length; i++) {
+            if (profiles!=null && profiles.length > 0) {
+                for (int i = 0 ; i < profiles.length; i++) {
                     String[] profile = profiles[i].split(";");
-                    if(profile!=null && profile.length == 2) {
-                            mEquProfiles.add(new ProfileInfo(profile[0],profile[1]));
+                    if (profile != null && profile.length == 2) {
+                        mEquProfiles.add(new ProfileInfo(profile[0], profile[1]));
                     }
                 }
             }
         }
 
-        if(mCurrentProfile!=null && !mCurrentProfile.isEmpty() && !mCurrentProfile.equals("custom")) { // let´s look for profile element in list
-
-            for(int i = 0; i<mEquProfiles.size();i++) {
+        if (mCurrentProfile != null && !mCurrentProfile.isEmpty() && !mCurrentProfile.equals("custom")) { // let´s look for profile element in list
+            for (int i = 0; i < mEquProfiles.size(); i++) {
                 String profilename = mEquProfiles.get(i).getProfileName();
-                if(mCurrentProfile.equals(profilename)) {
+                if (mCurrentProfile.equals(profilename)) {
                     mSelectedEqProfile = i;
                     mOldSelectedEqProfile = i;
                     mCurrentProfile = profilename;
                     break;
                 }
             }
-
-        }else {
+        } else {
             mSelectedEqProfile = -1;
             mOldSelectedEqProfile = -1;
         }
     }
 
-    public void setMainSwitchEnabled(boolean enabled){
+    public void setMainSwitchEnabled(boolean enabled) {
         mMainSwitchEnabled = enabled;
+        updateEqSwitch();
+    }
+
+    public void resetValues() {
+        for (int i = 0; i < NUMBANDS; i++) {
+            View view = mBandsContainer.findViewWithTag(String.valueOf(i));
+            if (view != null) {
+                String value = MoroSound.getEqValue(i);
+                ((GrxEqualizerBandController)view).mVerticalSeekBar.grxSetSeekBarProgress(value);
+            }
+        }
+        mSwitchEnabled = false;
         updateEqSwitch();
     }
 
@@ -367,7 +376,7 @@ public class GrxEqualizerManager extends RecyclerViewItem
 
         String profileValue;
 
-        ProfileInfo(String name, String values){
+        ProfileInfo(String name, String values) {
             profileName = name;
             profileValue=values;
             bandValues = values.split(",");

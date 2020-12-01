@@ -15,13 +15,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 public class GrxEqualizerBandController extends LinearLayout implements SeekBar.OnSeekBarChangeListener {
 
     public int mBandId;
-
     EqBandValueChange mCallBack = null;
-
     String mCurrentValue, mOldValue;
 
 
-    public interface EqBandValueChange{
+    public interface EqBandValueChange {
         void EqValueChanged(int id, String value);
     }
 
@@ -47,13 +45,13 @@ public class GrxEqualizerBandController extends LinearLayout implements SeekBar.
 
     private void initView(){
         String tag = (String) getTag();
-        mBandId = Integer.valueOf( (String) getTag() );
+        mBandId = Integer.valueOf(tag);
 
        inflate(getContext(),R.layout.grx_equalizer_band,this);
     }
 
     @Override
-    protected void onFinishInflate(){
+    protected void onFinishInflate() {
         super.onFinishInflate();
         mVerticalSeekBar = findViewById(R.id.eqseekbar);
         mVerticalSeekBar.grxSetInitialized(false);
@@ -66,14 +64,14 @@ public class GrxEqualizerBandController extends LinearLayout implements SeekBar.
         updateSeekBar();
     }
 
-    public void updateSeekBar(){
+    public void updateSeekBar() {
         mVerticalSeekBar.grxSetCurrentKernelValue(mBandId);
         mVerticalSeekBar.grxSetInitialized(true);
         mValueTextView.setText(mVerticalSeekBar.grxGetNormalizedProgress() + " dB");
 
         mCurrentValue = MoroSound.getEqValue(mBandId);
-        if(mCurrentValue==null || mCurrentValue.isEmpty()) mCurrentValue="0";
-        mOldValue=mCurrentValue;
+        if (mCurrentValue == null || mCurrentValue.isEmpty()) mCurrentValue="0";
+        mOldValue = mCurrentValue;
         mVerticalSeekBar.grxSetSeekBarProgress(mCurrentValue);
     }
 
@@ -81,23 +79,28 @@ public class GrxEqualizerBandController extends LinearLayout implements SeekBar.
     /************** seekbar listener ***********/
 
     public void onStopTrackingTouch(SeekBar seekBar) {
+        if (!((VerticalSeekBar) seekBar).mIsEnabled) return;
         mCurrentValue = ((VerticalSeekBar) seekBar).grxGetNormalizedStringProgress();
-        if(mCurrentValue==null || mCurrentValue.isEmpty()) mCurrentValue="0";
-        if(mCurrentValue.equals(mOldValue)) return;
-        mOldValue=mCurrentValue;
-        if(mCallBack!=null) mCallBack.EqValueChanged(mBandId,mCurrentValue);
+        if (mCurrentValue == null || mCurrentValue.isEmpty()) mCurrentValue = "0";
+        if (mCurrentValue.equals(mOldValue)) return;
+        mOldValue = mCurrentValue;
+        if (mCallBack!=null) mCallBack.EqValueChanged(mBandId,mCurrentValue);
     }
 
     public void onStartTrackingTouch(SeekBar seekBar) {
-            mOldValue=mCurrentValue;
+            mOldValue = mCurrentValue;
     }
 
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                 String newvalue = ((VerticalSeekBar) seekBar).grxGetNormalizedStringProgress();
+        if (!((VerticalSeekBar) seekBar).mIsEnabled && fromUser){
+            ((VerticalSeekBar) seekBar).grxSetSeekBarProgress(mCurrentValue);
+        }
 
-           if(newvalue!=null) {
-               mValueTextView.setText(newvalue + "dB");
-                MoroSound.setEqValues(newvalue, mBandId,getContext());
-           }
-     }
+        String newValue = ((VerticalSeekBar) seekBar).grxGetNormalizedStringProgress();
+
+        if (newValue != null) {
+            mValueTextView.setText(newValue + "dB");
+            MoroSound.setEqValues(newValue, mBandId,getContext());
+        }
+    }
 }

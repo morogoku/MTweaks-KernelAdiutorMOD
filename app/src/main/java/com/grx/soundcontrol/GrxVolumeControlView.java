@@ -26,13 +26,9 @@ public class GrxVolumeControlView extends View {
     Paint textPaint, circlePaint, circlePaint2, linePaint;
     String angle;
     float currdeg, deg = 3, downdeg;
-
     int progressColor, lineColor;
-
     onProgressChangedListener mListener;
-
     String label;
-
     boolean mIsEnabled=true;
 
 
@@ -40,9 +36,9 @@ public class GrxVolumeControlView extends View {
         void onProgressChanged(int progress, int increment);
     }
 
-    private ProgressChangingListener mProgressChangingListener=null;
+    private ProgressChangingListener mProgressChangingListener = null;
 
-    public interface ProgressChangingListener{
+    public interface ProgressChangingListener {
         void onProgressChanging(int progress, int increment);
     }
 
@@ -104,7 +100,6 @@ public class GrxVolumeControlView extends View {
         mArcPaint.setStrokeWidth(3);
     }
 
-
     public RectF mGrxArch = new RectF();
     private Paint mArcPaint;
 
@@ -121,7 +116,6 @@ public class GrxVolumeControlView extends View {
         float deg2 = Math.max(3, deg);
         float deg3 = Math.min(deg, 21);
 
-
         for (int i = (int) (deg2); i < 22; i++) {
             float tmp = (float) i / 24;
             x = midx + (float) (radius * Math.sin(2 * Math.PI * (1.0 - tmp)));
@@ -130,8 +124,7 @@ public class GrxVolumeControlView extends View {
             canvas.drawCircle(x, y, ((float) radius / 15), circlePaint);
         }
 
-
-        mGrxArch.set((int) (midx-archradius), (int) (midy-archradius), (int)(midx+archradius),(int)(midy+archradius));
+        mGrxArch.set((int) (midx-archradius), (int) (midy-archradius), (int)(midx+archradius), (int)(midy+archradius));
         //   canvas.drawArc(mGrxArch,135f,270f,false,circlePaint);
 
         for (int i = 3; i <= deg3; i++) {  // little circle indicators
@@ -147,36 +140,28 @@ public class GrxVolumeControlView extends View {
         float x2 = midx + (float) (radius * ((float) 3 / 5) * Math.sin(2 * Math.PI * (1.0 - tmp2)));
         float y2 = midy + (float) (radius * ((float) 3 / 5) * Math.cos(2 * Math.PI * (1.0 - tmp2)));
 
-
         // canvas.drawCircle(midx, midy, radius * ((float) 13 / 15), circlePaint);
-
         canvas.drawCircle(midx, midy, radius /4, circlePaint);
         canvas.drawCircle(midx, midy, radius /8, circlePaint2);
         //   canvas.drawText(label, midx, midy + (float) (radius * 1.2), textPaint);
         canvas.drawLine(x1, y1, x2, y2, linePaint);
-
-
         canvas.drawArc(mGrxArch, 135f, 270f, false, mArcPaint);
     }
 
-
     int mGrxCurrentStep = 3;
-
     int mGrxLastProgress = 3;
-
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        if(!mIsEnabled) return true;
+        if (!mIsEnabled) return true;
 
         this.getParent().requestDisallowInterceptTouchEvent(true);
 
-        if(mGrxLastProgress!=deg) {
+        if (mGrxLastProgress!=deg) {
             int dif = (int) deg - mGrxLastProgress;
             if(mProgressChangingListener!= null) mProgressChangingListener.onProgressChanging((int) deg, dif);
             mGrxLastProgress=(int) deg;
         }
-
 
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             float dx = e.getX() - midx;
@@ -223,23 +208,21 @@ public class GrxVolumeControlView extends View {
                 downdeg = currdeg;
             }
 
-
             if(deg<mMinProgress) deg=mMinProgress;
             if(deg>mMaxProgress) deg=mMaxProgress;
-
 
             angle = String.valueOf(String.valueOf(deg));
 
             //   this.getParent().requestDisallowInterceptTouchEvent(false);
             invalidate();
             return true;
-        }else { /* GRX */
-            if(e.getAction()==MotionEvent.ACTION_UP){  // to avoid big annnoying sound level we only call back when action is up and different step
-                if(mGrxCurrentStep!=deg){
-                    int dif =(int) deg-mGrxCurrentStep;
+        } else { /* GRX */
+            if (e.getAction()==MotionEvent.ACTION_UP){  // to avoid big annnoying sound level we only call back when action is up and different step
+                if (mGrxCurrentStep != deg) {
+                    int dif =(int) deg - mGrxCurrentStep;
                     mGrxCurrentStep = (int) deg;
                     Log.d("Grxdeg ", String.valueOf(deg));
-                    if(mListener!=null) mListener.onProgressChanged(mGrxCurrentStep, dif);
+                    if (mListener!=null) mListener.onProgressChanged(mGrxCurrentStep, dif);
                     return true;
                 }
             }
@@ -254,14 +237,12 @@ public class GrxVolumeControlView extends View {
     }
 
     public void setProgress(int param) {
-
         // deg = param + 2;  ???
         deg = param;
         mGrxCurrentStep=(int) deg;
         mGrxLastProgress =(int) deg;
         invalidate();
     }
-
 
     public String getLabel() {
         return label;
@@ -295,18 +276,18 @@ public class GrxVolumeControlView extends View {
     private int mMinProgress=3;  // fixed - grx To do : configurable number of positions.
     private int mMaxProgress=21; //
 
-    public void setProgressRange(int minval, int nmaxval){
+    public void setProgressRange(int minval, int nmaxval) {
         mMinProgress=minval;
         mMaxProgress=nmaxval;
     }
 
-    public void resetProgressRange(){
+    public void resetProgressRange() {
         mMinProgress=3;
         mMaxProgress=21;
         invalidate();
     }
 
-    public int increaseProgress(int incr){
+    public int increaseProgress(int incr) {
         deg+=incr;
         mGrxLastProgress=(int) deg;
         mGrxCurrentStep=(int) deg;

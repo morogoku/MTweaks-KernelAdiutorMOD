@@ -81,7 +81,7 @@
                     app:label="@string/left"
                     app:refVal="128"
                     app:valStep="4"
-                    app:refValposition="12"
+                    app:refValposition="10"
                     app:wheelsize="@dimen/volume_control_size_big"
                     />
 
@@ -96,7 +96,7 @@
                     app:label="@string/right"
                     app:refVal="128"
                     app:valStep="4"
-                    app:refValposition="12"
+                    app:refValposition="10"
                     app:wheelsize="@dimen/volume_control_size_big"
                     />
 

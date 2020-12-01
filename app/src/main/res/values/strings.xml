@@ -727,7 +727,7 @@
     <string name="earpiece_gain">Earpiece Gain</string>
     <string name="earpiece_gain_summary">You need the DualSpeaker mod</string>
     <string name="arizona_title">Arizona Control Sound</string>
-    <string name="arizona_sound_sw">Main Control</string>
+    <string name="arizona_sound_sw">Moro Sound</string>
     <string name="arizona_sound_sw_summary_on">Enable or Disable the sound control\nEnabled</string>
     <string name="arizona_sound_sw_summary_off">Enable or Disable the sound control\nDisabled</string>
     <string name="arizona_volume_title">Volume</string>
@@ -759,6 +759,19 @@
     <string name="arizona_eq_prof4">Eargasm</string>
     <string name="arizona_mono_tit">Mono Mixer</string>
     <string name="arizona_mono_desc">Mixes together left and right channels</string>
+    <string name="moro_sound_dual_speaker">Dual Speaker</string>
+    <string name="moro_sound_dual_speaker_desc">Enable the earpiece as a second speaker</string>
+    <string name="moro_sound_headphone_mono">Mono Sound</string>
+    <string name="moro_sound_headphone_mono_desc">Enable mono sound in headphones</string>
+    <string name="moro_sound_mic">Microphones</string>
+    <string name="moro_sound_mic_tit">Adjust Microphones</string>
+    <string name="moro_sound_mic_up">Mic Up</string>
+    <string name="moro_sound_mic_down">Mic Down</string>
+    <string name="moro_sound_mic_headphone">Mic Headphones</string>
+    <string name="moro_sound_reset_message">Do you want to reset all controls to default value?</string>
+    <string name="moro_sound_reset">Reset</string>
+    <string name="moro_sound_reset_summary">Reset to default values</string>
+    <string name="moro_sound_volume_control">Volume Control</string>
 
     <!-- Grx Sound Control -->
     <string name="headphones_volume">HeadPhones</string>

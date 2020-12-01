@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 
 import com.moro.mtweaks.database.Settings;
 import com.moro.mtweaks.utils.AppSettings;
+import com.moro.mtweaks.utils.Utils;
 import com.moro.mtweaks.utils.kernel.sound.MoroSound;
 import com.moro.mtweaks.views.recyclerview.RecyclerViewItem;
 import com.moro.mtweaks.R;
@@ -42,8 +43,8 @@ public class GrxVolumeManager extends RecyclerViewItem {
     private GrxVolumeItemController mVolumeLeftController, mVolumeRightController;
     private int mWheelStep = 6;
     private int mReferenceLevel = 113;
-    private int mReferencePosition=12;
-    private int mMinhHeadPhonesVolumeLevel;
+    private int mReferencePosition = 10;
+    private int mMinHeadPhonesVolumeLevel;
     private LinearLayout mHeadPhonesContainer;
 
 
@@ -54,7 +55,7 @@ public class GrxVolumeManager extends RecyclerViewItem {
     private int mEarPieceRefVal, mEarPieceStep, mEarPieceRefPosition, mEarPieceMin;
     private int mSpeakerRefVal, mSpeakerStep, mSpeakerRefPosition, mSpeakerMin;
 
-    private void testSettings(){
+    private void testSettings() {
         boolean enabled = false;
         final Settings settings = new Settings(mContext);
         final HashMap<String, Boolean> mCategoryEnabled = new HashMap<>();
@@ -72,7 +73,7 @@ public class GrxVolumeManager extends RecyclerViewItem {
         boolean a = enabled;
     }
 
-    private void setAccentColor(){
+    private void setAccentColor() {
         TypedValue typedValue = new TypedValue();
         TypedArray b = mContext.obtainStyledAttributes(typedValue.data, new int[] { android.R.attr.colorAccent });
         mAccentColor = b.getColor(0, 0);
@@ -87,13 +88,13 @@ public class GrxVolumeManager extends RecyclerViewItem {
     private View.OnClickListener mModeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            if(!mMainSwitchEnabled) return;
+            if (!mMainSwitchEnabled) return;
             mLinkMode = HEADPHONES_UNKNOWN_MODE;
             mUnlinkedButton.clearColorFilter();
             mLinkedButton.clearColorFilter();
             mAsymetricLinkedButton.clearColorFilter();
             int id = view.getId();
-            switch (id){
+            switch (id) {
                 case R.id.unlinked:
                     setLinkMode(HEADPHONES_INDEPENDENT_MODE);
                     saveSpHeadPhonesLinkMode(HEADPHONES_INDEPENDENT_MODE);
@@ -158,101 +159,106 @@ public class GrxVolumeManager extends RecyclerViewItem {
         mHeadPhonesContainer = view.findViewById(R.id.headphonecontainer);
 
 
-        /* earpiece and speaker */
+        /* Earpiece and Speaker */
 
         mEarpieceSpeakerContainer = view.findViewById(R.id.earpiecespeakercontainer);
 
         mEarPieceController = view.findViewById(R.id.earpiece);
         mSpeakerController = view.findViewById(R.id.speaker);
 
-        if(!MoroSound.hasSpeaker()) {
-            LinearLayout container = view.findViewById(R.id.speaker_container);
+        if (!MoroSound.hasEarpiece()) {
+            LinearLayout container = view.findViewById(R.id.earpiece_container);
             container.setVisibility(GONE);
-        }else {
+        } else {
             mEarPieceRefVal = mEarPieceController.getReferenceValue();
             mEarPieceStep = mEarPieceController.getStepValue();
             mEarPieceRefPosition = mEarPieceController.getRefValPosition();
-            mEarPieceMin = mEarPieceRefVal - (mEarPieceRefPosition*mEarPieceStep);
+            mEarPieceMin = mEarPieceRefVal - (mEarPieceRefPosition * mEarPieceStep);
 
-
-            /* set up wheel and db text */
-
-            String kernelspeakervalue = MoroSound.getEarpiece();
-            int kernelvalue;
-            if(kernelspeakervalue == null || kernelspeakervalue.isEmpty()) kernelvalue=20; // default value
-            else kernelvalue = Integer.valueOf(kernelspeakervalue);
-
-            int wheelprogress = (kernelvalue - mEarPieceMin) / mEarPieceStep;
-
-            mEarPieceController.getVolumeControlView().setProgress( wheelprogress);
-            int reg_val = mEarPieceController.getValue(wheelprogress);
-            mEarPieceController.setText(getHeadPhoneDbs(reg_val) + " dB");
-
-            mEarPieceController.setListener((progress, refval, refvalposition, step, dif) -> {
-                int dbs = mEarPieceMin + progress*mEarPieceStep;
-                MoroSound.setEarpiece(String.valueOf(dbs),mContext);
-                int reg_val1 = mEarPieceController.getValue(progress);
-                mEarPieceController.setText(getHeadPhoneDbs(reg_val1) + " dB");
-            });
-
-            mEarPieceController.getVolumeControlView().setOnChangingProgressListener((progress, dif) -> {
-                int dbs = mEarPieceMin + progress*mEarPieceStep;
-                MoroSound.setEarpiece(String.valueOf(dbs),mContext);
-
-                int reg_val12 = mEarPieceController.getValue(progress);
-                mEarPieceController.setText(getHeadPhoneDbs(reg_val12) + " dB");
-            });
+            setUpHeadEarpieceVolume();
         }
 
-        if(!MoroSound.hasEarpiece()){
-            LinearLayout container = view.findViewById(R.id.earpiece_container);
+        if (!MoroSound.hasSpeaker()) {
+            LinearLayout container = view.findViewById(R.id.speaker_container);
             container.setVisibility(GONE);
-        }else {
-
+        } else {
             mSpeakerRefVal = mSpeakerController.getReferenceValue();
             mSpeakerStep = mSpeakerController.getStepValue();
             mSpeakerRefPosition = mSpeakerController.getRefValPosition();
-            mSpeakerMin = mSpeakerRefVal - (mSpeakerRefPosition*mSpeakerStep);
+            mSpeakerMin = mSpeakerRefVal - (mSpeakerRefPosition * mSpeakerStep);
 
-
-            /* set up wheel and db text */
-
-            String kernelspeakervalue = MoroSound.getSpeaker();
-            int kernelvalue;
-            if(kernelspeakervalue == null || kernelspeakervalue.isEmpty()) kernelvalue=20; // default value
-            else kernelvalue = Integer.valueOf(kernelspeakervalue);
-
-            mSpeakerController.getVolumeControlView().setProgress( (kernelvalue - mSpeakerMin) / mSpeakerStep );
-            mSpeakerController.setText(kernelspeakervalue + " dB");
-
-            mSpeakerController.setListener((progress, refval, refvalposition, step, dif) -> {
-                int dbs = mSpeakerMin + progress*mSpeakerStep;
-                MoroSound.setSpeaker(String.valueOf(dbs),mContext);
-                mSpeakerController.setText(String.valueOf(dbs) + " dB");
-            });
-
-            mSpeakerController.getVolumeControlView().setOnChangingProgressListener((progress, dif) -> {
-                int dbs = mSpeakerMin + progress*mSpeakerStep;
-                MoroSound.setSpeaker(String.valueOf(dbs),mContext);
-                mSpeakerController.setText(String.valueOf(dbs) + " dB");
-            });
+            setUpHeadSpeakerVolume();
         }
 
         setMainSwitchEnabled(MoroSound.isSoundSwEnabled());
     }
 
-    private void saveSpHeadPhonesLinkMode(int mode){
+    private void setUpHeadEarpieceVolume() {
+        /* set up wheel and db text */
+
+        String kernelspeakervalue = MoroSound.getEarpiece();
+        int kernelvalue;
+        if (kernelspeakervalue == null || kernelspeakervalue.isEmpty()) kernelvalue = 20; // default value
+        else kernelvalue = Integer.valueOf(kernelspeakervalue);
+
+        int wheelprogress = (kernelvalue - mEarPieceMin) / mEarPieceStep;
+
+        mEarPieceController.getVolumeControlView().setProgress( wheelprogress);
+        int reg_val = mEarPieceController.getValue(wheelprogress);
+        mEarPieceController.setText(getHeadPhoneDbs(reg_val) + " dB");
+
+        mEarPieceController.setListener((progress, refval, refvalposition, step, dif) -> {
+            int dbs = mEarPieceMin + progress*mEarPieceStep;
+            MoroSound.setEarpiece(String.valueOf(dbs),mContext);
+            int reg_val1 = mEarPieceController.getValue(progress);
+            mEarPieceController.setText(getHeadPhoneDbs(reg_val1) + " dB");
+        });
+
+        mEarPieceController.getVolumeControlView().setOnChangingProgressListener((progress, dif) -> {
+            int dbs = mEarPieceMin + progress*mEarPieceStep;
+            MoroSound.setEarpiece(String.valueOf(dbs),mContext);
+
+            int reg_val12 = mEarPieceController.getValue(progress);
+            mEarPieceController.setText(getHeadPhoneDbs(reg_val12) + " dB");
+        });
+    }
+
+    private void setUpHeadSpeakerVolume() {
+        /* set up wheel and db text */
+
+        String kernelspeakervalue = MoroSound.getSpeaker();
+        int kernelvalue;
+        if (kernelspeakervalue == null || kernelspeakervalue.isEmpty()) kernelvalue = 20; // default value
+        else kernelvalue = Integer.valueOf(kernelspeakervalue);
+
+        mSpeakerController.getVolumeControlView().setProgress( (kernelvalue - mSpeakerMin) / mSpeakerStep );
+        mSpeakerController.setText(kernelspeakervalue + " dB");
+
+        mSpeakerController.setListener((progress, refval, refvalposition, step, dif) -> {
+            int dbs = mSpeakerMin + progress*mSpeakerStep;
+            MoroSound.setSpeaker(String.valueOf(dbs),mContext);
+            mSpeakerController.setText(String.valueOf(dbs) + " dB");
+        });
+
+        mSpeakerController.getVolumeControlView().setOnChangingProgressListener((progress, dif) -> {
+            int dbs = mSpeakerMin + progress*mSpeakerStep;
+            MoroSound.setSpeaker(String.valueOf(dbs),mContext);
+            mSpeakerController.setText(String.valueOf(dbs) + " dB");
+        });
+    }
+
+    private void saveSpHeadPhonesLinkMode(int mode) {
         Context context = mContext;
         AppSettings.saveInt("HEADPHONES_LINKED_MODE",mode,context);
     }
 
-    private void setLinkMode(int mode){
+    private void setLinkMode(int mode) {
         mLinkMode = mode;
 
         mUnlinkedButton.setColorFilter(mAccentColor&0x80ffffff);
         mLinkedButton.setColorFilter(mAccentColor&0x80ffffff);
         mAsymetricLinkedButton.setColorFilter(mAccentColor&0x80ffffff);
-        switch (mLinkMode){
+        switch (mLinkMode) {
             case HEADPHONES_INDEPENDENT_MODE: mUnlinkedButton.setColorFilter(mAccentColor);
                 finishAsymLinedMode();
                 break;
@@ -266,8 +272,7 @@ public class GrxVolumeManager extends RecyclerViewItem {
         }
     }
 
-    private void initLinkedVolumeMode(){
-
+    private void initLinkedVolumeMode() {
         int progress = Math.min(mVolumeLeftController.getVolumeControlView().getProgress(),
                 mVolumeRightController.getVolumeControlView().getProgress());
         mVolumeRightController.getVolumeControlView().setProgress(progress);
@@ -277,15 +282,15 @@ public class GrxVolumeManager extends RecyclerViewItem {
         mVolumeRightController.setText(getHeadPhoneDbs(reg_val) + " dB");
         mVolumeLeftController.setText(getHeadPhoneDbs(reg_val) + " dB");
 
-        MoroSound.setHeadphone(String.valueOf(mMinhHeadPhonesVolumeLevel + mWheelStep*progress),mContext);
+        MoroSound.setHeadphone(String.valueOf(mMinHeadPhonesVolumeLevel + mWheelStep * progress),mContext);
     }
 
-    private void finishAsymLinedMode(){
+    private void finishAsymLinedMode() {
         mVolumeLeftController.getVolumeControlView().resetProgressRange();
         mVolumeRightController.getVolumeControlView().resetProgressRange();
     }
 
-    private void initAsymLinedMode(){
+    private void initAsymLinedMode() {
         int progressLeft = mVolumeLeftController.getVolumeControlView().getProgress();
         int progressRight = mVolumeRightController.getVolumeControlView().getProgress();
 
@@ -295,21 +300,21 @@ public class GrxVolumeManager extends RecyclerViewItem {
         mVolumeLeftController.getVolumeControlView().setProgressRange(progressLeft-max_decr, progressLeft+max_incr);
         mVolumeRightController.getVolumeControlView().setProgressRange(progressRight-max_decr, progressRight+max_incr);
 
-        MoroSound.setHeadphoneL(String.valueOf(mMinhHeadPhonesVolumeLevel + mWheelStep*progressLeft), mContext);
-        MoroSound.setHeadphoneR(String.valueOf(mMinhHeadPhonesVolumeLevel + mWheelStep*progressRight), mContext);
+        MoroSound.setHeadphoneL(String.valueOf(mMinHeadPhonesVolumeLevel + mWheelStep * progressLeft), mContext);
+        MoroSound.setHeadphoneR(String.valueOf(mMinHeadPhonesVolumeLevel + mWheelStep * progressRight), mContext);
     }
 
     private void processOnVolumeChange(boolean isLeft, int progress, int refval, int refvalPosition, int step, int dif){
 
-        switch (mLinkMode){
+        switch (mLinkMode) {
             case HEADPHONES_INDEPENDENT_MODE:
                  break;
             case HEADPHONES_LINKED_MODE:
-                if(isLeft) {
+                if (isLeft) {
                     int reg_val = mVolumeLeftController.getValue(progress);
                     mVolumeRightController.getVolumeControlView().setProgress(progress);
                     mVolumeRightController.setText(getHeadPhoneDbs(reg_val) + " dB");
-                }else {
+                } else {
                     int reg_val = mVolumeLeftController.getValue(progress);
                     mVolumeLeftController.setText(getHeadPhoneDbs(reg_val) + " dB");
                     mVolumeLeftController.getVolumeControlView().setProgress(progress);
@@ -327,10 +332,10 @@ public class GrxVolumeManager extends RecyclerViewItem {
         return String.valueOf(dbs);
     }
 
-    private void setUpHeadPhonesVolumes(){
+    private void setUpHeadPhonesVolumes() {
         /* init wheels positions levels */
 
-        mMinhHeadPhonesVolumeLevel = mReferenceLevel - (mReferencePosition*mWheelStep);
+        mMinHeadPhonesVolumeLevel = mReferenceLevel - (mReferencePosition * mWheelStep);
 
         String kernelLeftLevel = MoroSound.getHeadphoneL();
         int wheelprogress = getWheelProgressFromKernelReading(kernelLeftLevel);
@@ -338,10 +343,10 @@ public class GrxVolumeManager extends RecyclerViewItem {
         mVolumeLeftController.setText(getHeadPhoneDbs(reg_val) + " dB");
         mVolumeLeftController.getVolumeControlView().setProgress(wheelprogress);
 
-        if(mLinkMode == HEADPHONES_LINKED_MODE) {
+        if (mLinkMode == HEADPHONES_LINKED_MODE) {
             mVolumeRightController.setText(getHeadPhoneDbs(reg_val) + " dB");
             mVolumeRightController.getVolumeControlView().setProgress(wheelprogress);
-        }else {
+        } else {
             wheelprogress = getWheelProgressFromKernelReading(MoroSound.getHeadphoneR());
             int regval = mVolumeRightController.getValue(wheelprogress);
             mVolumeRightController.setText(getHeadPhoneDbs(regval) + " dB");
@@ -349,20 +354,19 @@ public class GrxVolumeManager extends RecyclerViewItem {
         }
     }
 
-    private void processOnVolumeChanging(boolean isleft, int progress, int dif){
-        switch (mLinkMode){
+    private void processOnVolumeChanging(boolean isleft, int progress, int dif) {
+        switch (mLinkMode) {
             case HEADPHONES_INDEPENDENT_MODE: //independent
-                if(isleft) {
+                if (isleft) {
                     int reg_val = mVolumeLeftController.getValue(progress);
                     String dbs = getHeadPhoneDbs(reg_val) + " dB";
                     mVolumeLeftController.setText(dbs);
-                    MoroSound.setHeadphoneL(String.valueOf(progress*mWheelStep + mMinhHeadPhonesVolumeLevel), mContext);
-                }
-                else {
+                    MoroSound.setHeadphoneL(String.valueOf(progress*mWheelStep + mMinHeadPhonesVolumeLevel), mContext);
+                } else {
                     int reg_val = mVolumeRightController.getValue(progress);
                     String dbs = getHeadPhoneDbs(reg_val) + " dB";
                     mVolumeRightController.setText(dbs);
-                    MoroSound.setHeadphoneR(String.valueOf(progress*mWheelStep + mMinhHeadPhonesVolumeLevel), mContext);
+                    MoroSound.setHeadphoneR(String.valueOf(progress*mWheelStep + mMinHeadPhonesVolumeLevel), mContext);
                 }
                 break;
             case HEADPHONES_LINKED_MODE: // linked
@@ -370,25 +374,25 @@ public class GrxVolumeManager extends RecyclerViewItem {
                 String dbs = getHeadPhoneDbs(reg_val) + " dB";
                 mVolumeLeftController.setText(dbs);
                 mVolumeRightController.setText(dbs);
-                MoroSound.setHeadphone(String.valueOf(progress*mWheelStep + mMinhHeadPhonesVolumeLevel), mContext);
-                if(isleft) {
+                MoroSound.setHeadphone(String.valueOf(progress*mWheelStep + mMinHeadPhonesVolumeLevel), mContext);
+                if (isleft) {
                     mVolumeRightController.getVolumeControlView().setProgress(progress);
-                }else {
+                } else {
                     mVolumeLeftController.getVolumeControlView().setProgress(progress);
                 }
                 break;
             case HEADPHONES_ASYMETRIC_LINKED_MODE: // linked asymetric
-                if(isleft){
+                if (isleft) {
                     mVolumeLeftController.setText(getHeadPhoneDbs(mVolumeLeftController.getValue(progress)) + " dB");
-                    String left = String.valueOf(mMinhHeadPhonesVolumeLevel + progress*mWheelStep);
+                    String left = String.valueOf(mMinHeadPhonesVolumeLevel + progress*mWheelStep);
                     int progr = mVolumeRightController.getVolumeControlView().increaseProgress(dif);
                     mVolumeRightController.setText(getHeadPhoneDbs(mVolumeRightController.getValue(progr)) + " dB");
-                    String right = String.valueOf(mMinhHeadPhonesVolumeLevel + mVolumeRightController.getVolumeControlView().getProgress()*mWheelStep);
+                    String right = String.valueOf(mMinHeadPhonesVolumeLevel + mVolumeRightController.getVolumeControlView().getProgress()*mWheelStep);
                     MoroSound.setHeadPhoneValues(left,right,mContext);
-                }else {
+                } else {
                     mVolumeRightController.setText(getHeadPhoneDbs(mVolumeRightController.getValue(progress)) + " dB");
-                    String right = String.valueOf(mMinhHeadPhonesVolumeLevel + progress*mWheelStep);
-                    String left = String.valueOf(mMinhHeadPhonesVolumeLevel + mVolumeLeftController.getVolumeControlView().getProgress()*mWheelStep);
+                    String right = String.valueOf(mMinHeadPhonesVolumeLevel + progress*mWheelStep);
+                    String left = String.valueOf(mMinHeadPhonesVolumeLevel + mVolumeLeftController.getVolumeControlView().getProgress()*mWheelStep);
                     int progr = mVolumeLeftController.getVolumeControlView().increaseProgress(dif);
                     mVolumeLeftController.setText(getHeadPhoneDbs(mVolumeLeftController.getValue(progr)) + " dB");
                     MoroSound.setHeadPhoneValues(left,right,mContext);
@@ -397,36 +401,41 @@ public class GrxVolumeManager extends RecyclerViewItem {
         }
     }
     
-    private int getWheelProgressFromKernelReading(String kernel_value){
+    private int getWheelProgressFromKernelReading(String kernel_value) {
         int kv;
-        if(kernel_value == null || kernel_value.isEmpty()) kv = mReferenceLevel;
+        if (kernel_value == null || kernel_value.isEmpty()) kv = mReferenceLevel;
         else kv = Integer.valueOf(kernel_value);
-        if(kv == 0 ) kv = mReferenceLevel;
+        if (kv == 0 ) kv = mReferenceLevel;
 
-        int progress  = mReferencePosition + ( (kv - mReferenceLevel) ) / mWheelStep;
+        int progress  = mReferencePosition + ((kv - mReferenceLevel)) / mWheelStep;
         return progress;
     }
 
-    private int getHeadPhonesLinkMode(){
+    private int getHeadPhonesLinkMode() {
         // 0 -> independent, 1 - Linked, 2-> asymetric link
-
         return AppSettings.getInt("HEADPHONES_LINKED_MODE",HEADPHONES_LINKED_MODE, mContext);
     }
     
-    public void setMainSwitchEnabled(boolean enabled){
+    public void setMainSwitchEnabled(boolean enabled) {
         mMainSwitchEnabled = enabled;
-        if(!enabled) {
+        if (!enabled) {
             mLinkMode = HEADPHONES_LINKED_MODE; 
             setLinkMode(HEADPHONES_LINKED_MODE);
         }
 
-        if(mVolumeLeftController != null) mVolumeLeftController.getVolumeControlView().enableView(enabled);
-        if(mVolumeRightController != null) mVolumeRightController.getVolumeControlView().enableView(enabled);
+        if (mVolumeLeftController != null) mVolumeLeftController.getVolumeControlView().enableView(enabled);
+        if (mVolumeRightController != null) mVolumeRightController.getVolumeControlView().enableView(enabled);
         mHeadPhonesContainer.setAlpha(enabled ? 1.0f : 0.5f);
         mEarpieceSpeakerContainer.setAlpha(enabled ? 1.0f : 0.5f);
-        if(mEarPieceController != null) mEarPieceController.getVolumeControlView().enableView(enabled);
-        if(mSpeakerController != null) mSpeakerController.getVolumeControlView().enableView(enabled);
+        if (mEarPieceController != null) mEarPieceController.getVolumeControlView().enableView(enabled);
+        if (mSpeakerController != null) mSpeakerController.getVolumeControlView().enableView(enabled);
 
         setUpHeadPhonesVolumes();
+    }
+
+    public void resetValues(){
+        setUpHeadPhonesVolumes();
+        setUpHeadSpeakerVolume();
+        setUpHeadEarpieceVolume();
     }
 }

@@ -588,10 +588,21 @@
   <string name="moro_sound_summary">Puede ajustar la ganancia de auriculares y altavoz.\nHAGALO CON PRECAUCION!, un volumen excesivo puede dañar sus oidos o el altavoz.</string>
   <string name="earpiece_gain">Ganancia Auricular</string>
   <string name="earpiece_gain_summary">Necesita el mod DualSpeaker</string>
-  <string name="arizona_sound_sw">Control Principal</string>
+  <string name="arizona_sound_sw">Moro Sound</string>
   <string name="arizona_volume_title">Volumen</string>
   <string name="arizona_eq_title">Ecualizador</string>
   <string name="arizona_eq_sw">Ecualizador</string>
+  <string name="moro_sound_dual_speaker_desc">Habilita el auricular como segundo altavoz</string>
+  <string name="moro_sound_headphone_mono">Sonido Mono</string>
+  <string name="moro_sound_headphone_mono_desc">Habilite sonido mono en auriculares</string>
+  <string name="moro_sound_mic">Micrófonos</string>
+  <string name="moro_sound_mic_tit">Ajustar Micrófonos</string>
+  <string name="moro_sound_mic_up">Mic Superior</string>
+  <string name="moro_sound_mic_down">Mic Inferior</string>
+  <string name="moro_sound_mic_headphone">Mic Auriculares</string>
+  <string name="moro_sound_reset_message">¿Quieres resetear todos los controles a valore spor defecto?</string>
+  <string name="moro_sound_reset_summary">Resetear a valores por defecto</string>
+  <string name="moro_sound_volume_control">Control Volumen</string>
   <!-- Grx Sound Control -->
   <string name="headphones_volume">Auriculares externos</string>
   <string name="left_headphone">Izquierdo</string>
@@ -803,7 +814,7 @@
   <string name="wkl_wakeup">Wakeups</string>
   <string name="wkl_order">Orden Wakelocks</string>
   <string name="wkl_order_summary">Seleccione el orden de listado de los Wakelocks.</string>
-  <string name="wkl_alert_title">ADVERTENCIA</string>
+  <string name="wkl_alert_title">ATENCION</string>
   <string name="wkl_alert_message">Los Wakelocks normalmente están ahí por una razón. Los programadores de controladores y aplicaciones seguramente tenían sus razones para incluir wakelocks en el código en ciertas áreas. Esto significa que, al bloquear algunos de ellos, puede presentarse problemas, y puede desencadenar extraños efectos secundarios y, en el peor de los casos, hacer que el sistema sea completamente inutilizable.\n\nBloquear wakelocks es responsabilidad exclusiva de usted.</string>
   <string name="wkl_alert_checkbox">MOSTRAR LA PROXIMA VEZ</string>
   <!-- Virtual Memory -->
