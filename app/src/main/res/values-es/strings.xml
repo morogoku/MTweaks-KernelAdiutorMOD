@@ -10,7 +10,7 @@
   <string name="open">Abrir %s</string>
   <string name="used">usado</string>
   <string name="free">libre</string>
-  <string name="changelog_message">\n* Corregido Forzar idioma a Inglés\n\n\n</string>
+  <string name="changelog_message">\n* MoroSound v2.2.0: Dual Speaker, Mono y Control de microfonos.\n* Volumen auriculares hasta 22db\n* Arreglado forzar ingles con ultimas librerias\n* Actualizado a SDK30, Gradle 6.7.1, y plugin 4.1.1\n\n\n</string>
   <string name="close">Cerrar</string>
   <!-- Security -->
   <string name="password">Contraseña</string>
