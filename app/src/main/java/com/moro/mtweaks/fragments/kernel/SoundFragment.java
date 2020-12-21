@@ -652,6 +652,11 @@ public class SoundFragment extends RecyclerViewFragment {
     private void moroSoundInit(List<RecyclerViewItem> items) {
 
         boolean isSoundEnabled = MoroSound.isSoundSwEnabled();
+        boolean hasEq = MoroSound.hasEqSw();
+        boolean hasDualSpeaker = MoroSound.hasDualSpeakerSw();
+        boolean hasHeadphoneMono = MoroSound.hasHeadphoneMonoSw();
+        boolean hasMic = MoroSound.hasMicSw();
+        boolean hasReset = MoroSound.hasReset();
 
         GrxVolumeManager volumeManager = new GrxVolumeManager();
         GrxMicVolumeManager micVolumeManager = new GrxMicVolumeManager();
@@ -674,15 +679,15 @@ public class SoundFragment extends RecyclerViewFragment {
                 getHandler().postDelayed(() -> {
                     volumeManager.setMainSwitchEnabled(isChecked);
                     equalizerManager.setMainSwitchEnabled(isChecked);
-                    micVolumeManager.setMainSwitchEnabled(isChecked);
-                    dualSpeaker.setEnabled(isChecked);
-                    headphoneMono.setEnabled(isChecked);
+                    if (hasMic) micVolumeManager.setMainSwitchEnabled(isChecked);
+                    if (hasDualSpeaker) dualSpeaker.setEnabled(isChecked);
+                    if (hasHeadphoneMono) headphoneMono.setEnabled(isChecked);
                     }, 100);
             });
             asCard.addItem(es);
         }
 
-        if (MoroSound.hasDualSpeakerSw()) {
+        if (hasDualSpeaker) {
             dualSpeaker.setTitle(getString(R.string.moro_sound_dual_speaker));
             dualSpeaker.setSummary(getString(R.string.moro_sound_dual_speaker_desc));
             dualSpeaker.setChecked(MoroSound.isDualSpeakerSwEnabled());
@@ -693,7 +698,7 @@ public class SoundFragment extends RecyclerViewFragment {
             asCard.addItem(dualSpeaker);
         }
 
-        if (MoroSound.hasHeadphoneMonoSw()) {
+        if (hasHeadphoneMono) {
             headphoneMono.setTitle(getString(R.string.moro_sound_headphone_mono));
             headphoneMono.setSummary(getString(R.string.moro_sound_headphone_mono_desc));
             headphoneMono.setChecked(MoroSound.isHeadphoneMonoSwEnabled());
@@ -704,7 +709,7 @@ public class SoundFragment extends RecyclerViewFragment {
             asCard.addItem(headphoneMono);
         }
 
-        if (MoroSound.hasReset()) {
+        if (hasReset) {
             ButtonView2 reset = new ButtonView2();
             reset.setTitle(getString(R.string.moro_sound_reset));
             reset.setSummary(getString(R.string.moro_sound_reset_summary));
@@ -719,9 +724,9 @@ public class SoundFragment extends RecyclerViewFragment {
                     getHandler().postDelayed(() -> {
                         volumeManager.resetValues();
                         micVolumeManager.resetValues();
-                        equalizerManager.resetValues();
-                        dualSpeaker.setChecked(false);
-                        headphoneMono.setChecked(false);
+                        if (hasEq) equalizerManager.resetValues();
+                        if (hasDualSpeaker) dualSpeaker.setChecked(false);
+                        if (hasHeadphoneMono) headphoneMono.setChecked(false);
                     }, 100);
                 });
                 alert.show();
@@ -739,14 +744,14 @@ public class SoundFragment extends RecyclerViewFragment {
         volumeCard.addItem(volumeManager);
         items.add(volumeCard);
 
-        if (MoroSound.hasMicSw()) {
+        if (hasMic) {
             CardView mCard = new CardView(getActivity());
             mCard.setTitle(getString(R.string.moro_sound_mic));
             mCard.addItem(micVolumeManager);
             items.add(mCard);
         }
 
-        if (MoroSound.hasEqSw()) {
+        if (hasEq) {
             CardView eqCard = new CardView(getActivity());
             eqCard.setTitle(getString(R.string.arizona_eq_title));
             eqCard.addItem(equalizerManager);
