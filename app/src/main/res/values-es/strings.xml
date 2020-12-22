@@ -600,7 +600,7 @@
   <string name="moro_sound_mic_up">Mic Superior</string>
   <string name="moro_sound_mic_down">Mic Inferior</string>
   <string name="moro_sound_mic_headphone">Mic Auriculares</string>
-  <string name="moro_sound_reset_message">¿Quieres resetear todos los controles a valore spor defecto?</string>
+  <string name="moro_sound_reset_message">¿Quieres resetear todos los controles a valores por defecto?</string>
   <string name="moro_sound_reset_summary">Resetear a valores por defecto</string>
   <string name="moro_sound_volume_control">Control Volumen</string>
   <!-- Grx Sound Control -->
