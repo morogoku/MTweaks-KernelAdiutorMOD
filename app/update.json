@@ -1,9 +1,12 @@
 {
-  "latestVersion": "2.17.3",
-  "latestVersionCode": "2173",
-  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.17.3/MTweaks_v2.17.3.apk",
+  "latestVersion": "2.18.1",
+  "latestVersionCode": "2181",
+  "url": "https://github.com/morogoku/MTweaks-KernelAdiutorMOD/releases/download/v2.18.1/MTweaks_v2.18.1.apk",
   "releaseNotes": [
     "Changelog:",
-    "- Fixed Force English language."
+	"- MoroSound v2.2.0: Dual Speaker, Mono and Microphone control.",
+	"- Headphone volume up to 22db",
+	"- Fixed force to English with latest libraries",
+	"- Updated to SDK30, Gradle 6.7.1, and plugin 4.1.1"
   ]
 }
