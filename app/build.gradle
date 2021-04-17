@@ -60,5 +60,5 @@ dependencies {
     implementation 'com.akexorcist:RoundCornerProgressBar:2.0.3'
     implementation 'com.squareup.okhttp3:okhttp:4.4.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    testImplementation 'junit:junit:4.13'
+    testImplementation 'junit:junit:4.13.2'
 }
