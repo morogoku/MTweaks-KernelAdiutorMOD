@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId 'com.moro.mtweaks'
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 29
         versionCode 2181
         versionName "2.18.1"
         vectorDrawables.useSupportLibrary = true
